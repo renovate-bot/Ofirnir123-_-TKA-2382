@@ -1,5 +1,6 @@
 [[source]]
 name = "pypi"
+url = "https://artifactory.cloud.capitalone.com/artifactory/api/pypi/pypi-internalfacing/simple"
 verify_ssl = true
 
 [dev-packages]
@@ -21,9 +22,10 @@ mypy-boto3-dynamodb = "==1.16.24.0"
 pyyaml = "==5.4.1"
 requests = "==2.24.0"
 secret-sauce-python = "==0.1.10"
+numpy = "==1.12.1"
 test-oneingest-multipart = "==0.3.1"
 
 
 
 [requires]
-python_version == "3.8"
+python_version = "3.9"
