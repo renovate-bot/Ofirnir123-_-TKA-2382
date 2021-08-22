@@ -17,9 +17,6 @@ mypy-boto3-s3 = "==1.15.11.0"
 mypy-boto3-dynamodb = "==1.16.24.0"
 pyyaml = "==5.4.1"
 requests = "==2.24.0"
-secret-sauce-python = "==0.1.10"
-test-oneingest-multipart = "==0.3.1"
-
 
 
 [requires]
