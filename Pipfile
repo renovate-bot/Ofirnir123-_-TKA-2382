@@ -1,6 +1,3 @@
-[[source]]
-name = "pypi"
-verify_ssl = true
 
 [dev-packages]
 behave = "==1.2.6"
