@@ -1,6 +1,5 @@
 [[source]]
 name = "pypi"
-url = "https://artifactory.cloud.capitalone.com/artifactory/api/pypi/pypi-internalfacing/simple"
 verify_ssl = true
 
 [dev-packages]
