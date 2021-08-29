@@ -1,0 +1,332 @@
+Rem Copyright (c) 1998, 2017, Oracle and/or its affiliates. 
+Rem All rights reserved.
+Rem
+Rem    NAME
+Rem      dr0cls.pkh - Classification Training Service
+Rem
+Rem    DESCRIPTION
+Rem
+Rem    RETURNS
+Rem 
+Rem    NOTES
+Rem
+Rem 
+Rem    BEGIN SQL_FILE_METADATA
+Rem      SQL_SOURCE_FILE: ctx_src_2/src/dr/admin/dr0cls.pkh
+Rem      SQL_SHIPPED_FILE: ctx/admin/dr0cls.pkh
+Rem      SQL_PHASE: DR0CLS_PKH
+Rem      SQL_STARTUP_MODE: NORMAL
+Rem      SQL_IGNORABLE_ERRORS: NONE
+Rem      SQL_CALLING_FILE: ctx/admin/ctxpkh.sql
+Rem    END SQL_FILE_METADATA
+Rem
+Rem    MODIFIED   (MM/DD/YY)
+Rem       surman   01/23/15 - 20411134: Add SQL metadata tags
+Rem       shuroy   05/01/14 - Adding SA_TRAIN proc
+Rem       aczarlin 01/23/14 - enable 128 byte database objects
+Rem       surman   03/15/13 - 16473661: Common start and end scripts
+Rem       hsarkar  06/08/11 - Logical Standby Support
+Rem       shorwitz 08/28/08 - Bug 7237890
+Rem       daliao   09/02/03 - bug-3096033, no default preference
+Rem       daliao   01/13/03 - add clustering
+Rem       daliao   09/24/02 - add another generic training API. 
+Rem       daliao   01/31/02 - daliao_classification
+Rem	daliao	10/2/2001 - Creation 
+Rem
+
+@@?/rdbms/admin/sqlsessstart.sql
+
+CREATE OR REPLACE PACKAGE ctx_cls AUTHID current_user AS
+
+/*------------------------------- TYPE DEFINITIONS ----------------------------*/
+/* in-memory table for document assignment */
+TYPE doc_rec IS RECORD (
+	docid     number,   -- document ID to identify the document
+	clusterid number,   -- the ID of the cluster the document is assigned to
+	score     number    -- the similarity score between document and cluster
+);
+TYPE doc_tab is TABLE OF doc_rec INDEX BY BINARY_INTEGER;
+
+/* in-memory table for cluster information */
+TYPE cluster_rec IS RECORD (
+	clusterid number,         -- cluster ID to identify a cluster
+	descript  drvutl.dr_extrabuf, --string to describe the cluster
+        label drvutl.dr_longbuf,  -- a suggested label for the cluster
+        sze number,     -- number of documents assigned to the cluster
+	quality_score number,     -- the quality score of the cluster
+	parent    number          -- parent cluster id. negative means no parent
+); 
+TYPE cluster_tab IS TABLE OF cluster_rec INDEX BY BINARY_INTEGER;
+
+TYPE docid_tab IS TABLE OF number INDEX BY BINARY_INTEGER;
+
+-- Sentiment Constants 
+
+SENTIMENT_POS constant number := 1; /* Positive sentiment id */ 
+SENTIMENT_NEG constant number := 2; /* Negative sentiment id */
+SENTIMENT_NUL constant number := 0; /* Neutral sentiment id */
+
+/*------------------------------- train for ctx-rules --------------------------*/
+/*
+   NAME
+     train - automatically generate ctx-rules from training examples
+  
+   DESCRIPTION
+     This procedure will generate the ctx-rules for a given set of training 
+     examples. The training examples are contained in the following two tables
+	
+	table1:  doctab must have the following columns:
+		 docid		number primary key
+		 text		doc. column which can be indexed by context index
+        table2:  category table must have the following columns:
+		 docid		CONSTRAINT fk_id REFERENCES doctab(id)
+		 category_id	number	
+	
+	the foreign key in category table is recommended by not required.
+
+     The rules will be written to the result table specified.
+     The query table must have the following columns:
+  
+       category_id		number         (the category_id)       
+       query	              	drvutl.dr_extrabuf (the rule)
+       confidence               number         (the confidence level 
+						(percentage) that a document
+						is relevant if this rule is 
+						satisfied )
+  		
+     The names of table and column are not necessary the same as above.       
+
+   ARGUMENTS
+     index_name               - the name of the text index
+     docid                    - the name of docid column in document table
+     cattab		      - the name of category table
+     catdocid		      - the name of docid column in categroy table 
+     catid		      - the name of category ID column in category table
+     restab		      - the name of result table
+     rescatid                 - the name of category ID column in result table
+     resquery                 - the name of query column in result table
+     resconfid                - the name of confidence column in result table
+     pref_name                - the name of preference
+*/
+
+PROCEDURE train (
+  index_name    in varchar2,
+  docid	 	in varchar2,
+  cattab        in varchar2,
+  catdocid      in varchar2,
+  catid         in varchar2, 	
+  restab        in varchar2,
+  rescatid      in varchar2,
+  resquery      in varchar2,
+  resconfid     in varchar2,
+  pref_name     in varchar2 DEFAULT NULL
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(train, AUTO);
+
+/*------------------------------- generic train API ---------------------------*/
+/*
+   NAME
+     train - automatically generate predicative model from examples for 
+             classification
+  
+   DESCRIPTION
+     This procedure will generate the predicative model from a given set of 
+     training examples. The training examples are contained in the following 
+     two tables
+	
+	table1:  doctab must have the following columns:
+		 docid	  	number primary key
+		 text	 	doc. column which can be indexed by context index 
+        table2:  category table must have the following columns:
+		 docid		number
+		 category_id	number	
+
+     The names of table and column are not necessary the same as above.       
+
+     The predicative model (classifier) will be written to the result tables.
+     The result table is either created by users before calling this function or 
+     created in this program with the specified table name and under the current 
+     user (if the specified table does not exist).     
+     If user create the result table (which can support table schema for 
+     different users), the table should have the following three columns with the 
+     exact column names:
+		cat_id number
+		type number(3) not null
+		rule clob
+  		
+   ARGUMENTS
+     index_name               - the name of the text index
+     docid                    - the name of docid column in document table
+     cattab		      - the name of category table
+     catdocid		      - the name of docid column in categroy table 
+     catid		      - the name of category ID column in category table
+     restab                   - the name of generated result table
+     pref_name                - the name of preference
+*/
+PROCEDURE train (
+  index_name    	in varchar2,
+  docid	 		in varchar2,
+  cattab        	in varchar2,
+  catdocid      	in varchar2,
+  catid         	in varchar2, 	
+  restab 	    	in varchar2,
+  pref_name     	in varchar2
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(train, AUTO);
+
+/*----------------------------Sentiment Model Train API --------------------*/
+/*   NAME
+       sa_train_model - generate sentiment model based on provided training
+                        set data.
+
+     DESCRIPTION
+       This procedure generates the sentiment model based on training
+       examples. The training examples and their true labels are provided
+       in the form of two tables:
+ 
+        table1:  doctab must have the following columns:
+                 docid       number primary key
+                 text        doc. column which can be indexed by context index
+        table2:  category table must have the following columns:
+                 docid          number
+                 category_id    number (0 , 1 , 2)
+
+        The names of tables and columns are not required to be the same as 
+        above but they need to be specified when calling the sa_train_model api.
+        The category id's though should be 0 for neutral 1 for positive and 2 
+        for negative. The procedure should also be provided a sentiment classifier 
+        preference.
+   
+        The final model generated will be written into the classifier table 
+        with the as provided by the user. A ctxrule index of the form 
+        DR$clsfier_name$RS will also be created on this table. The table will 
+        contain the following columns:
+                                       cat_id number
+                                       type number(3) not null
+                                       rule clob
+
+     ARGUMENTS
+       clsfier_name             - the name of the classifier
+       index_name               - the name of the text index on training set
+       docid                    - the name of docid column in document table
+       cattab                   - the name of category table  
+       catdocid                 - the name of docid column in categroy table
+       catid                    - the name of category ID column in category table
+       pref_name                - the name of sentiment_classifier preference
+*/
+PROCEDURE sa_train_model (
+  clsfier_name          in varchar2,
+  index_name            in varchar2,
+  docid                 in varchar2,
+  cattab                in varchar2,
+  catdocid              in varchar2,
+  catid                 in varchar2,
+  pref_name             in varchar2 default NULL
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(sa_train_model, AUTO);
+
+/*------------------------------Sentiment Model Drop API--------------------*/
+/*   NAME
+       sa_drop_model - Drop an existing sentiment model
+
+     DESCRIPTION
+       This procedure is used to drop an existing sentiment model.
+
+     ARGUMENTS
+       model_name               - The name of the sentiment model
+*/ 
+PROCEDURE sa_drop_model(
+  model_name in varchar2);
+PRAGMA SUPPLEMENTAL_LOG_DATA(sa_drop_model, AUTO);
+
+
+/* ---------- clustering API for permanent table result------------------------*/
+/*
+  NAME 
+    clustering - clustering a collection 
+  
+  DESCRIPTION 
+    This procedure will generate a set of sub-group (clusters) from a provided
+    collection of documents. The collection is given by a table which having a 
+    context index built with or without population. The collection table at least
+    has the following two collums, whose name may not be exactly the same. 
+	 docid	  	number primary key
+	 text	 	doc. column which can be indexed by context index
+
+    The output of clustering is represented by two tables:
+
+	table 1: document membership table having the following collums with the
+		 exact same names
+	 docid     number -- document ID to identify a document
+	 clusterid number -- the ID of the cluster the document is assigned to
+	 score     number -- the similarity score between document and cluster
+
+	table 2: cluster description table having the following collums with the
+		 exact same names
+	 clusterid number         -- cluster ID to identify a cluster
+	 descript  drvutl.dr_extrabuf --string to describe the cluster
+         label     drvutl.dr_longbuf  -- a suggested label for the cluster
+         size      number         -- number of documents assigned to the cluster
+	 quality_score number     -- the quality score of the cluster
+	 parent    number         -- parent cluster id. negative means no parent
+	
+     The output tables can either be created by users before calling this 
+     function or created in this program with the specified table name and 
+     under the current user (if the specified table does not exist). 
+
+   ARGUMENTS:
+     index_name               - the name of the text index
+     docid                    - the name of docid column in document table
+     doctab_name              - the name of document membership table	
+     clstab_name              - the name of cluster description table   
+     pref_name                - the name of the preference  	
+*/
+PROCEDURE clustering (
+  index_name            in varchar2,
+  docid                 in varchar2,
+  doctab_name           in varchar2,
+  clstab_name           in varchar2,
+  pref_name             in varchar2 DEFAULT NULL
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(clustering, AUTO);
+
+/* ---------- clustering API for in-memory table result------------------------*/
+/*
+  NAME 
+    clustering - clustering a collection 
+  
+  DESCRIPTION 
+    This procedure will generate a set of sub-group (clusters) from a provided
+    collection of documents. The collection is given by a table which having a 
+    context index built with or without population. The collection table at least
+    has the following two collums, whose name may not be exactly the same. 
+	 docid	  	number primary key
+	 text	 	doc. column which can be indexed by context index
+
+    The output of clustering is represented by two in-memory tables:
+
+	table 1: document membership table ctx_cls.doc_tab
+	table 2: cluster description table ctx_cls.cluster_tab
+
+   ARGUMENTS:
+     index_name               - the name of the text index
+     docid                    - the name of docid column in document table
+     dids                     - docid list to be clustered
+     doctab_name              - the name of document membership table	
+     clstab_name              - the name of cluster description table   
+     pref_name                - the name of the preference  	
+*/
+PROCEDURE clustering (
+  index_name            in varchar2,
+  docid                 in varchar2,
+  dids                  in docid_tab,
+  doctab_name           in out nocopy doc_tab,
+  clstab_name           in out nocopy cluster_tab,
+  pref_name             in varchar2 DEFAULT NULL
+);
+--PRAGMA SUPPLEMENTAL_LOG_DATA(clustering, AUTO);
+
+END ctx_cls;
+/
+
+@?/rdbms/admin/sqlsessend.sql

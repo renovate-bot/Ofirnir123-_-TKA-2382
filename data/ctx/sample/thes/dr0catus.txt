@@ -1,0 +1,3712 @@
+work force
+ BT business and economics
+dynamic relations
+ BT abstract ideas and concepts
+human life and activity
+ BT abstract ideas and concepts
+static relations
+ BT abstract ideas and concepts
+relation
+ BT abstract ideas and concepts
+potential relations
+ BT abstract ideas and concepts
+belief systems
+ BT social environment
+business services industry
+ BT business and economics
+cartography
+ BT geography
+clothing and appearance
+ BT social environment
+commerce and trade
+ BT business and economics
+communications
+ BT science and technology
+corporate business
+ BT business and economics
+economics
+ BT business and economics
+emergency services
+ BT social environment
+family
+ BT social environment
+financial institutions
+ BT business and economics
+financial investments
+ BT business and economics
+financial lending
+ BT business and economics
+food and agriculture
+ BT social environment
+formal education
+ BT science and technology
+government
+ BT government and military
+hard sciences
+ BT science and technology
+housekeeping and butlery
+ BT social environment
+housewares
+ BT social environment
+industrial business
+ BT business and economics
+leisure and recreation
+ BT social environment
+military
+ BT government and military
+physical geography
+ BT geography
+political geography
+ BT geography
+public sector industry
+ BT business and economics
+social sciences
+ BT science and technology
+taxes and tariffs
+ BT business and economics
+transportation
+ BT science and technology
+Africa
+ BT political geography
+Antarctica
+ BT political geography
+Arctic
+ BT political geography
+Asia
+ BT political geography
+Atlantic area
+ BT political geography
+Caribbean
+ BT political geography
+Central America
+ BT political geography
+Europe
+ BT political geography
+Indian Ocean area
+ BT political geography
+Mediterranean
+ BT political geography
+Middle East
+ BT political geography
+North America
+ BT political geography
+Pacific area
+ BT political geography
+South America
+ BT political geography
+aerospace industry
+ BT hard sciences
+agribusiness
+ BT food and agriculture
+agricultural equipment
+ BT food and agriculture
+agricultural technology
+ BT food and agriculture
+air force
+ BT military
+anthropology
+ BT social sciences
+aquaculture
+ BT food and agriculture
+archeology
+ BT social sciences
+armored clothing
+ BT military
+army
+ BT military
+arts and entertainment
+ BT leisure and recreation
+aviation
+ BT transportation
+banking industry
+ BT financial institutions
+beds
+ BT housewares
+bodies of water
+ BT physical geography
+business enterprise
+ BT corporate business
+business fundamentals
+ BT corporate business
+candles
+ BT housewares
+carpets and rugs
+ BT housewares
+cases, cabinets, and chests
+ BT housewares
+cereals
+ BT food and agriculture
+chairs and sofas
+ BT housewares
+chemical industry
+ BT hard sciences
+chemistry
+ BT hard sciences
+civil engineering
+ BT hard sciences
+clothing
+ BT clothing and appearance
+colleges and universities
+ BT formal education
+commodities market
+ BT financial investments
+computer industry
+ BT hard sciences
+condiments
+ BT food and agriculture
+consulting industry
+ BT corporate business
+corporate finance
+ BT corporate business
+corporate management
+ BT corporate business
+corporate practices
+ BT corporate business
+cosmetics
+ BT clothing and appearance
+county government
+ BT government
+crafts
+ BT leisure and recreation
+credit cards
+ BT financial lending
+crop grain
+ BT food and agriculture
+cryptography
+ BT military
+curricula and methods
+ BT formal education
+curtains, drapes, and screens
+ BT housewares
+dairy products
+ BT food and agriculture
+death and burial
+ BT family
+diversified companies
+ BT corporate business
+divorce
+ BT family
+drinking and dining
+ BT food and agriculture
+electronics
+ BT hard sciences
+emergency dispatch
+ BT emergency services
+emergency medical services
+ BT emergency services
+energy industry
+ BT hard sciences
+environment control industries
+ BT hard sciences
+explorers
+ BT cartography
+explosives and firearms
+ BT hard sciences
+farming
+ BT food and agriculture
+fashion industry
+ BT clothing and appearance
+fats and oils
+ BT food and agriculture
+fire prevention and suppression
+ BT emergency services
+folklore
+ BT belief systems
+food and drink industry
+ BT food and agriculture
+forestry
+ BT food and agriculture
+forms and philosophies of government
+ BT government
+freight and shipping
+ BT transportation
+fruits and vegetables
+ BT food and agriculture
+functional wares
+ BT housewares
+games
+ BT leisure and recreation
+gaming industry
+ BT leisure and recreation
+gardening
+ BT leisure and recreation
+general commerce
+ BT commerce and trade
+general investment
+ BT financial investments
+geology
+ BT hard sciences
+government bodies and institutions
+ BT government
+government officials
+ BT government
+government programs
+ BT government
+robotics
+ BT hard sciences
+machinery
+ BT hard sciences
+grooming
+ BT clothing and appearance
+ground transportation
+ BT transportation
+hazardous material control
+ BT emergency services
+heavy rescue
+ BT emergency services
+history
+ BT social sciences
+home appliances
+ BT housewares
+human resources
+ BT corporate business
+human sexuality
+ BT social sciences
+industrial engineering
+ BT industrial business
+industrialists and financiers
+ BT industrial business
+infancy
+ BT family
+insurance industry
+ BT financial institutions
+international relations
+ BT government
+international trade and finance
+ BT commerce and trade
+inventions
+ BT hard sciences
+jewelry
+ BT clothing and appearance
+journalism
+ BT communications
+kinship and ancestry
+ BT family
+kitchenware
+ BT housewares
+lamps
+ BT housewares
+land forms
+ BT physical geography
+law
+ BT government
+leavening agents
+ BT food and agriculture
+library science
+ BT formal education
+life sciences
+ BT hard sciences
+linen
+ BT housewares
+linguistics
+ BT social sciences
+mail-order industry
+ BT commerce and trade
+manufacturing
+ BT industrial business
+mariculture
+ BT food and agriculture
+marine transportation
+ BT transportation
+marriage
+ BT family
+mathematics
+ BT hard sciences
+meats
+ BT food and agriculture
+mechanical engineering
+ BT hard sciences
+military honors
+ BT military
+military intelligence
+ BT military
+military leaders
+ BT military
+military ranks
+ BT military
+military wars
+ BT military
+military weaponry
+ BT military
+mirrors
+ BT housewares
+municipal government
+ BT government
+mythology
+ BT belief systems
+navy
+ BT military
+nuts and seeds
+ BT food and agriculture
+office products
+ BT corporate business
+ornamental objects
+ BT housewares
+outdoor recreation
+ BT leisure and recreation
+paranormal phenomena
+ BT belief systems
+pasta
+ BT food and agriculture
+personal finance
+ BT financial investments
+pets
+ BT leisure and recreation
+philosophy
+ BT belief systems
+physics
+ BT hard sciences
+politics
+ BT government
+postal communications
+ BT government
+pregnancy
+ BT family
+prepared foods
+ BT food and agriculture
+psychology
+ BT social sciences
+public facilities
+ BT government
+publishing industry
+ BT communications
+quality control
+ BT corporate business
+ranching
+ BT food and agriculture
+real-estate industry
+ BT financial institutions
+reference books
+ BT formal education
+religion
+ BT belief systems
+research and development
+ BT corporate business
+restaurant industry
+ BT leisure and recreation
+retail trade industry
+ BT commerce and trade
+sales and marketing
+ BT corporate business
+schools
+ BT formal education
+seafood
+ BT food and agriculture
+securities market
+ BT financial investments
+service academies
+ BT military
+sociology
+ BT social sciences
+spices and flavorings
+ BT food and agriculture
+sports
+ BT leisure and recreation
+state government
+ BT government
+stationery
+ BT housewares
+stools and stands
+ BT housewares
+tables and desks
+ BT housewares
+teachers and students
+ BT formal education
+telecommunications industry
+ BT communications
+textiles
+ BT hard sciences
+timepieces
+ BT housewares
+tools and hardware
+ BT hard sciences
+toys
+ BT leisure and recreation
+travel industry
+ BT transportation
+upbringing
+ BT family
+wholesale trade industry
+ BT commerce and trade
+electronic commerce
+ BT commerce and trade
+hobbies
+ BT leisure and recreation
+tobacco industry
+ BT leisure and recreation
+government actions
+ BT government
+difference
+ BT relation
+ability, power
+ BT potential relations
+change
+ BT dynamic relations
+activity
+ BT dynamic relations
+volition
+ BT human life and activity
+range
+ BT static relations
+states of mind
+ BT human life and activity
+variety
+ BT relation
+time
+ BT dynamic relations
+social attitude, custom
+ BT human life and activity
+support
+ BT potential relations
+purpose
+ BT potential relations
+possibility
+ BT potential relations
+possession
+ BT potential relations
+control
+ BT potential relations
+intellect
+ BT human life and activity
+feelings and sensations
+ BT human life and activity
+communication
+ BT human life and activity
+nonexistence
+ BT static relations
+existence
+ BT static relations
+amounts
+ BT static relations
+quality
+ BT static relations
+form
+ BT static relations
+uniformity
+ BT relation
+similarity
+ BT relation
+relevance
+ BT relation
+examples
+ BT relation
+cause and effect
+ BT relation
+agreement
+ BT relation
+gender
+ BT human life and activity
+electrical engineering
+ BT hard sciences
+organized labor
+ BT work force
+public speaking
+ BT communications
+money
+ BT commodities market
+South and Central American mythology
+ BT mythology
+Egyptian mythology
+ BT mythology
+Celtic mythology
+ BT mythology
+dirtiness
+ BT quality
+reputation
+ BT social attitude, custom
+curiosity
+ BT states of mind
+cooperation
+ BT support
+competition
+ BT support
+competence, expertise
+ BT ability, power
+cleverness
+ BT intellect
+cleanness
+ BT quality
+fragmentation
+ BT amounts
+modes of authority
+ BT control
+mediocrity
+ BT quality
+wholeness
+ BT amounts
+mass quantity
+ BT amounts
+major change
+ BT change
+large quantities
+ BT amounts
+numbers
+ BT amounts
+social conventions
+ BT social attitude, custom
+simultaneity
+ BT time
+sharing
+ BT possession
+shape
+ BT form
+required quantity
+ BT amounts
+removal
+ BT range
+quantity modification
+ BT amounts
+productivity
+ BT ability, power
+arrangement
+ BT range
+perfection
+ BT quality
+patience
+ BT states of mind
+obsolescence
+ BT purpose
+areas
+ BT range
+numbness
+ BT feelings and sensations
+normality
+ BT quality
+motivation
+ BT volition
+minority
+ BT amounts
+ineptness
+ BT ability, power
+majority
+ BT amounts
+gradual change
+ BT change
+giving
+ BT possession
+forgetfulness
+ BT states of mind
+social activities
+ BT social attitude, custom
+energy, vigor
+ BT ability, power
+morality and ethics
+ BT social attitude, custom
+broad-mindedness
+ BT states of mind
+badness
+ BT quality
+abuse
+ BT purpose
+Roman mythology
+ BT mythology
+Norse and Germanic mythology
+ BT mythology
+Mesopotamian and Sumerian mythology
+ BT mythology
+Japanese mythology
+ BT mythology
+receiving
+ BT possession
+losing
+ BT possession
+keeping
+ BT possession
+regulation
+ BT control
+defiance
+ BT control
+obedience
+ BT control
+leadership
+ BT control
+anarchy
+ BT control
+influence
+ BT control
+servility
+ BT control
+command
+ BT control
+weakness
+ BT ability, power
+strength
+ BT ability, power
+provision
+ BT ability, power
+relative age
+ BT time
+suffering
+ BT feelings and sensations
+calmness
+ BT feelings and sensations
+composure
+ BT feelings and sensations
+rest
+ BT activity
+inertia
+ BT activity
+thinking
+ BT intellect
+learning
+ BT intellect
+teaching
+ BT intellect
+foolishness
+ BT intellect
+knowledge
+ BT intellect
+intuition
+ BT intellect
+intelligence and wisdom
+ BT intellect
+ignorance
+ BT intellect
+pleasure
+ BT feelings and sensations
+five senses
+ BT feelings and sensations
+excitement
+ BT feelings and sensations
+emotions
+ BT feelings and sensations
+speech
+ BT communication
+shyness
+ BT communication
+styles of expression
+ BT communication
+secrecy
+ BT communication
+representation
+ BT communication
+identifiers
+ BT communication
+implication
+ BT communication
+disclosure
+ BT communication
+obscene language
+ BT communication
+conversation
+ BT communication
+declarations
+ BT communication
+announcements
+ BT communication
+regularity of time
+ BT time
+longevity
+ BT time
+past
+ BT time
+future
+ BT time
+exchanges
+ BT change
+reversion
+ BT change
+violence
+ BT activity
+motion
+ BT activity
+attempts
+ BT activity
+behavior
+ BT social attitude, custom
+essence
+ BT range
+remoteness
+ BT range
+obstruction
+ BT range
+ways and methods
+ BT range
+nearness
+ BT range
+significance
+ BT range
+generalization
+ BT range
+dimension
+ BT range
+boundaries
+ BT range
+uniqueness
+ BT range
+attacks
+ BT support
+fewness
+ BT amounts
+mistakes
+ BT quality
+value
+ BT quality
+simplicity
+ BT quality
+correctness
+ BT quality
+remedy
+ BT quality
+improvement
+ BT quality
+deterioration
+ BT quality
+complexity
+ BT quality
+beauty
+ BT quality
+strangeness
+ BT quality
+tangibility
+ BT form
+symmetry
+ BT form
+physical qualities
+ BT form
+defects
+ BT form
+effervescence
+ BT form
+life
+ BT existence
+destruction
+ BT nonexistence
+death
+ BT nonexistence
+creation
+ BT existence
+duplication
+ BT similarity
+causation
+ BT cause and effect
+result
+ BT cause and effect
+sanctuary
+ BT support
+security
+ BT support
+retaliation
+ BT support
+peace
+ BT support
+neutrality
+ BT support
+mediation
+ BT support
+protection
+ BT support
+crises
+ BT support
+conflict
+ BT support
+depletion
+ BT purpose
+truth
+ BT possibility
+falseness
+ BT possibility
+chance
+ BT possibility
+good quality
+ BT quality
+eagerness
+ BT volition
+tendency
+ BT volition
+obstinacy
+ BT volition
+indifference
+ BT volition
+indecision
+ BT volition
+impulses
+ BT volition
+enticement
+ BT volition
+decidedness
+ BT volition
+inevitability
+ BT volition
+evasion
+ BT volition
+dissent
+ BT volition
+assent
+ BT volition
+seriousness
+ BT states of mind
+remembering
+ BT states of mind
+prejudice
+ BT states of mind
+anticipation
+ BT states of mind
+confusion
+ BT states of mind
+creativity
+ BT states of mind
+caution
+ BT states of mind
+carelessness
+ BT states of mind
+choices
+ BT volition
+boredom
+ BT states of mind
+ugliness
+ BT quality
+trivialness
+ BT range
+transience
+ BT time
+topological form
+ BT form
+timeliness
+ BT time
+time measurement
+ BT time
+taking
+ BT possession
+stability
+ BT quality
+social transactions
+ BT social attitude, custom
+Greek mythology
+ BT mythology
+broadcast media
+ BT arts and entertainment
+urban areas
+ BT municipal government
+political activities
+ BT politics
+sewing
+ BT clothing
+network computing
+ BT computer industry
+American Civil War
+ BT military wars
+American Revolution
+ BT military wars
+American Samoa
+ BT Pacific area
+Antigua and Barbuda
+ BT Caribbean
+Argentina
+ BT South America
+Australia
+ BT Pacific area
+Azores
+ BT Atlantic area
+Bahamas
+ BT Caribbean
+Bahrain
+ BT Middle East
+Barbados
+ BT Caribbean
+Belize
+ BT Central America
+Bermuda
+ BT Atlantic area
+martial arts
+ BT sports
+Bolivia
+ BT South America
+Brazil
+ BT South America
+Canada
+ BT North America
+Canary Islands
+ BT Atlantic area
+Cape Verde
+ BT Atlantic area
+Central Africa
+ BT Africa
+Central Asia
+ BT Asia
+Chile
+ BT South America
+Cold War
+ BT international relations
+Colombia
+ BT South America
+Comoros
+ BT Indian Ocean area
+Cook Islands
+ BT Pacific area
+Corsica
+ BT Mediterranean
+Costa Rica
+ BT Central America
+Cuba
+ BT Caribbean
+Cyprus
+ BT Mediterranean
+Dominica
+ BT Caribbean
+Dominican Republic
+ BT Caribbean
+East Asia
+ BT Asia
+Eastern Europe
+ BT Europe
+Ecuador
+ BT South America
+El Salvador
+ BT Central America
+Falkland Islands
+ BT Atlantic area
+Fiji
+ BT Pacific area
+French Guiana
+ BT South America
+French Polynesia
+ BT Pacific area
+God and divinity
+ BT religion
+Greenland
+ BT Arctic
+Grenada
+ BT Caribbean
+Guam
+ BT Pacific area
+Guatemala
+ BT Central America
+Guyana
+ BT South America
+Haiti
+ BT Caribbean
+Honduras
+ BT Central America
+Iceland
+ BT Arctic
+Iran
+ BT Middle East
+Iraq
+ BT Middle East
+Israel
+ BT Middle East
+Jamaica
+ BT Caribbean
+Jordan
+ BT Middle East
+Kiribati
+ BT Pacific area
+Kuwait
+ BT Middle East
+Lebanon
+ BT Middle East
+Madagascar
+ BT Indian Ocean area
+Maldives
+ BT Indian Ocean area
+Malta
+ BT Mediterranean
+Mariana Islands
+ BT Pacific area
+Marshall Islands
+ BT Pacific area
+Mauritius
+ BT Indian Ocean area
+Mexico
+ BT North America
+Micronesia
+ BT Pacific area
+Nauru
+ BT Pacific area
+Netherlands Antilles
+ BT Caribbean
+New Caledonia
+ BT Pacific area
+New Zealand
+ BT Pacific area
+Nicaragua
+ BT Central America
+North Africa
+ BT Africa
+Olympics
+ BT sports
+Oman
+ BT Middle East
+Palau
+ BT Pacific area
+Palestine
+ BT Middle East
+Panama
+ BT Central America
+Paraguay
+ BT South America
+Peru
+ BT South America
+Puerto Rico
+ BT Caribbean
+Qatar
+ BT Middle East
+Sardinia
+ BT Mediterranean
+Saudi Arabia
+ BT Middle East
+Seychelles
+ BT Indian Ocean area
+Socotra
+ BT Middle East
+Solomon Islands
+ BT Pacific area
+Southeast Asia
+ BT Asia
+Southern Africa
+ BT Africa
+Sri Lanka
+ BT Indian Ocean area
+Suriname
+ BT South America
+Syria
+ BT Middle East
+Tonga
+ BT Pacific area
+Trinidad and Tobago
+ BT Caribbean
+Turkey
+ BT Middle East
+Tuvalu
+ BT Pacific area
+U.S. history
+ BT history
+United Arab Emirates
+ BT Middle East
+United States
+ BT North America
+Uruguay
+ BT South America
+Vanuatu
+ BT Pacific area
+Venezuela
+ BT South America
+West Africa
+ BT Africa
+Western Europe
+ BT Europe
+Western Samoa
+ BT Pacific area
+World War I
+ BT military wars
+World War II
+ BT military wars
+Yemen
+ BT Middle East
+abnormal psychology
+ BT psychology
+academic degrees
+ BT colleges and universities
+accountancy
+ BT corporate finance
+acoustics
+ BT physics
+advertising industry
+ BT sales and marketing
+ages and periods
+ BT archeology
+aircraft
+ BT aviation
+airlines
+ BT aviation
+airports
+ BT aviation
+alcoholic beverages
+ BT drinking and dining
+algebra
+ BT mathematics
+ancient Rome
+ BT history
+ancient history
+ BT history
+writing and mechanics
+ BT linguistics
+world religions
+ BT religion
+winter sports
+ BT sports
+wetlands
+ BT land forms
+waterways
+ BT marine transportation
+waste management
+ BT environment control industries
+warships
+ BT navy
+warfare
+ BT military wars
+vulcanology
+ BT geology
+visual arts
+ BT arts and entertainment
+virtual reality
+ BT computer industry
+undergarments
+ BT clothing
+trucking industry
+ BT freight and shipping
+track and field
+ BT sports
+tourism
+ BT travel industry
+thermodynamics
+ BT physics
+theory and physics of chemistry
+ BT chemistry
+tennis
+ BT sports
+telephone service
+ BT telecommunications industry
+tableware
+ BT kitchenware
+sweeteners
+ BT spices and flavorings
+superstitions
+ BT paranormal phenomena
+supermodels
+ BT fashion industry
+supermarkets
+ BT retail trade industry
+supercomputing and parallel computing
+ BT computer industry
+stock market
+ BT securities market
+statistics
+ BT mathematics
+statesmanship
+ BT government officials
+sports equipment
+ BT sports
+speleology
+ BT geology
+space exploration
+ BT aerospace industry
+space-based weapons
+ BT military weaponry
+soups and stews
+ BT prepared foods
+soil management
+ BT agricultural technology
+sociolinguistics
+ BT linguistics
+social structures
+ BT sociology
+social programs
+ BT government programs
+social movements and institutions
+ BT sociology
+social identities
+ BT sociology
+soccer
+ BT sports
+sleep psychology
+ BT psychology
+sexual issues
+ BT human sexuality
+serving containers
+ BT kitchenware
+seismology
+ BT geology
+seamanship
+ BT marine transportation
+science fiction
+ BT arts and entertainment
+schools of philosophy
+ BT philosophy
+sauces
+ BT prepared foods
+satellite technology
+ BT aerospace industry
+sacred texts and objects
+ BT religion
+royalty and aristocracy
+ BT government officials
+roadways and driving
+ BT ground transportation
+rivers
+ BT bodies of water
+rhetoric and figures of speech
+ BT linguistics
+revolution and subversion
+ BT politics
+retirement investments
+ BT personal finance
+religious institutions and structures
+ BT religion
+recreational firearms
+ BT explosives and firearms
+rail transportation
+ BT ground transportation
+radar technology
+ BT electronics
+psychological tools and techniques
+ BT psychology
+psychological therapy
+ BT psychology
+psychological states and behaviors
+ BT psychology
+psychoanalytic psychology
+ BT psychology
+organic chemistry
+ BT chemistry
+coin collecting
+ BT hobbies
+stamp collecting
+ BT hobbies
+fantasy sports
+ BT sports
+psychiatry
+ BT psychology
+prostitution
+ BT human sexuality
+production methods
+ BT industrial engineering
+prisons and punishments
+ BT law
+printing
+ BT publishing industry
+print journalism
+ BT journalism
+prehistoric humanoids
+ BT archeology
+precious metals market
+ BT commodities market
+poultry
+ BT meats
+pots and pans
+ BT kitchenware
+pornography
+ BT human sexuality
+pork
+ BT meats
+political scandals
+ BT politics
+political principles and philosophies
+ BT politics
+political parties
+ BT politics
+political advocacy
+ BT politics
+photojournalism
+ BT journalism
+philosophical logic
+ BT philosophy
+pesticides
+ BT chemical industry
+pest control
+ BT environment control industries
+periodicals
+ BT publishing industry
+performing arts
+ BT arts and entertainment
+perceptual psychology
+ BT psychology
+pate and sausages
+ BT meats
+pastries
+ BT prepared foods
+paints and finishing materials
+ BT chemical industry
+package delivery industry
+ BT freight and shipping
+outer garments
+ BT clothing
+outdoor games
+ BT games
+optical technology
+ BT physics
+oceans
+ BT bodies of water
+oceanography
+ BT geology
+nuclear weaponry
+ BT military weaponry
+nuclear physics
+ BT physics
+non-alcoholic beverages
+ BT drinking and dining
+neuropsychology
+ BT psychology
+neckwear
+ BT clothing
+navy and coast guard ranks
+ BT military ranks
+natural disasters
+ BT geology
+myths and legends
+ BT mythology
+mythological beings
+ BT mythology
+mutual funds
+ BT securities market
+municipal infrastructure
+ BT municipal government
+mountains
+ BT land forms
+motor sports
+ BT sports
+motion physics
+ BT physics
+missiles, rockets, and torpedoes
+ BT military weaponry
+mining industry
+ BT geology
+military aircraft
+ BT military weaponry
+meteorology
+ BT geology
+metaphysics
+ BT philosophy
+meat packing industry
+ BT food and drink industry
+meals and dishes
+ BT drinking and dining
+mathematical foundations
+ BT mathematics
+mathematical analysis
+ BT mathematics
+math tools
+ BT mathematics
+materials technology
+ BT chemical industry
+animal powered transportation
+ BT ground transportation
+aquatic sports
+ BT sports
+arithmetic
+ BT mathematics
+army, air force, and marine ranks
+ BT military ranks
+astrology
+ BT paranormal phenomena
+automotive industry
+ BT ground transportation
+avionics
+ BT aviation
+machine components
+ BT machinery
+baseball
+ BT sports
+basketball
+ BT sports
+beef
+ BT meats
+behaviorist psychology
+ BT psychology
+bicycling
+ BT sports
+biographies
+ BT history
+biology
+ BT life sciences
+biotechnology
+ BT life sciences
+boats and ships
+ BT marine transportation
+bombs and mines
+ BT military weaponry
+bond market
+ BT securities market
+bowling
+ BT sports
+boxing
+ BT sports
+breads
+ BT prepared foods
+broadcast journalism
+ BT journalism
+building architecture
+ BT civil engineering
+business education
+ BT colleges and universities
+business law
+ BT law
+butter and margarine
+ BT fats and oils
+calculus
+ BT mathematics
+candies
+ BT prepared foods
+cartoons, comic books, and superheroes
+ BT arts and entertainment
+cements and glues
+ BT tools and hardware
+cheeses
+ BT dairy products
+chemical adhesives
+ BT chemical industry
+chemical and biological warfare
+ BT military weaponry
+chemical dyes
+ BT chemical industry
+chemical engineering
+ BT chemical industry
+chemical explosives
+ BT explosives and firearms
+chemical properties
+ BT chemistry
+chemical reactions
+ BT chemistry
+chemicals
+ BT chemistry
+chemistry tools
+ BT chemistry
+cinema
+ BT arts and entertainment
+civil rights
+ BT politics
+cleaning supplies
+ BT functional wares
+clothing accessories
+ BT clothing
+coastlands
+ BT land forms
+cognitive psychology
+ BT psychology
+computer hardware industry
+ BT computer industry
+computer networking
+ BT telecommunications industry
+computer science
+ BT computer industry
+computer security and data encryption
+ BT computer industry
+computer software industry
+ BT computer industry
+computer standards
+ BT computer industry
+construction industry
+ BT civil engineering
+consumer electronics
+ BT electronics
+continents
+ BT land forms
+contraception
+ BT pregnancy
+convenience stores
+ BT retail trade industry
+cookers
+ BT kitchenware
+cooking
+ BT drinking and dining
+cosmology
+ BT physics
+courts
+ BT law
+crackers
+ BT prepared foods
+crimes and offenses
+ BT law
+cultural identities
+ BT anthropology
+cultural studies
+ BT anthropology
+customer support
+ BT quality control
+customs and practices
+ BT anthropology
+cyberculture
+ BT computer industry
+data transmission
+ BT telecommunications industry
+demographics
+ BT sociology
+department stores
+ BT retail trade industry
+descriptive linguistics
+ BT linguistics
+deserts
+ BT land forms
+desktop publishing
+ BT publishing industry
+desserts
+ BT prepared foods
+developmental psychology
+ BT psychology
+diplomacy
+ BT international relations
+discount stores
+ BT retail trade industry
+doctrines and practices
+ BT religion
+elections and campaigns
+ BT politics
+electric power industry
+ BT energy industry
+electricity and magnetism
+ BT physics
+electronic circuits and components
+ BT electronics
+employment agencies
+ BT human resources
+energy sources
+ BT energy industry
+entertainments and spectacles
+ BT arts and entertainment
+entrepreneurship
+ BT business enterprise
+epistemology
+ BT philosophy
+equestrian events
+ BT sports
+ethics and aesthetics
+ BT philosophy
+executive branch
+ BT government bodies and institutions
+experimental psychology
+ BT psychology
+fabrics
+ BT clothing
+facial hair
+ BT cosmetics
+fiber optics
+ BT telecommunications industry
+fine china
+ BT kitchenware
+firearm parts and accessories
+ BT explosives and firearms
+fitness and health
+ BT sports
+foodservice industry
+ BT food and drink industry
+football
+ BT sports
+footwear
+ BT clothing
+forest products
+ BT forestry
+funeral industry
+ BT death and burial
+gambling
+ BT gaming industry
+garment parts
+ BT clothing
+geologic formations
+ BT geology
+geologic substances
+ BT geology
+geometry
+ BT mathematics
+glassware
+ BT kitchenware
+golf
+ BT sports
+grooming aids
+ BT grooming
+gymnastics
+ BT sports
+hair styling
+ BT cosmetics
+hand and power tools
+ BT tools and hardware
+headgear
+ BT clothing
+health and medicine
+ BT life sciences
+heating and cooling systems
+ BT environment control industries
+highlands
+ BT land forms
+historical eras
+ BT history
+historical linguistics
+ BT linguistics
+occult
+ BT paranormal phenomena
+history of religion
+ BT religion
+homosexuality
+ BT human sexuality
+hotels and lodging
+ BT travel industry
+human-computer interaction
+ BT computer industry
+human powered vehicles
+ BT ground transportation
+humanistic psychology
+ BT psychology
+humor and satire
+ BT arts and entertainment
+hunting and fishing
+ BT outdoor recreation
+hydrology
+ BT geology
+immigration
+ BT international relations
+indoor games
+ BT games
+industrial goods manufacturing
+ BT manufacturing
+information technology
+ BT computer industry
+islands
+ BT land forms
+judiciary branch
+ BT government bodies and institutions
+kitchen appliances
+ BT kitchenware
+kitchen utensils
+ BT kitchenware
+knots
+ BT tools and hardware
+lakes
+ BT bodies of water
+languages
+ BT linguistics
+laundry
+ BT clothing
+law enforcement
+ BT law
+law firms
+ BT law
+law systems
+ BT law
+legal bodies
+ BT law
+legal customs and formalities
+ BT law
+legal judgments
+ BT law
+legal proceedings
+ BT law
+legislative branch
+ BT government bodies and institutions
+legumes
+ BT fruits and vegetables
+linguistic theories
+ BT linguistics
+literature
+ BT arts and entertainment
+lowlands
+ BT land forms
+Afghanistan
+ BT Central Asia
+Alabama
+ BT United States
+Alaska
+ BT United States
+Albania
+ BT Eastern Europe
+Algeria
+ BT North Africa
+Angola
+ BT Central Africa
+Arizona
+ BT United States
+Arkansas
+ BT United States
+Armenia
+ BT Eastern Europe
+Austria
+ BT Western Europe
+Azerbaijan
+ BT Eastern Europe
+Bangladesh
+ BT Central Asia
+Belarus
+ BT Eastern Europe
+Belgium
+ BT Western Europe
+Benin
+ BT West Africa
+Bhutan
+ BT Central Asia
+Bible
+ BT sacred texts and objects
+Botswana
+ BT Southern Africa
+Brunei
+ BT Southeast Asia
+Bulgaria
+ BT Eastern Europe
+Burkina Faso
+ BT West Africa
+Burundi
+ BT Central Africa
+CAD-CAM
+ BT computer software industry
+California
+ BT United States
+Cambodia
+ BT Southeast Asia
+Cameroon
+ BT West Africa
+Central African Republic
+ BT Central Africa
+Chad
+ BT North Africa
+China
+ BT East Asia
+Christianity
+ BT world religions
+Colorado
+ BT United States
+Congo
+ BT Central Africa
+Czech Republic
+ BT Eastern Europe
+Czechoslovakia
+ BT Eastern Europe
+Delaware
+ BT United States
+Denmark
+ BT Western Europe
+Djibouti
+ BT North Africa
+Egypt
+ BT North Africa
+Equatorial Guinea
+ BT West Africa
+Estonia
+ BT Eastern Europe
+Ethiopia
+ BT North Africa
+Faeroe Island
+ BT Western Europe
+Finland
+ BT Western Europe
+Florida
+ BT United States
+Formula I racing
+ BT motor sports
+France
+ BT Western Europe
+Gabon
+ BT Central Africa
+Gambia
+ BT West Africa
+Georgia
+ BT United States
+Germany
+ BT Western Europe
+Ghana
+ BT West Africa
+Greece
+ BT Eastern Europe
+Guinea
+ BT West Africa
+Guinea-Bissau
+ BT West Africa
+Hawaii
+ BT United States
+Hong Kong
+ BT East Asia
+Hungary
+ BT Eastern Europe
+Iberia
+ BT Western Europe
+Idaho
+ BT United States
+Illinois
+ BT United States
+India
+ BT Central Asia
+Indiana
+ BT United States
+Indonesia
+ BT Southeast Asia
+Indy car racing
+ BT motor sports
+Internet technology
+ BT computer networking
+Iowa
+ BT United States
+Ireland
+ BT Western Europe
+Islam
+ BT world religions
+Italy
+ BT Western Europe
+Ivory Coast
+ BT West Africa
+Japan
+ BT East Asia
+Judaism
+ BT world religions
+ancient cultures
+ BT cultural studies
+Kansas
+ BT United States
+Kazakhstan
+ BT Central Asia
+Kentucky
+ BT United States
+Kenya
+ BT Central Africa
+Kyrgyzstan
+ BT Central Asia
+Laos
+ BT Southeast Asia
+Latvia
+ BT Eastern Europe
+organized crime
+ BT crimes and offenses
+operating systems
+ BT computer software industry
+off-road racing
+ BT motor sports
+nutrition
+ BT health and medicine
+nuclear power industry
+ BT energy sources
+newspapers
+ BT print journalism
+natural language processing
+ BT information technology
+music
+ BT performing arts
+movie tools and techniques
+ BT cinema
+movie stars
+ BT cinema
+motorcycles
+ BT automotive industry
+motorcycle racing
+ BT motor sports
+mood disorders
+ BT abnormal psychology
+molecular structure
+ BT chemicals
+molecular reactivity
+ BT chemicals
+modern algebra
+ BT algebra
+mixed drinks
+ BT alcoholic beverages
+mineralogy
+ BT geologic substances
+microelectronics
+ BT electronic circuits and components
+metal industry
+ BT materials technology
+men's underwear
+ BT undergarments
+medical problems
+ BT health and medicine
+mathematical topology
+ BT geometry
+mainframes
+ BT computer hardware industry
+machine tools
+ BT hand and power tools
+lower life forms
+ BT biology
+liturgical garments
+ BT sacred texts and objects
+literary devices and techniques
+ BT literature
+literary criticism
+ BT literature
+liquors
+ BT alcoholic beverages
+liqueurs
+ BT alcoholic beverages
+lingerie
+ BT undergarments
+linear algebra
+ BT algebra
+leather and fur
+ BT fabrics
+laser technology
+ BT optical technology
+laptop computers
+ BT computer hardware industry
+laces
+ BT fabrics
+jackets
+ BT outer garments
+industrial ceramics
+ BT materials technology
+impulse control disorders
+ BT abnormal psychology
+ice skating
+ BT winter sports
+house of representatives
+ BT legislative branch
+hosiery
+ BT undergarments
+horse racing
+ BT equestrian events
+holography
+ BT optical technology
+hockey
+ BT winter sports
+herbicides
+ BT pesticides
+helmets
+ BT headgear
+healthcare industry
+ BT health and medicine
+hats
+ BT headgear
+hand-held computers
+ BT computer hardware industry
+hammers
+ BT hand and power tools
+graphic arts
+ BT visual arts
+grammar
+ BT descriptive linguistics
+gloves
+ BT clothing accessories
+genetic engineering
+ BT biotechnology
+gender studies
+ BT social identities
+gauges and calipers
+ BT hand and power tools
+garment trim
+ BT garment parts
+garment fasteners
+ BT garment parts
+fungicides
+ BT pesticides
+functional accessories
+ BT clothing accessories
+fossil fuels industry
+ BT energy sources
+formalwear
+ BT outer garments
+weather modification
+ BT meteorology
+video games
+ BT indoor games
+veterinary medicine
+ BT health and medicine
+utopias
+ BT political principles and philosophies
+urban structures
+ BT urban areas
+urban phenomena
+ BT urban areas
+trucks and buses
+ BT automotive industry
+trowels
+ BT hand and power tools
+trigonometry
+ BT geometry
+trains
+ BT rail transportation
+terrorism
+ BT revolution and subversion
+tea
+ BT non-alcoholic beverages
+synthetic textiles
+ BT materials technology
+symbolic logic
+ BT mathematical foundations
+swimming and diving
+ BT aquatic sports
+sweaters
+ BT outer garments
+subways
+ BT rail transportation
+substance related disorders
+ BT abnormal psychology
+subatomic particles
+ BT nuclear physics
+styles and schools of literature
+ BT literature
+storms
+ BT meteorology
+spreadsheets
+ BT information technology
+sporting wear
+ BT outer garments
+spacecraft and space stations
+ BT space exploration
+space explorers
+ BT space exploration
+somatoform disorders
+ BT abnormal psychology
+soft drinks
+ BT non-alcoholic beverages
+sleep disorders
+ BT sleep psychology
+slavery in the U.S.
+ BT U.S. history
+skirts
+ BT outer garments
+skiing
+ BT winter sports
+shovels
+ BT hand and power tools
+shirts
+ BT outer garments
+set theory
+ BT mathematical foundations
+senior citizens
+ BT social identities
+senate
+ BT legislative branch
+semiconductors and superconductors
+ BT electronic circuits and components
+sculpture
+ BT visual arts
+screwdrivers
+ BT hand and power tools
+sandwiches
+ BT meals and dishes
+rodeo
+ BT equestrian events
+resorts and spas
+ BT tourism
+purification and isolation of chemicals
+ BT chemistry tools
+punctuation and diacritics
+ BT writing and mechanics
+psychotic disorders
+ BT abnormal psychology
+psychosomatic disorders
+ BT abnormal psychology
+prose
+ BT literature
+practice of medicine
+ BT health and medicine
+populations and vivisystems
+ BT biology
+poetry
+ BT literature
+pliers and clamps
+ BT hand and power tools
+planes and sanders
+ BT hand and power tools
+plane geometry
+ BT geometry
+places of interest
+ BT tourism
+pies
+ BT desserts
+physiology
+ BT biology
+photography
+ BT visual arts
+phonetics and phonology
+ BT descriptive linguistics
+phobias
+ BT abnormal psychology
+pharmaceutical industry
+ BT biotechnology
+personality disorders
+ BT abnormal psychology
+personal computers
+ BT computer hardware industry
+pants
+ BT outer garments
+paleontology
+ BT biology
+currency market
+ BT money
+zoology
+ BT biology
+New England
+ BT United States
+Soviet Union
+ BT Eastern Europe
+chemical elements
+ BT chemicals
+biochemistry
+ BT biology
+chemical acids
+ BT chemicals
+movies
+ BT cinema
+number theory
+ BT mathematical foundations
+yachting
+ BT aquatic sports
+writing systems
+ BT writing and mechanics
+wrenches
+ BT hand and power tools
+workstations
+ BT computer hardware industry
+wines
+ BT alcoholic beverages
+winds
+ BT meteorology
+welfare
+ BT social programs
+weather phenomena
+ BT meteorology
+fitness equipment
+ BT fitness and health
+fertilizers
+ BT soil management
+executive cabinet
+ BT executive branch
+entertainers
+ BT entertainments and spectacles
+elementary algebra
+ BT arithmetic
+eating disorders
+ BT abnormal psychology
+eastern religions
+ BT world religions
+drills and bits
+ BT hand and power tools
+dresses
+ BT outer garments
+drama
+ BT performing arts
+drag racing
+ BT motor sports
+document management
+ BT information technology
+dissociative disorders
+ BT abnormal psychology
+dialects and accents
+ BT sociolinguistics
+deshabille
+ BT undergarments
+databases
+ BT information technology
+dance
+ BT performing arts
+cutting utensils
+ BT kitchen utensils
+cruise lines
+ BT tourism
+criminals
+ BT crimes and offenses
+cookies
+ BT desserts
+controlled substances
+ BT crimes and offenses
+consumer advocacy
+ BT political advocacy
+construction materials
+ BT construction industry
+construction equipment
+ BT construction industry
+constitutional law
+ BT law systems
+computer viruses and protection
+ BT computer security and data encryption
+computer programming
+ BT computer software industry
+computer peripherals
+ BT computer hardware industry
+computer multimedia
+ BT information technology
+computer components
+ BT computer hardware industry
+cognitive disorders
+ BT abnormal psychology
+coffee
+ BT non-alcoholic beverages
+clouds
+ BT meteorology
+client-server software
+ BT computer software industry
+chisels
+ BT hand and power tools
+children's literature
+ BT literature
+childhood onset disorders
+ BT abnormal psychology
+chemistry glassware
+ BT chemistry tools
+chemical analysis
+ BT chemistry tools
+carpentry
+ BT construction industry
+card games
+ BT indoor games
+car rentals
+ BT automotive industry
+canoeing, kayaking, and rafting
+ BT aquatic sports
+cakes
+ BT desserts
+business publications
+ BT periodicals
+buildings and dwellings
+ BT construction industry
+building components
+ BT construction industry
+botany
+ BT biology
+board games
+ BT indoor games
+biometrics
+ BT biotechnology
+belts
+ BT clothing accessories
+beers
+ BT alcoholic beverages
+automotive service and repair
+ BT automotive industry
+automotive sales
+ BT automotive industry
+automobiles
+ BT automotive industry
+atmospheric science
+ BT meteorology
+astronomy
+ BT cosmology
+artistic painting
+ BT visual arts
+artificial intelligence
+ BT computer science
+art galleries and museums
+ BT visual arts
+anxiety disorders
+ BT abnormal psychology
+antibody technology
+ BT biotechnology
+animal rights
+ BT political advocacy
+Lesotho
+ BT Southern Africa
+Liberia
+ BT West Africa
+Libya
+ BT North Africa
+Liechtenstein
+ BT Western Europe
+Lithuania
+ BT Eastern Europe
+Louisiana
+ BT United States
+Luxembourg
+ BT Western Europe
+Macao
+ BT East Asia
+Malawi
+ BT Central Africa
+Malaysia
+ BT Southeast Asia
+Mali
+ BT West Africa
+Maryland
+ BT United States
+Mauritania
+ BT West Africa
+Michigan
+ BT United States
+Minnesota
+ BT United States
+Mississippi
+ BT United States
+Missouri
+ BT United States
+Moldava
+ BT Eastern Europe
+Monaco
+ BT Western Europe
+Mongolia
+ BT East Asia
+Montana
+ BT United States
+Morocco
+ BT North Africa
+Mozambique
+ BT Southern Africa
+Myanmar
+ BT Southeast Asia
+NASCAR racing
+ BT motor sports
+Namibia
+ BT Southern Africa
+Native Americans
+ BT cultural identities
+Nebraska
+ BT United States
+Nepal
+ BT Central Asia
+Nevada
+ BT United States
+New Jersey
+ BT United States
+New Mexico
+ BT United States
+New York
+ BT United States
+Niger
+ BT West Africa
+Nigeria
+ BT West Africa
+North Carolina
+ BT United States
+North Dakota
+ BT United States
+North Korea
+ BT East Asia
+Norway
+ BT Western Europe
+Ohio
+ BT United States
+Oklahoma
+ BT United States
+Oregon
+ BT United States
+Pakistan
+ BT Central Asia
+Papua New Guinea
+ BT Southeast Asia
+Pennsylvania
+ BT United States
+Philippines
+ BT Southeast Asia
+Poland
+ BT Eastern Europe
+Republic of Georgia
+ BT Eastern Europe
+Roman emperors
+ BT ancient Rome
+Romania
+ BT Eastern Europe
+Russia
+ BT Eastern Europe
+Rwanda
+ BT Central Africa
+San Marino
+ BT Western Europe
+Sao Tome and Principe
+ BT West Africa
+Senegal
+ BT West Africa
+Sierra Leone
+ BT West Africa
+Singapore
+ BT Southeast Asia
+Slovakia
+ BT Eastern Europe
+Somalia
+ BT North Africa
+South Africa
+ BT Southern Africa
+South Carolina
+ BT United States
+South Dakota
+ BT United States
+South Korea
+ BT East Asia
+Sudan
+ BT North Africa
+Supreme Court
+ BT judiciary branch
+Swaziland
+ BT Southern Africa
+Sweden
+ BT Western Europe
+Switzerland
+ BT Western Europe
+Taiwan
+ BT East Asia
+Tajikstan
+ BT Central Asia
+Tanzania
+ BT Central Africa
+Tasmania
+ BT Australia
+Tennessee
+ BT United States
+Texas
+ BT United States
+Thailand
+ BT Southeast Asia
+Togo
+ BT West Africa
+Tunisia
+ BT North Africa
+Turkmenistan
+ BT Central Asia
+U.S. presidents
+ BT executive branch
+Uganda
+ BT Central Africa
+Ukraine
+ BT Eastern Europe
+United Kingdom
+ BT Western Europe
+Utah
+ BT United States
+Uzbekistan
+ BT Central Asia
+Vietnam
+ BT Southeast Asia
+Virginia
+ BT United States
+Washington
+ BT United States
+Washington D.C.
+ BT United States
+West Virginia
+ BT United States
+Wisconsin
+ BT United States
+Wyoming
+ BT United States
+Yugoslavia
+ BT Eastern Europe
+Zaire
+ BT Central Africa
+Zambia
+ BT Central Africa
+Zimbabwe
+ BT Southern Africa
+alternative energy sources
+ BT energy sources
+lunar exploration
+ BT space exploration
+Mars exploration
+ BT space exploration
+locations
+ BT arrangement
+positions
+ BT arrangement
+storage
+ BT areas
+regions
+ BT areas
+thoroughness
+ BT wholeness
+deficiency
+ BT required quantity
+excess
+ BT required quantity
+sufficiency
+ BT required quantity
+decrease
+ BT quantity modification
+separation
+ BT quantity modification
+remainders
+ BT quantity modification
+connection
+ BT quantity modification
+combination
+ BT quantity modification
+increase
+ BT quantity modification
+petitions
+ BT social transactions
+promises and contracts
+ BT social transactions
+payments
+ BT social transactions
+offers
+ BT social transactions
+debt
+ BT social transactions
+hopefulness
+ BT anticipation
+hatred
+ BT behavior
+gratitude
+ BT behavior
+generosity
+ BT behavior
+friendliness
+ BT behavior
+forgiveness
+ BT behavior
+flattery
+ BT behavior
+extemporaneousness
+ BT attempts
+softness
+ BT physical qualities
+moisture
+ BT physical qualities
+weightlessness
+ BT physical qualities
+rigidity
+ BT physical qualities
+pliancy
+ BT physical qualities
+dryness
+ BT physical qualities
+heaviness
+ BT physical qualities
+fragility
+ BT physical qualities
+brightness and color
+ BT physical qualities
+roundness
+ BT shape
+success
+ BT attempts
+preparation
+ BT attempts
+failure
+ BT attempts
+ease
+ BT attempts
+difficulty
+ BT attempts
+achievement
+ BT attempts
+haste
+ BT motion
+volume measurement
+ BT areas
+jealousy
+ BT behavior
+transporting
+ BT motion
+courtesy
+ BT behavior
+criticism
+ BT behavior
+texture
+ BT physical qualities
+temperature
+ BT physical qualities
+straightness
+ BT shape
+stinginess
+ BT behavior
+smallness
+ BT dimension
+slowness
+ BT motion
+shortness
+ BT dimension
+shallowness
+ BT dimension
+thickness
+ BT dimension
+steepness
+ BT dimension
+narrowness
+ BT dimension
+length
+ BT dimension
+rudeness
+ BT behavior
+respect
+ BT behavior
+slopes
+ BT dimension
+flatness
+ BT dimension
+height
+ BT dimension
+expansion
+ BT dimension
+regret
+ BT emotions
+contraction
+ BT dimension
+plain speech
+ BT styles of expression
+omission
+ BT wholeness
+nonsense
+ BT styles of expression
+nervousness
+ BT emotions
+moral states
+ BT morality and ethics
+moral consequences
+ BT morality and ethics
+moral action
+ BT morality and ethics
+mass and weight measurement
+ BT physical qualities
+linear measurement
+ BT dimension
+leniency
+ BT modes of authority
+lateness
+ BT timeliness
+largeness
+ BT dimension
+kindness
+ BT behavior
+interpretation
+ BT representation
+intelligibility
+ BT styles of expression
+hopelessness
+ BT anticipation
+eloquence
+ BT styles of expression
+earliness
+ BT timeliness
+goodness
+ BT morality and ethics
+directional movement
+ BT motion
+depth
+ BT dimension
+curvature
+ BT shape
+cruelty
+ BT behavior
+cowardice
+ BT emotions
+abandonment
+ BT evasion
+consideration
+ BT thinking
+warnings
+ BT anticipation
+surprise
+ BT anticipation
+circularity
+ BT shape
+prediction
+ BT anticipation
+frustration
+ BT anticipation
+fear
+ BT anticipation
+openings
+ BT topological form
+covering
+ BT topological form
+folds
+ BT topological form
+convexity
+ BT topological form
+concavity
+ BT topological form
+discipline
+ BT modes of authority
+liberation
+ BT modes of authority
+freedom
+ BT modes of authority
+constraint
+ BT modes of authority
+confinement
+ BT modes of authority
+cancelations
+ BT command
+prohibiting
+ BT command
+permission
+ BT command
+delegation
+ BT command
+stages of development
+ BT relative age
+speculation
+ BT thinking
+sophistry
+ BT thinking
+rationality
+ BT thinking
+judgment
+ BT thinking
+conclusion
+ BT thinking
+skepticism
+ BT thinking
+faith
+ BT thinking
+audiences
+ BT five senses
+touching
+ BT five senses
+tasting
+ BT five senses
+smelling
+ BT five senses
+sight
+ BT five senses
+hearing
+ BT five senses
+sadness
+ BT emotions
+relief
+ BT emotions
+vanity
+ BT emotions
+ill humor
+ BT emotions
+humiliation
+ BT emotions
+happiness
+ BT emotions
+pickiness
+ BT emotions
+contentment
+ BT emotions
+insolence
+ BT emotions
+anger
+ BT emotions
+wordiness
+ BT styles of expression
+clarity
+ BT styles of expression
+boasting
+ BT styles of expression
+instants
+ BT time measurement
+resistance to change
+ BT stability
+agitation
+ BT motion
+forceful motions
+ BT motion
+courage
+ BT emotions
+denial
+ BT choices
+escape
+ BT evasion
+enjoyment
+ BT social activities
+monotony
+ BT social activities
+formality
+ BT social conventions
+trends
+ BT social conventions
+conventionalism
+ BT social conventions
+acclaim
+ BT reputation
+notoriety
+ BT reputation
+evil
+ BT morality and ethics
+area measurement
+ BT areas
+approval
+ BT behavior
+angularity
+ BT shape
+responsibility
+ BT morality and ethics
+sympathy
+ BT behavior
+ruthlessness
+ BT behavior
+love
+ BT behavior
+radio
+ BT broadcast media
+television
+ BT broadcast media
+rubber
+ BT materials technology
+plastics
+ BT materials technology
+video electronics
+ BT consumer electronics
+audio electronics
+ BT consumer electronics
+Netherlands
+ BT Western Europe
+automotive engineering
+ BT automotive industry
+search engines
+ BT Internet technology
+Internet providers
+ BT Internet technology
+blood disorders
+ BT medical problems
+Web browsers
+ BT Internet technology
+gaseousness
+ BT texture
+jaggedness
+ BT texture
+powderiness
+ BT texture
+semiliquidity
+ BT texture
+fluids
+ BT texture
+heat
+ BT temperature
+throws
+ BT forceful motions
+pushes
+ BT forceful motions
+questioning
+ BT consideration
+tests
+ BT consideration
+analysis
+ BT consideration
+evidence
+ BT conclusion
+rebuttal
+ BT conclusion
+discovery
+ BT conclusion
+ideology
+ BT faith
+sanctimony
+ BT faith
+flavor
+ BT tasting
+odors
+ BT smelling
+fading
+ BT sight
+sound
+ BT hearing
+innocence
+ BT moral states
+hierarchical relationships
+ BT positions
+guilt
+ BT moral states
+faintness of sound
+ BT hearing
+divergence
+ BT directional movement
+convergence
+ BT directional movement
+compass directions
+ BT locations
+appearance
+ BT sight
+pulls
+ BT forceful motions
+friction
+ BT forceful motions
+jumps
+ BT directional movement
+motions around
+ BT directional movement
+progression
+ BT directional movement
+withdrawal
+ BT directional movement
+entrance
+ BT directional movement
+visibility
+ BT sight
+smoothness
+ BT texture
+silence
+ BT hearing
+sequence
+ BT positions
+outward motion
+ BT directional movement
+loudness
+ BT hearing
+lewdness
+ BT moral action
+inward motion
+ BT directional movement
+coldness
+ BT temperature
+darkness
+ BT brightness and color
+lighting
+ BT brightness and color
+colorlessness
+ BT brightness and color
+color
+ BT brightness and color
+departure
+ BT directional movement
+ascent
+ BT directional movement
+descent
+ BT directional movement
+exteriors
+ BT locations
+undersides
+ BT locations
+posteriors
+ BT locations
+fairness
+ BT moral states
+partiality
+ BT moral states
+punishment
+ BT moral consequences
+excuses
+ BT moral consequences
+entitlement
+ BT moral consequences
+topsides
+ BT locations
+right side
+ BT locations
+left side
+ BT locations
+interiors
+ BT locations
+anteriors
+ BT locations
+reparation
+ BT moral consequences
+allegation
+ BT moral consequences
+deception
+ BT moral action
+integrity
+ BT moral action
+self-indulgence
+ BT moral action
+decency
+ BT moral action
+asceticism
+ BT moral action
+adoration
+ BT love
+groups
+ BT positions
+disorder
+ BT positions
+amateur radio
+ BT radio
+automotive parts
+ BT automotive engineering
+computer video
+ BT computer multimedia
+computer sound
+ BT computer multimedia
+computer memory
+ BT computer components
+computer graphics
+ BT computer multimedia
+composition types
+ BT music
+coal industry
+ BT fossil fuels industry
+classical poetry
+ BT poetry
+classical music
+ BT music
+styles and schools of art
+ BT artistic painting
+steel industry
+ BT metal industry
+stagecraft
+ BT drama
+spasmolytics
+ BT pharmaceutical industry
+sedimentary rocks
+ BT mineralogy
+sculpture tools and techniques
+ BT sculpture
+respiratory drugs
+ BT pharmaceutical industry
+reproduction and development
+ BT physiology
+protestant reformation
+ BT Christianity
+programming languages
+ BT computer programming
+programming development tools
+ BT computer programming
+popular music and dance
+ BT music
+plant physiology
+ BT botany
+plant kingdom
+ BT botany
+plant diseases
+ BT botany
+photographic tools
+ BT photography
+photographic techniques
+ BT photography
+photographic processes
+ BT photography
+photographic lenses
+ BT photography
+petroleum products industry
+ BT fossil fuels industry
+parts of speech
+ BT grammar
+paneling and composites
+ BT construction materials
+painting tools and techniques
+ BT artistic painting
+oxytocics
+ BT pharmaceutical industry
+outbuildings
+ BT buildings and dwellings
+opera and vocal
+ BT music
+neurological disorders
+ BT medical problems
+musical instruments
+ BT music
+music industry
+ BT music
+molecular genetics
+ BT biochemistry
+modern dance
+ BT dance
+microprocessors
+ BT computer components
+metamorphic rocks
+ BT mineralogy
+metallurgy
+ BT metal industry
+medical procedures
+ BT practice of medicine
+medical personnel
+ BT practice of medicine
+medical facilities
+ BT healthcare industry
+medical equipment manufacturers
+ BT healthcare industry
+medical equipment
+ BT healthcare industry
+medical disciplines and specialties
+ BT healthcare industry
+medical disabilities
+ BT medical problems
+medical diagnosis
+ BT practice of medicine
+low-energy lasers
+ BT laser technology
+jazz music
+ BT music
+invertebrates
+ BT zoology
+interior structures
+ BT building components
+injuries
+ BT medical problems
+immunoassays
+ BT antibody technology
+immune system drugs
+ BT pharmaceutical industry
+igneous rocks
+ BT mineralogy
+hormonal agents
+ BT pharmaceutical industry
+high-energy lasers
+ BT laser technology
+healthcare providers and practices
+ BT healthcare industry
+genetics and heredity
+ BT populations and vivisystems
+genetic and hereditary disorders
+ BT medical problems
+gemstones
+ BT mineralogy
+gastrointestinal disorders
+ BT medical problems
+fungi
+ BT botany
+folk music
+ BT music
+folk dances
+ BT dance
+fluid and electrolyte balance drugs
+ BT pharmaceutical industry
+fiction
+ BT prose
+eye, ear, nose, and throat drugs
+ BT pharmaceutical industry
+exterior structures
+ BT building components
+environment-related afflictions
+ BT medical problems
+respiratory disorders
+ BT medical problems
+skin conditions
+ BT medical problems
+infectious diseases
+ BT medical problems
+world music
+ BT music
+wineries
+ BT wines
+voice recognition technology
+ BT biometrics
+viruses
+ BT lower life forms
+vertebrates
+ BT zoology
+topical agents
+ BT pharmaceutical industry
+surfaces and finishing
+ BT construction materials
+substance abuse
+ BT controlled substances
+evangelism
+ BT Christianity
+ecology
+ BT populations and vivisystems
+dramatic structure
+ BT drama
+dinosaurs
+ BT paleontology
+digestive system drugs
+ BT pharmaceutical industry
+developmental disorders
+ BT medical problems
+dermatomucosal agents
+ BT pharmaceutical industry
+data storage devices
+ BT computer peripherals
+choreography
+ BT dance
+chief justices
+ BT Supreme Court
+chemotherapeutics, antineoplastic agents
+ BT pharmaceutical industry
+central nervous system drugs
+ BT pharmaceutical industry
+cell structure and function
+ BT biochemistry
+cell reproduction
+ BT biochemistry
+celestial phenomena
+ BT astronomy
+celestial bodies
+ BT astronomy
+Scotland
+ BT United Kingdom
+Roman Catholicism
+ BT Christianity
+Portugal
+ BT Iberia
+Northern Ireland
+ BT United Kingdom
+Mormonism
+ BT Christianity
+Montenegro
+ BT Yugoslavia
+Macedonia
+ BT Yugoslavia
+Hinduism
+ BT eastern religions
+aluminum industry
+ BT metal industry
+alternative medicine
+ BT practice of medicine
+algae
+ BT botany
+Wales
+ BT United Kingdom
+Spain
+ BT Iberia
+Slovenia
+ BT Yugoslavia
+Siberia
+ BT Russia
+Serbia
+ BT Yugoslavia
+cardiovascular drugs
+ BT pharmaceutical industry
+cardiovascular disorders
+ BT medical problems
+cancers and tumors
+ BT medical problems
+cameras
+ BT photography
+blues music
+ BT music
+blood drugs
+ BT pharmaceutical industry
+biological evolution
+ BT populations and vivisystems
+biological compounds
+ BT biochemistry
+ballet
+ BT dance
+bacteria
+ BT lower life forms
+autonomic nervous system drugs
+ BT pharmaceutical industry
+antigout agents
+ BT pharmaceutical industry
+antibiotics, antimicrobials, and antiparasitics
+ BT pharmaceutical industry
+antagonists and antidotes
+ BT pharmaceutical industry
+anesthetics
+ BT pharmaceutical industry
+anatomy
+ BT physiology
+England
+ BT United Kingdom
+Croatia
+ BT Yugoslavia
+Christian theology
+ BT Christianity
+Christian heresies
+ BT Christianity
+Christian denominations
+ BT Christianity
+Buddhism
+ BT eastern religions
+Bosnia and Herzegovina
+ BT Yugoslavia
+Andorra
+ BT Iberia
+Vermont
+ BT New England
+Rhode Island
+ BT New England
+New Hampshire
+ BT New England
+Massachusetts
+ BT New England
+Maine
+ BT New England
+Connecticut
+ BT New England
+internal combustion engines
+ BT automotive engineering
+carcinogens
+ BT cancers and tumors
+communicable diseases
+ BT infectious diseases
+enzymes
+ BT biological compounds
+hormones
+ BT biological compounds
+toxins
+ BT biological compounds
+Hindu deities
+ BT Hinduism
+amino acids
+ BT biological compounds
+amphibians
+ BT vertebrates
+analgesics and antipyretics
+ BT central nervous system drugs
+antacids, adsorbents, and antiflatulents
+ BT digestive system drugs
+anthelmintics
+ BT antibiotics, antimicrobials, and antiparasitics
+antianxiety agents
+ BT central nervous system drugs
+antibacterials
+ BT antibiotics, antimicrobials, and antiparasitics
+antidepressants
+ BT central nervous system drugs
+antidiarrheals
+ BT digestive system drugs
+antiemetics
+ BT digestive system drugs
+antifungals
+ BT antibiotics, antimicrobials, and antiparasitics
+antihistamines
+ BT respiratory drugs
+antihypertensives
+ BT cardiovascular drugs
+antipsychotics
+ BT central nervous system drugs
+antitoxins and antivenins
+ BT immune system drugs
+antiulcer agents
+ BT digestive system drugs
+antivirals
+ BT antibiotics, antimicrobials, and antiparasitics
+aquatic sponges
+ BT invertebrates
+arthropods
+ BT invertebrates
+artificial limbs and organs
+ BT medical equipment
+biological response modifiers
+ BT immune system drugs
+birds
+ BT vertebrates
+bronchodilators
+ BT respiratory drugs
+building foundations
+ BT interior structures
+building systems
+ BT interior structures
+cardiology
+ BT medical disciplines and specialties
+cardiovascular systems
+ BT anatomy
+celestial stars
+ BT celestial bodies
+comets
+ BT celestial bodies
+constellations
+ BT celestial bodies
+coral and sea anemones
+ BT invertebrates
+dentistry
+ BT medical disciplines and specialties
+dermatology
+ BT medical disciplines and specialties
+digestants
+ BT digestive system drugs
+digestive systems
+ BT anatomy
+diuretics
+ BT fluid and electrolyte balance drugs
+dressings and supports
+ BT medical equipment
+ecological conservation
+ BT ecology
+entryways and extensions
+ BT exterior structures
+environmental pollution
+ BT ecology
+expectorants and antitussives
+ BT respiratory drugs
+extremities and appendages
+ BT anatomy
+ferns
+ BT plant kingdom
+fish
+ BT vertebrates
+flowering plants
+ BT plant kingdom
+galaxies
+ BT celestial bodies
+general anesthetics
+ BT anesthetics
+geriatrics
+ BT medical disciplines and specialties
+glandular systems
+ BT anatomy
+head and neck
+ BT anatomy
+horror fiction
+ BT fiction
+immune serums
+ BT immune system drugs
+immune systems
+ BT anatomy
+immunosuppressants
+ BT immune system drugs
+jellyfish
+ BT invertebrates
+keyboard instruments
+ BT musical instruments
+landscaping
+ BT exterior structures
+laxatives
+ BT digestive system drugs
+lipids and fatty acids
+ BT biological compounds
+local anesthetics
+ BT anesthetics
+local anti-infectives
+ BT antibiotics, antimicrobials, and antiparasitics
+lymphatic systems
+ BT anatomy
+mammals
+ BT vertebrates
+medical imaging
+ BT medical diagnosis
+mollusks
+ BT invertebrates
+moons
+ BT celestial bodies
+mosses
+ BT plant kingdom
+muscular systems
+ BT anatomy
+mystery fiction
+ BT fiction
+narcotic and opioid analgesics
+ BT central nervous system drugs
+nasal agents
+ BT eye, ear, nose, and throat drugs
+nebulae
+ BT celestial bodies
+nervous systems
+ BT anatomy
+neurology
+ BT medical disciplines and specialties
+neuromuscular blockers
+ BT autonomic nervous system drugs
+nonsteroidal anti-inflammatory drugs
+ BT central nervous system drugs
+nucleic acids
+ BT biological compounds
+obstetrics and gynecology
+ BT medical disciplines and specialties
+oncology
+ BT medical disciplines and specialties
+ophthalmics
+ BT eye, ear, nose, and throat drugs
+ophthalmology
+ BT medical disciplines and specialties
+ornamental architecture
+ BT exterior structures
+otics, ear care drugs
+ BT eye, ear, nose, and throat drugs
+pediatrics
+ BT medical disciplines and specialties
+percussion instruments
+ BT musical instruments
+physical therapy
+ BT medical procedures
+planets
+ BT celestial bodies
+plant development
+ BT plant physiology
+plant parts
+ BT plant physiology
+popes
+ BT Roman Catholicism
+religious orders
+ BT Roman Catholicism
+reproductive systems
+ BT anatomy
+sedative-hypnotics
+ BT central nervous system drugs
+rooms
+ BT interior structures
+reptiles
+ BT vertebrates
+respiratory systems
+ BT anatomy
+roofs and towers
+ BT exterior structures
+skeletal muscle relaxants
+ BT autonomic nervous system drugs
+skeletal systems
+ BT anatomy
+starfish and sea urchins
+ BT invertebrates
+string instruments
+ BT musical instruments
+sugars and carbohydrates
+ BT biological compounds
+surgical procedures
+ BT medical procedures
+tissue systems
+ BT anatomy
+transparency
+ BT lighting
+variegation
+ BT color
+repeated sounds
+ BT sound
+cries
+ BT sound
+sweetness
+ BT flavor
+opaqueness
+ BT lighting
+middles
+ BT sequence
+harsh sound
+ BT sound
+harmonious sound
+ BT sound
+ends
+ BT sequence
+dissonant sound
+ BT sound
+beginnings
+ BT sequence
+continuation
+ BT sequence
+preludes
+ BT sequence
+upgrades
+ BT hierarchical relationships
+downgrades
+ BT hierarchical relationships
+ranks
+ BT hierarchical relationships
+togetherness
+ BT groups
+seclusion
+ BT groups
+inclusion
+ BT groups
+exclusion
+ BT groups
+dispersion
+ BT groups
+itemization
+ BT groups
+topical corticosteroids
+ BT dermatomucosal agents
+torso
+ BT anatomy
+urinary systems
+ BT anatomy
+vaccines and toxoids
+ BT immune system drugs
+vitamins
+ BT biological compounds
+wind instruments
+ BT musical instruments
+worms
+ BT invertebrates
+trees and shrubs
+ BT plant kingdom
+windows
+ BT exterior structures
+walls
+ BT exterior structures
+androgens and anabolic steroids
+ BT hormones
+blood sugar hormones
+ BT hormones
+corticosteroids
+ BT hormones
+estrogens and progestins
+ BT hormones
+gonadotropins
+ BT hormones
+pituitary hormones
+ BT hormones
+thyroid hormones
+ BT hormones
+anteaters and sloths
+ BT mammals
+antigens and antibodies
+ BT immune systems
+antimalarials
+ BT antibacterials
+antituberculars and antileprotics
+ BT antibacterials
+arachnids
+ BT arthropods
+birds of prey
+ BT birds
+boneless fish
+ BT fish
+bony fish
+ BT fish
+brass instruments
+ BT wind instruments
+cacti
+ BT flowering plants
+carnivores
+ BT mammals
+chiropterans
+ BT mammals
+clams, oysters, and mussels
+ BT mollusks
+conifers
+ BT trees and shrubs
+cosmetic surgery
+ BT surgical procedures
+crocodilians
+ BT reptiles
+crustaceans
+ BT arthropods
+ear anatomy
+ BT head and neck
+electrical systems
+ BT building systems
+elephants
+ BT mammals
+eye anatomy
+ BT head and neck
+fireproofing and insulation
+ BT building systems
+game birds
+ BT birds
+grasses
+ BT flowering plants
+hoofed mammals
+ BT mammals
+hummingbirds
+ BT birds
+hyraxes
+ BT mammals
+insects
+ BT arthropods
+jawless fish
+ BT fish
+jays, crows, and magpies
+ BT birds
+lizards
+ BT reptiles
+marine mammals
+ BT mammals
+marsupials
+ BT mammals
+monotremes
+ BT mammals
+mouth and teeth
+ BT head and neck
+octopi and squids
+ BT mollusks
+ophthalmic vasoconstrictors
+ BT ophthalmics
+palm trees
+ BT trees and shrubs
+parrots and parakeets
+ BT birds
+penguins
+ BT birds
+pigeons and doves
+ BT birds
+plumbing
+ BT building systems
+primates
+ BT mammals
+rabbits
+ BT mammals
+rodents
+ BT mammals
+snails and slugs
+ BT mollusks
+snakes
+ BT reptiles
+turtles
+ BT reptiles
+warblers and sparrows
+ BT birds
+water birds
+ BT birds
+woodpeckers
+ BT birds
+woodwinds
+ BT wind instruments
+wrens
+ BT birds
+deciduous trees
+ BT trees and shrubs
+sexually transmitted diseases
+ BT communicable diseases
+aardvarks
+ BT anteaters and sloths
+canines
+ BT carnivores
+cattle
+ BT hoofed mammals
+deep sea fish
+ BT bony fish
+ducks, geese, and swans
+ BT water birds
+eels
+ BT bony fish
+felines
+ BT carnivores
+goats
+ BT hoofed mammals
+gulls and terns
+ BT water birds
+horses
+ BT hoofed mammals
+lemurs
+ BT primates
+mites and ticks
+ BT arachnids
+owls
+ BT birds of prey
+pelicans
+ BT water birds
+pigs
+ BT hoofed mammals
+rays and skates
+ BT boneless fish
+scorpions
+ BT arachnids
+seals and walruses
+ BT marine mammals
+sharks
+ BT boneless fish
+sheep
+ BT hoofed mammals
+spiders
+ BT arachnids
+tropical fish
+ BT bony fish
+whales and porpoises
+ BT marine mammals
+manatees
+ BT seals and walruses

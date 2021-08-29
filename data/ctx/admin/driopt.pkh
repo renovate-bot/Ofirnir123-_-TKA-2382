@@ -1,0 +1,266 @@
+rem Copyright (c) 1997, 2018, Oracle and/or its affiliates. 
+rem All rights reserved.
+rem    NAME
+rem      driopt.pkh - DR Internal OPTimizer helpers
+rem    DESCRIPTION
+rem      This package contains internal code used during optimization
+rem
+rem    NOTES
+rem 
+rem    BEGIN SQL_FILE_METADATA
+rem      SQL_SOURCE_FILE: ctx_src_2/src/dr/admin/driopt.pkh
+rem      SQL_SHIPPED_FILE: ctx/admin/driopt.pkh
+rem      SQL_PHASE: DRIOPT_PKH
+rem      SQL_STARTUP_MODE: NORMAL
+rem      SQL_IGNORABLE_ERRORS: NONE
+rem      SQL_CALLING_FILE: ctx/admin/ctxpkh.sql
+rem    END SQL_FILE_METADATA
+rem
+rem    MODIFIED    (MM/DD/YY)
+Rem     snetrava   06/14/18  - Bug 28102835: NONE LOG PRAGMA
+rem      aczarlin     06/09/17 - Bug 25102906: inner lock for ctxagg
+rem      aczarlin   1/20/17   - bug 25423433 aggmerge lock
+rem      aczarlin   11/19/15  - bug 22218950 lock sync/merge on ctxagg
+rem      aczarlin   11/13/15  - bug 22175325 ctxagg lock
+rem      surman     01/23/15  - 20411134: Add SQL metadata tags
+rem      gauryada   08/05/14  - Bug#19366739
+rem      surman     03/15/13  - 16473661: Common start and end scripts
+rem      aczarlin   07/09/12  - lock $A $F for opt
+rem      rpalakod   11/10/11  - IndexOptimizeRebuildVerify routines
+rem      rpalakod   05/21/10  - Bug 9354204
+rem      rpalakod   11/28/09  - Bug 9163846
+rem      surman     11/05/08  - 6703140: Add release_on_commit to
+rem                             lock_opt_rebuild
+rem      surman     08/23/06  - 5079472: Add lock_mode to lock_opt_rebuild
+rem      wclin      06/13/06  - add $S optimize support 
+rem      surman     05/17/06  - 5079472: Add lock_opt_rebuild 
+rem      gkaminag   06/11/02  - non-function locking.
+rem      gkaminag   01/15/02  - parallel optimize.
+rem      gkaminag   09/06/00 -  partition support
+rem      gkaminag   08/18/00 -  partition support
+rem      gkaminag   08/09/99 -  optimization locking
+rem      gkaminag   05/22/98 -  new garbage collection
+rem      gkaminag   04/11/97 -  creation
+
+@@?/rdbms/admin/sqlsessstart.sql
+
+create or replace package driopt as
+
+PRAGMA SUPPLEMENTAL_LOG_DATA(default, NONE);
+
+  p_inv_count number;
+
+  LOCK_WAIT     constant number := null;
+  LOCK_NOWAIT   constant number := 0;
+  IGNORE_ERRORS constant boolean := TRUE;
+
+procedure unlock_sync_upd(
+  ignore_errors in boolean default false
+);
+
+/*------------------------------ lock_sync_upd -------------------------------*/
+procedure lock_sync_upd(
+  cid in number,
+  pid in number,
+  l_mode IN  INTEGER,
+  rel_on_commit in boolean
+);
+
+
+/*------------------------------ lock_opt_AF-------------------------------*/
+
+procedure lock_opt_AF(
+  cid        in number,
+  timeout    in number,
+  retval     out number
+);
+
+/*------------------------------ lock_opt_aggmerge --------------------------*/
+
+function lock_opt_aggmerge(
+  idx        in number,
+  pid        in number,
+  timeout    in number,
+  lockmode   in number
+) return number;
+
+/*---------------------------- unlock_aggmerge ----------------------------*/
+function unlock_aggmerge(
+  ignore_errors in number
+) return number;
+
+/*------------------------------ convert_aggmerge ----------------------*/
+
+function convert_aggmerge(
+  idx        in number,
+  pid        in number,
+  timeout    in number,
+  lockmode   in number
+) return number;
+
+
+/*------------------------------ lock_opt_agginner --------------------------*/
+
+function lock_opt_agginner(
+  idx        in number,
+  pid        in number,
+  timeout    in number,
+  lockmode   in number
+) return number;
+
+/*---------------------------- unlock_agginner ----------------------------*/
+function unlock_agginner(
+  ignore_errors in number
+) return number;
+
+
+/*------------------------------ lock_opt --------------------------------*/
+
+procedure lock_opt(
+  cid        in number,
+  pid        in number,
+  timeout    in number
+);
+function lock_opt_ret(
+  cid        in number,
+  pid        in number,
+  timeout    in number
+) return number;
+
+/*------------------------- lock_opt_rebuild ------------------------------*/
+/* Added for bug 5079472 */
+
+procedure lock_opt_rebuild(
+  cid        in number,
+  pid        in number,
+  lock_mode  in number,
+  timeout    in number,
+  release_on_commit in boolean default FALSE
+);
+
+/*------------------------- lock_opt_all_part ----------------------------*/
+/* NOTE: gets multiple locks.  If fails, it's up to calling procedure to  */
+/* release any locks it may have gotten                                   */
+procedure lock_opt_all_part(
+  cid        in number
+);
+
+/*--------------------------- lock_opt_mvdata ---------------------------*/
+/* lock optimize mvdata against commit callback of update_mvdata
+ * releases lock on commit */
+procedure lock_opt_mvdata(
+  cid in number,
+  pid in number
+);
+
+/*----------------------------- unlock_opt ------------------------------*/
+
+procedure unlock_opt(
+  ignore_errors in boolean default false
+);
+
+/*----------------------------- unlock_opt_AF-----------------------------*/
+
+procedure unlock_opt_AF(
+  ignore_errors in boolean default false
+);
+
+/*------------------------- unlock_opt_rebuild ----------------------------*/
+/* Added for bug 5079472 */
+
+procedure unlock_opt_rebuild(
+  ignore_errors in boolean default false
+);
+
+/*------------------------ unlock_opt_all_part ---------------------------*/
+
+procedure unlock_opt_all_part(
+  ignore_errors in boolean default false
+);
+
+/*---------------------------- start_timer ---------------------------*/
+/*
+  NAME
+    start_timer
+
+  DESCRIPTION
+    start the optimization timer
+*/
+procedure start_timer;
+
+/*---------------------------- get_timer ------------------------------*/
+/*
+  NAME
+    get_timer
+
+  DESCRIPTION
+    get the amount of minutes since last start_timer call
+*/
+function get_timer return number;
+
+/*---------------------------- get_state ------------------------------*/
+/*
+  NAME
+    get_state
+
+  DESCRIPTION
+    get the current state of optimization
+*/
+procedure get_state(
+  p_idx_id      in  number
+, p_ixp_id      in  number
+, p_opt_token   out varchar2
+, p_opt_type    out number
+);
+
+/*---------------------------- set_state ------------------------------*/
+/*
+  NAME
+    set_state
+
+  DESCRIPTION
+    set the new state of optimization for next time
+*/
+procedure set_state(
+  p_idx_id      in  number
+, p_ixp_id      in  number
+, p_opt_token   in  varchar2
+, p_opt_type    in  number
+);
+
+/*--------------------------- set_ddl_lock_timeout -------------------------*/
+/* set_ddl_lock_timeout parameter for this session */
+procedure set_ddl_lock_timeout(
+  p_timeout in number default 1000000
+);
+
+/*--------------------------- get_ddl_lock_timeout -------------------------*/
+/* get_ddl_lock_timeout parameter for this session */
+function get_ddl_lock_timeout
+return number;
+
+/*---------------------- IndexOptimizeRebuild_Verify ------------------------*/
+PROCEDURE IndexOptimizeRebuild_Verify(
+  idx           in  dr_def.idx_rec,
+  ixp           in  dr_def.ixp_rec,
+  base_itab_obj in  varchar2,
+  base_xidx_obj in varchar2,
+  char_semantics out varchar2,
+  ipart          out varchar2
+  ) ;
+
+/*------------------------- getSegmentInfo ---------------------------------*/
+procedure getSegmentInfo(
+  idxowner       in varchar2,
+  base_itab_obj  in varchar2,
+  blocks         out number,
+  bytes          out number
+);
+
+
+end driopt;
+/
+
+
+
+@?/rdbms/admin/sqlsessend.sql

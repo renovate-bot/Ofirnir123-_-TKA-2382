@@ -1,0 +1,388 @@
+rem 
+Rem Copyright (c) 2002, 2018, Oracle and/or its affiliates. 
+Rem All rights reserved.
+rem
+Rem    NAME
+Rem      drvdisp.pkh - internal inVoker's rights Dispatcher
+rem
+Rem    DESCRIPTION
+Rem
+Rem 
+Rem    BEGIN SQL_FILE_METADATA
+Rem      SQL_SOURCE_FILE: ctx_src_2/src/dr/admin/drvdisp.pkh
+Rem      SQL_SHIPPED_FILE: ctx/admin/drvdisp.pkh
+Rem      SQL_PHASE: DRVDISP_PKH
+Rem      SQL_STARTUP_MODE: NORMAL
+Rem      SQL_IGNORABLE_ERRORS: NONE
+Rem      SQL_CALLING_FILE: ctx/admin/ctxpkh.sql
+Rem    END SQL_FILE_METADATA
+Rem
+Rem    MODIFIED   (MM/DD/YY)
+Rem     snetrava   06/14/18  - Bug 28102835: NONE LOG PRAGMA
+Rem    pkosaraj    02/28/18  - Bug 27451531: security
+Rem    pkosaraj    03/01/15  - Bug 25118733: move getmsg to drvdisp
+Rem    surman      01/23/15  - 20411134: Add SQL metadata tags
+Rem    surman      03/15/13  - 16473661: Common start and end scripts
+Rem    nenarkhe    08/12/09  - add OCIArray to trusted_callout
+Rem    surman      01/03/07  - 5738539: Change to index owner for parallel sync
+Rem    wclin       12/04/06  - add execasown_clob_ret
+Rem    gkaminag    10/13/05  - sync maxtime 
+Rem    smuralid    04/21/03  - trusted_tablefunc: new param 'direct_path'
+Rem    gkaminag    08/14/02  - move execasown to drvdisp
+Rem    gkaminag    06/19/02  - gkaminag_security_ph1_020603
+Rem    gkaminag    06/03/02  - creation
+
+@@?/rdbms/admin/sqlsessstart.sql
+
+create or replace package drvdisp authid current_user is
+
+  PRAGMA SUPPLEMENTAL_LOG_DATA(default, NONE);
+
+  /*
+   * NAME
+   *   EXECTRUST - synchronous trust callout command
+   *
+   * RETURN
+   *
+   */
+  procedure EXECTRUST(
+                     idx_owner  in     varchar2,
+                     idx_name   in     varchar2,
+                     part_name  in     varchar2,
+                     func_code  in     number,
+  		     arg1       in     varchar2 default NULL,
+  		     arg2       in     varchar2 default NULL,
+  		     arg3       in     varchar2 default NULL,
+  		     arg4       in     varchar2 default NULL,
+  		     arg5       in     varchar2 default NULL,
+  		     arg6       in     varchar2 default NULL,
+  		     arg7       in     varchar2 default NULL,
+  		     arg8       in     varchar2 default NULL,
+  		     arg9       in     varchar2 default NULL,
+  		     arg10      in     varchar2 default NULL
+                    );
+
+  /*
+   * NAME
+   *   EXECTRUST_RET - synchronous trust callout command with return
+   *
+   * RETURN
+   *
+   */
+  procedure EXECTRUST_RET(
+                     idx_owner  in     varchar2,
+                     idx_name   in     varchar2,
+                     part_name  in     varchar2,
+                     func_code  in     number,
+                     ret1       out    varchar2,
+                     ret2       out    varchar2,
+  		     arg1       in     varchar2 default NULL,
+  		     arg2       in     varchar2 default NULL,
+  		     arg3       in     varchar2 default NULL,
+  		     arg4       in     varchar2 default NULL,
+  		     arg5       in     varchar2 default NULL,
+  		     arg6       in     varchar2 default NULL,
+  		     arg7       in     varchar2 default NULL,
+  		     arg8       in     varchar2 default NULL,
+  		     arg9       in     varchar2 default NULL,
+  		     arg10      in     varchar2 default NULL
+                    );
+
+  /*
+   * NAME
+   *   EXECTRUST_RET1 - synchronous trust callout command with 1 return
+   *
+   * RETURN
+   *
+   */
+  function EXECTRUST_RET1(
+                     idx_owner  in     varchar2,
+                     idx_name   in     varchar2,
+                     part_name  in     varchar2,
+                     func_code  in     number,
+  		     arg1       in     varchar2 default NULL,
+  		     arg2       in     varchar2 default NULL,
+  		     arg3       in     varchar2 default NULL,
+  		     arg4       in     varchar2 default NULL,
+  		     arg5       in     varchar2 default NULL,
+  		     arg6       in     varchar2 default NULL,
+  		     arg7       in     varchar2 default NULL,
+  		     arg8       in     varchar2 default NULL,
+  		     arg9       in     varchar2 default NULL,
+  		     arg10      in     varchar2 default NULL
+                    )
+   return varchar2;
+
+  /*
+   * NAME
+   *   EXECTRUST_ARRAY - synchronous trust callout command with arrays
+   *
+   * RETURN
+   *
+   */
+  procedure EXECTRUST_ARRAY(
+                     idx_owner  in     varchar2,
+                     idx_name   in     varchar2,
+                     part_name  in     varchar2,
+                     func_code  in     number,
+                     list1      in     sys.odcinumberlist,
+                     list2      in     sys.odcinumberlist,
+  		     arg1       in     varchar2 default NULL,
+  		     arg2       in     varchar2 default NULL,
+  		     arg3       in     varchar2 default NULL,
+  		     arg4       in     varchar2 default NULL,
+  		     arg5       in     varchar2 default NULL,
+  		     arg6       in     varchar2 default NULL,
+  		     arg7       in     varchar2 default NULL,
+  		     arg8       in     varchar2 default NULL,
+  		     arg9       in     varchar2 default NULL,
+  		     arg10      in     varchar2 default NULL
+                    );
+
+  /*
+   * NAME
+   *   EXECASOWN - synchronous trust callout command
+   *
+   * RETURN
+   *
+   */
+  procedure EXECASOWN(
+                     idx_ownid  in     number,
+                     idx_owner  in     varchar2,
+                     idx_name   in     varchar2,
+                     part_name  in     varchar2,
+                     func_code  in     number,
+  		     arg1       in     varchar2 default NULL,
+  		     arg2       in     varchar2 default NULL,
+  		     arg3       in     varchar2 default NULL,
+  		     arg4       in     varchar2 default NULL,
+  		     arg5       in     varchar2 default NULL,
+  		     arg6       in     varchar2 default NULL,
+  		     arg7       in     varchar2 default NULL,
+  		     arg8       in     varchar2 default NULL,
+  		     arg9       in     varchar2 default NULL,
+  		     arg10      in     varchar2 default NULL,
+  		     arg11      in     varchar2 default NULL
+                    );
+
+  /*
+   * NAME
+   *   EXECASOWN_CLOB - synchronous trust callout command w/ INOUT clob
+   *
+   * RETURN
+   *
+   */
+  procedure EXECASOWN_CLOB(
+                     idx_ownid  in     number,
+                     idx_owner  in     varchar2,
+                     idx_name   in     varchar2,
+                     part_name  in     varchar2,
+                     func_code  in     number,
+                     argclob    in out nocopy clob,
+  		     arg1       in     varchar2 default NULL,
+  		     arg2       in     varchar2 default NULL,
+  		     arg3       in     varchar2 default NULL,
+  		     arg4       in     varchar2 default NULL,
+  		     arg5       in     varchar2 default NULL,
+  		     arg6       in     varchar2 default NULL,
+  		     arg7       in     varchar2 default NULL,
+  		     arg8       in     varchar2 default NULL,
+  		     arg9       in     varchar2 default NULL,
+  		     arg10      in     varchar2 default NULL,
+  		     arg11      in     varchar2 default NULL
+                    );
+
+  /*
+   * NAME
+   *   EXECASOWN_IN_CLOB - synchronous trust callout command w/ IN clob
+   *
+   * RETURN
+   *
+   */
+  procedure EXECASOWN_IN_CLOB(
+                     idx_ownid  in     number,
+                     idx_owner  in     varchar2,
+                     idx_name   in     varchar2,
+                     part_name  in     varchar2,
+                     func_code  in     number,
+                     argclob    in     clob,
+  		     arg1       in     varchar2 default NULL,
+  		     arg2       in     varchar2 default NULL,
+  		     arg3       in     varchar2 default NULL,
+  		     arg4       in     varchar2 default NULL,
+  		     arg5       in     varchar2 default NULL,
+  		     arg6       in     varchar2 default NULL,
+  		     arg7       in     varchar2 default NULL,
+  		     arg8       in     varchar2 default NULL,
+  		     arg9       in     varchar2 default NULL,
+  		     arg10      in     varchar2 default NULL
+                    );
+
+  /*
+   * NAME
+   *   EXECASOWN_IN_OUT_CLOBS - 
+   *     synchronous trust callout command w/ 
+   *       one IN clob and one IN OUT clob.
+   *
+   * RETURN
+   *
+   */
+  procedure EXECASOWN_IN_OUT_CLOBS(
+                     idx_ownid  in     number,
+                     idx_owner  in     varchar2,
+                     idx_name   in     varchar2,
+                     part_name  in     varchar2,
+                     func_code  in     number,
+                     argclob1   in     clob,
+                     argclob2   in out nocopy clob,
+  		     arg1       in     varchar2 default NULL,
+  		     arg2       in     varchar2 default NULL,
+  		     arg3       in     varchar2 default NULL,
+  		     arg4       in     varchar2 default NULL,
+  		     arg5       in     varchar2 default NULL,
+  		     arg6       in     varchar2 default NULL,
+  		     arg7       in     varchar2 default NULL,
+  		     arg8       in     varchar2 default NULL,
+  		     arg9       in     varchar2 default NULL,
+  		     arg10      in     varchar2 default NULL,
+  		     arg11      in     varchar2 default NULL
+                    );
+
+  /*
+   * NAME
+   *   EXECASOWN_IN_CLOB_RET - synchronous trust callout command with return
+   *
+   * RETURN
+   *
+   */
+  procedure EXECASOWN_IN_CLOB_RET(
+                     idx_ownid  in     number,
+                     idx_owner  in     varchar2,
+                     idx_name   in     varchar2,
+                     part_name  in     varchar2,
+                     func_code  in     number,
+                     ret1       out    varchar2,
+                     ret2       out    varchar2,
+                     argclob    in     clob,
+  		     arg1       in     varchar2 default NULL,
+  		     arg2       in     varchar2 default NULL,
+  		     arg3       in     varchar2 default NULL,
+  		     arg4       in     varchar2 default NULL,
+  		     arg5       in     varchar2 default NULL,
+  		     arg6       in     varchar2 default NULL,
+  		     arg7       in     varchar2 default NULL,
+  		     arg8       in     varchar2 default NULL,
+  		     arg9       in     varchar2 default NULL,
+  		     arg10      in     varchar2 default NULL
+                    );
+
+  /*
+   * NAME
+   *   EXECASOWN_RET - synchronous trust callout command with return
+   *
+   * RETURN
+   *
+   */
+  procedure EXECASOWN_RET(
+                     idx_ownid  in     number,
+                     idx_owner  in     varchar2,
+                     idx_name   in     varchar2,
+                     part_name  in     varchar2,
+                     func_code  in     number,
+                     ret1       out    varchar2,
+                     ret2       out    varchar2,
+  		     arg1       in     varchar2 default NULL,
+  		     arg2       in     varchar2 default NULL,
+  		     arg3       in     varchar2 default NULL,
+  		     arg4       in     varchar2 default NULL,
+  		     arg5       in     varchar2 default NULL,
+  		     arg6       in     varchar2 default NULL,
+  		     arg7       in     varchar2 default NULL,
+  		     arg8       in     varchar2 default NULL,
+  		     arg9       in     varchar2 default NULL,
+  		     arg10      in     varchar2 default NULL
+                    );
+
+  /*
+   * NAME
+   *   EXECASOWN_RET1 - synchronous trust callout command with 1 return
+   *
+   * RETURN
+   *
+   */
+  function EXECASOWN_RET1(
+                     idx_ownid  in     number,
+                     idx_owner  in     varchar2,
+                     idx_name   in     varchar2,
+                     part_name  in     varchar2,
+                     func_code  in     number,
+  		     arg1       in     varchar2 default NULL,
+  		     arg2       in     varchar2 default NULL,
+  		     arg3       in     varchar2 default NULL,
+  		     arg4       in     varchar2 default NULL,
+  		     arg5       in     varchar2 default NULL,
+  		     arg6       in     varchar2 default NULL,
+  		     arg7       in     varchar2 default NULL,
+  		     arg8       in     varchar2 default NULL,
+  		     arg9       in     varchar2 default NULL,
+  		     arg10      in     varchar2 default NULL
+                    )
+   return varchar2;
+
+/*-------------------------------EXECASOWN_CLOB_RET------------------*/
+
+function EXECASOWN_CLOB_RET(
+  idx_ownid  in     number,
+  idx_owner  in     varchar2,
+  idx_name   in     varchar2,
+  part_name  in     varchar2,
+  func_code  in     number,
+  arglob     in out nocopy clob,
+  arg1       in     varchar2 default NULL,
+  arg2       in     varchar2 default NULL,
+  arg3       in     varchar2 default NULL,
+  arg4       in     varchar2 default NULL,
+  arg5       in     varchar2 default NULL,
+  arg6       in     varchar2 default NULL,
+  arg7       in     varchar2 default NULL,
+  arg8       in     varchar2 default NULL,
+  arg9       in     varchar2 default NULL,
+  arg10      in     varchar2 default NULL
+) return varchar2;
+
+/*--------------------------- tablefunc ----------------------------*/
+
+FUNCTION tablefunc
+(
+  idxo      in  varchar2,
+  idxn      in  varchar2,
+  idxp      in  varchar2,
+  cur       in  SYS_REFCURSOR,
+  opcode    in  varchar2,
+  memory    in  varchar2,
+  tstamp    in  varchar2,
+  direct_path in varchar2,
+  maxtime     in varchar2
+) return number;
+
+/*--------------------------- tablefunc_asown ----------------------------*/
+
+FUNCTION tablefunc_asown
+(
+  idxownid  in  number,
+  idxo      in  varchar2,
+  idxn      in  varchar2,
+  idxp      in  varchar2,
+  cur       in  SYS_REFCURSOR,
+  opcode    in  varchar2,
+  memory    in  varchar2,
+  tstamp    in  varchar2,
+  direct_path in varchar2,
+  maxtime     in varchar2
+) return number;
+
+end drvdisp;
+/
+
+
+@?/rdbms/admin/sqlsessend.sql

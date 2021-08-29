@@ -1,0 +1,232 @@
+rem 
+rem Copyright (c) 2002, 2017, Oracle and/or its affiliates. 
+rem All rights reserved.
+rem    NAME
+rem      dr0ent.pkh - DR ENTity extraction
+rem
+rem    DESCRIPTION
+rem      functions for entity extraction
+rem   
+rem 
+rem    BEGIN SQL_FILE_METADATA
+rem      SQL_SOURCE_FILE: ctx_src_2/src/dr/admin/dr0ent.pkh
+rem      SQL_SHIPPED_FILE: ctx/admin/dr0ent.pkh
+rem      SQL_PHASE: DR0ENT_PKH
+rem      SQL_STARTUP_MODE: NORMAL
+rem      SQL_IGNORABLE_ERRORS: NONE
+rem      SQL_CALLING_FILE: ctx/admin/ctxpkh.sql
+rem    END SQL_FILE_METADATA
+rem
+rem    MODIFIED    (MM/DD/YY)
+rem    surman       01/23/15 - 20411134: Add SQL metadata tags
+rem    surman       03/15/13 - 16473661: Common start and end scripts
+rem    hsarkar      06/08/11 - Logical Standby Support
+rem    rpalakod     01/08/08 - language in/out to in
+rem    rpalakod     08/28/07 - creation
+
+@@?/rdbms/admin/sqlsessstart.sql
+
+CREATE OR REPLACE PACKAGE ctx_entity AUTHID current_user AS
+
+
+LOCK_WAIT         	constant number := 0;
+LOCK_NOWAIT       	constant number := 1;
+LOCK_NOWAIT_ERROR 	constant number := 2;
+
+COMPILE_ALL         	constant number := 0;
+COMPILE_RULES       	constant number := 1;
+COMPILE_STOP_ENTITIES	constant number := 2;
+
+STATUS_NOTCOMPILED      constant number := 0;
+STATUS_TOBEDELETED      constant number := 1;
+STATUS_COMPILED         constant number := 2;
+STATUS_SUBSET           constant number := 3;
+
+
+/*------------------------------- TYPE DEFINITIONS ------------------------*/
+
+
+/*---------------------------- create_extract_policy ----------------------*/
+/*
+   NAME
+     create_extract_policy 
+
+   DESCRIPTION
+     create an entity-extraction policy 
+
+   ARGUMENT
+     policy_name		- the name for the new policy
+     lexer			- the lexer preference to use
+     storage_clause	    	- storage preferences (still undecided)
+     include_supplied_rules 	- specify whether supplied rules are included 
+                                  in compilation of user-defined rules
+     include_supplied_dictionary - specify whether supplied dictionary is used
+                                   in entity extraction
+     include_machine_learning   - specify whether machine learning is included
+                                  in entity extraction
+
+*/
+
+PROCEDURE create_extract_policy(
+  policy_name			IN VARCHAR2,
+  lexer				IN VARCHAR2 DEFAULT NULL,
+  include_supplied_rules	IN BOOLEAN DEFAULT TRUE,
+  include_supplied_dictionary	IN BOOLEAN DEFAULT TRUE
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(create_extract_policy, AUTO);
+
+/*---------------------------- drop_extract_policy ------------------------*/
+/*
+   NAME
+     drop_extract_policy 
+
+   DESCRIPTION
+     drop an entity-extraction policy 
+
+   ARGUMENT
+     policy_name		- the name of the policy
+*/
+
+PROCEDURE drop_extract_policy(
+  policy_name			IN VARCHAR2
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(drop_extract_policy, AUTO);
+
+/*---------------------------- add_extract_rule --------------------------*/
+/*
+   NAME
+     add_extract_rule 
+
+   DESCRIPTION
+     add a user-defined extraction rule to a policy object 
+
+   ARGUMENT
+     policy_name		- policy to associate rule with 
+     rule_id		    	- a unique rule_id within the extract policy
+     extraction_rule	    	- specify the extraction rule to be added
+*/
+
+PROCEDURE add_extract_rule(
+  policy_name			IN VARCHAR2,
+  rule_id			IN INTEGER,
+  extraction_rule 		IN VARCHAR2
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(add_extract_rule, AUTO);
+
+/*---------------------------- remove_extract_rule ------------------------*/
+/*
+   NAME
+     remove_extract_rule 
+
+   DESCRIPTION
+     remove a single extraction rule from an extract policy 
+
+   ARGUMENT
+     policy_name	    	- the name of the policy
+     rule_id	    		- id for rule to be removed from policy
+*/
+
+PROCEDURE remove_extract_rule(
+  policy_name			IN VARCHAR2,
+  rule_id			IN INTEGER
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(remove_extract_rule, AUTO);
+
+/*---------------------------- add_stop_entity ----------------------------*/
+/*
+   NAME
+     add_stop_entity 
+
+   DESCRIPTION
+     add an entity that is not to be classified - a "stop entity" - to the policy
+
+   ARGUMENT
+     policy_name	    	- policy to associate stop entity with 
+     entity_name	    	- entity mention
+     entity_type	    	- entity type
+     comments			- comments
+*/
+
+PROCEDURE add_stop_entity(
+  policy_name			IN VARCHAR2,
+  entity_name			IN VARCHAR2 DEFAULT NULL,
+  entity_type 			IN VARCHAR2 DEFAULT NULL,
+  comments			IN VARCHAR2 DEFAULT NULL
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(add_stop_entity, AUTO);
+
+/*---------------------------- remove_stop_entity -------------------------*/
+/*
+   NAME
+     remove_stop_entity 
+
+   DESCRIPTION
+     remove a stop entity from an extract policy 
+
+   ARGUMENT
+     policy_name	    	- the name of the policy
+     entity_name	    	- entity mention
+     entity_type	    	- entity type
+*/
+
+PROCEDURE remove_stop_entity(
+  policy_name			IN VARCHAR2,
+  entity_name			IN VARCHAR2 DEFAULT NULL,
+  entity_type 			IN VARCHAR2 DEFAULT NULL
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(remove_stop_entity, AUTO);
+
+/*---------------------------- compile ------------------------------------*/
+/*
+   NAME
+     compile
+
+   DESCRIPTION
+     compile added extraction rules and stop-entities into an extract policy 
+
+   ARGUMENT
+     policy_name	    	- the name of the policy
+     compile_choice	- compile rules, stop-entities, or both
+     locking   		- locking preferences
+*/
+
+PROCEDURE compile(
+  policy_name			IN VARCHAR2,
+  compile_choice		IN NUMBER DEFAULT COMPILE_ALL,
+  locking			IN NUMBER DEFAULT LOCK_NOWAIT_ERROR
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(compile, AUTO);
+
+/*---------------------------- extract -----------------------------*/
+/*
+   NAME
+     extract 
+
+   DESCRIPTION
+     generate character offsets and character lengths of an extracted entity from base document 
+
+   ARGUMENT
+     policy_name	   	- the name of the policy
+     document		    	- base document
+     language		    	- name of language in document
+     result                 	- clob containing xml output
+     entity_type_list	    	- entity types that will be extracted (NULL means all types)
+     locking   		- locking preferences
+
+*/
+
+PROCEDURE extract(
+  policy_name			IN VARCHAR2,
+  document			IN CLOB,
+  language			IN VARCHAR2,
+  result			IN OUT NOCOPY CLOB,
+  entity_type_list		IN CLOB DEFAULT NULL,
+  locking			IN NUMBER DEFAULT LOCK_NOWAIT_ERROR
+);
+
+
+END ctx_entity;
+/
+
+
+@?/rdbms/admin/sqlsessend.sql

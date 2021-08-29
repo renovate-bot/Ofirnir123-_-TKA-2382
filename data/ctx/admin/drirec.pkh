@@ -1,0 +1,91 @@
+Rem 
+Rem $Header: ctx_src_2/src/dr/admin/drirec.pkh /main/7 2018/07/17 09:35:03 snetrava Exp $ 
+Rem 
+Rem Copyright (c) 1991, 2018, Oracle and/or its affiliates. 
+Rem All rights reserved.
+Rem   NAME
+Rem     drirec.pkh - DR RECovery
+Rem   DESCRIPTION
+Rem     This package contains procedures to recover the following components
+Rem     in the server:
+Rem     - DML queue
+Rem     - orphans datapipe
+Rem     - 
+Rem     - Engine
+Rem
+Rem   PUBLIC FUNCTION(S)
+Rem     recover   - recover the specified component of the system
+Rem
+Rem   NOTES
+Rem 
+Rem   BEGIN SQL_FILE_METADATA
+Rem     SQL_SOURCE_FILE: ctx_src_2/src/dr/admin/drirec.pkh
+Rem     SQL_SHIPPED_FILE: ctx/admin/drirec.pkh
+Rem     SQL_PHASE: DRIREC_PKH
+Rem     SQL_STARTUP_MODE: NORMAL
+Rem     SQL_IGNORABLE_ERRORS: NONE
+Rem     SQL_CALLING_FILE: ctx/admin/ctxpkh.sql
+Rem   END SQL_FILE_METADATA
+Rem
+Rem   MODIFIED    (MM/DD/YY)
+Rem     snetrava   06/14/18  - Bug 28102835: NONE LOG PRAGMA
+Rem     surman     01/23/15  - 20411134: Add SQL metadata tags
+Rem     surman     03/15/13  - 16473661: Common start and end scripts
+Rem     surman     09/15/03  - 3101316: Add recover_dict 
+Rem     gkaminag   02/24/98 -  new dml queue
+Rem     qtran      04/29/95 -  Creation 
+Rem     qtran      10/19/94 -  Creation 
+
+@@?/rdbms/admin/sqlsessstart.sql
+
+create or replace package drirec as
+
+PRAGMA SUPPLEMENTAL_LOG_DATA(default, NONE);
+
+/*--------------------------------- recover --------------------------------*/
+/*
+  NAME
+  DESCRIPTION
+
+  ARGUMENTS
+      
+    
+  NOTES
+    
+       
+  EXCEPTIONS
+
+  RETURNS
+    none
+*/
+PROCEDURE recover(component IN varchar2 default 'ALL');
+
+/*------------------------------ recover_dict ------------------------------*/
+/*
+  NAME
+    recover_dict - RECOVER textile DICTionary
+  DESCRIPTION
+    Remove policies and indexes that belong to an invalid user (i.e. one
+    that has been dropped)
+
+    Also removes indexes, or any other database objects created that are
+    connected specifically to the policy
+
+    Remove obsolete entries in dr$contains
+
+    Remove thesaurus and sections groups that belongs to an invalid user
+
+    If user_name is null, entries for all dropped users are removed.
+  ARGUMENTS
+
+  RETURNS
+
+  NOTES
+*/
+PROCEDURE recover_dict(user_name in varchar2 := null);
+
+end drirec;
+/
+
+
+@?/rdbms/admin/sqlsessend.sql

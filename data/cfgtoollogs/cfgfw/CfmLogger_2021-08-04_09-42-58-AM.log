@@ -1,0 +1,18 @@
+#2021-08-04_09-42-58-AM
+WARNING: Validation of XML schema is disabled because AggregateDescriptions.xsd could not be found
+INFO: Creating new CFM connection
+INFO: Creating a new logger for oracle.server
+INFO: Unmarshalling C:\WINDOWS.X64_193000_db_home\inventory\ContentsXML\ConfigXML\oracle.server.19_0_0_0_0.xml
+INFO: Creating a new logger for oracle.assistants.netca.client
+INFO: Unmarshalling C:\WINDOWS.X64_193000_db_home\inventory\ContentsXML\ConfigXML\oracle.assistants.netca.client.19_0_0_0_0.xml
+INFO: Creating a new logger for OuiConfigVariables
+INFO: Unmarshalling C:\WINDOWS.X64_193000_db_home\inventory\ContentsXML\ConfigXML\OuiConfigVariables.1_0_0_0_0.xml
+INFO: Creating a new logger for oracle.ntoramts
+INFO: Unmarshalling C:\WINDOWS.X64_193000_db_home\inventory\ContentsXML\ConfigXML\oracle.ntoramts.19_0_0_0_0.xml
+INFO: Aggregate Description oracle.server:19.0.0.0.0:common successfully loaded
+INFO: Aggregate Description oracle.assistants.netca.client:19.0.0.0.0:common successfully loaded
+INFO: Aggregate Description OuiConfigVariables:1.0.0.0.0:common successfully loaded
+INFO: Aggregate Description oracle.ntoramts:19.0.0.0.0:common successfully loaded
+INFO: Successfully returning from CfmFactory.connect()
+INFO: Cfm.save() was called
+INFO: Cfm.save(): 4 aggregate instances saved

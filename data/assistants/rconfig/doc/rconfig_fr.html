@@ -1,0 +1,87 @@
+<html>
+
+<head>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
+
+<title>Bienvenue</title>
+<meta NAME="topic-id" CONTENT="welcome_page">
+<link REL=stylesheet HREF=blafdoc.css TYPE="text/css">
+</head>
+<body>
+
+<h1>Bienvenue</h1>
+
+<p>Bienvenue dans l'outil de configuration d'Oracle Real Application Clusters. </p>
+<p>Après avoir installé le logiciel Oracle Database, vous pouvez utiliser l'outil de configuration d'Oracle Real Application Clusters afin de convertir vos bases de données à instance unique en bases de données Oracle Real Application Clusters.</p>
+
+<h2>Aperçu de l'outil de configuration d'Oracle Real Application Clusters </h2>
+
+<p>L'outil de configuration d'Oracle Real Application Clusters vous guide tout au long du processus de conversion d'une base de données à instance unique existante en base de données Oracle Real Application Clusters. Il effectue automatiquement les tâches que vous exécuteriez manuellement pour convertir une base existante en base de données de cluster. L'outil de configuration d'Oracle Real Application Clusters peut être appelé à l'aide du script ORACLE_HOME/bin/rconfig. Il utilise un fichier&nbsp;XML dans lequel vous pouvez indiquer la configuration souhaitée pour la base de données Oracle Real Application Clusters résultant de la conversion. Vous pouvez notamment indiquer un emplacement de stockage différent pour la base de données Oracle Real Application Clusters et les hôtes/pools de serveurs sur lesquels exécuter les instances Oracle Real Application Clusters. Vous avez également la possibilité de spécifier un préfixe pour ces instances, ainsi que le répertoire d'origine Oracle&nbsp;Home à partir duquel elles doivent être exécutées. Ce répertoire peut être différent du répertoire d'origine Oracle Real Application Clusters en cours.</p>
+
+ <p><strong>Remarque&nbsp;:</strong> Oracle recommande d'effectuer une sauvegarde complète de la base de données à instance unique avant de la convertir.</p>
+
+ <h2>Remarques pour Real Application Clusters</h2>
+<p>Pour que l'outil RConfig puisse convertir votre base de données à instance unique en base de données Real Application Clusters, vous devez d'abord terminer les opérations de pré-installation, et avoir achevé·les deux étapes du processus d'installation de CRS (Cluster Ready Services) et d'Oracle Enterprise Edition 11<em>g</em> avec Real Application Clusters.</p>
+<p>De plus, en fonction du type de stockage de base de données que vous voulez utiliser, vous devrez exécuter l'une des procédures de configuration ci-après avant d'appeler l'outil RConfig pour convertir une base de données à instance unique en base de données Oracle Real Application Clusters.</p>
+<ul>
+  <li>
+    <p>Si la base de données à instance unique utilise un stockage&nbsp;ASM, installez une instance&nbsp;ASM de cluster. Assurez-vous que des instances&nbsp;ASM sont en cours d'exécution sur tous les noeuds du cluster. Utilisez l'assistant de configuration&nbsp;ASM (ASMCA) pour définir et monter les groupes de disques&nbsp;ASM.</p>
+  </li>
+  <li>
+    <p>Si le stockage de la base de données à instance unique n'est pas accessible depuis tous les noeuds, indiquez pour le stockage de base de données une partition du système de fichiers de cluster qui sera accessible à partir de tous les noeuds.</p>
+  </li>
+  <li>
+    <p>La conversion des bases de données utilisant un stockage de raw device n'est pas prise en charge par l'outil RConfig.</p>
+  </li>
+</ul>
+
+<h2>Prérequis pour l'utilisation de l'outil RConfig</h2>
+
+<p>Les conditions suivantes doivent être remplies pour que l'outil RConfig puisse être utilisé pour la conversion en base de données Oracle Real Application Clusters. Cet outil vérifie que ces critères sont respectés pour garantir la réussite de la conversion.</p>
+<ul>
+  <li>
+    <p>La version de CRS et de la base de données doit être 11.2.</p>
+  </li>
+  <li>
+    <p>CRS doit être exécuté sur tous les noeuds sur lesquels une instance Oracle Real Application Clusters sera exécutée.</p>
+  </li>
+  <li>
+    <p> Le processus d'écoute par défaut doit être exécuté à partir du répertoire d'origine Oracle&nbsp;Home de l'infrastructure de grille (CRS).</p>
+  </li>
+  <li>
+    <p>L'emplacement de stockage indiqué doit être accessible à partir de tous les noeuds du cluster. Si la base de données à instance unique utilise le stockage&nbsp;ASM, les instances&nbsp;ASM incluses dans le cluster doivent être exécutées sur tous les noeuds où doivent être exécutées les instances Oracle Real Application Clusters.</p>
+  </li>
+</ul>
+
+<h2>Fichier&nbsp;XML d'entrée utilisé par l'outil RConfig pour la conversion en base de données Oracle Real Application Clusters</h2>
+<p> L'outil RConfig utilise un fichier&nbsp;XML d'entrée. Les différents éléments du fichier&nbsp;XML d'entrée utilisé pour la conversion sont décrits dans cette section. Le schéma&nbsp;XML par rapport auquel le fichier&nbsp;XML d'entrée est validé est packagé dans le fichier rconfig.jar avec d'autres fichiers binaires. Vous pouvez le visualiser dans /ORACLE_HOME/assistants/rconfig/sampleXMLs/rconfig.xsd. Ce répertoire contient également un exemple de fichier&nbsp;XML qui peut être utilisé en entrée par l'outil RConfig.
+<ul>
+  <li>
+    <p>SID et informations d'identification et de connexion pour une base de données à instance unique&nbsp;: indiquez ici le nom et le mot de passe de l'utilisateur avec rôle&nbsp;SYSDBA. Le SID de la base de données à instance unique existante est également nécessaire pour la connexion à la base de données.</p>
+  </li>
+
+  <li>
+    <p>Répertoire d'origine Oracle Home existant&nbsp;: indiquez ici le répertoire d'origine Oracle&nbsp;Home de la base de données à instance unique.</p>
+  </li>
+  <li>
+    <p>Nouveau répertoire d'origine Oracle Home&nbsp;: indiquez ici le répertoire d'origine Oracle&nbsp;Home à partir duquel exécuter la base de données Oracle Real Application Clusters résultant de la conversion. Il peut s'agir du répertoire d'origine Oracle&nbsp;Home existant.</p>
+  </li>
+  
+  <li>
+    <p>Liste de pools de serveurs/noeuds&nbsp;: pour les bases de données gérées par un administrateur, indiquez la liste des noeuds devant disposer d'instances de cette base de données Oracle Real Application Clusters.</p>
+	<p>Pour les bases de données gérées par des stratégies, indiquez la liste des pools de serveurs. Si aucun pool de serveurs n'existe, un pool sera créé. Pour créer un pool de serveurs, indiquez la cardinalité de la base de données. </p>
+  </li>
+  
+  <li>
+    <p>Préfixe pour les instances de base de données de cluster&nbsp;: il s'agit d'un champ optionnel. Le nom des instances Oracle Real Application Clusters est formé à partir d'un préfixe concaténé avec le numéro de l'instance. Le préfixe utilisé peut être identique à celui du SID de la base de données existante ou différent. Si le champ est vide, la valeur par défaut est db_unique_name.</p>
+  </li>
+
+  <li>
+    <p>Stockage partagé&nbsp;: indiquez les emplacements des fichiers de données et de la zone de récupération à configurer pour la base de données Oracle Real Application Clusters. Laissez ces champs vides si le stockage actuellement utilisé par la base de données à instance unique doit également être utilisé pour la base de données Oracle Real Application Clusters. Dans ce cas, l'outil RConfig vérifie au préalable que les fichiers de données, les fichiers de contrôle, les fichiers&nbsp;SPFILE et les fichiers de récupération en cours sont accessibles à partir de tous les noeuds. Si tel n'est pas le cas, un message d'erreur apparaît et la conversion est stoppée. Si des emplacements différents sont indiqués, l'outil RConfig vérifie qu'ils sont accessibles à partir de tous les noeuds et, au cours de la conversion, il effectue une copie de l'ensemble des fichiers et crée des fichiers pour les nouvelles instances Oracle Real Application Clusters dans l'emplacement indiqué.</p>
+  <p>La même remarque s'applique au stockage&nbsp;ASM. Remplissez ces champs pour indiquer les groupes de disques à utiliser pour le stockage partagé. Les noms des groupes de disques doivent commencer par le signe '+'. Actuellement, un seul groupe de disques peut être indiqué pour les emplacements des fichiers de données et de la zone de récupération.
+  </li>
+</ul>
+
+</body>
+
+</html>

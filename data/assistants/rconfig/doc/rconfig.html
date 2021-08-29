@@ -1,0 +1,108 @@
+
+<html>
+
+<head>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=ISO-8859-1">
+
+<title>Welcome</title>
+<meta NAME="topic-id" CONTENT="welcome_page">
+<link REL=stylesheet HREF=blafdoc.css TYPE="text/css">
+</head>
+<body>
+
+<h1>Welcome</h1>
+
+<p>Welcome to the Oracle Real Application Clusters Configuration Tool. </p>
+<p>After you install the Oracle Database software, you can use the Oracle Real Application Clusters Configuration 
+  tool to convert your single instance databases to Oracle Real Application Clusters databases.</p>
+
+<h2>Overview of the Oracle Real Application Clusters Configuration Tool </h2>
+
+<p>The Oracle Real Application Clusters Configuration Tool guides you through the process of converting an existing 
+  single instance database to an Oracle Real Application Clusters database. The tasks that you would normally perform 
+  manually to convert your existing database to cluster database are performed automatically by
+  this tool. The Oracle Real Application Clusters configuration tool can be invoked using ORACLE_HOME/bin/rconfig script. This 
+  tool takes in an xml file where you can specify the desired configuration for converted Oracle Real Application Clusters database.
+  These options include specifying different storage for Oracle Real Application Clusters database, the hosts/server pools  on which you want Oracle Real Application Clusters 
+  instances to be running. You can 
+  also specify a prefix for Oracle Real Application Clusters instances and the Oracle home from which these Oracle Real Application Clusters instances should run. This 
+  Oracle home can be different from the current Oracle Real Application Clusters home.</p>
+
+ <p><strong>Note:</strong> Oracle recommends that you take a complete backup of the single instance database
+  before attempting conversion.</p>
+
+ <h2>Notes for Real Application Cluster Users</h2>
+<p>Before the rconfig tool can convert your single instance database to a Real Application Clusters 
+  database, you must complete the preinstallation tasks, and you must have completed 
+  the two-phase installation process for installing CRS (Cluster Ready Services) 
+  and the Oracle Enterprise Edition 11<em>g</em> with Real Application Clusters.</p>
+<p>In addition, depending upon the type of database storage that you want to use, 
+  you should perform one of the following setup procedures before invoking the 
+  rconfig tool to convert single instance database to Oracle Real Application Clusters database.</p>
+<ul>
+  <li>
+    <p>If your single instance database uses ASM Storage, install a cluster ASM instance.
+      Make sure, all nodes of the cluster have ASM instances running. Use ASM Configuration Assistants (ASMCA) 
+      to define and mount the ASM Diskgroups.</p>
+  </li>
+  <li>
+    <p>If your single instance database storage is not accessible from all nodes, specify cluster file system 
+      partition for database storage that will be accessible from all nodes.</p>
+  </li>
+  <li>
+    <p>Conversion for databases with raw device storage is not supported by rconfig tool.</p>
+  </li>
+</ul>
+
+<h2>Pre-requisites for RConfig Tool</h2>
+
+<p>Following pre-requisites should be met to use rconfig tool for performing conversion to Oracle Real Application Clusters database.
+   The tool will perform checks to ensure that these criteria are met to ensure successful conversion.</p>
+<ul>
+  <li>
+    <p>CRS and Database Version number should be equal to 11.2</p>
+  </li>
+  <li>
+    <p>CRS should be running on all nodes that should have Oracle Real Application Clusters instances running.</p>
+  </li>
+  <li>
+    <p> Default listener should be running from Grid Infrastructure(CRS) home.</p>
+  </li>
+  <li>
+    <p>The given storage location should be accessible from all nodes in the cluster. If the storage used by 
+       single instance database is ASM, Clustered ASM instances should be running on all the nodes that should have          Oracle Real Application Clusters instances.</p>
+  </li>
+</ul>
+
+<h2>Input XML for rconfig tool to perform Oracle Real Application Clusters Conversion</h2>
+<p> The rconfig tool takes xml file as input. Each element of the xml file that is used as input for conversion is described in this section. The XML Schema against which the input xml is validated is packaged in rconfig.jar along with other binaries. It can be viewed at /ORACLE_HOME/assistants/rconfig/sampleXMLs/rconfig.xsd. This directory also contains a sample XML file that can be used as input for rconfig tool.
+<ul>
+  <li>
+    <p>SID and Credentials for single instance database: The username and password for user with sysdba role should be specified here. Also, the sid for existing single instance database is required to connect to the database.</p>
+  </li>
+
+  <li>
+    <p>Existing Oracle Home: The Oracle home of the single instance database should be specified here.</p>
+  </li>
+  <li>
+    <p>New Oracle Home: The Oracle home where you want the converted Oracle Real Application Clusters database to run from should be specified here. It can be same as existing Oracle home.</p>
+  </li>
+  
+  <li>
+    <p>Server Pool List/NodeList: For Admin Managed databases, specify the list of nodes that should have instances of this Oracle Real Application Clusters database.</p>
+	<p>For Policy Managed databases, specify the server pool list. If no server pool exists, it will be created. For creating Server Pool, specify the cardinality of the database. </p>
+  </li>
+  
+  <li>
+    <p>Prefix for cluster database Instances: This is an optional field. The Oracle Real Application Clusters instances will be named as prefix concatenated with instance number. The prefix can be same as the sid for existing database or can be different. If left empty, it is defaulted to db_unique_name</p>
+  </li>
+
+  <li>
+    <p>Shared Storage: Specify the datafiles Location and Recovery Area Location that should be configured for Oracle Real Application Clusters database. Leave these fields blank, if current storage used by single instance database should be used for Oracle Real Application Clusters database also. In this case, the rconfig tool will precheck whether the current data files, control files, spfile and recovery files are accessible from all nodes. If not, it will display an error and not proceed with the conversion. If different locations are specified, the rconfig tool will ensure that the location specified is accessible from all nodes and during conversion, will copy all the files to the specified location and create new files for new Oracle Real Application Clusters instances in this location.</p>
+  <p>Same notes apply for ASM storage. These fields should be used to specify the diskgroups to be used to configured shared storage. The diskgroups should be specified starting with '+'. Currently, only one diskgroup can be specified for DataFiles Location and Recovery Area Location.
+  </li>
+</ul>
+
+</body>
+
+</html>

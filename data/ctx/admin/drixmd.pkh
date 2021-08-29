@@ -1,0 +1,1506 @@
+rem 
+rem Copyright (c) 2002, 2018, Oracle and/or its affiliates. 
+rem All rights reserved.
+rem    NAME
+rem      drixmd.pkh - DR Internal indeX MetaData access
+rem
+rem    DESCRIPTION
+rem      functions for querying and setting index meta-data
+rem   
+rem 
+rem    BEGIN SQL_FILE_METADATA
+rem      SQL_SOURCE_FILE: ctx_src_2/src/dr/admin/drixmd.pkh
+rem      SQL_SHIPPED_FILE: ctx/admin/drixmd.pkh
+rem      SQL_PHASE: DRIXMD_PKH
+rem      SQL_STARTUP_MODE: NORMAL
+rem      SQL_IGNORABLE_ERRORS: NONE
+rem      SQL_CALLING_FILE: ctx/admin/ctxpkh.sql
+rem    END SQL_FILE_METADATA
+rem
+rem    MODIFIED    (MM/DD/YY)
+rem    rodfuent     11/26/18 - Bug 28978523: json default stage_itab options
+rem    rodfuent     08/07/18 - Bug 28468227: on disk dynamic SDATA option
+Rem     snetrava   06/14/18  - Bug 28102835: NONE LOG PRAGMA
+rem    snetrava     04/10/18 - Bug 27883882 Add function GetTableSharing
+rem    aczarlin     12/2/17  - Bug 27206884: sync job clean-up on fail
+rem    ccwei        10/17/17 - Bug 17886306: Add GetIndexTableName
+rem    pkosaraj     09/28/17 - Bug 25929650: move driimp index metadata ops
+rem    rodfuent     09/12/17 - Bug 26614837: Place V2 partitions in correct tbs
+rem    rodfuent     08/24/17 - Bug 26681232: GetAllPartitionNames return CLOB
+rem    rodfuent     08/24/17 - Bug 26614837: GetAllPartitionNames return CLOB
+rem    rkadwe       08/18/17 - Bug 25915271: CTX_OUTPUT invokers right
+rem    rkadwe       07/17/17 - Bug 26427675
+rem    boxia        06/14/17 - Bug 25950574: modify args in add_bg_optimize
+rem    demukhin     05/25/17 - bug 26051570: keep $R for legacy indexes
+rem    boxia        04/18/17 - Bug 25913209: enable trace for bg opt jobs
+rem    boxia        03/17/17 - Bug 25468759: PARALLEL for CIX/AIX OPTIMIZE
+rem    rkadwe       02/24/17 - Bug 25370368: Qualify objects
+rem    rodfuent     02/06/17 - Bug 25422217: $DI,$NI,$KI,$UI clause for ctx_v2
+rem    boxia        01/18/17 - Proj 68638: add background opimize procedures
+rem    boxia        01/17/17 - Bug 25390928: add opt_type, opt_interval to
+rem                            partition
+rem    demukhin     01/17/17 - prj 68638: remove $R
+rem    snetrava     12/27/16 - Added STO_KGI
+rem    boxia        11/19/16 - Bug 25172618: add STO_SIAO
+rem    rodfuent     11/03/16 - Bug 25028151: composite partitioning for ctx_v2
+rem    surman       12/10/15 - 22097228: Thirty character index objects
+rem    aczarlin     11/24/15 - bug 22218950
+rem    aczarlin     10/29/15 - bug 22092290 exchange part with gtab
+rem    shuroy       08/13/15 - Moved SMALL_R_ROW_MIN_COMP  from dr0ddl.pkb
+rem    aczarlin     08/05/15 - bug 21562436 ctxagg parallel
+rem    hxzhang      07/17/15 - system managed partiton for CONTEXT_V2
+rem    ataracha     07/09/15 - Introduce I_TRANSIT_DEFAULT for non-SS syntax
+rem    rkadwe       05/15/15 - Alter index for simplified syntax
+rem    rkadwe       06/02/15 - Memory parameter datatype
+rem    shuroy       05/14/15 - Adding storage clause for $U
+rem    aczarlin     11/05/15 - bug 19579111, no max_rows if no gtab
+rem    surman       01/12/15 - 16905087: Add CheckIndexVisibile
+rem    surman       12/12/14 - Full length index names
+rem    boxia        08/14/14 - Bug 18795228, rename STO_SNIX to STO_SNI
+rem    yinlu        08/06/14 - IndexHasDataGuide
+rem    boxia        07/10/14 - sdata_altidx_dollars: add IndexHasSSortTable
+rem    rkadwe       02/28/13 - Range postings
+rem    surman       08/16/12 - 14038163: Add $W and $Y indexes
+rem    surman       06/12/12 - 14175174: Add SubstringEenabled
+rem    gauryada     05/23/12 - bug#13724080
+rem    yiqi         05/05/12 - add STO_SR
+rem    gauryada     03/21/12 - Partition specific stage_itab enhancements
+rem    rkadwe       11/15/11 - ATG Integration
+rem    thbaby       08/24/11 - add STO_E
+rem    thbaby       08/24/11 - add IndexHasETable
+rem    yiqi         07/27/11 - Bug 9048426
+rem    gauryada     04/29/11 - SAVE_COPY changes ($D addition)
+rem    gauryada     11/24/10 - $O table addition
+rem    rpalakod     05/26/10 - Bug 9354204
+rem    rpalakod     05/25/10 - Bug 9730483
+rem    rkadwe       04/15/10 - Activate Direct Path Loading
+rem    nenarkhe     12/17/09 - Bug 9141863
+rem    nenarkhe     10/19/09 - IndexHasMVDATA
+rem    nenarkhe     08/25/09 - F_TABLE_CLAUSE, A_TABLE_CLAUSE
+rem    nenarkhe     08/12/09 - MVDATA update
+rem    rkadwe       08/09/09 - zone_to_field
+rem    rpalakod     08/01/09 - autooptimize
+rem    nenarkhe     06/25/09 - $F
+rem    surman       06/02/09 - 8323978: Remove create_index_triggers
+rem    rpalakod     05/28/09 - bp 8452411
+rem    rpalakod     05/06/09 - Backport rpalakod_bug-8473813 from main
+rem    rpalakod     03/09/10 - optimize rearchitecture
+rem    rpalakod     02/08/10 - Bug 9357029
+rem    rpalakod     05/05/09 - Bug 8473813
+rem    nenarkhe     04/23/09 - remove UpdateMVDATA
+rem    rpalakod     04/23/09 - Bug 8452411
+rem    rpalakod     02/05/09 - nrtidx api
+rem    rpalakod     01/29/09 - rebuild without reindex
+rem    rpalakod     01/07/09 - separate_offsets
+rem    rpalakod     01/05/09 - Big IO API
+rem    surman       11/14/08 - 7540290: Use number instead of binary_integer
+rem    nenarkhe     09/11/08 - mvdata support
+rem    rpalakod     07/31/08 - Bug 7298172: change in behavior of idx_version
+rem    rpalakod     05/19/08 - Session Duration SQE
+rem    rpalakod     10/16/07 - CreatePolicy: EntityExtraction Flag
+rem    ymatsuda     09/06/07 - deferred $p table creation 
+rem    surman       09/06/07 - 6139255: Change mode of p_idx_partition in
+rem                            CreatePartitionMD
+rem    wclin        05/06/07 - add ChkIndexOption()
+rem    wclin        12/08/06 - clob SQE
+rem    wclin        12/29/06 - handle null update values
+rem    wclin        10/30/06 - add RenameIndexCol() 
+rem    surman       06/06/06 - 5233309: smplsz to binary_integer in 
+rem                            GetIndexStats 
+rem    wclin        02/11/06 - store docid in dr$sdata_update 
+rem    yucheng      02/15/06 - add GetAllPartitionOPTs 
+rem    yucheng      01/11/06 - recreate index online partition 
+rem    wclin        12/14/05 - remove MakeIA 
+rem    gkaminag     10/25/05 - sdata update 
+rem    gkaminag     09/30/05 - cdi indexing 
+rem    gkaminag     08/22/05 - recreate online 
+rem    yucheng      07/22/05 - add a new PurgeKGL 
+rem    yucheng      01/07/05 - add GetNextid 
+rem    yucheng      11/03/04 - add GetMVFlag 
+rem    yucheng      09/01/04 - CreatePolicy fix 
+rem    gkaminag     12/10/03 - policy ddl security 
+rem    gkaminag     11/24/03 - copy policy 
+rem    wclin        10/16/03 - add IndexHasPendingRows() 
+rem    surman       09/09/03 - 3101316: Add DropUser* procedures 
+rem    yucheng      08/11/03 - local create index online support 
+rem    yucheng      07/11/03 - 
+rem    yucheng      07/02/03 - migrate to scheduler
+rem    wclin        06/19/03 - add OraConRewriteChk()
+rem    ehuang       05/27/03 - add CheckIndexForOraCon
+rem    yucheng      05/08/03 - DML enhancements
+rem    smuralid     05/12/03 - add STATE_POPULATE_K
+rem    wclin        05/09/03 - statement consistency support
+rem    yucheng      03/07/03 - remove tabpart_obj#
+rem    wclin        02/26/03 - modify GetIndexStats()
+rem    gkaminag     03/06/03 - allow users with alter any index to sync/optimize
+rem    smuralid     12/25/02 - CreatePolicy: eliminate 'roption' parameter
+rem    yucheng      11/20/02 - inter-partition parallelism
+rem    daliao       11/05/02 - add classifier in CreatePolicy
+rem    wclin        10/04/02 - get smplsz in GetIndexStats()
+rem    gkaminag     10/01/02 - security phase 3
+rem    gkaminag     09/24/02 - security phase 3
+rem    yucheng      07/12/02 - merge split poilcy
+rem    gkaminag     07/18/02 - security phase 2
+rem    gkaminag     07/12/02 - add option to bypass contains security check
+rem    gkaminag     07/02/02 - security overhaul phase 2
+rem    gkaminag     06/19/02 - gkaminag_security_ph1_020603
+rem    gkaminag     06/03/02 - creation
+
+@@?/rdbms/admin/sqlsessstart.sql
+
+create or replace package drixmd authid definer is
+
+  PRAGMA SUPPLEMENTAL_LOG_DATA(default, NONE);
+
+  VERSION_LATEST constant number := 8130;
+  VERSION_CEILING constant number   := 32000;
+  
+  SMALL_R_ROW_MIN_COMP constant number := 122;
+  LONG_IDENT_MIN_COMP constant number := 122;
+
+  NO_R_MIN_COMP           constant varchar2(30) := '12.2.0.2';
+  DYN_SDATA_COMP          constant varchar2(30) := '19.0.0.0';
+
+type ss_metadata is record (
+  json_enable varchar2(30),
+  dataguide   varchar2(30),
+  search_on   varchar2(30),
+  text        varchar2(30)
+);
+
+/*---------------------------- SetActiveIndex  ---------------------------*/
+
+procedure SetActiveIndex(
+  p_idxid           in number
+);
+
+/*---------------------------- CheckAccess  ------------------------------*/
+
+procedure CheckAccess(
+  p_invoker         in number,
+  p_idxid           in number
+);
+
+
+/*------------------------- CheckIndexQueryable  -------------------------*/
+/* call before attempting query operation on an index */
+
+procedure CheckIndexQueryable(
+  p_idxid           in number
+);
+
+/* ------------------------- CheckIndexVisibile --------------------------*/
+/* 16905087: Raises an error if the index is invisible */
+procedure CheckIndexVisible(
+  p_idxid           in number
+);
+
+/*---------------------------- GetIndexMD  -------------------------------*/
+/* fetch selected dr$index column values into out variables */
+
+procedure GetIndexMD(
+  p_idxid           in  number,
+  o_owner           out varchar2,
+  o_owner#          out number,
+  o_name            out varchar2,
+  o_table_obj#      out number,
+  o_table_dataobj#  out number,
+  o_key_name        out varchar2,
+  o_key_type        out binary_integer,
+  o_text_name       out varchar2,
+  o_text_type       out binary_integer,
+  o_text_length     out binary_integer,
+  o_lang_col        out varchar2,
+  o_fmt_col         out varchar2,
+  o_cset_col        out varchar2,
+  o_idx_type        out binary_integer,
+  o_idx_option      out varchar2,
+  o_idx_sync_type   out varchar2,
+  o_idx_sync_memory out number,
+  o_idx_src_name  out varchar2,
+  o_idx_src_id    out binary_integer,
+  o_idx_version   out binary_integer,
+  o_config_col      out varchar2
+);
+
+/*---------------------------- GetIndexID  -------------------------------*/
+/* get index id by name */
+
+FUNCTION GetIndexID(
+  p_idx_name in varchar2
+) return number;
+
+/*---------------------------- FastGetIndexID  ---------------------------*/
+/* get index id by owner, name */
+
+FUNCTION FastGetIndexID(
+  p_idx_owner in varchar2,
+  p_idx_name  in varchar2
+) return number;
+
+/*--------------------------- GetIndexRec  -------------------------------*/
+/* get index meta data as a record */
+
+POL_INDEX_ONLY      constant number := 0;
+POL_POLICY_ONLY     constant number := 1;
+POL_INDEX_OR_POLICY constant number := 2;
+
+SEC_NONE            constant number := 0;
+SEC_CONTAINS        constant number := 1;
+SEC_OWNER           constant number := 2;
+SEC_ALTER           constant number := 3;
+SEC_DROP            constant number := 4;
+
+FUNCTION GetIndexRec(
+  p_idx_name in varchar2,
+  f_ispolicy in number    default POL_INDEX_ONLY,
+  f_security in number    default SEC_CONTAINS
+) return dr_def.idx_rec;
+
+/*--------------------------- ImportingIndex  ----------------------------*/
+/* return true if the index name is in import state */
+/* note: pass in simple name.  owner is implied -SESSIONID */
+
+FUNCTION ImportingIndex(
+  p_idx_name  in varchar2
+) return boolean;
+
+/*----------------------- GetIndexStorage  -----------------------*/
+/* get index storage clauses */
+
+STO_I   constant number := 1;
+STO_R   constant number := 2;
+STO_K   constant number := 3;
+STO_N   constant number := 4;
+STO_P   constant number := 5;
+STO_X   constant number := 6;
+STO_RX  constant number := 7;
+STO_S   constant number := 8;
+STO_BI  constant number := 9;
+STO_SO  constant number := 10;
+STO_M   constant number := 11;
+STO_RT  constant number := 12;
+STO_G   constant number := 13;
+STO_H   constant number := 14;
+STO_A   constant number := 15;
+STO_F   constant number := 16;
+STO_FC  constant number := 17;
+STO_FI  constant number := 18;
+STO_O   constant number := 19;
+STO_Z   constant number := 20;
+STO_SC  constant number := 21;
+STO_D   constant number := 22;
+STO_SN  constant number := 23;
+STO_SNI constant number := 24;
+STO_E   constant number := 25;
+STO_SITG   constant number := 26;
+STO_SR  constant number := 27;
+STO_W   constant number := 28;
+STO_Y   constant number := 29;
+STO_SV  constant number := 30;
+STO_SVI constant number := 31;
+STO_SD  constant number := 32;
+STO_SDI constant number := 33;
+STO_SRW constant number := 34;
+STO_SRI constant number := 35;
+STO_FP  constant number := 36;
+STO_SBF constant number := 37;
+STO_SBFI constant number := 38;
+STO_SBD constant number := 39;
+STO_SBDI constant number := 40;
+STO_ST constant number := 41;
+STO_STI constant number := 42;
+STO_STZ constant number := 43;
+STO_STZI constant number := 44;
+STO_SYM constant number := 45;
+STO_SYMI constant number := 46;
+STO_SDS constant number := 47;
+STO_SDSI constant number := 48;
+STO_XMLSC constant number := 49; /* xml_save_copy */
+STO_XMLFI constant number := 50; /* xml_forward_enable */
+STO_SB constant number := 51; /* single_byte */
+STO_U constant number := 52; /* $U table clause */
+STO_GPAR constant number := 53; /* gtab parallel */
+STO_KG constant number :=54; /* $KG table clause */
+STO_SIAO constant number := 55; /* stage_itab_auto_opt */
+STO_KGI constant number :=56; /* $KG index clause */
+STO_DI constant number := 57; /* $D index clause for context_v2 */
+STO_NI constant number := 58; /* $N index clause for context_v2 */
+STO_KI constant number := 59; /* $K index clause for context_v2 */
+STO_UI constant number := 60; /* $U index clause for context_v2 */
+STO_KD    constant number := 61;                            -- $KD index clause
+STO_KR    constant number := 62;                            -- $KR index clause
+
+PROCEDURE GetIndexStorage(
+  p_idxid    in  number,
+  p_ixpid    in  number,
+  o_clause   in out dr_def.vc500_tab
+);
+
+/*------------------------- GetIndexRecByID  -----------------------------*/
+/* get index meta data as a record */
+
+FUNCTION GetIndexRecByID(
+  p_idxid    in number
+) return dr_def.idx_rec;
+
+/*---------------------------- GetPartitionRec ---------------------------*/
+/* get partition meta data as a record */
+
+FUNCTION GetPartitionRec(
+  p_ixp_name in varchar2, 
+  p_idx      in dr_def.idx_rec
+) return dr_def.ixp_rec;
+
+/*-------------------------- GetPartitionRecByID -------------------------*/
+/* get partition meta data as a record */
+
+FUNCTION GetPartitionRecByID(
+  p_ixpid in number,
+  p_idxid in number
+) return dr_def.ixp_rec;
+
+/*---------------------------- GetPartitionID ---------------------------*/
+/* get partition ID */
+
+FUNCTION GetPartitionID(
+  p_ixp_name in varchar2,
+  p_idxid    in number
+) return number;
+
+/*---------------------------- GetAllPartitionInfo ---------------------------*/
+/* get all partition ids and names */
+
+procedure GetAllPartitionInfo(
+  p_idxid   in number,
+  o_ids     out nocopy dr_def.id_tab,
+  o_names   out nocopy dr_def.vc30_tab
+);
+ 
+/*---------------------------- GetAllPartitions ---------------------------*/
+/* get all partition metadata in a table */
+
+PROCEDURE GetAllPartitions(
+  p_idxid    in number,
+  p_idxtab#  in number,
+  o_ixp      in out nocopy dr_def.ixp_tab
+);
+
+/*---------------------------- GetIndexPartition  -----------------------*/
+/* get dr$index_partition information */
+
+procedure GetIndexPartition(
+  o_id               out number,
+  o_tabpart_dataobj# out number,
+  o_sync_type        out varchar2,
+  o_sync_memory      out number, 
+  o_option           out varchar2,
+  i_cid               in number,
+  i_pname             in varchar2
+);
+
+/*---------------------------- OpenIndexMDScan ----------------------*/
+/* open dr$index_object/dr$index_value cursors */
+
+procedure OpenIndexMDScan(
+  p_idxid           in  number
+);
+
+/*---------------------------- NextIndexObject ---------------------------*/
+/* get next dr$index_object cursor */
+
+function NextIndexObject(
+  o_cla_id          out binary_integer,
+  o_obj_id          out binary_integer,
+  o_acnt            out binary_integer
+) return binary_integer;
+
+/*---------------------------- GetIndexObject ----------------------------*/
+/* get a single object id */
+
+PROCEDURE GetIndexObject(
+  p_idxid           in  number,
+  p_cla_id          in  binary_integer,
+  o_obj_id          out binary_integer,
+  o_acnt            out binary_integer
+);
+
+/*-------------------------- GetAllIndexObjects ----------------------------*/
+/* get the index objects as a table */
+
+PROCEDURE GetAllIndexObjects(
+  p_idxid           in  number,
+  o_objs            in out nocopy dr_def.ixo_tab
+);
+
+/*---------------------------- NextIndexValue ----------------------------*/
+/* get next dr$index_value cursor */
+
+function NextIndexValue(
+  o_cla_id          out binary_integer,
+  o_att_id          out binary_integer,
+  o_datatype        out binary_integer,
+  o_sub_group       out binary_integer,
+  o_sub_att_id      out binary_integer,
+  o_sub_datatype    out binary_integer,
+  o_value           out varchar2
+) return binary_integer;
+
+/*---------------------------- NextIndexCDI ---------------------------*/
+/* get next dr$index_cdi_column cursor */
+
+function NextIndexCDI(
+  o_cdi_pos         out binary_integer,
+  o_cdi_type#       out binary_integer,
+  o_cdi_len         out binary_integer,
+  o_cdi_name        out varchar2,
+  o_cdi_sec         out varchar2,
+  o_cdi_stype       out binary_integer,
+  o_cdi_id          out binary_integer
+) return binary_integer;
+
+/*---------------------------- GetDocidCount -----------------------------*/
+/* get docid count */
+
+function GetDocidCount(
+  p_idxid           in number,
+  p_ixpid           in number default null
+) return number;
+
+/*---------------------------- GetNextid  -----------------------------*/
+/* get next docid */
+
+function GetNextid(
+  p_idxid           in number,
+  p_ixpid           in number default null
+) return number;
+
+/*---------------------------- GetIndexStats -----------------------------*/
+/* get index stats from dr$stats */
+
+procedure GetIndexStats(
+  p_idxid           in number,
+  p_smplsz          in out nocopy number
+);
+
+/*---------------------------- GetBaseTableName --------------------------*/
+/* get base table name */
+
+procedure GetBaseTableName(
+  p_idxid           in number,
+  p_ixpid           in number,
+  o_objname         out varchar2
+);
+
+/*---------------------------- IncrementDocCnt --------------------------*/
+/* increment docid count */
+
+procedure IncrementDocCnt(
+  p_idxid           in number,
+  p_ixpid           in number,
+  p_delta           in number
+);
+
+/*---------------------------- DecrementDocCnt --------------------------*/
+/* decrement docid count */
+
+procedure DecrementDocCnt(
+  p_idxid           in number, 
+  p_ixpid           in number, 
+  p_delta           in number
+);
+
+/*---------------------------- AllocateDocids ---------------------------*/
+/* allocate docids */
+
+procedure AllocateDocids(
+  p_idxid           in  number,
+  p_ixpid           in  number,
+  p_allocsz         in  binary_integer,
+  p_startid         out number
+);
+
+/*---------------------------- SetIndexStatus --------------------------*/
+/* set index status */
+
+  STATE_NO_INDEX       constant varchar2(10) := 'NO_INDEX';
+  STATE_POPULATE       constant varchar2(10) := 'POPULATE';
+  STATE_POPULATE_K     constant varchar2(10) := 'POPULATE_K';
+  STATE_PART_BUILD     constant varchar2(10) := 'PARTBUILD';
+  STATE_INDEXING       constant varchar2(10) := 'INDEXING';
+  STATE_INDEXED        constant varchar2(10) := 'INDEXED';
+  STATE_IMPORT         constant varchar2(10) := 'IMPORT';
+  STATE_POPULATE_P     constant varchar2(10) := 'POPULATE_P';
+
+procedure SetIndexStatus(
+  p_idxid           in  number,
+  p_ixpid           in  number,
+  p_status          in  varchar2,
+  f_commit          in  boolean default TRUE
+);
+
+/*---------------------------- GetIndexStatus  -----------------------*/
+/* get index status */
+
+FUNCTION GetIndexStatus(
+   p_idxid     in  number
+ ) return VARCHAR2;
+
+/*---------------------------- ChangeIndexOption -----------------------*/
+/* modify the index option field */
+
+  OPT_SET    constant number := 0;
+  OPT_ADD    constant number := 1;
+  OPT_REMOVE constant number := 2;
+
+PROCEDURE ChangeIndexOption (
+  p_idxid     in number,
+  p_opt       in varchar2,
+  p_action    in number,
+  p_ixpid     in number default 0 
+);
+
+/*----------------------------- AllocatePartId ---------------------------*/
+/* Allocate index partition id                                            */
+
+FUNCTION AllocatePartId(
+  idxid           in    number
+) return number;
+
+/*----------------------------- CreatePartitionMD  -----------------------*/
+/* set up partition meta-data */
+
+PROCEDURE CreatePartitionMD(
+  p_idxid         in     number,
+  p_ixpid         in out number,
+  p_idx_partition in     varchar2,
+  p_table_owner   in     varchar2,
+  p_table_name    in     varchar2,
+  p_tab_partition in     varchar2,
+  p_storage       in     varchar2,
+  p_sync_type     in out varchar2,
+  p_sync_memory   in out varchar2,
+  p_sync_paradegree  in out number,
+  p_sync_interval    in out varchar2,
+  is_online          in boolean default FALSE,
+  p_sync_dpl         in boolean default FALSE,
+  p_opt_type      in out varchar2,
+  p_opt_interval  in out varchar2,
+  p_opt_paradegree   in out number
+);
+
+/*----------------------------- DropPartitionMD  --------------------------*/
+/* drop partition meta-data */
+
+PROCEDURE DropPartitionMD(
+  p_idxid         in     number,
+  p_ixpid         in     number
+);
+
+/*---------------------------- PurgeKGL ----------------------------------*/
+/* purge KGL metadata cache */
+
+PROCEDURE PurgeKGL(p_idxid in number, ia sys.odciindexinfo,
+                   isPart boolean default FALSE);
+
+PROCEDURE PurgeKGL(p_idx in dr_def.idx_rec);
+
+PROCEDURE PurgeKGL(p_idxid in number, owner in varchar2, 
+                   index_name in varchar2,
+                   other_name in varchar2 default NULL);
+
+/*---------------------------- CreatePolicy ------------------------------*/
+/* create policy */
+
+  IDX_TYPE_CONTEXT     constant number := 0;
+  IDX_TYPE_CTXCAT      constant number := 1;
+  IDX_TYPE_CTXRULE     constant number := 2;
+  IDX_TYPE_CTXXPATH    constant number := 3;
+  IDX_TYPE_CONTEXT2    constant number := 4;
+
+PROCEDURE CreatePolicy(
+    ia               in  sys.ODCIIndexInfo,
+    p_idx_type       in  number,
+    p_idx_owner      in  varchar2,
+    p_idx_name       in  varchar2,
+    p_tab_owner      in  varchar2,
+    p_tab_name       in  varchar2,
+    p_col_name       in  varchar2,
+    p_col_type       in  varchar2,
+    p_lang_col       in  varchar2,
+    p_fmt_col        in  varchar2,
+    p_cset_col       in  varchar2,
+    p_idx_id         out number,
+    p_dstore         in  varchar2 default null,
+    p_filter         in  varchar2 default null,
+    p_secgrp         in  varchar2 default null,
+    p_lexer          in  varchar2 default null,
+    p_wordlist       in  varchar2 default null,
+    p_stoplist       in  varchar2 default null,
+    p_storage        in  varchar2 default null,
+    p_indexset       in  varchar2 default null,
+    p_classifier     in  varchar2 default null,
+    p_txntional      in  varchar2 default null,
+    p_sync_type      in out varchar2, 
+    p_sync_memory    in out varchar2,
+    p_sync_paradegree  in out number,
+    p_sync_interval    in out varchar2,
+    f_partitioned    in  boolean  default FALSE,
+    f_functional     in  boolean  default FALSE,
+    f_online         in  boolean  default FALSE,
+    f_entity_policy  in  boolean  default FALSE,
+    f_tree           in  boolean  default FALSE,
+    p_sync_dpl       in  boolean  default FALSE,
+    p_config_col     in  varchar2 default null,
+    p_async_upd      in  boolean  default null,
+    p_dataguide      in  varchar2 default null,
+    p_search_on      in  varchar2 default null,
+    p_simple         in  number   default driparse.SIMPLE_SYNTAX_NONE,
+    p_opt_type       in  varchar2 default null,
+    p_opt_interval   in  varchar2 default null,
+    p_opt_paradegree in  number   default null,
+    p_no_r           in  boolean  default null
+);
+
+/*---------------------------- CopyPolicy ----------------------------------*/
+/* copy index-level meta-data */
+
+PROCEDURE CopyPolicy(
+    p_source_policy  in varchar2,
+    p_pol_owner      in varchar2,
+    p_pol_name       in varchar2
+);
+
+/*---------------------------- DropPolicy ----------------------------------*/
+/* drop index-level meta-data */
+
+PROCEDURE DropPolicy(
+    p_idxid in number
+);
+
+/*---------------------------- DropUserPolicies ----------------------------*/
+
+PROCEDURE DropUserPolicies(
+  p_username in varchar2 := null
+);
+
+/*----------------------------- ResetIndexIDs  -----------------------------*/
+/* reset owner and table id's during an import */
+
+PROCEDURE ResetIndexIDs (
+    p_idxid     out number,
+    p_owner     in  varchar2,
+    p_idx_name  in  varchar2,
+    p_tab_owner in  varchar2,
+    p_tab_name  in  varchar2,
+    p_ipar_name in  varchar2 default null,
+    p_tab_part  in  varchar2 default null
+);
+
+/*---------------------------- IndexHasPTable ------------------------------*/
+
+FUNCTION IndexHasPTable(
+  p_idxid in number) 
+RETURN boolean;
+
+/*---------------------------- IndexHasSTable ------------------------------*/
+
+FUNCTION IndexHasSTable(
+  p_idxid in number) 
+RETURN boolean;
+
+/*---------------------------- IndexHasSSortTable --------------------------*/
+/* return TRUE if the index has $S* tables, otherwise FALSE */
+FUNCTION IndexHasSSortTable(
+  p_idxid in number)
+RETURN boolean;
+
+/*---------------------------- IndexHasMTable ------------------------------*/
+
+FUNCTION IndexHasMTable(
+  p_idxid in number) 
+RETURN boolean;
+
+/*---------------------------- IndexHasFATables ----------------------------*/
+
+FUNCTION IndexHasFATables(
+  p_idxid in number) 
+RETURN boolean;
+
+/*---------------------------- IndexHasMVDATA ------------------------------*/
+
+FUNCTION IndexHasMVDATA(
+  p_idxid in number) 
+RETURN boolean;
+
+/*---------------------------- IsIndexReadable ------------------------------*/
+
+FUNCTION IsIndexReadable(
+  p_idxid in number, 
+  p_ixpid in number default NULL) 
+RETURN boolean;
+
+/*---------------------------- IndexHasGTable ------------------------------*/
+
+FUNCTION IndexHasGTable(
+  p_idxid in number,
+  p_ixpid in number default NULL) 
+RETURN boolean;
+
+/*---------------------------- IndexHasGMaxRows -----------------------------*/
+
+FUNCTION IndexHasGMaxRows(
+  p_idxid in number,
+  p_ixpid in number default NULL)
+RETURN boolean;
+
+/*---------------------------- IndexHasOTable ------------------------------*/
+
+FUNCTION IndexHasOTable(
+  p_idxid in number) 
+RETURN boolean;
+
+/*---------------------------- IndexHasDTable ------------------------------*/
+
+FUNCTION IndexHasDTable(
+  p_idxid in number) 
+RETURN boolean;
+
+/*---------------------------- IndexHasETable ------------------------------*/
+
+FUNCTION IndexHasETable(
+  p_idxid in number) 
+RETURN boolean;
+
+/*----------------------------- IndexHasKGTable ---------------------------*/
+
+FUNCTION IndexHasKGTable(
+   p_idxid in number)
+RETURN boolean;
+
+/*----------------------- IndexHasFullLengthObjects ------------------------*/
+
+FUNCTION IndexHasFullLengthObjects(
+  p_idx_id in number)
+RETURN boolean;
+
+/*--------------------- ThirtyCharacterNames -------------------------------*/
+FUNCTION ThirtyCharacterNames (p_idx_id in number := null)
+RETURN boolean;
+
+/*-------------------------- IndexHasDataGuide ----------------------------*/
+
+FUNCTION IndexHasDataGuide(
+  p_idxid in number) 
+RETURN boolean;
+
+/*---------------------------- IndexHasIdxValue ----------------------------*/
+/*
+ * NAME:
+ *   IndexHasIdxValue - Index Has value in dr$index_value
+ * ARGUMENTS:
+ *   p_oat_cla_id [IN] - Object Attribute Class ID
+ *   p_oat_obj_id [IN] - Object Attribute Object ID
+ *   p_oat_name   [IN] - Object Attribute Name
+ *   p_idxid      [IN] - Index ID
+ *   p_ixpid      [IN] - Index Partition ID (optional)
+ * DESCRIPTION:
+ *   Checks if the given index or index partition have a specific preference
+ *   recorded in dr$index_value. That is, check if there is a row in
+ *   dr$index_value that matches OAT_ID for the preference
+ *   (class_id, object_id, attr_name). For example, the call:
+ *
+ *   drixmd.IndexHasIdxValue(DRIOBJ.CLASS_STORAGE, DRIOBJ.OBJ_BASIC_STORAGE,
+ *                           'STAGE_ITAB', p_idxid);
+ *
+ *   Will check if a row for STAGE_ITAB (90113) has been recorded in
+ *   dr$index_value for the index whose ID is given by <p_idxid>.
+ */
+FUNCTION IndexHasIdxValue(
+  p_oat_cla_id  in number,
+  p_oat_obj_id  in number,
+  p_oat_name    in varchar2,
+  p_idxid       in number,
+  p_ixpid       in number default 0)
+RETURN boolean;
+
+/*----------------------  CheckIndexesForExchange --------------------------*/
+/* ensure that a global index and an index partition are compatible for */
+/* exchange partition operation */
+
+PROCEDURE CheckIndexesForExchange(
+  p_idxp     in dr_def.idx_rec,
+  p_idxn     in dr_def.idx_rec,
+  p_idxpid   in number,
+  is_compart in boolean default FALSE
+);
+
+/*--------------------------- ExchangeIndexMD ---------------------------*/
+/* exchange meta data */
+
+procedure ExchangeIndexMD(
+  p_idxn   in dr_def.idx_rec,
+  p_idxpid in number,
+  p_ixpp   in dr_def.ixp_rec
+);
+
+/*------------------------- ExchangeIndexPartMD -------------------------*/
+/* exchange meta data between partitions */
+
+procedure ExchangeIndexPartMD(
+  p_idxid1  in number,
+  p_ixpp1   in dr_def.ixp_rec,
+  p_idxid2  in number,
+  p_ixpp2   in dr_def.ixp_rec
+);
+
+/*--------------------------- RenameIndex -------------------------------*/
+/* rename an index */
+
+procedure RenameIndex(
+  p_idxid   in number,
+  p_ixpid   in number,
+  p_newname in varchar2
+);
+
+/*--------------------------- RenameIndexCol ----------------------------*/
+/* rename index column */
+
+procedure RenameIndexCol(
+  p_idxid   in number,
+  p_newname in varchar2
+);
+
+/*--------------------------- RenameIndexTab ----------------------------*/
+/* rename base table */
+
+procedure RenameIndexTab(
+  p_idxid   in number,
+  owner     in varchar2,
+  p_newname in varchar2
+);
+
+/*--------------------------- GetAllPartitionIDs ------------------------*/
+/* get all partition id's */
+
+procedure GetAllPartitionIDs(
+  p_idxid   in number,
+  o_ids     out nocopy dr_def.id_tab
+);
+
+/*--------------------------- GetAllPartitionOPTs ------------------------*/
+/* get all partition option's */
+
+procedure GetAllPartitionOPTs(
+  p_idxid   in number,
+  o_opts    out nocopy dr_def.vc256_tab
+);
+
+/*--------------------------- GetAllPartitionNMs ------------------------*/
+/* get all index partition names */
+
+procedure GetAllPartitionNMs(
+  p_idxid   in number,
+  o_names   out nocopy dr_def.vc30_tab
+);
+
+/*--------------------------- SetIndexMD --------------------------------*/
+/* change a field of index meta-data */
+
+  MDF_LANGCOL constant number := 0;
+  MDF_FMTCOL  constant number := 1;
+  MDF_CSETCOL constant number := 2;
+  MDF_CONFIGCOL constant number := 3;
+  MDF_NEXTID  constant number := 4;
+  MDF_SYNC_TYPE        constant  number := 5;
+  MDF_SYNC_MEMSIZE     constant  number := 6;
+  MDF_SYNC_PARADEGREE  constant  number := 7;
+  MDF_SYNC_INTERVAL    constant  number := 8;
+  MDF_OPT_TYPE         constant  number := 9;
+  MDF_OPT_INTERVAL     constant  number := 10;
+  MDF_OPT_PARADEGREE   constant  number := 11;
+
+procedure SetIndexMD(
+  p_idxid   in number,
+  p_ixpid   in number,
+  p_field   in binary_integer,
+  p_newval  in varchar2,
+  f_commit  in boolean default TRUE
+);
+
+/*--------------------------- CreateSQE ----------------------------------*/
+/* create a new SQE (should be in its own package, like drisgp or drispl, */
+/* but this is only two procedures)                                       */
+
+procedure CreateSQE(
+  p_sqe   in varchar2
+ ,p_query in clob
+ ,p_duration in number
+);
+
+/*--------------------------- DropSQE -----------------------------------*/
+/* drop SQE */
+
+procedure DropSQE(
+  p_sqe   in varchar2
+);
+
+/*--------------------------- DropUserSQEs ---------------------------------*/
+/* Drop SQE's owned by a user, or all unreferenced SQEs if p_username is    */
+/* null                                                                     */
+
+procedure DropUserSQEs(
+  p_username in varchar2 := null
+);
+
+
+/*--------------------------- GetSysParam ----------------------------------*/
+/* get value of system parameter (should be in something like driadm, but */
+/* this is only one procedure... */
+
+function GetSysParam (
+  p_param in varchar2
+) return varchar2;
+
+/*---------------------------- RecordJob ----------------------------------*/
+/*record the job name in dr$index                                          */
+
+procedure RecordJob (
+  idxid     in  number,
+  ixpid     in  number default null,
+  jobname   in  varchar2 
+);
+
+/*---------------------------- RemoveJob ----------------------------------*/
+/*remove job name from dr$index or dr$index_partition                      */
+
+procedure RemoveJob (
+  idxid     in  number,
+  ixpid     in  number default null,
+  jobname   in  varchar2
+);
+
+/*--------------------------- GetJob ------------------------------------*/
+/* Remove the job                                                         */
+function GetJob (
+  idxid    in number,
+  ixpid    in number default NULL
+) return varchar2;
+
+/*--------------------------- SetSyncAttr-------------------------------*/
+procedure SetSyncAttr(
+  idxid   in number,
+  ixpid   in number,
+  sync_type       in varchar2,
+  sync_memory     in varchar2,
+  sync_paradegree in number,
+  sync_interval   in varchar2,
+  opt_type        in varchar2 default NULL,
+  opt_interval    in varchar2 default NULL,
+  opt_paradegree  in number   default NULL
+);
+
+/*--------------------------- GetSyncAttr-------------------------------*/
+procedure GetSyncAttr(
+  idxid           in  number,
+  ixpid           in  number default null,
+  sync_type       out varchar2,
+  sync_memory     out varchar2,
+  sync_paradegree out number,
+  sync_interval   out varchar2,
+  sync_jobname    out varchar2,
+  opt_type        out varchar2,
+  opt_interval    out varchar2,
+  opt_paradegree  out number 
+);
+
+/*---------------------- CheckIndexForOraCon  -----------------------------*/
+/*compare a policy and index and determine if they are close enough        */
+
+function CheckIndexForOraCon (
+  p_idxid   in  number,
+  p_polid   in  number
+) return number;
+
+
+/*---------------------- OraConRewriteChk  -----------------------------*/
+/* Checks to see if a Text index and Text query qualifies for           */
+/* Ora:Contains() query rewrite.                                        */
+
+function OraConRewriteChk (
+  p_idxname   in  varchar2,
+  p_idxown    in  varchar2,
+  p_polname   in  varchar2,
+  p_polown    in  varchar2,
+  p_qry       in  varchar2
+) return boolean;
+
+
+/*---------------------- IndexHasPendingRows  --------------------------*/
+/* Checks to see if a Text index currently has pending rows             */
+
+function IndexHasPendingRows (
+  p_idxid in number) 
+return boolean;
+
+/*---------------------- GetMVFlag -------------------------------------*/
+/*  checkto see if index is on Materialized view                        */
+
+procedure GetMVFlag(
+  table_id     in number,
+  owner_name   in varchar2,
+  opt          out binary_integer
+);
+
+/*---------------------------- CopyIndexMDRIO ---------------------------*/
+/* copy index meta-data for Recreate Index Online */
+
+PROCEDURE CopyIndexMDRIO(
+    p_src  in dr_def.idx_rec,
+    p_dst  in out nocopy dr_def.idx_rec,
+    p_create  in boolean
+);
+
+PROCEDURE CopyPartMDRIO(
+    ixp    in dr_def.ixp_rec,
+    idx    in dr_def.idx_rec,
+    p_create  in boolean
+);
+
+/*---------------------------- GetAllCDIColumns ---------------------------*/
+
+PROCEDURE GetAllCDIColumns(
+  p_idxid in number,
+  o_cdi   in out nocopy dr_def.cdi_tab
+);
+
+/*---------------------------- UpdateSDATA ---------------------------*/
+
+PROCEDURE UpdateSDATA(
+  p_idxid    in number,
+  p_ixpid    in number,
+  p_docid    in number,
+  p_sdata_id in number,
+  p_dtype    in varchar2,
+  p_nval     in sys.anydata
+);
+
+/*---------------------------- ChkIndexOption -----------------------------*/
+/* 
+  Take in index id, and an option letter (see drdmlop() for a list of 
+  options), return 1 if the given option is set, 0 otherwise.
+*/
+function ChkIndexOption (
+  p_idxid  in number,
+  p_opt    in varchar2
+) return number;
+
+/*---------------------------- SelectUserAnlDictLob-----------------------------*/
+/*
+  Take index id and dictionary language as input and return user supplied
+  dictionary lob to be used by ATG auto lexer
+*/
+function SelectUserAnlDictLob(
+  p_idxid  in number,
+  p_dictlang in varchar2
+) return clob;
+
+/*--------------------------- CompareIndexObjectValuesPref -----------------*/
+/*
+ * compare the attribute values of a single class between an index and a
+ * preference name. return the actual differences in a table of type ixo_tab
+*/
+
+procedure CompareIndexObjectValuesPref(
+  p_idxid in number,
+  p_pref  in varchar2,
+  p_cla_id in number,
+  diffs   in out dr_def.ixv_tab
+);
+
+/*--------------------------- RemoveStageItab ------------------------------*/
+/* remove stage_itab from dr$index_value without modifying storage pref */
+procedure RemoveStageItab(
+  p_idxid in number,
+  p_ixpid in number default 0
+);
+
+/*--------------------------- AddStageItab ---------------------------------*/
+/* add stage_itab from dr$index_value without modifying storage pref */
+procedure AddStageItab(
+  p_idxid   in number,
+  p_ixpid   in number default 0,
+  is_create in boolean default FALSE
+);
+
+/*--------------------------- GetFieldFid ---------------------------------*/
+/* Given a field section name and tag, find its FID */
+procedure GetFieldFid(
+  idxid in number,
+  fld_name in varchar2,
+  fld_tag in varchar2,
+  fldfid out number);
+
+/*--------------------------- RemZoneFromMD -------------------------------*/
+/* Given an Index ID remove Zone sections from Index Metadata */
+procedure RemZoneFromMD(
+  idxid in number,
+  zone_name in varchar2,
+  zone_tag in varchar2);
+
+/*--------------------------- check_auto_optimize --------------------------*/
+/* is this index subject to auto_optimize */
+CheckAutoOptimizeOK      constant number := 0;
+CheckAutoOptimizeDisable constant number := 1;
+CheckAutoOptimizeRunning constant number := 2;
+CheckAutoOptimizeNotReg  constant number := 3;
+CheckAutoOptimizeConcOpt constant number := 4;
+
+function check_auto_optimize(p_idx in dr_def.idx_rec, 
+                             p_ixp in dr_def.ixp_rec,
+                             p_override in boolean default false)
+return number;
+
+/*-------------------------- auto_optimize_on --------------------------*/
+/* check if auto_opt is on for this index or partition  */
+
+procedure auto_optimize_on(p_idx in number,
+                           p_ixp in number,
+                           auto in out boolean);
+
+/*--------------------------- start_auto_optimize --------------------------*/
+/* start an auto_optimize job */
+procedure start_auto_optimize;
+
+/*--------------------------- stop_auto_optimize ---------------------------*/
+/* forcibly stop an auto_optimize job */
+procedure stop_auto_optimize;
+
+/*--------------------------- run_auto_optimize ---------------------------*/
+/* actually run an auto_optimize job */
+procedure run_auto_optimize;
+
+/*--------------------------- add_auto_optimize ----------------------------*/
+/* add an auto optimize index / partition */
+procedure add_auto_optimize(p_idx in dr_def.idx_rec, 
+                            p_ixp in dr_def.ixp_rec);
+
+/*--------------------------- remove_auto_optimize -------------------------*/
+/* remove an auto optimize index / partition */
+procedure remove_auto_optimize(p_idxid in number,
+                               p_partname in varchar2 default null,
+                               err_when_missing in boolean default FALSE);
+
+/*--------------------------- reset_auto_optimize_status -------------------*/
+/* reset the autoopt_status table */
+procedure reset_auto_optimize_status;
+
+/*--------------------------- autoopt_push_token --------------------------*/
+/* autoopt_push_token - push a token to autooptimize */
+procedure autoopt_push_token(p_message in raw);
+
+/*--------------------------- autoopt_pop_token ----------------------------*/
+/* autoopt_pop_token - pop a token for autooptimize */
+procedure autoopt_pop_token(p_ret out number,
+                            p_message out raw);
+
+/*--------------------------- autoopt_cre_pipe -----------------------------*/
+/* autoopt_cre_pipe - create a private pipe for autooptimize */
+procedure autoopt_cre_pipe(p_ret out number);
+
+/*--------------------------- TxnalGetKey --------------------------------*/
+/* Return the key if it has been set.  Use second parameter to test if it
+ * has not been set                                                       */
+
+procedure TxnalGetKey(
+  p_key in out raw
+);
+
+/*--------------------------- TxnalSetKey --------------------------------*/
+/* Set the key.  Set flag                                                 */
+
+procedure TxnalSetKey(
+  p_key in raw
+);
+
+/*--------------------------- GetMultiblockReadCount -----------------------*/
+function GetMultiblockReadCount return number;
+
+/*------------------------ GetSLXMdataSecID ------------------------------*/
+/* Get section id/token type for DR$ML MDATA section, doc level lexer     */
+
+FUNCTION GetSLXMdataSecID(
+  idxid in number
+) return number;
+
+/*--------------------------- isSES ----------------------------------------*/
+/* This function checks whether we are running as SES */
+FUNCTION isSES return boolean;
+
+PROCEDURE GetAllSDATASecs(
+  idxid     in number,
+  sdata_secs in out dr_def.sec_tab
+);
+
+/*--------------------------- partid_to_partname -----------------------*/
+/* Fetch partition name, given partition id and index id */
+
+FUNCTION partid_to_partname(
+  partid    in number, 
+  idxid     in number
+) RETURN varchar2;
+
+/* 14175174: ------------- SubstringEnabled ------------------------*/
+FUNCTION SubstringEnabled(p_idxid in number) RETURN number;
+
+-- In sync with drn.h
+I_TRANSIT_DEFAULT         constant number := 0; /* for not simplified syntax */
+I_TRANSIT_NONE            constant number := 1;
+I_TRANSIT_NONE_TO_PARTIAL constant number := 2;
+I_TRANSIT_NONE_TO_FULL    constant number := 3;
+I_TRANSIT_PART_TO_FULL    constant number := 4;
+I_TRANSIT_CREATEOP        constant number := 9;
+
+S_TRANSIT_DEFAULT         constant number := 0;
+S_TRANSIT_NONE            constant number := 1;
+S_TRANSIT_NONE_TO_FULL    constant number := 2;
+S_TRANSIT_CREATEOP        constant number := 9;
+ 
+DG_TRANSIT_DEFAULT        constant number := 0;
+DG_TRANSIT_NONE           constant number := 1;
+DG_TRANSIT_NONE_TO_FULL   constant number := 2;
+DG_TRANSIT_FULL_TO_NONE   constant number := 3;
+DG_TRANSIT_METADATA_ONLY  constant number := 4;
+DG_TRANSIT_CREATEOP       constant number := 9;
+
+/* ---------------------- GetSSCurrentMetadata ---------------------*/
+/* Get current index metadata */
+FUNCTION GetSSCurrentMetadata(p_idxid in number) RETURN drixmd.ss_metadata;
+
+/* ---------------------- getTransitionInfo ------------------------*/
+/* Get transition string relevant for simplified syntax ALTER INDEX */
+PROCEDURE getTransitionInfo(current_state in drixmd.ss_metadata,
+                            dataguide     in varchar2,
+                            search_on     in varchar2,
+                            transition    in out number);
+
+/* ---------------------- setTransitionInfo ------------------------*/
+/* Set transition info relevant for simplified syntax ALTER INDEX */
+PROCEDURE setTransitionInfo(ia         in  sys.ODCIIndexInfo,
+                            idxid      in number,
+                            state      in drixmd.ss_metadata,
+                            dataguide  in varchar2,
+                            search_on  in varchar2,
+                            transition in varchar2);
+
+/*--------------------------GetAllPartitionNames---------------------*/
+/* Get the names of all partitions of base table                     */
+FUNCTION GetAllPartitionNames(
+  p_owner varchar2, 
+  p_table_name varchar2,
+  sharded boolean default FALSE
+) RETURN clob;
+
+/*------------------------- ObjectIsSharded -------------------------*/
+/* Check if index is a sharded object                                */
+FUNCTION ObjectIsSharded(
+  p_owner varchar2,
+  p_obj_name varchar2
+) RETURN boolean;
+
+/*-------------------------- IsShardCatalog -------------------------*/
+/* Check if current instance is the shard catalog instance           */
+FUNCTION IsShardCatalog
+RETURN boolean;
+
+/*--------------------------GetIndexTypeName---------------------*/
+/* Get the name of index type                                    */
+FUNCTION GetIndexTypeName(
+  p_owner varchar2,
+  p_index_name varchar2
+) RETURN varchar2;
+
+/*--------------------------GetIndexTableName---------------------*/
+/* Get the name of index table
+*/
+FUNCTION GetIndexTableName(
+  p_owner varchar2,
+  p_index_name varchar2
+) RETURN varchar2;
+
+
+/*------------------------- TablePartIsSubpart ----------------------*/
+/* Checks if partition name is actually a subpartition name */
+FUNCTION TablePartIsSubpart(
+  t_owner in varchar2,
+  t_name  in varchar2,
+  p_name  in varchar2
+) RETURN BOOLEAN;
+
+/*--------------------------- add_bg_optimize ----------------------------*/
+/* add a background job of optimize index / partition under ctxsys */
+procedure add_bg_optimize(p_idx         in dr_def.idx_rec,
+                          p_ixp_name    in varchar2,
+                          p_optlevel    in varchar2,
+                          p_para_degree in number,    -- parallel degree
+                          p_repeat_interval in varchar2,
+                          p_logfile     in varchar2 default null,
+                          p_events      in number default null
+);
+
+/*--------------------------- run_bg_optimize ----------------------------*/
+/* run background job of optimize index / partition under ctxsys */
+procedure run_bg_optimize(p_idx_name    in varchar2,
+                          p_idx_ownerid in number,
+                          p_idx_owner   in varchar2,
+                          p_ixp_name    in varchar2,
+                          p_opt_level   in varchar2,
+                          p_para_degree in number,
+                          p_logfile     in varchar2,
+                          p_events      in varchar2
+);
+
+/*--------------------------- drop_bg_optimize ----------------------------*/
+-- drop background jobs and programs of optimize index/partition
+procedure drop_bg_optimize(p_idx_id     in number,
+                           p_idx_name   in varchar2,
+                           p_ixp_id     in number default null,
+                           p_optlevel    in varchar2 default null
+);
+
+/*--------------------------- add_dictionary ----------------------------*/
+PROCEDURE ADD_DICTIONARY(name     in VARCHAR2,
+                         language in VARCHAR2,
+                         dictionary  in CLOB);
+
+/*--------------------------- drop_dictionary ----------------------------*/
+PROCEDURE DROP_DICTIONARY(name in VARCHAR2);
+
+/*------------------------- drop_all_dictionary --------------------------*/
+PROCEDURE DROP_ALL_DICTIONARY(owner in number);
+
+/*------------------------- rem_user_anl_dict ----------------------------*/
+PROCEDURE rem_user_anl_dict (p_idxid in NUMBER);
+
+/*------------------------- copy_user_anl_dict -------------------------- */
+PROCEDURE COPY_USER_ANL_DICT(p_idx_id in NUMBER,
+                             lv_pref  in dr_def.pref_rec);
+procedure enable_query_stats( indexname in varchar2);
+
+procedure disable_query_stats( indexname in varchar2);
+
+/*---------------------------------- insert_index ------------------------*/
+PROCEDURE insert_index(
+   p_idx_type        IN  number,
+   p_idx_owner_id    IN  number,
+   p_idx_name        IN  varchar2,
+   p_tab_owner_id    IN  number,
+   p_obj_id          IN  number,
+   p_idx_key_name    IN  varchar2,
+   p_idx_key_type    IN  varchar2,
+   p_idx_text_name   IN  varchar2,
+   p_idx_text_type   IN  varchar2,
+   p_idx_text_length IN  varchar2,
+   p_idx_docid_count IN  varchar2,
+   p_idx_status      IN  varchar2,
+   p_idx_version     IN  varchar2,
+   p_idx_nextid      IN  varchar2,
+   p_idx_langcol     in  varchar2,
+   p_idx_fmtcol      in  varchar2,
+   p_idx_csetcol     in  varchar2,
+   p_idx_configcol   in  varchar2,
+   p_idx_option      in  varchar2,
+   p_idx_sync_type   in  varchar2,
+   p_idx_sync_memory      in varchar2,
+   p_idx_sync_para_degree in number,
+   p_idx_sync_interval    in varchar2,
+   p_idx_auto_opt_type        in varchar2,
+   p_idx_auto_opt_interval    in varchar2,
+   p_idx_auto_opt_para_degree in number
+
+) accessible by (ctxsys.driimp); 
+
+/*------------------------------ insert_partition -------------------------*/
+PROCEDURE insert_partition(
+     p_ixp_id    IN number,
+     p_ixp_name  IN varchar2,
+     p_table_part#      IN number,
+     p_ixp_docid_count  IN number,
+     p_ixp_status       IN varchar2,
+     p_ixp_nextid       IN number,
+     p_ixp_opt_token    IN varchar2,
+     p_ixp_opt_type     IN number,
+     p_ixp_opt_count    IN number,
+     p_ixp_sync_type    IN varchar2,
+     p_ixp_sync_memory  IN varchar2,
+     p_ixp_sync_para_degree  IN number,
+     p_ixp_sync_interval     IN varchar2,
+     p_ixp_auto_opt_type     IN varchar2,
+     p_ixp_auto_opt_interval IN varchar2,
+     p_ixp_auto_opt_para_degree IN number
+) accessible by (ctxsys.driimp);
+
+/*------------------------------ insert_object ----------------------------*/
+PROCEDURE insert_object(
+      p_cla_name  IN  varchar2,
+      p_obj_name  IN  varchar2,
+      p_acnt      IN  varchar2
+) accessible by (ctxsys.driimp);
+
+/*-------------------------- insert_value --------------------------*/
+PROCEDURE insert_value(
+  p_att_name   IN  varchar2,
+  p_att_value  IN  varchar2
+) accessible by (ctxsys.driimp);
+
+/*-------------------------- insert_sub_value ----------------------------*/
+PROCEDURE insert_sub_value(
+  p_att_name   IN   varchar2,
+  p_sub_group  IN   number,
+  p_sub_obj    IN   varchar2,
+  p_sub_att    IN   varchar2,
+  p_sub_value  IN   varchar2
+) accessible by (ctxsys.driimp);
+
+/*-------------------------- insert_pending ----------------------------*/
+PROCEDURE insert_pending(
+  p_pid    IN   number,
+  p_rowid  IN   rowid
+) accessible by (ctxsys.driimp);
+
+/*-------------------------- insert_cdicol ----------------------------*/
+PROCEDURE insert_cdicol(
+  p_cdi_column_position    IN   number,
+  p_cdi_column_name        IN   varchar2,
+  p_cdi_column_type        IN   varchar2,
+  p_cdi_column_type#       IN   number,
+  p_cdi_column_length      IN   number,
+  p_cdi_section_name       IN   varchar2,
+  p_cdi_section_type       IN   number,
+  p_cdi_section_id         IN   number,
+  p_cdi_sort_order         IN   varchar2
+) accessible by (ctxsys.driimp);
+
+/*-------------------------- insert_user_extract_rule ----------------------*/
+PROCEDURE insert_user_extract_rule(
+  p_erl_rule_id     IN  number,
+  p_erl_language    IN  varchar2,
+  p_erl_rule        IN  varchar2,
+  p_erl_modifier    IN  varchar2,
+  p_erl_type        IN  varchar2,
+  p_erl_status      IN  number,
+  p_erl_comments    IN  varchar2
+) accessible by (ctxsys.driimp);
+
+/*---------------------------- GetTableSharing  -----------------------------*/
+/* get sharing property of base table */
+
+FUNCTION GetTableSharing(
+  base_table in varchar2,
+  base_owner in varchar2
+) return varchar2 accessible by (ctxsys.drvxtab);
+
+end drixmd;
+/
+
+@?/rdbms/admin/sqlsessend.sql

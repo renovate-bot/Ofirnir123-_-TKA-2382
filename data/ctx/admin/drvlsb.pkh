@@ -1,0 +1,936 @@
+rem
+rem Copyright (c) 2002, 2018, Oracle and/or its affiliates. 
+rem All rights reserved.
+rem  NAME
+rem    drvlsb.pkh - DR Logical Standby Support package spec.
+rem
+rem
+rem 
+rem  BEGIN SQL_FILE_METADATA
+rem    SQL_SOURCE_FILE: ctx_src_2/src/dr/admin/drvlsb.pkh
+rem    SQL_SHIPPED_FILE: ctx/admin/drvlsb.pkh
+rem    SQL_PHASE: DRVLSB_PKH
+rem    SQL_STARTUP_MODE: NORMAL
+rem    SQL_IGNORABLE_ERRORS: NONE
+rem    SQL_CALLING_FILE: ctx/admin/ctxpkh.sql
+rem  END SQL_FILE_METADATA
+rem
+
+create or replace package drvlsb authid current_user as
+
+/* value of maxtime_unlimited should be same as that present in dr0ddl */
+MAXTIME_UNLIMITED               constant number := 2147483647;
+
+/* global values copied from dr0ddl.pkh */ 
+LOCK_WAIT         constant number := 0;
+LOCK_NOWAIT       constant number := 1;
+LOCK_NOWAIT_ERROR constant number := 2;
+
+/*------------------------- create_preference_c ---------------------------*/
+procedure create_preference_c(
+  preference_name  in varchar2,
+  object_name      in varchar2,
+  preference_implicit_commit in boolean);
+PRAGMA SUPPLEMENTAL_LOG_DATA(create_preference_c, AUTO_WITH_COMMIT);
+
+/*------------------------- create_preference_nc --------------------------*/
+procedure create_preference_nc(
+  preference_name  in varchar2,
+  object_name      in varchar2,
+  preference_implicit_commit in boolean);
+PRAGMA SUPPLEMENTAL_LOG_DATA(create_preference_nc, AUTO);
+
+/*-------------------------- drop_preference_c ---------------------------*/
+procedure drop_preference_c(
+  preference_name  in varchar2,
+  preference_implicit_commit in boolean);
+PRAGMA SUPPLEMENTAL_LOG_DATA(drop_preference_c, AUTO_WITH_COMMIT);
+
+/*-------------------------- drop_preference_nc ---------------------------*/
+procedure drop_preference_nc(
+  preference_name  in varchar2,
+  preference_implicit_commit in boolean);
+PRAGMA SUPPLEMENTAL_LOG_DATA(drop_preference_nc, AUTO);
+
+/*---------------------------- set_attribute ----------------------------*/
+procedure set_attribute_c(
+  preference_name         in varchar2,
+  attribute_name          in varchar2,
+  attribute_value         in varchar2,
+  preference_implicit_commit in boolean
+); 
+PRAGMA SUPPLEMENTAL_LOG_DATA(set_attribute_c, AUTO_WITH_COMMIT);
+
+procedure set_attribute_nc(
+  preference_name         in varchar2,
+  attribute_name          in varchar2,
+  attribute_value         in varchar2,
+  preference_implicit_commit in boolean
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(set_attribute_nc, AUTO);
+
+/*-------------------------- unset_attribute ----------------------------*/
+procedure unset_attribute_c(
+  preference_name in  varchar2,
+  attribute_name  in  varchar2,
+  preference_implicit_commit in boolean
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(unset_attribute_c, AUTO_WITH_COMMIT);
+
+procedure unset_attribute_nc(
+  preference_name in  varchar2,
+  attribute_name  in  varchar2,
+  preference_implicit_commit in boolean
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(unset_attribute_nc, AUTO);
+
+/*-------------------- create_section_group  ---------------------------*/
+PROCEDURE create_section_group_c(
+  group_name     in    varchar2
+, group_type     in    varchar2
+, preference_implicit_commit in boolean
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(create_section_group_c, AUTO_WITH_COMMIT);
+
+PROCEDURE create_section_group_nc(
+  group_name     in    varchar2
+, group_type     in    varchar2
+, preference_implicit_commit in boolean
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(create_section_group_nc, AUTO);
+
+/*-------------------- drop_section_group  ---------------------------*/
+PROCEDURE drop_section_group_c(
+  group_name     in    varchar2
+, preference_implicit_commit in boolean 
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(drop_section_group_c, AUTO_WITH_COMMIT);
+
+PROCEDURE drop_section_group_nc(
+  group_name     in    varchar2
+, preference_implicit_commit in boolean
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(drop_section_group_nc, AUTO);
+
+/*-------------------- add_zone_section  ---------------------------*/
+PROCEDURE add_zone_section_c(
+  group_name     in    varchar2,
+  section_name   in    varchar2,
+  tag            in    varchar2,
+  preference_implicit_commit in boolean
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(add_zone_section_c, AUTO_WITH_COMMIT);
+
+PROCEDURE add_zone_section_nc(
+  group_name     in    varchar2,
+  section_name   in    varchar2,
+  tag            in    varchar2,
+  preference_implicit_commit in boolean
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(add_zone_section_nc, AUTO);
+
+/*-------------------- add_field_section  -------------------------*/
+PROCEDURE add_field_section_c(
+  group_name     in    varchar2,
+  section_name   in    varchar2,
+  tag            in    varchar2,
+  visible        in    boolean default FALSE,
+  preference_implicit_commit in boolean
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(add_field_section_c, AUTO_WITH_COMMIT);
+
+PROCEDURE add_field_section_nc(
+  group_name     in    varchar2,
+  section_name   in    varchar2,
+  tag            in    varchar2,
+  visible        in    boolean default FALSE,
+  preference_implicit_commit in boolean
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(add_field_section_nc, AUTO);
+
+/*-------------------- add_special_section  -------------------------*/
+PROCEDURE add_special_section_c(
+  group_name     in    varchar2,
+  section_name   in    varchar2,
+  preference_implicit_commit in boolean
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(add_special_section_c, AUTO_WITH_COMMIT);
+
+PROCEDURE add_special_section_nc(
+  group_name     in    varchar2,
+  section_name   in    varchar2,
+  preference_implicit_commit in boolean
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(add_special_section_nc, AUTO);
+
+/*-------------------- add_stop_section  -----------------------------*/
+PROCEDURE add_stop_section_c(
+  group_name     in    varchar2
+, tag            in    varchar2
+, preference_implicit_commit in boolean
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(add_stop_section_c, AUTO_WITH_COMMIT);
+
+PROCEDURE add_stop_section_nc(
+  group_name     in    varchar2
+, tag            in    varchar2
+, preference_implicit_commit in boolean
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(add_stop_section_nc, AUTO);
+
+/*-------------------- add_attr_section  -----------------------------*/
+PROCEDURE add_attr_section_c(
+  group_name     in    varchar2
+, section_name   in    varchar2
+, tag            in    varchar2
+, preference_implicit_commit in boolean
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(add_attr_section_c, AUTO_WITH_COMMIT);
+
+PROCEDURE add_attr_section_nc(
+  group_name     in    varchar2
+, section_name   in    varchar2
+, tag            in    varchar2
+, preference_implicit_commit in boolean
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(add_attr_section_nc, AUTO);
+
+/*-------------------- add_xml_section  -----------------------------*/
+PROCEDURE add_xml_section_c(
+  group_name     in    varchar2
+, tag            in    varchar2
+, preference_implicit_commit in boolean
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(add_xml_section_c, AUTO_WITH_COMMIT);
+
+PROCEDURE add_xml_section_nc(
+  group_name     in    varchar2
+, tag            in    varchar2
+, preference_implicit_commit in boolean
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(add_xml_section_nc, AUTO);
+
+/*-------------------- add_mdata_section  -----------------------------*/
+PROCEDURE add_mdata_section_c(
+  group_name     in    varchar2,
+  section_name   in    varchar2,
+  tag            in    varchar2,
+  read_only      in    boolean default FALSE,
+  preference_implicit_commit in boolean
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(add_mdata_section_c, AUTO_WITH_COMMIT);
+
+PROCEDURE add_mdata_section_nc(
+  group_name     in    varchar2,
+  section_name   in    varchar2,
+  tag            in    varchar2,
+  read_only      in    boolean default FALSE,
+  preference_implicit_commit in boolean
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(add_mdata_section_nc, AUTO);
+
+/*-------------------- add_ndata_section  -----------------------------*/
+PROCEDURE add_ndata_section_c(
+  group_name     in    varchar2,
+  section_name   in    varchar2,
+  tag            in    varchar2,
+  preference_implicit_commit in boolean
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(add_ndata_section_c, AUTO_WITH_COMMIT);
+
+PROCEDURE add_ndata_section_nc(
+  group_name     in    varchar2,
+  section_name   in    varchar2,
+  tag            in    varchar2,
+  preference_implicit_commit in boolean
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(add_ndata_section_nc, AUTO);
+
+/*-------------------- add_mvdata_section  -----------------------------*/
+PROCEDURE add_mvdata_section_c(
+  group_name     in    varchar2,
+  section_name   in    varchar2,
+  tag            in    varchar2,
+  datatype       in    varchar2 default NULL,
+  preference_implicit_commit in boolean
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(add_mvdata_section_c, AUTO_WITH_COMMIT);
+
+PROCEDURE add_mvdata_section_nc(
+  group_name     in    varchar2,
+  section_name   in    varchar2,
+  tag            in    varchar2,
+  datatype       in    varchar2 default NULL,
+  preference_implicit_commit in boolean
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(add_mvdata_section_nc, AUTO);
+
+/*-------------------- add_sdata_section  -----------------------------*/
+PROCEDURE add_sdata_section_c(
+  group_name     in    varchar2,
+  section_name   in    varchar2,
+  tag            in    varchar2,
+  datatype       in    varchar2 default NULL,
+  preference_implicit_commit in boolean
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(add_sdata_section_c, AUTO_WITH_COMMIT);
+
+PROCEDURE add_sdata_section_nc(
+  group_name     in    varchar2,
+  section_name   in    varchar2,
+  tag            in    varchar2,
+  datatype       in    varchar2 default NULL,
+  preference_implicit_commit in boolean
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(add_sdata_section_nc, AUTO);
+
+/*-------------------- add_sdata_column  -----------------------------*/
+
+PROCEDURE add_sdata_column_c(
+  group_name     in    varchar2,
+  section_name   in    varchar2,
+  column_name    in    varchar2,
+  preference_implicit_commit in boolean
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(add_sdata_column_c, AUTO_WITH_COMMIT);
+
+PROCEDURE add_sdata_column_nc(
+  group_name     in    varchar2,
+  section_name   in    varchar2,
+  column_name    in    varchar2, 
+  preference_implicit_commit in boolean
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(add_sdata_column_nc, AUTO);
+
+PROCEDURE add_mdata_column_c(
+  group_name     in    varchar2,
+  section_name   in    varchar2,
+  column_name    in    varchar2,
+  preference_implicit_commit in boolean
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(add_mdata_column_c, AUTO_WITH_COMMIT);
+
+PROCEDURE add_mdata_column_nc(
+  group_name     in    varchar2,
+  section_name   in    varchar2,
+  column_name    in    varchar2,
+  preference_implicit_commit in boolean 
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(add_mdata_column_nc, AUTO);
+
+/*-------------------- remove_section ---------------------------*/
+
+PROCEDURE remove_section_c(
+  group_name    in    varchar2,
+  section_name  in    varchar2,
+  preference_implicit_commit in boolean
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(remove_section_c, AUTO_WITH_COMMIT);
+
+PROCEDURE remove_section_nc(
+  group_name    in    varchar2,
+  section_name  in    varchar2, 
+  preference_implicit_commit in boolean
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(remove_section_nc, AUTO);
+
+PROCEDURE remove_section_c(
+  group_name     in    varchar2,
+  section_id     in    number,
+  preference_implicit_commit in boolean
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(remove_section_c, AUTO_WITH_COMMIT);
+
+PROCEDURE remove_section_nc(
+  group_name     in    varchar2,
+  section_id     in    number,
+  preference_implicit_commit in boolean
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(remove_section_nc, AUTO);
+
+/*-------------------- create_stoplist --------------------------*/
+
+PROCEDURE create_stoplist_c(
+  stoplist_name  in   varchar2,
+  stoplist_type  in   varchar2 default 'BASIC_STOPLIST',
+  preference_implicit_commit in boolean
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(create_stoplist_c, AUTO_WITH_COMMIT);
+
+PROCEDURE create_stoplist_nc(
+  stoplist_name  in   varchar2,
+  stoplist_type  in   varchar2 default 'BASIC_STOPLIST',
+  preference_implicit_commit in boolean
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(create_stoplist_nc, AUTO);
+
+/*-------------------- drop_stoplist --------------------------*/
+
+PROCEDURE drop_stoplist_c(
+  stoplist_name  in   varchar2,
+  preference_implicit_commit in boolean
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(drop_stoplist_c, AUTO_WITH_COMMIT);
+
+PROCEDURE drop_stoplist_nc(
+  stoplist_name  in   varchar2,
+  preference_implicit_commit in boolean
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(drop_stoplist_nc, AUTO);
+
+/*-------------------- add_stopword --------------------------*/
+
+PROCEDURE add_stopword_c(
+  stoplist_name  in   varchar2,
+  stopword       in   varchar2,
+  language       in   varchar2 default NULL,
+  language_dependent in boolean default TRUE,
+  preference_implicit_commit in boolean
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(add_stopword_c, AUTO_WITH_COMMIT);
+
+PROCEDURE add_stopword_nc(
+  stoplist_name  in   varchar2,
+  stopword       in   varchar2,
+  language       in   varchar2 default NULL,
+  language_dependent in boolean default TRUE,
+  preference_implicit_commit in boolean
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(add_stopword_nc, AUTO);
+
+/*-------------------- add_stoptheme --------------------------*/
+
+PROCEDURE add_stoptheme_c(
+  stoplist_name  in   varchar2,
+  stoptheme      in   varchar2,
+  preference_implicit_commit in boolean
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(add_stoptheme_c, AUTO_WITH_COMMIT);
+
+PROCEDURE add_stoptheme_nc(
+  stoplist_name  in   varchar2,
+  stoptheme      in   varchar2,
+  preference_implicit_commit in boolean
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(add_stoptheme_nc, AUTO);
+
+/*-------------------- add_stopclass --------------------------*/
+
+PROCEDURE add_stopclass_c(
+  stoplist_name  in   varchar2,
+  stopclass      in   varchar2,
+  stoppattern    in   varchar2 default NULL,
+  preference_implicit_commit in boolean
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(add_stopclass_c, AUTO_WITH_COMMIT);
+
+PROCEDURE add_stopclass_nc(
+  stoplist_name  in   varchar2,
+  stopclass      in   varchar2,
+  stoppattern    in   varchar2 default NULL,
+  preference_implicit_commit in boolean
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(add_stopclass_nc, AUTO);
+
+/*-------------------- add_index ---------------------------*/
+
+PROCEDURE add_index_c(
+  set_name       in    varchar2,
+  column_list    in    varchar2,
+  storage_clause in    varchar2 default null,
+  preference_implicit_commit in boolean
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(add_index_c, AUTO_WITH_COMMIT);
+
+PROCEDURE add_index_nc(
+  set_name       in    varchar2,
+  column_list    in    varchar2,
+  storage_clause in    varchar2 default null,
+  preference_implicit_commit in boolean
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(add_index_nc, AUTO);
+
+/*-------------------- create_index_set ---------------------------*/
+
+PROCEDURE create_index_set_c(
+  set_name     in    varchar2,
+  preference_implicit_commit in boolean
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(create_index_set_c, AUTO_WITH_COMMIT);
+
+PROCEDURE create_index_set_nc(
+  set_name     in    varchar2,
+  preference_implicit_commit in boolean
+); 
+PRAGMA SUPPLEMENTAL_LOG_DATA(create_index_set_nc, AUTO);
+
+/*-------------------- remove_index ---------------------------*/
+PROCEDURE remove_index_c(
+  set_name       in    varchar2,
+  column_list    in    varchar2,
+  preference_implicit_commit in boolean
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(remove_index_c, AUTO_WITH_COMMIT);
+
+PROCEDURE remove_index_nc(
+  set_name       in    varchar2,
+  column_list    in    varchar2,
+  preference_implicit_commit in boolean
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(remove_index_nc, AUTO);
+
+/*-------------------- add_sub_lexer ---------------------------*/
+
+PROCEDURE add_sub_lexer_c(
+  lexer_name     in   varchar2,
+  language       in   varchar2,
+  sub_lexer      in   varchar2,
+  alt_value      in   varchar2 default NULL,
+  language_dependent in boolean default TRUE,
+  preference_implicit_commit in boolean
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(add_sub_lexer_c, AUTO_WITH_COMMIT);
+
+PROCEDURE add_sub_lexer_nc(
+  lexer_name     in   varchar2,
+  language       in   varchar2,
+  sub_lexer      in   varchar2,
+  alt_value      in   varchar2 default NULL,
+  language_dependent in boolean default TRUE,
+  preference_implicit_commit in boolean
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(add_sub_lexer_nc, AUTO);
+
+/*-------------------- remove_sub_lexer ---------------------------*/
+
+PROCEDURE remove_sub_lexer_c(
+  lexer_name     in   varchar2,
+  language       in   varchar2,
+  preference_implicit_commit in boolean
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(remove_sub_lexer_c, AUTO_WITH_COMMIT);
+
+PROCEDURE remove_sub_lexer_nc(
+  lexer_name     in   varchar2,
+  language       in   varchar2,
+  preference_implicit_commit in boolean
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(remove_sub_lexer_nc, AUTO);
+
+/*-------------------- update_sub_lexer ---------------------------*/
+
+PROCEDURE update_sub_lexer_c(
+  lexer_name     in   varchar2,
+  language       in   varchar2,
+  sub_lexer      in   varchar2,
+  preference_implicit_commit in boolean
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(update_sub_lexer_c, AUTO_WITH_COMMIT);
+
+PROCEDURE update_sub_lexer_nc(
+  lexer_name     in   varchar2,
+  language       in   varchar2,
+  sub_lexer      in   varchar2,
+  preference_implicit_commit in boolean
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(update_sub_lexer_nc, AUTO);
+
+/*-------------------- update_sub_lexer ---------------------------*/
+
+procedure set_section_attribute_c(group_name      in varchar2,
+                                  section_name    in varchar2,
+                                  attribute_name  in varchar2,
+                                  attribute_value in varchar2,
+                                  preference_implicit_commit in boolean);
+PRAGMA SUPPLEMENTAL_LOG_DATA(set_section_attribute_c, AUTO_WITH_COMMIT);
+
+procedure set_section_attribute_nc(group_name      in varchar2,
+                                  section_name    in varchar2,
+                                  attribute_name  in varchar2,
+                                  attribute_value in varchar2,
+                                  preference_implicit_commit in boolean);
+PRAGMA SUPPLEMENTAL_LOG_DATA(set_section_attribute_nc, AUTO);
+
+/*-------------------------- unset_section_attribute -----------------------*/
+procedure unset_section_attribute_c(group_name      in varchar2,
+                                    section_name    in varchar2,
+                                    attribute_name  in varchar2,
+                                    preference_implicit_commit in boolean);
+PRAGMA SUPPLEMENTAL_LOG_DATA(unset_section_attribute_c, AUTO_WITH_COMMIT);
+
+procedure unset_section_attribute_nc(group_name      in varchar2,
+                                    section_name    in varchar2,
+                                    attribute_name  in varchar2,
+                                    preference_implicit_commit in boolean);
+PRAGMA SUPPLEMENTAL_LOG_DATA(unset_section_attribute_nc, AUTO);
+
+/* hard procedures with rowid argument */
+
+/*-------------------------- add_mdata ---------------------------*/
+PROCEDURE add_mdata(
+  idx_name        in  varchar2,
+  section_name    in  varchar2,
+  mdata_value     in  varchar2,
+  mdata_pkencode  in  varchar2,
+  part_name       in  varchar2  default null
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(add_mdata, AUTO);
+
+PROCEDURE add_mdata(
+  idx_name        in varchar2,
+  section_name    in varchar2,
+  mdata_values    in sys.odcivarchar2list,
+  mdata_pkencodes in sys.odcivarchar2list,
+  part_name     in varchar2  default null
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(add_mdata, AUTO);
+
+/*-------------------------- remove_mdata ---------------------------*/
+PROCEDURE remove_mdata(
+  idx_name        in varchar2,
+  section_name    in varchar2,
+  mdata_value     in varchar2,
+  mdata_pkencode  in varchar2,
+  part_name       in varchar2  default null
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(remove_mdata, AUTO);
+
+PROCEDURE remove_mdata(
+  idx_name        in varchar2,
+  section_name    in varchar2,
+  mdata_values    in sys.odcivarchar2list,
+  mdata_pkencodes in sys.odcivarchar2list,
+  part_name     in varchar2  default null
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(remove_mdata, AUTO);
+
+/*---------------------- insert_mvdata_values ------------------------------*/
+PROCEDURE insert_mvdata_values(
+   idx_name           in varchar2           default NULL,
+   section_name       in varchar2           default NULL,
+   mvdata_values      in sys.odcinumberlist,
+   mvdata_pkencodes   in sys.odcivarchar2list,
+   part_name          in varchar2           default NULL
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(insert_mvdata_values, AUTO);
+
+/*---------------------- delete_mvdata_values ------------------------------*/
+PROCEDURE delete_mvdata_values(
+   idx_name           in varchar2           default NULL,
+   section_name       in varchar2           default NULL,
+   mvdata_values      in sys.odcinumberlist,
+   mvdata_pkencodes   in sys.odcivarchar2list,
+   part_name          in varchar2           default NULL
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(delete_mvdata_values, AUTO);
+
+
+/*---------------------- add_sdata ------------------------------*/
+/* has anydata */
+PROCEDURE add_sdata(
+  idx_name      in varchar2,
+  section_name  in varchar2,
+  sdata_value   in sys.anydata,
+  sdata_rowid   in rowid,
+  part_name     in varchar2  default null
+);
+
+/*---------------------- remove_sdata ------------------------------*/
+/* has anydata */
+PROCEDURE remove_sdata(
+  idx_name      in varchar2,
+  section_name  in varchar2,
+  sdata_value   in sys.anydata,
+  sdata_rowid   in rowid,
+  part_name     in varchar2  default null
+);
+
+/*---------------------- update_mvdata_set ------------------------------*/
+PROCEDURE update_mvdata_set(
+  idx_name        in varchar2           default NULL,
+  section_name    in varchar2           default NULL,
+  mvdata_values   in sys.odcinumberlist,
+  mvdata_pkencodes in sys.odcivarchar2list,
+  part_name       in varchar2           default NULL
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(update_mvdata_set, AUTO);
+
+/*---------------------- update_sdata ------------------------------*/
+PROCEDURE update_sdata(
+  idx_name      in varchar2,
+  section_name  in varchar2,
+  sdata_value   in sys.anydata,
+  sdata_pkencode in rowid,
+  part_name     in varchar2 default NULL
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(update_sdata, AUTO);
+
+/*--------------------------- populate_pending ----------------------------*/
+PROCEDURE populate_pending(
+  idx_name      in varchar2,
+  part_name     in varchar2,
+  rio           in boolean,
+  idx_suffix    in varchar2
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(populate_pending, AUTO);
+
+/*------------------------- recreate_index_online ------------------------*/
+PROCEDURE recreate_index_online(
+  idx_name         in varchar2,
+  parameter_string in varchar2, 
+  parallel_degree  in number, 
+  partition_name   in varchar2,
+  rio           in boolean,
+  idx_suffix    in varchar2
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(recreate_index_online, AUTO);
+
+/*----------------------- create_shadow_index ---------------------*/
+PROCEDURE create_shadow_index(
+  idx_name      in varchar2,
+  parameter_string in varchar2, 
+  parallel_degree  in number,
+  rio           in boolean,
+  idx_suffix    in varchar2
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(create_shadow_index, AUTO);
+
+/*----------------------- exchange_shadow_index ---------------------*/
+PROCEDURE exchange_shadow_index(
+  idx_name       in varchar2,
+  partition_name in varchar2,
+  rio           in boolean,
+  idx_suffix    in varchar2
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(exchange_shadow_index, AUTO);
+
+/*----------------------- drop_shadow_index ---------------------*/
+procedure drop_shadow_index(
+  idx_name   varchar2,
+  rio           in boolean,
+  idx_suffix    in varchar2
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(drop_shadow_index, AUTO);
+
+/*--------------------------- sync_index ----------------------------*/
+PROCEDURE sync_index(
+  idx_name        in  varchar2,
+  memory          in  varchar2,
+  part_name       in  varchar2,
+  parallel_degree in  number,
+  maxtime         in  number,
+  locking         in  number,
+  direct_path     in  boolean,
+  rio             in  boolean,
+  idx_suffix      in  varchar2
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(sync_index, AUTO);
+
+/*--------------------------- optimize_index ----------------------------*/
+PROCEDURE optimize_index(
+  idx_name   in  varchar2,
+  optlevel   in  varchar2,
+  maxtime    in  number,
+  token      in  varchar2, 
+  part_name  in  varchar2,
+  token_type in  number, 
+  parallel_degree in number,
+  memory     in  varchar2,
+  background in  boolean,
+  rio             in  boolean,
+  idx_suffix      in  varchar2,
+  maxtokens  in  number default null,
+  section_type in number default null
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(optimize_index, AUTO);
+
+/*----------------------------- filter ----------------------------------*/
+PROCEDURE filter (
+  index_name     in varchar2,
+  textkey        in varchar2,
+  restab         in varchar2,
+  query_id       in number    default 0,
+  plaintext      in boolean   default FALSE,
+  use_saved_copy in number
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(filter, AUTO);
+
+/*----------------------------- gist -----------------------------------*/
+PROCEDURE gist (
+  index_name     in varchar2,
+  textkey        in varchar2,
+  restab         in varchar2,
+  query_id       in number   default 0,
+  glevel         in varchar2 default 'P',
+  pov            in varchar2 default null,
+  numParagraphs  in number   default null,
+  maxPercent     in number   default null,
+  num_themes     in number   default 50,
+  use_saved_copy in number
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(gist, AUTO);
+
+/*----------------------------- markup -----------------------------------*/
+PROCEDURE markup (
+  index_name     in varchar2,
+  textkey        in varchar2,
+  text_query     in varchar2,
+  restab         in varchar2,
+  query_id       in number    default 0,
+  plaintext      in boolean   default FALSE,
+  tagset         in varchar2  default 'TEXT_DEFAULT',
+  starttag       in varchar2  default null,
+  endtag         in varchar2  default null,
+  prevtag        in varchar2  default null,
+  nexttag        in varchar2  default null,
+  use_saved_copy in number
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(markup, AUTO);
+
+/*----------------------------- tokens -----------------------------------*/
+PROCEDURE tokens (
+  index_name     in varchar2,
+  textkey        in varchar2,
+  restab         in varchar2,
+  query_id       in number default 0,
+  use_saved_copy in number default 0,
+  thes_name      in varchar2 default NULL,
+  thes_toktype   in varchar2 default 'SYN'
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(tokens, AUTO);
+
+/*----------------------------- themes -----------------------------------*/
+PROCEDURE themes (
+   index_name    in varchar2,
+   textkey       in varchar2,
+   restab        in varchar2,
+   query_id      in number   default 0,
+   full_themes   in boolean  default false,
+   num_themes    in number   default 50,
+   use_saved_copy in number,
+   pv_reslob      in out nocopy clob
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(themes, AUTO);
+
+/*----------------------------- highlight -----------------------------------*/
+PROCEDURE highlight (
+  index_name     in varchar2,
+  textkey        in varchar2,
+  text_query     in varchar2,
+  restab         in varchar2,
+  query_id       in number    default 0,
+  plaintext      in boolean   default FALSE,
+  use_saved_copy in number, 
+  pv_reslob     in out nocopy clob
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(highlight, AUTO);
+
+/*--------------------------- markup_clob_query -----------------------------*/
+PROCEDURE markup_clob_query (
+  index_name       in varchar2,
+  textkey          in varchar2,
+  text_query       in clob,
+  restab           in varchar2,
+  query_id         in number    default 0,
+  plaintext        in boolean   default FALSE,
+  tagset           in varchar2  default 'TEXT_DEFAULT',
+  starttag         in varchar2  default null,
+  endtag           in varchar2  default null,
+  prevtag          in varchar2  default null,
+  nexttag          in varchar2  default null,
+  use_saved_copy in number 
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(markup_clob_query, AUTO);
+
+/*------------------------- highlight_clob_query --------------------------*/
+PROCEDURE highlight_clob_query (
+  index_name       in varchar2,
+  textkey          in varchar2,
+  text_query       in clob,
+  restab           in varchar2,
+  query_id         in number    default 0,
+  plaintext        in boolean   default FALSE,
+  use_saved_copy in number, 
+  pv_reslob      in out nocopy clob  
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(highlight_clob_query, AUTO);
+
+/*----------------------- add_dictionary -----------------------*/
+PROCEDURE add_dictionary_c(name                       in VARCHAR2,
+                           language                   in VARCHAR2,
+                           dictionary                 in CLOB,
+                           preference_implicit_commit in boolean);
+PRAGMA SUPPLEMENTAL_LOG_DATA(add_dictionary_c, AUTO_WITH_COMMIT);
+
+PROCEDURE add_dictionary_nc(name                       in VARCHAR2,
+                            language                   in VARCHAR2,
+                            dictionary                 in CLOB,
+                            preference_implicit_commit in boolean);
+PRAGMA SUPPLEMENTAL_LOG_DATA(add_dictionary_nc, AUTO);
+
+/*----------------------- drop_dictionary ----------------------*/
+PROCEDURE drop_dictionary_c(name                       in VARCHAR2,
+                            preference_implicit_commit in boolean);
+PRAGMA SUPPLEMENTAL_LOG_DATA(drop_dictionary_c, AUTO_WITH_COMMIT);
+
+PROCEDURE drop_dictionary_nc(name                       in VARCHAR2,
+                             preference_implicit_commit in boolean);
+PRAGMA SUPPLEMENTAL_LOG_DATA(drop_dictionary_nc, AUTO);
+
+/*-------------------------- set_sec_grp_attr -------------------*/
+procedure set_sec_grp_attr_c(group_name      in varchar2,
+                             attribute_name  in varchar2,
+                             attribute_value in varchar2);
+PRAGMA SUPPLEMENTAL_LOG_DATA(set_sec_grp_attr_c, AUTO_WITH_COMMIT);
+
+procedure set_sec_grp_attr_nc(group_name      in varchar2,
+                              attribute_name  in varchar2,
+                              attribute_value in varchar2);
+PRAGMA SUPPLEMENTAL_LOG_DATA(set_sec_grp_attr_nc, AUTO);
+
+/*---------------------- add_sec_grp_attr_val -------------------*/
+procedure add_sec_grp_attr_val_c(group_name      in varchar2,
+                                 attribute_name  in varchar2,
+                                 attribute_value in varchar2);
+PRAGMA SUPPLEMENTAL_LOG_DATA(add_sec_grp_attr_val_c, AUTO_WITH_COMMIT);
+
+procedure add_sec_grp_attr_val_nc(group_name      in varchar2,
+                                  attribute_name  in varchar2,
+                                  attribute_value in varchar2);
+PRAGMA SUPPLEMENTAL_LOG_DATA(add_sec_grp_attr_val_nc, AUTO);
+
+/* helper functions */
+
+/*------------------------- pk_exists --------------------------*/
+FUNCTION pk_exists(
+  idx_name   in varchar2
+) return boolean;
+
+/*------------------------- get_pkencode --------------------------*/
+PROCEDURE get_pkencode(
+  idx_name    in  varchar2,
+  rid         in  rowid,
+  pk_encode   in out varchar2
+);
+
+/*--------------------------sentiment------------------------------*/
+PROCEDURE sentiment (
+  index_name     in varchar2,
+  textkey        in varchar2,
+  topic          in varchar2,
+  restab         in varchar2,
+  ttype          in varchar2,
+  clsfier_name   in varchar2,
+  radius         in number,
+  max_inst       in number,
+  starttag       in varchar2,
+  endtag         in varchar2,
+  use_saved_copy in number,
+  pv_reslob      in out nocopy clob
+);
+end drvlsb;
+/
+
+
+
+

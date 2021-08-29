@@ -1,0 +1,36 @@
+@@?/rdbms/admin/sqlsessstart.sql
+create or replace package body drierr wrapped 
+a000000
+1
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+b
+603 33b
+pit/PjzVoHSU4Jyx8cSQTBwL02gwgzvDDCAFfHQZKvmUeo5LsjA18WEdKwtbMeDDa8JdocAT
+bs8xy5iLiiwk8mFOEdY4+8VXwFkJz88slac9llnKw0C77rHucrtq+3UMEQ08d4Xabd1XeDSn
+IEcnJuk8o9JTTsoqkGWeWECwLEsBlzhBWpymEURkRzxyR0jCMhyg3vGnoQLmJwnr78R8mAhy
+BEYU68t5uB6yU+26QHVzjndVNStkmU14QqBEng579cj3UDKNTt+GYWpjZ5qMDdQzsns1ZT6n
+UR6EFCa4w0N8dKjGOHXPEHGAD/+2Z47WQdcnDZdO8f/KjZK+Pg8ojK37XBvuEPo1WHFlkS3f
+pwzXUh/VR331BQy8t+TYFmZZvy4CYeP8qfqZuXI9gvaMNVn8m+R+yDboHfc7AVE43XsgoN5Z
+wSMgWJ/YMyV9tkPBZ1ISH4Kk+oURKFglZKmlmgzg/wPokCLGVq4s+9eI+ibUZqlyWMYGwyt/
+H8icqHKDIfDSRkPi1N9dYMJ4/Hp8d6o8kEV8CdPP0mDQy2X+XsylG8DhcFj1WskAxs2bUWRg
+6BnHzPkTxfok1tjU9G3rsw7x7DEQrg6MBHN81TyZU9wprPw4kJuOKyb6MMdtCHNi1CjEBCT5
+nFLxhG4iUuVuVV2x/wpsCGNfb1zEYh/7aUWuhfi9A4ZLkmDXwGFKzf1MJQSY3+Bm0ulG37kT
+U5rGc6i50C3H3Kj695sr31h4EOPamFrqmt5jhkO1uGPQ7T88Bj7EBvZ7dICaasgi+70G6b4Z
+0PFegDlE12DTiQ/54fIySP0=
+
+/
+@?/rdbms/admin/sqlsessend.sql

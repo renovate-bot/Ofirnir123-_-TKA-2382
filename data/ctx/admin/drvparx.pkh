@@ -1,0 +1,134 @@
+Rem
+Rem Copyright (c) 1998, 2018, Oracle and/or its affiliates. 
+Rem All rights reserved.
+Rem  NAME
+Rem    drvparx.pkh - DR cartridge PARallel indeX services
+Rem  DESCRIPTION
+Rem
+Rem  RETURNS
+Rem
+Rem    NOTES
+Rem
+Rem 
+Rem  BEGIN SQL_FILE_METADATA
+Rem    SQL_SOURCE_FILE: ctx_src_2/src/dr/admin/drvparx.pkh
+Rem    SQL_SHIPPED_FILE: ctx/admin/drvparx.pkh
+Rem    SQL_PHASE: DRVPARX_PKH
+Rem    SQL_STARTUP_MODE: NORMAL
+Rem    SQL_IGNORABLE_ERRORS: NONE
+Rem    SQL_CALLING_FILE: ctx/admin/ctxpkh.sql
+Rem  END SQL_FILE_METADATA
+Rem
+Rem    MODIFIED   (MM/DD/YY)
+Rem     snetrava   06/14/18  - Bug 28102835: NONE LOG PRAGMA
+Rem     snetrava   06/21/17  - Bug 26313456 Parallel $KG Optimize
+Rem     rpalakod   05/24/10  - Bug 9354204
+Rem     rkadwe     04/15/10  - XbranchMerge rkadwe_bug-9561799 from
+Rem                            st_ctx_11.1.2.2
+Rem     rkadwe     04/13/10  - IndexMapLanguages as index owner
+Rem     rpalakod   03/02/10  - bug 9439697
+Rem     surman     01/03/07  - 5738539: Change to index owner for parallel sync
+Rem     ehuang     10/24/03  - tracing 
+Rem     gkaminag   03/06/03  - switch user on opt if needed
+Rem     smuralid   12/20/02  - PX support
+Rem     smuralid   12/03/02  - add drvparx package
+Rem     gkaminag   07/02/02  - gkaminag_misc_020702
+Rem     gkaminag   06/01/02 -  migrate from driddlp
+Rem     yucheng    10/12/01 -  parallel sync
+Rem     yucheng    09/26/01 -  parallel support
+Rem     yucheng    08/23/01 -  creation
+
+@@?/rdbms/admin/sqlsessstart.sql
+
+-- public types for mapping documents
+drop type dr$mapdoc_t force;
+create or replace type dr$mapdoc_t as object(
+  map_docid number, 
+  map_data  varchar2(4000)
+);
+/
+
+drop type dr$mapdoc_set_t force;
+create or replace type dr$mapdoc_set_t as table of dr$mapdoc_t;
+/
+
+create or replace package drvparx authid current_user is
+
+   PRAGMA SUPPLEMENTAL_LOG_DATA(default, NONE);
+
+   FUNCTION ParallelPopuIndex(
+     cur        SYS_REFCURSOR, 
+     idxownid   number,
+     idxid      number,
+     idxo       varchar2, 
+     idxn       varchar2,
+     idxp       varchar2,
+     idxpopstate dr$popindex_state_t) 
+       return sys.odcivarchar2list
+      parallel_enable(partition cur by any) pipelined;
+
+   FUNCTION IndexOptimizeParFn(
+     crsr         in drvddl.popcurtyp,
+     idxownid     in number,
+     idxowner     in varchar2,
+     idxname      in varchar2,
+     ixpname      in varchar2,
+     shadow_itab  in varchar2,
+     nextid       in number,
+     optstate     in dr$optim_state_t,
+     section_type in number default 0
+   ) return sys.odcivarchar2list
+     pipelined parallel_enable (partition crsr BY HASH(num));
+
+   FUNCTION TraceGetTrace return dr$trc_tab;
+   FUNCTION FilterCacheGetStats(
+     idx_id    number,
+     idx_ownid number,
+     idx_owner varchar2,
+     idx_name  varchar2,
+     ixp_name  varchar2
+    ) return number;
+
+  function GetFilterCacheSize     return number;
+  function GetFilterCacheEntries  return number;
+  function GetFilterCacheRequests return number;
+  function GetFilterCacheHits     return number;
+
+  procedure SetFilterCacheSize(stat in number);
+  procedure SetFilterCacheEntries(stat in number);
+  procedure SetFilterCacheRequests(stat in number);
+  procedure SetFilterCacheHits(stat in number);
+
+/*------------- Mapping Attributes into Existing Documents -----------------*/
+
+type map_rec_t is record(map_docid number, map_data drvutl.dr_extrabuf);
+type map_typ_cur is ref cursor return map_rec_t;
+
+-- process input documents as mdata
+MAP_DOC_MODE_MDATA constant number := 0;
+
+/* Main Mapping function */
+function IndexMapDocuments(
+    crsr     in drvparx.map_typ_cur,
+    ownid    in number,
+    owner    in varchar2,
+    idxname  in varchar2,
+    partname in varchar2,
+    flags    in binary_integer,
+    sectyp   in binary_integer
+) return dr$mapdoc_set_t
+  pipelined 
+  order crsr by (map_docid)
+  parallel_enable (partition crsr by range(map_docid));
+
+/* Create sublex tokens given language column */
+function CreateSublexTokens(
+  crsr   in drvparx.map_typ_cur
+) return dr$mapdoc_set_t
+  pipelined
+  parallel_enable (partition crsr by any);
+
+end drvparx;
+/
+
+@?/rdbms/admin/sqlsessend.sql

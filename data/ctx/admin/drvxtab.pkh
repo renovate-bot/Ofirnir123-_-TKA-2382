@@ -1,0 +1,417 @@
+rem Copyright (c) 2002, 2018, Oracle and/or its affiliates. 
+rem All rights reserved.
+rem
+rem    NAME
+rem      drvxtab.pkh - DR inVoker's rights indeX TABle access routines
+rem
+rem    DESCRIPTION
+rem      DDL operations on index tables -- mainly called by drvddl
+rem   
+rem    NOTES
+rem  
+rem 
+rem    BEGIN SQL_FILE_METADATA
+rem      SQL_SOURCE_FILE: ctx_src_2/src/dr/admin/drvxtab.pkh
+rem      SQL_SHIPPED_FILE: ctx/admin/drvxtab.pkh
+rem      SQL_PHASE: DRVXTAB_PKH
+rem      SQL_STARTUP_MODE: NORMAL
+rem      SQL_IGNORABLE_ERRORS: NONE
+rem      SQL_CALLING_FILE: ctx/admin/ctxpkh.sql
+rem    END SQL_FILE_METADATA
+rem
+rem    MODIFIED    (MM/DD/YY)
+Rem     snetrava   06/14/18  - Bug 28102835: NONE LOG PRAGMA
+rem    pkosaraj     05/10/18 - Bug 26733519: sharding move chunk 
+rem    snetrava     04/10/18 - Bug 27883882 sharing param to get_create_sql
+rem    demukhin     09/15/17 - bug 26561772: create $R constraint during sync
+rem    rodfuent     09/12/17 - Bug 26614837: Place V2 partitions in correct tbs
+rem    rodfuent     08/14/17 - Bug 26682132: make DDL statements be CLOB type
+rem    demukhin     06/20/17 - bug 26051570: keep $R for legacy indexes
+rem    rodfuent     11/03/16 - Bug 25028151: composite partitioning for ctx_v2
+rem    shorwitz     10/17/16 - Bug 24476613: error during $I/shadow swap
+rem    surman       12/09/15 - 22097228: Thirty character names
+rem    hxzhang      09/24/15 - exchange partition for context_v2
+rem    hxzhang      09/15/15 - bug#21804525,added rename_index_table_partitions
+rem    surman       07/27/15 - 20952246: Use max_name_length
+rem    hxzhang      07/17/15 - system managed partiton for CONTEXT_V2
+rem    boxia        09/15/14 - Bug 19346827: modify sdata table creation funcs
+rem    boxia        08/14/14 - Bug 18795228: add constants of $S* tab names
+rem    shuroy       05/28/14 - Bug 9548538: Parallel Index Create
+rem    aczarlin     07/11/13 - bug 17078402 alter index resume
+rem    surman       05/07/13 - 16288550: Restore populate_ptable
+rem    gauryada     03/21/12 - Partition specific stage_itab enhancements
+rem    rpalakod     09/03/11 - Range postings
+rem    surman       03/21/11 - 11893360: Add char_semantics
+rem    rkadwe       12/31/10 - Btree Backed SDATA
+rem    igeller      06/02/10 - Removing extra arguments and adding
+rem                            drop_FA_tables
+rem    nenarkhe     09/17/09 - $A and $F
+rem    surman       06/02/09 - 8323978: Remove create_index_triggers
+rem    surman       05/30/09 - 8323978: populate_ptable for ctxcat indexes
+rem    surman       05/11/09 - 8323978: No triggers on $I or $G
+rem    surman       05/04/09 - 8453385: Turn part events on
+rem    rpalakod     03/30/09 - Backport rpalakod_bug-8344603 from main
+rem    rpalakod     03/20/09 - Bug 8344603: stage_itab + substring index
+rem    rpalakod     03/16/09 - XbranchMerge rpalakod_separate_offsets_phase2
+rem                            from main
+rem    rpalakod     03/03/09 - separate_offsets_phase2
+rem    rpalakod     02/19/09 - create_empty_gtab
+rem    rkadwe       02/17/09 - Alter Index Add SDATA Section
+rem    ymatsuda     09/06/07 - deferred $p table creation
+rem    yucheng      01/12/06 - recreate index online partition 
+rem    yucheng      10/25/05 - recreate index online phase2 
+rem    surman       09/19/05 - 4417924: Remove exec_ddl 
+rem    gkaminag     08/23/05 - part event handling 
+rem    smuralid     03/06/03 - more utilities
+rem    gkaminag     06/19/02 - gkaminag_security_ph1_020603
+rem    gkaminag     06/03/02 - creation
+
+@@?/rdbms/admin/sqlsessstart.sql
+
+create or replace package drvxtab authid current_user as
+
+  PRAGMA SUPPLEMENTAL_LOG_DATA(default, NONE);
+
+  DEFAULT_SEPARATOR       constant varchar2(1) := '$';
+  TMP1_SEPARATOR          constant varchar2(1) := 'M';
+  TMP2_SEPARATOR          constant varchar2(1) := 'N';
+
+  -- Constants for $S* table names 
+  TAB_SN                  constant number := 1;
+  TAB_SV                  constant number := 2;
+  TAB_SD                  constant number := 4;
+  TAB_SR                  constant number := 8;
+  TAB_SBF                 constant number := 16;
+  TAB_SBD                 constant number := 32;
+  TAB_ST                  constant number := 64;
+  TAB_STZ                 constant number := 128;
+  TAB_SIYM                constant number := 256;
+  TAB_SIDS                constant number := 512;
+  
+  -- please change this number if you add/remove table names above
+  NUM_SX_TABS             constant number := 10;
+
+PROCEDURE part_events_off;
+PROCEDURE part_events_on;
+
+/* ====================================================================== */
+/* ====================================================================== */
+/*                             CONTEXT                                    */
+/* ====================================================================== */
+/* ====================================================================== */
+
+/*------------------------- create_a_table --------------------------------*/
+PROCEDURE create_a_table(
+  idx_owner in varchar2,
+  idx_name  in varchar2,
+  idx       in dr_def.idx_rec 
+);
+
+/*------------------------- create_f_table --------------------------------*/
+PROCEDURE create_f_table(
+  idx_owner in varchar2,
+  idx_name  in varchar2,
+  idx       in dr_def.idx_rec 
+);
+
+/*---------------------------- create_s_tables -----------------------------*/
+/* create $S & $S* tables by calling create_s_sort_table() and 
+ * create_s_search_table() */
+PROCEDURE create_s_tables(
+  idx       in dr_def.idx_rec,
+  part_id   in number default null,
+  sep       in varchar2,
+  part      in boolean default FALSE,
+  shadow    in boolean default FALSE,
+  opt_for   in number  default DRISGP.SDATA_OPT_FOR_SORT_AND_SEARCH,
+  p_new_tab_type in number default null,
+  p_simplesyntax in boolean default FALSE,
+  sysPart  in boolean default FALSE,
+  sharded  in boolean default FALSE
+);
+
+/*------------------------- create_s_sort_table ----------------------------*/
+/* create $S table */
+PROCEDURE create_s_sort_table(
+  idx       in dr_def.idx_rec,
+  part_id   in number default null,
+  sep       in varchar2,
+  part      in boolean default FALSE,
+  shadow    in boolean default FALSE,
+  sysPart  in boolean default FALSE,
+  sharded  in boolean default FALSE
+);
+
+/*---------------------- create_s_search_tables --------------------------*/
+/* create $S* tables */
+PROCEDURE create_s_search_tables(
+  p_idx          in dr_def.idx_rec,
+  p_part_id      in number default null,
+  p_sep          in varchar2,
+  p_part         in boolean default FALSE,
+  p_shadow       in boolean default FALSE,
+  p_new_tab_type in number default null,
+  p_simplesyntax in boolean default FALSE,
+  sysPart  in boolean default FALSE,
+  sharded  in boolean default FALSE
+);
+
+/*---------------------- part_create_s_tables -----------------------------*/
+PROCEDURE part_create_s_tables(
+  idx            in dr_def.idx_rec,
+  opt_for        in number default DRISGP.SDATA_OPT_FOR_SORT_AND_SEARCH,
+  p_new_tab_type in number default null,
+  p_simplesyntax in boolean default FALSE
+);
+
+/*---------------------------- create_s_index -----------------------------*/
+PROCEDURE create_s_index(
+  idx       in dr_def.idx_rec,
+  part_id   in number default null,
+  part      in boolean default FALSE,
+  shadow    in boolean default FALSE,
+  para      in number  default 1,
+  sep         in varchar2 default DEFAULT_SEPARATOR,
+  sysPart  in boolean default FALSE
+);
+
+/*----------------------- create_index_tables -----------------------------*/
+
+PROCEDURE create_index_tables( 
+  idx       in dr_def.idx_rec, 
+  part_id   in number default null,
+  temp      in boolean default FALSE,
+  part      in boolean default FALSE,
+  shadow    in boolean default FALSE,
+  sys_part  in boolean default FALSE
+);
+
+/*--------------------------- create_g_table ---------------------------*/
+procedure create_g_table(
+  idx dr_def.idx_rec,
+  part_id in number  default 0
+);
+
+/*--------------------------- drop_g_table --------------------------------*/
+procedure drop_g_table(
+  idx dr_def.idx_rec,
+  part_id in number  default 0
+);
+
+/*--------------------------- add_offsets_column --------------------------*/
+procedure add_offsets_column(
+  idx dr_def.idx_rec
+);
+
+-- 8323978: Removed create_index_triggers
+
+/*----------------------- create_index_indexes  ---------------------------*/
+
+PROCEDURE create_index_indexes( 
+  idx       in dr_def.idx_rec, 
+  part_id   in number default null,
+  temp      in boolean default FALSE,
+  part      in boolean default FALSE,
+  pardeg    in number default 1,
+  sysPart   in boolean default FALSE
+);
+
+/*----------------------- drop_index_tables  ---------------------------*/
+
+PROCEDURE drop_index_tables( 
+  idx       in dr_def.idx_rec, 
+  has_p     in boolean default null,
+  part_id   in number default null,
+  temp      in boolean default FALSE,
+  isAlter   in boolean default FALSE,
+  isDelete  in boolean default FALSE,
+  partName  in varchar2 default null
+);
+
+/*----------------------- drop_FA_tables  -------------------------------*/
+
+PROCEDURE drop_FA_tables(
+  idx_owner in varchar2,
+  idx_name  in varchar2,
+  idxid     in number
+);
+
+/*----------------------- drop_s_search_tables  ----------------------------*/
+
+PROCEDURE drop_s_search_tables(
+  p_idx         in dr_def.idx_rec,
+  p_part_id     in number default null,
+  p_shadow      in boolean default FALSE
+);
+
+/*----------------------- trunc_index_tables  ---------------------------*/
+
+PROCEDURE trunc_index_tables(
+  idx       in dr_def.idx_rec, 
+  part_id   in number default null
+);
+
+/*----------------------- rename_index_tables  ---------------------------*/
+
+PROCEDURE rename_index_tables(
+  idx       in dr_def.idx_rec, 
+  new_name  in varchar2,
+  has_idx   in boolean,
+  full_length_objects in boolean,
+  thirty_character_names in boolean,
+  part_id   in number default null
+);
+
+/*----------------------- exchange_index_tables  --------------------------*/
+
+PROCEDURE exchange_index_tables(
+  idxp       in dr_def.idx_rec,
+  idxp_pid   in number,
+  idxn       in dr_def.idx_rec,
+  idxn_pid   in number default null,
+  is_compart in boolean default FALSE,
+  is_movechunk in boolean default FALSE,
+  src_idxname  in varchar2 default NULL,
+  src_ixpname in varchar2 default NULL
+);
+
+/*-------------------------- get_create_sql -------------------------------*/
+
+FUNCTION get_create_sql( 
+  idx_owner      in varchar2, 
+  idx_name       in varchar2,
+  idx            in dr_def.idx_rec,
+  part_id        in number default null,
+  which          in varchar2,
+  sto            in out nocopy dr_def.vc500_tab,
+  sep            in varchar2 default DEFAULT_SEPARATOR,
+  x_part         in boolean default FALSE,
+  char_semantics in varchar2 default 'BYTE',
+  sys_part       in boolean default FALSE,
+  base_table     in varchar2 default null,
+  sharded        in boolean default FALSE,
+  sharing        in varchar2 default null
+) RETURN CLOB;
+
+/*------------------------ get_constraint_name ------------------------------*/
+
+FUNCTION get_constraint_name( 
+  idx_owner in varchar2, 
+  idx_name  in varchar2,
+  idxid     in number,
+  part_id   in number default null,
+  which     in varchar2,
+  sep       in varchar2 default DEFAULT_SEPARATOR,
+  full_length_objs in boolean default null,
+  thirty_char_names in boolean default null
+) RETURN VARCHAR2; 
+
+/*-------------------------- get_object_name ------------------------------*/
+
+FUNCTION get_object_name( 
+  idx_owner in varchar2, 
+  idx_name  in varchar2,
+  idxid     in number,
+  part_id   in number default null,
+  which     in varchar2,
+  sep       in varchar2 default DEFAULT_SEPARATOR,
+  full_length_objs in boolean default null
+) RETURN VARCHAR2;
+
+/*-------------------------- get_object_prefix ------------------------------*/
+
+FUNCTION get_object_prefix( 
+  idx_owner in varchar2, 
+  idx_name  in varchar2,
+  part_id   in number default null,
+  sep       in varchar2 default DEFAULT_SEPARATOR,
+  full_length_objs in boolean default null
+) RETURN VARCHAR2;
+
+/*---------------------- swap_index_temp_tables -----------------------*/
+PROCEDURE swap_index_temp_tables (
+  idx_owner  in varchar2,
+  idx_name   in varchar2,
+  idxid      in number,
+  idx_pid    in number,
+  temp_owner in varchar2,
+  temp_name  in varchar2,
+  shadow_idxid in number default NULL,
+  shadow_ixpid in number default NULL
+);
+
+/*----------------------- populate_ptable -----------------------------------*/
+
+PROCEDURE populate_ptable( 
+  idx_owner in varchar2, 
+  idx_name  in varchar2,
+  idx       in dr_def.idx_rec,
+  part_id   in number default NULL,
+  shadow    in boolean default FALSE,
+  ctxcat    in boolean default FALSE
+);
+
+/*----------------------- AlterDollarITType --------------------------------*/
+
+PROCEDURE AlterDollarITType(
+  idx in dr_def.idx_rec
+);
+
+PROCEDURE AdjustTType(
+  idx    in dr_def.idx_rec,
+  shad_i in varchar2
+);
+
+PROCEDURE AdjustShadowColumnWidth(
+  idx    in dr_def.idx_rec,
+  shad_i in varchar2
+);
+
+function GetTokenTypeWidth
+(
+  p_table_name  varchar2,
+  p_table_owner varchar2
+) RETURN INT;
+
+PROCEDURE create_dataguide_table(idx in dr_def.idx_rec);
+PROCEDURE drop_dataguide_table(idx in dr_def.idx_rec);
+
+/*----------------------- rename_index_table_partitions  --------------------*/
+PROCEDURE rename_idx_table_partitions(
+  idx       in dr_def.idx_rec,
+  part_id   in number,
+  old_name  in varchar2,
+  new_name  in varchar2,
+  full_length_objects in boolean,
+  thirty_character_names in boolean
+); 
+
+/* --------------------------------- add_r --------------------------------- */
+
+PROCEDURE add_r(
+  idx         in out nocopy dr_def.idx_rec,
+  ixp         in out nocopy dr_def.ixp_tab
+);
+
+/* -------------------------------- remove_r ------------------------------- */
+
+PROCEDURE remove_r(
+  idx         in out nocopy dr_def.idx_rec,
+  ixp         in out nocopy dr_def.ixp_tab
+);
+
+/* ------------------------------ create_r_con ----------------------------- */
+
+PROCEDURE create_r_con(
+  idx_owner  varchar2,
+  idx_name   varchar2,
+  idx_id     number,
+  ixp_id     number
+);
+
+
+
+end drvxtab;
+/
+
+@?/rdbms/admin/sqlsessend.sql

@@ -1,0 +1,33 @@
+@@?/rdbms/admin/sqlsessstart.sql
+create or replace package body drv0ddl wrapped 
+a000000
+1
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+b
+601 24c
+bOgQfaLWiA7wfqufOfzrfhS1RDEwg80JACDWfC/Nbg9ShAqpolFGLU0dtFst4H71YU6zAmwL
+sMtzcw03L/FaXJgNCR9XmlUSv3I/Lv9hQgJpET9G6/jG/PUjHTjJprLeQGjz4b8yENKhpTHh
+1Wvmpg5uiVjQaQh+i7VjXkeeOw7mAom6fvDVX2xrxbZ/fIDr06dH97OO+D/mHlr7sMYtZCoR
+ahGzDo6eQgR3Yh0OkIG4nz3LcpbqwRbYiUaubjLKa3tH0Ulh+j7wV81ujdl7JKArIMwNYDQG
+UNXtDkVnl//F+Ng8Lh8wEBExOXVJDSNw/0DTHEYCczmUS0ljeSZMU7e8G2qn01wBeMzQGHJj
+CbbnrkQeQ2XxS6khQct26ZYTbn6Yy6InSYyHu2en2LYtVMb6dovvu7J8st32yHXSQAU5JfgR
+pvBstUtVe3M6khTyllwEVTDXPJksylkn1t3R58wzUrW0kEzLdBOPt9GaTOwzdJHoepxbzuC0
+Vd0Fa7c4v9Zg+MsOx1q+fM5MurAkpTJ7KjOxvNwg8JD5ARfZqq610a5be7uclMFlEs42QjBw
+kg==
+
+/
+@?/rdbms/admin/sqlsessend.sql

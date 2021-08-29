@@ -1,0 +1,39 @@
+set define '^'
+set verify off
+prompt ...wwv_flow_check
+create or replace package body wwv_flow_check wrapped 
+a000000
+1
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+b
+ada 384
+76rUt9RT7hGSpMNN927Ygfhc2aMwg0Nc2RgFfI7Ngw9r13ATObehvy6CDoXCC1H3cTHce9Vi
+QKfmhCyJ3xM6zvwBkxjNa3R0AwQ142KQErmGaNWxL8049K+nQ7+Pz/nVvG4/bpVzsXL+mma0
+osCNUTpaNqwRB68wpNBbzC+fjmw4ulrCHdPITj2DeLbjMqCyRxG/mJV2NJqpAedDUyla+A8c
+XeWthFe7VznUo5upFAkrDT+nClGPpq2DNbyjtLYehEF+iO8EJSHl7BFt2RgnolxXsJM+tIeg
+WXTkzcv9dTXTWdmfnBGqPs5L+wpDwIipd6vqhOgiGc+Z4rGCyfrnkMXLzXhL93++jpZqU3SV
+3clNhqe/V8tTf96l6zqeFteW597RHRxh5P75k3OYm/YxbUpRYeCOhS6gxO0pHrn0Qfx5SgVK
+KBPyIO3Nn/G/DLaRgP6JpCZ06ypGtdUEW40Gnf9lltdHfYAECu+uOZQMDscJYx9RWmiiRGzY
+H3BWZk/DgCdOBJw++XYxWuxpBLsuAOUhgW1i1cRmsicRWNTmf+xt7E3nCLCjQLBKI1V3OGOv
+QSPKxkTDkFna5uE+zX0z8st4d+8Yqw4Niog87l1bNyGDIFQhHg+NJIpecLrblWaQEmx/6tuL
+G/lCknMejiR6U22y37KLeWABXLZyEOzi+A4j1ClBBIAauq+C7NOaoymMMaKSoybDBBRTNXMO
+16q9m9qeINUUbNQW1VIePki6JbP/aVhApf3pv5eLYDlMtuNLD+hE42S8ta2Q4gYCKdPI0eje
+MuXKgdM05Cc2D8sp/95D+E7IM+yNhWvDIp07Ldp0i5HgBIvGYJhvZM/AhzFoet4nhz/JQTLg
+G4tny/AVU3snpZLXJPhz4+Y=
+
+/
+show errors

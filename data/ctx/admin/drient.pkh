@@ -1,0 +1,65 @@
+rem 
+rem Copyright (c) 2002, 2018, Oracle and/or its affiliates. 
+rem All rights reserved.
+rem    NAME
+rem      dr0ent.pkh - DR ENTity extraction
+rem
+rem    DESCRIPTION
+rem      internal functions for entity extraction
+rem   
+rem 
+rem    BEGIN SQL_FILE_METADATA
+rem      SQL_SOURCE_FILE: ctx_src_2/src/dr/admin/drient.pkh
+rem      SQL_SHIPPED_FILE: ctx/admin/drient.pkh
+rem      SQL_PHASE: DRIENT_PKH
+rem      SQL_STARTUP_MODE: NORMAL
+rem      SQL_IGNORABLE_ERRORS: NONE
+rem      SQL_CALLING_FILE: ctx/admin/ctxpkh.sql
+rem    END SQL_FILE_METADATA
+rem
+rem    MODIFIED    (MM/DD/YY)
+rem    snetrava     06/14/18 - Bug 28102835: NONE LOG PRAGMA
+rem    surman       01/23/15 - 20411134: Add SQL metadata tags
+rem    surman       03/15/13 - 16473661: Common start and end scripts
+rem    hsarkar      03/24/11 - Date and Pattern Stopclass project
+rem    rpalakod     06/05/09 - Remove event checking
+rem    rpalakod     12/28/07 - compile choice
+rem    rpalakod     12/12/07 - Check Extract Policy
+rem    rpalakod     12/10/07 - Event Validation
+rem    rpalakod     08/28/07 - creation
+
+@@?/rdbms/admin/sqlsessstart.sql
+
+create or replace package drient as
+
+PRAGMA SUPPLEMENTAL_LOG_DATA(default, NONE);
+
+/*--------------------------- compile ---------------------------------------*/
+
+PROCEDURE compile(
+  idx            IN dr_def.idx_rec,
+  compile_choice IN NUMBER,
+  locking        IN NUMBER
+); 
+
+/*--------------------------- chkextpol -------------------------------------*/
+/* chkextpol - Check that policy is an extraction policy                     */
+FUNCTION chkextpol(
+  idx        IN dr_def.idx_rec
+) return BOOLEAN;
+
+PROCEDURE add_extract_rule(
+  idx         IN  dr_def.idx_rec,
+  rule_id     IN INTEGER,
+  extraction_rule     IN VARCHAR2
+);
+
+PROCEDURE remove_extract_rule(
+  idxid        IN NUMBER,
+  remove_index IN BOOLEAN DEFAULT FALSE
+);
+
+end drient;
+/
+
+@?/rdbms/admin/sqlsessend.sql

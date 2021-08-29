@@ -1,0 +1,117 @@
+Rem
+Rem Copyright (c) 1998, 2018, Oracle and/or its affiliates. 
+Rem All rights reserved.
+Rem    NAME
+Rem      drvparx.pkh - DR cartridge PARallel indeX services
+Rem    DESCRIPTION
+Rem
+Rem    RETURNS
+Rem
+Rem    NOTES
+Rem
+Rem 
+Rem    BEGIN SQL_FILE_METADATA
+Rem      SQL_SOURCE_FILE: ctx_src_2/src/dr/admin/driparx.pkh
+Rem      SQL_SHIPPED_FILE: ctx/admin/driparx.pkh
+Rem      SQL_PHASE: DRIPARX_PKH
+Rem      SQL_STARTUP_MODE: NORMAL
+Rem      SQL_IGNORABLE_ERRORS: NONE
+Rem      SQL_CALLING_FILE: ctx/admin/ctxpkh.sql
+Rem    END SQL_FILE_METADATA
+Rem
+Rem    MODIFIED   (MM/DD/YY)
+Rem     snetrava   06/14/18  - Bug 28102835: NONE LOG PRAGMA
+Rem    demukhin    07/11/17  - fix dr$trc_tab error in ctxpkh.sql
+Rem    surman      01/23/15  - 20411134: Add SQL metadata tags
+Rem    surman      03/15/13  - 16473661: Common start and end scripts
+Rem    surman      08/19/11  - 12885737: Add dumpederrors
+Rem    surman      03/29/11  - 11935849: Log file overwrite state
+Rem    rpalakod    11/16/10  - Bug 10276515
+Rem    gkaminag    10/13/05  - sync maxtime 
+Rem    gkaminag    10/23/03  - optimize type 
+Rem    ehuang      10/24/03  - tracing 
+Rem    smuralid    04/21/03  - dr$popindex_state_t: add direct_path
+Rem    smuralid    01/07/03  - smuralid_logging_for_px
+Rem    smuralid    12/20/02  - PX support
+Rem    smuralid    12/19/02  - Creation
+Rem
+
+@@?/rdbms/admin/sqlsessstart.sql
+
+drop type dr$numtable force;
+create type dr$numtable as table of number;
+/
+
+drop type dr$session_state_t force;
+create type dr$session_state_t as object(
+  logfile   varchar2(2000),
+  logfile_overwrite number,
+  dumpederrors dr$numtable,
+  events    number,
+  traces    number
+);
+/
+
+drop type dr$optim_state_t force;
+create type dr$optim_state_t as object(
+  session_state   dr$session_state_t,
+  optmode         varchar2(256),
+  maxtime         varchar2(256),
+  maxhash         number,
+  ttype           number,
+  background      number
+);
+/
+
+drop type dr$popindex_state_t force;
+create type dr$popindex_state_t as object(
+  session_state   dr$session_state_t,
+  opcode          varchar2(128),
+  index_memory    varchar2(256),
+  tstamp          varchar2(256),
+  direct_path     varchar2(10),
+  maxtime         varchar2(10)
+);
+/
+
+drop type dr$createindex_state_t force;
+create type dr$createindex_state_t as object(
+  session_state   dr$session_state_t,
+  index_memory    number,
+  populate        varchar2(1),
+  import          varchar2(1),
+  params          varchar2(1000)  
+);
+/
+
+drop type dr$trc_rec force;
+create type dr$trc_rec as object (
+  trc_id          number,
+  trc_value       number
+);
+/
+drop type dr$trc_tab force;
+create type dr$trc_tab as table of dr$trc_rec;
+/
+
+create or replace package driparx as
+
+PRAGMA SUPPLEMENTAL_LOG_DATA(default, NONE);
+
+  procedure set_session_state(sess_state dr$session_state_t);
+  function  get_session_state return dr$session_state_t;
+  procedure end_parallel_op(sess_state dr$session_state_t);
+
+  procedure  setContext(mykey  in varchar2, myval in sys.anydata);
+  procedure  clearContext(mykey in varchar2);
+  function   getContext(mykey in varchar2) return sys.anydata;
+ 
+end driparx;
+/
+
+
+
+
+
+
+@?/rdbms/admin/sqlsessend.sql

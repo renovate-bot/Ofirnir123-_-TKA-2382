@@ -1,0 +1,103 @@
+rem
+rem $Header: ctx_src_2/src/dr/admin/drival.pkh /main/24 2018/07/17 09:35:04 snetrava Exp $
+rem
+rem Copyright (c) 1995, 2018, Oracle and/or its affiliates. 
+rem All rights reserved.
+rem    NAME
+rem      drvp.pkh - Spec For ConText Option Validation procedures
+rem    DESCRIPTION
+rem      This contains the interface to the stop list validation procedure.
+rem      This eventually has to be extended to have validation procedures
+rem      for all the objects supported by ConText option
+rem
+rem    RETURNS
+rem
+rem    NOTES
+rem
+rem 
+rem    BEGIN SQL_FILE_METADATA
+rem      SQL_SOURCE_FILE: ctx_src_2/src/dr/admin/drival.pkh
+rem      SQL_SHIPPED_FILE: ctx/admin/drival.pkh
+rem      SQL_PHASE: DRIVAL_PKH
+rem      SQL_STARTUP_MODE: NORMAL
+rem      SQL_IGNORABLE_ERRORS: NONE
+rem      SQL_CALLING_FILE: ctx/admin/ctxpkh.sql
+rem    END SQL_FILE_METADATA
+rem
+rem    MODIFIED   (MM/DD/YY)
+Rem     snetrava   06/14/18  - Bug 28102835: NONE LOG PRAGMA
+rem     surman     01/23/15  - 20411134: Add SQL metadata tags
+rem     surman     03/15/13  - 16473661: Common start and end scripts
+rem     rpalakod   04/05/10  - Bug 9546261
+rem     shorwitz   06/05/06  - Bug 5237224
+rem     gkaminag   06/11/02  - API Changes.
+rem     gkaminag   06/08/99 -  multi lexer
+rem     ehuang     11/06/98 -  add validate_attr
+rem     gkaminag   04/03/98 -  copy section groups
+rem     ehuang     03/30/98 -  dr_utl->driutl
+rem     gkaminag   03/17/98 -  preference system change
+rem     ehuang     03/10/98 -  new pref system object validation
+rem     gkaminag   06/11/97 -  add validate_fil_html
+rem     gkaminag   06/06/97 -  add new master-detail datastore
+rem     mfaisal    11/21/96 -  Add validation for Multiple UDF
+rem     gkaminag   10/01/96 -  add validation of user translator
+rem     ehuang     09/03/96 -  rewrite drvp to perform
+rem     gkaminag   08/01/96 -  add validate of user-defined filter
+rem     gkaminag   08/01/96 -  streamline code
+rem     droberts   07/17/96 -  Fixing compilation errors
+rem     droberts   07/08/96 -  Added validate_datastoreurl
+rem     gkaminag   04/26/96 -  Make att_value IN OUT (bug 358170)
+Rem     rnori      03/07/96 -  Creation 
+rem
+
+@@?/rdbms/admin/sqlsessstart.sql
+
+CREATE OR REPLACE PACKAGE drival AS
+
+PRAGMA SUPPLEMENTAL_LOG_DATA(default, NONE);
+
+function validate_pref(
+  p_pref_name varchar2,
+  p_class_id  number
+) return dr_def.pref_rec;
+
+procedure validate_attr(p_pref        in      dr_def.pref_rec,
+                        p_attr_name   in      varchar2,
+                        p_attr_value  in out  varchar2);
+
+/*----------------------- ValidateCTXRULEOptions  -----------------------*/
+/*
+  NAME
+    ValidateCTXRULEOptions
+
+  DESCRIPTION
+    Validate the attributes used during the construction of a CTXRULE index.
+    The invalid attribute value are:
+       * PREFIX_INDEX can not be set to TRUE
+       * SUBSTRING_INDEX can not be set to TRUE
+
+  ARGUMENTS
+    opts - a creation record
+
+  NOTES
+    This function was added for Bug 5237224.
+
+  EXCEPTIONS
+    DRIG.QE_CTXRULE_INVALIDATTR is raised if an invalid attribute
+    value is present.  It has two possible arguments.  These are
+    'PREFIX_INDEX' or 'SUBSTRING_INDEX'.
+
+  RETURNS
+    0 if the attributes are acceptable
+    1 if the attribute settings can not be used in a CTXRULE index.
+
+*/
+FUNCTION ValidateCTXRULEOptions (
+  opts driparse.createrec
+) return number;
+
+end drival;
+/
+
+
+@?/rdbms/admin/sqlsessend.sql

@@ -1,0 +1,109 @@
+rem
+rem  Copyright (c) 1999 by Oracle Corporation
+rem
+rem    NAME
+rem      drientl.pkh - Spec for ctxload entity extraction dictionary
+rem
+rem    DESCRIPTION
+rem      entity extraction user dictionary Loader interface.  
+rem      This package contains everything ctxload needs to load 
+rem      a user dictionary, customized for its use.
+rem
+rem      THIS PACKAGE IS FOR USE BY CTXLOAD ONLY AND SHOULD NOT BE
+rem      CALLED BY ANYTHING ELSE.
+rem
+rem    NOTES
+rem
+rem 
+rem    BEGIN SQL_FILE_METADATA
+rem      SQL_SOURCE_FILE: ctx_src_2/src/dr/admin/drientl.pkh
+rem      SQL_SHIPPED_FILE: ctx/admin/drientl.pkh
+rem      SQL_PHASE: DRIENTL_PKH
+rem      SQL_STARTUP_MODE: NORMAL
+rem      SQL_IGNORABLE_ERRORS: NONE
+rem      SQL_CALLING_FILE: ctx/admin/ctxpkh.sql
+rem    END SQL_FILE_METADATA
+rem
+rem    MODIFIED   (MM/DD/YY)
+Rem     snetrava   06/14/18  - Bug 28102835: NONE LOG PRAGMA
+rem    surman      01/23/15  - 20411134: Add SQL metadata tags
+rem    surman      03/15/13  - 16473661: Common start and end scripts
+rem    rpalakod    12/28/07  - locking
+rem    rpalakod    10/21/07 -  creation
+
+@@?/rdbms/admin/sqlsessstart.sql
+
+create or replace package drientl AUTHID current_user as
+
+PRAGMA SUPPLEMENTAL_LOG_DATA(default, NONE);
+
+/*------------------------- prep_dict -----------------------------------*/
+/*
+  NAME
+    prep_dict
+
+  DESCRIPTION
+    prepare user dictionary for insertion
+*/
+
+FUNCTION prep_dict(
+  p_policy IN VARCHAR2,
+  locking  IN NUMBER
+) return binary_integer;
+
+/*------------------------- add_dict_entry-------------------------------*/
+/*
+  NAME
+    add_dict_entry
+
+  DESCRIPTION
+    add a dictionary entry to the user dictionary
+
+*/
+
+PROCEDURE add_dict_entry(
+  p_pid           IN NUMBER,
+  p_eid           IN NUMBER,
+  p_lang          IN VARCHAR2,
+  p_mention       IN VARCHAR2,
+  p_type          IN VARCHAR2,
+  p_normid        IN NUMBER,
+  p_altcnt        IN NUMBER
+);
+
+/*--------------------------- chkdupdict ------------------------------------*/
+/*
+  NAME
+    chkdupdict
+  DESCRIPTION
+    Check whether a dictionary has already been loaded                       */
+
+PROCEDURE chkdupdict;
+
+/*----------------------- close_dict ----------------------------------*/
+/* 
+  NAME
+    close_dict
+
+  DESCRIPTION
+    run any closing procedures
+*/
+
+PROCEDURE close_dict;
+
+
+/*--------------------------- drop_dict -------------------------------------*/
+/*
+  NAME
+    drop_dict
+
+  DESCRIPTION
+    drop a user-defined dictionary
+*/
+
+PROCEDURE drop_dict;
+
+end drientl;
+/
+
+@?/rdbms/admin/sqlsessend.sql

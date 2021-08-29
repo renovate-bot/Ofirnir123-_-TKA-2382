@@ -1,0 +1,305 @@
+Rem 
+Rem Copyright (c) 2002, 2018, Oracle and/or its affiliates. 
+Rem All rights reserved.
+Rem  NAME
+Rem    drvutl.pkb - DR Utilities package spec.
+Rem
+Rem 
+Rem  BEGIN SQL_FILE_METADATA
+Rem    SQL_SOURCE_FILE: ctx_src_2/src/dr/admin/drvutl.pkh
+Rem    SQL_SHIPPED_FILE: ctx/admin/drvutl.pkh
+Rem    SQL_PHASE: DRVUTL_PKH
+Rem    SQL_STARTUP_MODE: NORMAL
+Rem    SQL_IGNORABLE_ERRORS: NONE
+Rem    SQL_CALLING_FILE: ctx/admin/ctxpkh.sql
+Rem  END SQL_FILE_METADATA
+Rem
+Rem  MODIFIED    (MM/DD/YY)
+Rem     snetrava   06/14/18  - Bug 28102835: NONE LOG PRAGMA
+Rem  nspancha     05/30/18  - Bug 27084954: Safe Schema Loading
+Rem  rodfuent     04/17/18  - Bug 27874010: isJSONConstraint signature update
+Rem  pkosaraj     12/08/17  - Bug 26359365
+Rem  snetrava     07/27/17  - check_text_datastore_access signature change
+Rem  demukhin     07/06/17  - bug 26051570: keep $R for legacy indexes
+Rem  nspancha     06/26/17  - Bug 25795075: Security Vulnerability
+Rem  snetrava     03/22/17  - 25266580: Add check_text_datastore_access
+Rem  pkosaraj     03/09/17  - Bug 24309387: non const global var
+Rem  aczarlin     01/26/17  - bug 25458034 API to check if sync in-memory work
+Rem  nspancha     11/03/16  - Bug 22068230: Token size increased to 255 bytes
+Rem  pkosaraj     05/30/16  - Bug 23029399: alter session syntax for logging
+rem  rkadwe       06/30/16  - Bug 22486323: VPD disable for SYS ops
+rem  rkadwe       05/06/16  - Bug 23078729 - CTX_LOGGING
+Rem  rkadwe       08/12/15  - PDB Lockdown mode for CTX
+Rem  shorwitz     03/09/15  - Bug 20533031: long identifier bugs
+Rem  surman       01/23/15  - 20411134: Add SQL metadata tags
+Rem  yyding       08/22/14  - long identifier
+Rem  surman       08/05/14  - Full length index names
+Rem  shorwitz     04/29/14  - Bug 16603987
+Rem  shorwitz     03/05/14  - Bug 16603987
+Rem  yyding       12/30/13  - Bug 6062193
+Rem  shorwitz     12/18/13  - Enable 128 byte database objects
+Rem  aczarlin     11/14/13  - 17882913: long identifier definitions
+Rem  surman       11/12/13  - 17778044: Add compatible check
+Rem  surman       03/15/13  - 16473661: Common start and end scripts
+Rem  hsarkar      07/08/11  - Logical Standby Support
+Rem  rkadwe       06/08/10  - Security
+Rem  rpalakod     03/03/10  - validate column list
+Rem  rkadwe       03/01/10  - Document Level Lexer
+Rem  smuralid     11/01/03  - deprecate trace_event; 
+Rem                           add set_ora_event_level
+Rem  yucheng      09/24/03  - add trace_event 
+Rem  smuralid     06/09/03  - add write_to_log
+Rem  gkaminag     03/06/03  - add getinvokerid
+Rem  gkaminag     12/10/02  - gkaminag_security_021203
+Rem  gkaminag     12/03/02 -  Creation 
+
+@@?/rdbms/admin/sqlsessstart.sql
+
+create or replace package drvutl authid current_user as
+
+PRAGMA SUPPLEMENTAL_LOG_DATA(default, NONE);
+
+/*-------------------     Common Varchar2 Length Definitions     ---------*/
+/*  pre-12.2 supported id len = 30  for 12.2 supported id len = 128       */
+/*  id = identifier  qid = quoted id  lid = long id  qlid = quoted lid    */
+
+subtype dr_id   is dbms_id_128;              /* use: id         */
+subtype dr_id2  is varchar2(257);            /* use: id.id      */
+subtype dr_id3  is varchar2(386);            /* use: id.id.id   */
+
+subtype dr_qid  is dbms_quoted_id_128;       /* use: quoted id   */
+subtype dr_qid2 is varchar2(261);            /* use: qid.qid     */
+subtype dr_qid3 is varchar2(392);            /* use: qid.qid.qid */
+
+subtype dr_lid  is dbms_id_128;             /* use: long id lid */
+subtype dr_lid2 is varchar2(257);           /* use: lid.lid     */
+subtype dr_lid3 is varchar2(386);           /* use: lid.lid.lid */
+
+subtype dr_qlid  is dbms_quoted_id_128;     /* use: quoted long id qlid */
+subtype dr_qlid2 is varchar2(261);          /* use: qlid.qlid           */
+subtype dr_qlid3 is varchar2(392);          /* use: qlid.qlid.qlid      */
+subtype dr_longpart is varchar2(403);       /* use: qlid.qlid partition(qlid) */
+
+subtype dr_shortbuf is varchar2(32);         /* use: small scratch buff  */
+subtype dr_medbuf   is varchar2(128);        /* use: medium scratch buff */
+subtype dr_longbuf  is varchar2(512);        /* use: long scratch buff   */
+subtype dr_extrabuf is varchar2(4000);       /* use: 4000 bytes          */
+subtype dr_maxbuf   is varchar2(32767);      /* use: max len allowed     */
+
+/*
+** This is the length of an identifier prior to the addition
+** of long identifer support.
+*/
+DR_ID_LEN_30 constant number := 30;
+
+DR_ID_LEN constant number    := 128; -- 128
+DR_ID2_LEN constant number   := 257; -- 2*128+1
+DR_ID3_LEN constant number   := 386; -- 3*128+2
+DR_QID_LEN constant number   := 130; -- 128+2
+DR_QID2_LEN constant number  := 261; -- 2*128+5
+DR_QID3_LEN constant number  := 392; -- 3*128+8
+DR_LID_LEN constant number   := 128; -- 128
+DR_LID_LEN2 constant number  := 257; -- 2*128+1
+DR_LID_LEN3 constant number  := 386; -- 3*128+2
+DR_QLID_LEN constant number  := 130; -- 128+2
+DR_QLID2_LEN constant number := 261; -- 2*128+5
+DR_QLID3_LEN constant number := 392; -- 3*128+8
+
+/* Length of an object name after the final $ */
+DR_INDEX_OBJECT_NAME_LEN constant number := 5;
+
+/* This is the size of a row id (in bytes) */
+DR_ROWID_LEN constant number := 18;
+subtype dr_rowid   is varchar2(18);
+
+/* If token size changes, grep PL/SQL files for MAX_TOKEN_SIZE and change all */
+/* The is the size of a token (in bytes) */
+MAX_TOKEN_SIZE constant number := 255;
+subtype dr_token   is varchar2(MAX_TOKEN_SIZE);
+
+/* Use this for objects which are restricted to 64 bytes and not tokens!*/
+/* Such section names, section group names etc */
+MAX_OBJECT_SIZE constant number := 64;
+
+/* This is the maximum length of a string. */
+MAX_STRING_LEN constant number := 4000;
+subtype dr_string   is varchar2(4000);
+
+/* This is the maximum length of a language name. */
+MAX_LANGUAGE_LEN constant number := 30;
+subtype dr_language is varchar2(30);
+
+/* Maximum length of a logfile name */
+MAX_LOGFILE_LEN constant number := 2000;
+
+/* Wrapper to call driutl's parse_object_name */
+procedure parse_object_name(
+  spec  in     varchar2,
+  uname in out varchar2,
+  oname in out varchar2
+);
+
+
+/*--------------------------- CurrentUserid ------------------------------*/
+/* this basically does a select userenv('SCHEMAID') from dual and returns */
+/* the result.  This is needed because SQL and PL/SQL don't always agree  */
+/* on what userenv('SCHEMAID') should be */
+function CurrentUserid return binary_integer;
+
+/*------------------------------ SetInvoker ------------------------------*/
+/* set invoking user -- used by invoker's rights packages calling */
+/* definer's rights packages which need to know the invoker       */
+
+/* note: pass 0 to use current user -- this has to be done by select */
+/* from dual, NOT calling userenv directly                           */
+
+procedure SetInvoker(p_userid in binary_integer default 0);
+
+/*------------------------------ ClearInvoker ----------------------------*/
+/* clear invoking user -- if you call SetInvoker, make sure to call this */
+
+procedure ClearInvoker;
+
+/*------------------------------ GetInvoker ------------------------------*/
+/* get the last invoking username */
+
+function GetInvoker return varchar2;
+
+/*------------------------------ GetInvokerId ----------------------------*/
+/* get the last invoking userid */
+
+function GetInvokerId return number;
+
+/*------------------------------ GetCurrentSchema ------------------------*/
+function GetCurrentSchema return varchar2;
+
+/*-------------------------- get_ora_event_level ----------------------------*/
+/* Set an Oracle Event's level */
+
+function set_ora_event_level (
+  event   in number,
+  level   in number
+) return number;
+
+/*-------------------------- get_ora_event_level ----------------------------*/
+/* Get an Oracle Event's Level */
+
+function get_ora_event_level (
+  event   in number
+) return number;
+
+/*------------------------------ write_to_log -------------------------------*/
+/* Write a message to the ctx log file. 
+ * msg     - the message to dump 
+ * newline - should the message be terminated with a new line ?
+ *
+ * The reason this function is here instead of in dr0out (where the 
+ * rest of the log-file functionality changes are, is because we don't
+ * want to expose this yet to end users
+ */
+procedure write_to_log(msg in varchar2, 
+                       newline in binary_integer default 1);
+
+/*--------------------------- check_base_table ------------------------*/
+/* Returns the no. of base table rows which have lang OR abbr OR alt
+ *  as their language column value.
+ */
+function check_base_table(idx in dr_def.idx_rec,
+                          language in varchar2,
+                          abbr in varchar2 default NULL,
+                          alt  in varchar2 default NULL)
+return number;
+
+
+/*--------------------------- validate_ixs_columns -------------------------*/
+/* validate ixs columns returned by driixs.GetIndexIXSColumns */
+procedure validate_ixs_columns
+(
+  l_idx   in dr_def.idx_rec,
+  collist in dr_def.ixc_tab
+);
+
+/*--------------------------- validate_ixs_collist -------------------------*/
+/* validate ixs_collist returned by driixs.GetIndexIndexSet */
+procedure validate_ixs_collist
+(
+  l_idx   in dr_def.idx_rec,
+  collist in varchar2,
+  out_collist out varchar2
+);
+
+/*--------------------------- ProceduralLogLevel -------------------------*/
+/* returns TRUE if procedural replication is on */
+function ProceduralLogLevel return boolean;
+
+/*--------------------------- ISDGRollingUpgrade -------------------------*/
+/* returns TRUE if database is logical standby */
+function ISDGRollingUpgrade return boolean;
+
+/*--------------------------- GetCompatible ------------------------------*/
+/* 17778044: returns the value of the compatible init.ora parameter */
+function GetCompatible return varchar2;
+
+/*----------------------------- ChkCompatible -------------------------------*/
+function ChkCompatible(
+  min_version_str  varchar2)
+return boolean;
+
+/*--------------------------- isJSONConstraint --------------------------*/
+function isJSONConstraint (tableschema in varchar2,
+                           tablename   in varchar2,
+                           colname     in varchar2)
+return boolean;
+
+/*-------------------------- isPDBLockdown ----------------------------*/
+function isPDBLockdown return boolean;
+
+/*------------------------ isLoggingLockdown --------------------------*/
+function isLoggingLockdown return boolean;
+
+/*------------------------ isIndexTraceOn --------------------------*/
+function isIndexTraceOn return boolean;
+
+/*------------------------ setVPDEnable  --------------------------*/
+procedure setVPDEnable(state in boolean);
+
+/*-------------------------- hasSyncInMemory --------------------------*/
+/* return TRUE if there is in-memory work (not dr$pending work) 
+/* for sync to do for ANY index or partition. */
+function hasSyncInMemory return boolean;
+
+/*---------------------- check_text_datastore_access -------------------------*/
+/*
+   Returns TRUE if the specified user has the text datastore access 
+   privilege and can therefore create/sync indexes 
+   using file or URL datastore
+*/
+function check_text_datastore_access(p_user_id IN number)
+return boolean;
+
+/*--------------- CTX_QUERY sess_sqe getters and setters --------------- */
+/*-------------------------- sess_sqe_exists ------------------------*/
+FUNCTION sess_sqe_exists(key in varchar2) return boolean;
+
+/*-------------------------- sess_sqe_delete -----------------------*/
+PROCEDURE sess_sqe_delete(key in varchar2);
+
+/*-------------------------- sess_sqe_set -------------------------*/
+PROCEDURE sess_sqe_set(key in varchar2,
+                       query in clob);
+
+/*-------------------------- sess_sqe_get -------------------------*/
+FUNCTION sess_sqe_get(key in varchar2) return clob;
+
+
+/*-------------------------- sess_sqe_next ------------------------*/
+FUNCTION sess_sqe_next(key in varchar2) return varchar2;
+
+
+/*-------------------------- sess_sqe_first ------------------------*/
+FUNCTION sess_sqe_first return varchar2;
+
+end drvutl;
+/
+
+@?/rdbms/admin/sqlsessend.sql

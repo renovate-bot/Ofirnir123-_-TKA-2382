@@ -1,0 +1,37 @@
+@@?/rdbms/admin/sqlsessstart.sql
+create or replace package body drvanl wrapped 
+a000000
+1
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+b
+881 3a4
+yMq0EBRaDTQVypQFOuFlmGRBD+gwgztcTPYFfI5Vxz8CGeDWvTEz3+usVpoUowGht10hQtMB
+ED5fn4l/tJ2ajXaqIWHrp9cUyH0/kMe5PQ3oikBIN47levH4wZq/0CTnDZFSI6DMdJeDpmsB
+KQz/durx7Atm3kQUenHxACp+gNewX1aFaO9NaDxrUFCqGe1kjtV8axiZGYPdOXRaOUHqo7jU
+kBfl5VOZrwIJ4U1ZvcR1FUWXMufx0B6Be9cIVIoAYp7H5UgzDbYKJTCHQV/7tV+zCrq9yYMa
+upDU6BgcNoV1CTxc+xsPjktDwLOturhxuT0ufGt0/fFaQ1CF1vfNqVXOKzwac/cNcAOnCezT
+xB2+EWl3SyUNVWx1AZhRZkUj2PH3o/Z8TEEh5ebja2jh1DrT39VbW8ZEMHxg6VnKDNuNliNH
+7KuZh5QPN60shcah+qONwiu3ITkqT9xtlupJifeoHNR0HC66H6gHC0fNSqs5ajA4ZbjfeubA
+elPxCvbCaxUV1fsTo+Nes93bQFcHl+3TM0LNamnpR385+yzlwEOfaFMLfMyL3aLHg5+gPl4U
+O1ZdRbcLvCAjtlqzl9pjS9YboBAxHvPzVgMis5i6iFKuaM5f0sc8E+yHOd9OH1Jn6K11HCxA
+eD31hChbOXuONQe6dEmetwTadwFm5bZW09RWVENsnOR+xI1gKbPAEgVRI8a53ki/ZLvDPaqc
+wBoxw2pyG9W0NPEZe8/9FDMTZ7CegOVCLNi5T08/kvgHu50cQRy7QbVW697wcs5dhAJYJYAP
+unxB8vOQ0/ATpamayl4DppYZZFMC1hYIArhmlPkSHX4OIEm7AvGTE9UQ61/t4lBTPG5aC3Lk
+lRarTehnKAHsZtr9MywE4h1qzDdD/WHyynqedIKrsAHQSToHnWc9iA4=
+
+/
+@?/rdbms/admin/sqlsessend.sql

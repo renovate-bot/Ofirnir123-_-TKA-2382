@@ -1,0 +1,62 @@
+<HTML><BODY>
+{## option ex_toc=use_original_document}
+{## REPEAT ELEMENT=Sections}
+  {## IF ELEMENT=Sections.Current.Type VALUE=AR}
+   {## if element=arctype value=file}
+     <ul>
+     {## link element=sections.current.decompressedFile template=generic.tpt}
+     </ul>
+   {## else}
+     <ul>
+     {## link element=sections.current.decompressedFile template=generic.tpt}
+     </ul>
+   {## /if}
+  {## ELSEIF ELEMENT=Sections.Current.Type VALUE=WP}
+    {## IF ELEMENT=Sections.Current.Headers.1.Body}<BR>
+      {## REPEAT ELEMENT=Sections.Current.Headers} 
+        {## INSERT ELEMENT=Sections.Current.Headers.Current.Body}<BR>
+      {## /REPEAT}
+    {## /IF}
+
+    {## INSERT ELEMENT=Sections.Current.Body}
+
+    {## IF ELEMENT=Sections.Current.Footnotes.1.Body}<BR>
+      {## REPEAT ELEMENT=Sections.Current.Footnotes}
+        {## INSERT ELEMENT=Sections.Current.Footnotes.Current.Body}<BR>
+      {## /REPEAT}
+    {## /IF}
+
+    {## IF ELEMENT=Sections.Current.Endnotes.1.Body}<BR>
+      {## REPEAT ELEMENT=Sections.Current.Endnotes}
+        {## INSERT ELEMENT=Sections.Current.Endnotes.Current.Body}<BR>
+      {## /REPEAT}
+    {## /IF}
+
+    {## IF ELEMENT=Sections.Current.Annotations.1.Body}<BR>
+      {## REPEAT ELEMENT=Sections.Current.Annotations} 
+        {## INSERT ELEMENT=Sections.Current.Annotations.Current.Body}<BR>
+      {## /REPEAT}
+    {## /IF}
+
+    {## IF ELEMENT=Sections.Current.Footers.1.Body}<BR>
+      {## REPEAT ELEMENT=Sections.Current.Footers} 
+        {## INSERT ELEMENT=Sections.Current.Footers.Current.Body}<BR>
+      {## /REPEAT}
+    {## /IF}
+
+  {## ELSEIF ELEMENT=Sections.Current.Type VALUE=PR}<BR>
+    {## INSERT ELEMENT=Sections.Current.Body}<BR>
+
+  {## ELSEIF ELEMENT=Sections.Current.Type VALUE=MM}<BR>
+    {## REPEAT ELEMENT=Property.All}
+	{## INSERT ELEMENT=Property.All.Current.Name}<BR>
+	{## INSERT ELEMENT=Property.All.Current.Body}<BR>
+    {## /REPEAT}
+
+  {## ELSE}
+    {## INSERT ELEMENT=Sections.Current.Body.Title}
+    {## INSERT ELEMENT=Sections.Current.Body}<BR>
+
+  {## /IF}
+{## /REPEAT}
+</BODY></HTML>

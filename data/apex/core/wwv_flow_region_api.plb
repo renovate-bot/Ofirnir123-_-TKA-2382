@@ -1,0 +1,34 @@
+set define off
+set verify off
+prompt ...wwv_flow_region_api
+create or replace package body wwv_flow_region_api wrapped 
+a000000
+1
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+b
+3d0 1c2
+QvjY2dsr/H+RT3uVkvhn0wTXdlMwgzu319zbyo4CTE6OVpCRBplZIWu4uvSOyCwT4uOZKrcE
+xlNLZJYBe6SDJobgker/OkitsOm2kmfF3QLgYrlFu6WSvB4VsdkFn/7zQSTE41TSwcXtGkrV
+9L6yOeeZ8hhv/bgZhVeTvcrTUm2eTVOiV+I19uywaZ49ouUY5C7/IC9aQLDa596MFnwgpvYg
+xeeJUBLdsd5Ny6L2rz4pctNXaviVbKe80d3YW5xKN9CbaAKIiduZHywCV8r4TtcOTueB1Kn1
+r6wNABN77gss717TOPtk6HNHba2yEhulzVX0wv91lc70iIloNAR6WIBsxJZA3DPpAZQkKRTR
+XCWB4okhrhDeEeUnO5Ekgw2rSkeWIOi944j2Q90iGKjNm9vYbrV+i93oEshcsw/WP/Yz0Nul
+z8eBHaXpzYk=
+
+/
+show errors
+set define '^'

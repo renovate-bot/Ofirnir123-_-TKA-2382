@@ -1,0 +1,267 @@
+Rem Copyright (c) 1998, 2018, Oracle and/or its affiliates. 
+Rem All rights reserved.
+Rem    NAME
+Rem      driimp.pkh
+Rem    DESCRIPTION
+Rem      import utility functions. 
+Rem    RETURNS
+Rem 
+Rem    NOTES
+Rem 
+Rem 
+Rem    BEGIN SQL_FILE_METADATA
+Rem      SQL_SOURCE_FILE: ctx_src_2/src/dr/admin/driimp.pkh
+Rem      SQL_SHIPPED_FILE: ctx/admin/driimp.pkh
+Rem      SQL_PHASE: DRIIMP_PKH
+Rem      SQL_STARTUP_MODE: NORMAL
+Rem      SQL_IGNORABLE_ERRORS: NONE
+Rem      SQL_CALLING_FILE: ctx/admin/ctxpkh.sql
+Rem    END SQL_FILE_METADATA
+Rem
+Rem    MODIFIED   (MM/DD/YY)
+Rem     pkosaraj   08/31/18  - XbranchMerge pkosaraj_shd_test from main
+Rem     pkosaraj   07/10/18  - Bug 28362844: sharding test
+Rem     snetrava   06/14/18  - Bug 28102835: AUTO LOG PRAGMA
+Rem     pkosaraj   09/28/17  - Bug 25929650: move index metadata ops to drixmd
+Rem     boxia      09/25/17  - Bug 26636904: support auto bg optimize args
+Rem     surman     01/23/15  - 20411134: Add SQL metadata tags
+Rem     surman     03/15/13  - 16473661: Common start and end scripts
+Rem     hsarkar    07/20/11  - Bug #12538590: Add stoppatterns
+Rem     gauryada   05/12/11  - Added configuration column to dr$index
+Rem     wclin      02/22/07  - bug 5894098: impdp/expdp of CDI
+Rem     yucheng    07/22/03  - fix lrg 1546655
+Rem     yucheng    05/23/03  - handle sync attributes
+Rem     gkaminag   03/05/01 -  handle pending for transportable tablespace
+Rem     yucheng    12/20/00 -  transport partition support
+Rem     yucheng    12/12/00 -  partition support
+Rem     gkaminag   03/07/00 -  handle index type column
+Rem     gkaminag   06/21/99 -  format and charset columns
+Rem     gkaminag   06/09/99 -  handle language column
+Rem     gkaminag   06/07/99 -  multi lexer
+Rem     ehuang     05/11/98 -  creation
+
+@@?/rdbms/admin/sqlsessstart.sql
+
+create or replace package driimp authid current_user AS
+
+PRAGMA SUPPLEMENTAL_LOG_DATA(default, AUTO);
+
+/*--------------------------  create_index  ---------------------------*/
+/*
+  NAME
+    create_index
+  DESCRIPTION
+    insert into dr$index during import. 
+  ARGUMENTS
+    columns to dr$index, except id, owner and status.  
+  NOTES
+ 
+  EXCEPTIONS
+ 
+  RETURNS
+*/
+PROCEDURE create_index(
+   p_idx_name        IN  varchar2,
+   p_idx_table       IN  varchar2,
+   p_idx_table_owner IN  varchar2,
+   p_idx_key_name    IN  varchar2,
+   p_idx_key_type    IN  varchar2,
+   p_idx_text_name   IN  varchar2,
+   p_idx_text_type   IN  varchar2,
+   p_idx_text_length IN  varchar2,
+   p_idx_docid_count IN  varchar2,
+   p_idx_version     IN  varchar2,
+   p_idx_nextid      IN  varchar2,
+   p_idx_langcol     in  varchar2 default null,
+   p_idx_fmtcol      in  varchar2 default null,
+   p_idx_csetcol     in  varchar2 default null,
+   p_idx_type        in  number   default 0,
+   P_idx_option      in  varchar2 default null,
+   p_idx_sync_type   in  varchar2 default null,
+   p_idx_sync_memory          in varchar2 default null,
+   p_idx_sync_para_degree     in number   default null, 
+   p_idx_sync_interval        in varchar2 default null,
+   p_idx_configcol            in varchar2 default null,
+   p_idx_auto_opt_type        in varchar2 default null,
+   p_idx_auto_opt_interval    in varchar2 default null,
+   p_idx_auto_opt_para_degree in number   default null,
+   is_movechunk               in boolean  default false,
+   p_ixp_name                 in varchar2 default null,
+   p_ixp_user                 in varchar2 default null
+);
+
+/*--------------------------  create_partition  ----------------------*/
+/*
+  NAME
+    create_partition
+  DESCRIPTION
+    insert into dr$index_partition during import. 
+  ARGUMENTS
+    p_ixp_id  :  partition ID 
+    p_ixp_name:  partition name
+  NOTES
+ 
+  EXCEPTIONS
+ 
+  RETURNS
+*/
+PROCEDURE create_partition(
+   p_ixp_id          IN  number,
+   p_ixp_name        IN  varchar2,
+   p_ixp_docid_count IN  number,
+   p_ixp_nextid      IN  number,
+   p_ixp_opt_token   IN  VARCHAR2,
+   p_ixp_opt_type    IN  number,
+   p_ixp_opt_count   IN  number,
+   p_ixp_sync_type   IN  VARCHAR2 default null,
+   p_ixp_sync_memory       IN  VARCHAR2 default null,
+   p_ixp_sync_para_degree  IN  NUMBER default null,
+   p_ixp_sync_interval     IN  VARCHAR2 default null,
+   p_ixp_auto_opt_type     IN  VARCHAR2 default null,
+   p_ixp_auto_opt_interval IN  VARCHAR2 default null,
+   p_ixp_auto_opt_para_degree IN NUMBER default null
+);
+
+/*-------------------------- set_object ---------------------------*/
+/*
+  NAME
+    set_object
+  DESCRIPTION
+    insert into dr$index_object for this class_name and object_name
+  ARGUMENTS
+    p_cla_name  (IN)  - class name
+    p_obj_name  (IN)  - object name
+    p_acnt      (IN)  - number of attributes
+  NOTES
+ 
+  EXCEPTIONS
+ 
+  RETURNS
+*/
+PROCEDURE set_object(
+  p_cla_name  IN  varchar2,
+  p_obj_name  IN  varchar2,
+  p_acnt      IN  varchar2
+);
+
+/*-------------------------- set_value ----------------------------*/
+/*
+  NAME
+    set_value
+  DESCRIPTION
+    insert into dr$index_value
+  ARGUMENTS
+    p_att_name  (IN) - attribute name
+    p_att_value (IN) - attribute value   
+  NOTES
+ 
+  EXCEPTIONS
+ 
+  RETURNS
+*/
+PROCEDURE set_value(
+  p_att_name   IN   varchar2,
+  p_att_value  IN   varchar2
+);
+
+/*-------------------------- set_sub_value ----------------------------*/
+/*
+  NAME
+    set_sub_value
+  DESCRIPTION
+    insert into dr$index_value
+  ARGUMENTS
+    p_att_name  (IN) - attribute name
+    p_att_value (IN) - attribute value   
+  NOTES
+ 
+  EXCEPTIONS
+ 
+  RETURNS
+*/
+PROCEDURE set_sub_value(
+  p_att_name   IN   varchar2,
+  p_sub_group  IN   number,
+  p_sub_obj    IN   varchar2,
+  p_sub_att    IN   varchar2,
+  p_sub_value  IN   varchar2
+);
+
+/*-------------------------- add_pending ----------------------------*/
+/*
+  NAME
+    add_pending
+  DESCRIPTION
+    insert into dr$pending
+  ARGUMENTS
+    p_pid    (IN) - partition id
+    p_rowid  (IN) - rowid
+  NOTES
+ 
+  EXCEPTIONS
+ 
+  RETURNS
+*/
+PROCEDURE add_pending(
+  p_pid    IN   number,
+  p_rowid  IN   rowid
+);
+
+/*-------------------------- add_cdicol ----------------------------*/
+/*
+  NAME
+    add_cdicol
+  DESCRIPTION
+    insert into dr$index_cdi_column
+  ARGUMENTS
+    columns to dr$index_cdi_column, except id
+  NOTES
+ 
+  EXCEPTIONS
+ 
+  RETURNS
+*/
+PROCEDURE add_cdicol(
+  p_cdi_column_position    IN   number,
+  p_cdi_column_name        IN   varchar2,
+  p_cdi_column_type        IN   varchar2,
+  p_cdi_column_type#       IN   number,
+  p_cdi_column_length      IN   number,
+  p_cdi_section_name       IN   varchar2,
+  p_cdi_section_type       IN   number,
+  p_cdi_section_id         IN   number,
+  p_cdi_sort_order         IN   varchar2
+);
+
+/*-------------------------- add_user_extract_rule -------------------------*/
+/*
+  NAME
+    add_user_extract_rule
+  DESCRIPTION
+    insert stoppatterns into dr$user_extract_rule
+  ARGUMENTS
+    columns of dr$user_extract_rule
+  NOTES
+ 
+  EXCEPTIONS
+ 
+  RETURNS
+*/
+PROCEDURE add_user_extract_rule(
+  p_erl_rule_id     IN  number,
+  p_erl_language    IN  varchar2,
+  p_erl_rule        IN  varchar2,
+  p_erl_modifier    IN  varchar2,
+  p_erl_type        IN  varchar2,
+  p_erl_status      IN  number,
+  p_erl_comments    IN  varchar2
+);
+
+end driimp;
+/
+
+
+
+
+
+@?/rdbms/admin/sqlsessend.sql

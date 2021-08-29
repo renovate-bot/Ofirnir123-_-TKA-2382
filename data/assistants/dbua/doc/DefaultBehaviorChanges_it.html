@@ -1,0 +1,527 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+  <title>Oracle Database 11g: modifiche al funzionamento predefinito</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="topic-id" content="default_behavior_changes">
+  <link rel="stylesheet" href="blafdoc.css" type="text/css">
+  <style type="text/css">
+<!--
+.style1 {font-size: 9px}
+-->
+  </style>
+</head>
+
+<body>
+  <h1>Oracle Database 11<em>g</em>: modifiche al funzionamento predefinito</h1>
+
+  <p>In questa pagina vengono descritte le modifiche apportate al funzionamento di Oracle Database 11<em>g</em> rispetto alle release precedenti. In alcuni casi, sono stati modificati i valori predefiniti di alcuni parametri. In altri casi, sono stati introdotti nuovi requisiti o funzionamenti che potrebbero avere effetto sugli script o sulle applicazioni correnti. Dal punto di vista dell'amministrazione del database, Oracle Database 11g contiene numerosi miglioramenti. Per ulteriori informazioni, vedere Oracle Database New Features Guide 11g Release 1 (11.1).</p>
+
+  <table width="949" border="1">
+    <tr>
+      <td width="204">
+        <p><strong>Funzione</strong></p>
+      </td>
+
+      <td width="729">
+        <p><strong>Descrizione</strong></p>
+      </td>
+    </tr>
+
+    <tr>
+      <td>Supporto di Unicode 5.0</td>
+
+      <td>
+        <ul>
+          <li>I file di dati NLS per i set di caratteri AL32UTF8 e AL16UTF16 sono stati aggiornati in modo da corrispondere alla versione 5.0 del database di caratteri dello standard Unicode. Grazie a questo miglioramento il database Oracle è conforme alla versione più recente dello standard Unicode.</li>
+        </ul>
+      </td>
+    </tr>
+
+    <tr>
+      <td>Compatibilità OracleJVM Java/JDK 5.0</td>
+
+      <td>
+        <ul>
+          <li>OracleJVM supporta JDK 1.5 della Sun. Questa funzione garantisce la portabilità delle applicazioni J2SE (JDBC standalone o livello intermedio) nel database Oracle e consente di sfruttare al meglio i vantaggi chiave di J2SE 5.0, quale ad esempio lo stile di programmazione dichiarativa abilitato dalla funzione di annotazioni Java.</li>
+        </ul>
+      </td>
+    </tr>
+
+    <tr>
+      <td>Configurazione di OracleJVM JIT</td>
+
+      <td>
+        <ul>
+          <li>Il JIT è abilitato per impostazione predefinita (pronto all'uso) e non richiede ulteriori operazioni di configurazione.</li>
+        </ul>
+      </td>
+    </tr>
+
+    <tr>
+      <td>Database trasportabili tra Linux e Windows</td>
+
+      <td>
+        <ul>
+          <li>Questa funzione consente di spostare con facilità i database tra gli ambienti Linux e Windows. È quindi possibile creare database trasportabili tra Linux e Windows abilitando lo standby fisico tra le piattaforme.</li>
+        </ul>
+      </td>
+    </tr>
+
+    <tr>
+      <td>Report automatico dei blocchi danneggiati</td>
+
+      <td>
+        <ul>
+          <li>Se durante il recupero dell'istanza vengono individuati blocchi danneggiati, il parametro DBA_CORRUPTION_LIST viene popolato automaticamente. La convalida dei blocchi si verifica a ogni livello del backup, del recupero dei dischi e del recupero dell'istanza.</li>
+        </ul>
+      </td>
+    </tr>
+
+    <tr>
+      <td>Gestione e aggiornamento delle applicazioni in linea</td>
+
+      <td>
+        <ul>
+          <li>
+            <p>In Oracle Database 11g sono disponibili numerose funzioni nuove. Rispetto a quanto era possibile ottenere con Oracle Database 10g, queste funzioni, utilizzate insieme, sono in grado di ridurre sensibilmente i tempi di inattività dopo la scrittura e l'applicazione delle patch e degli aggiornamenti per le applicazioni del database Oracle.</p>
+          </li>
+
+          <li>
+            <p>I comandi DDL con l'opzione WAIT costituiscono una nuova impostazione predefinita. Il tempo di attesa viene specificato a livello di istanza (nel file dei parametri di inizializzazione) e può essere modificato a livello di sessione. I comandi DDL specificati con l'opzione WAIT offrono la flessibilità necessaria per definire periodi di proroga per l'esecuzione corretta dei comandi, invece della visualizzazione immediata degli errori.</p>
+          </li>
+
+          <li>
+            <p>Grazie alla funzionalità ADD COLUMN, l'aggiunta di nuove colonne con valori DEFAULT e vincolo NOT NULL non richiede più la memorizzazione del valore predefinito in tutti i record esistenti. Ciò consente una modifica dello schema indipendente dal volume dei dati esistenti in frazioni di secondo senza consumo di spazio.</p>
+          </li>
+
+          <li>
+            <p>Nelle release precedenti i metadati registravano le dipendenze reciproche tra gli oggetti con la granularità dell'intero oggetto. Ciò significa che a volte gli oggetti dipendenti venivano resi non validi quando non vi era alcun requisito logico per una tale operazione. In Oracle Database 11g i metadati di dipendenza vengono registrati a un livello di granularità più fine. Il fatto che gli oggetti dipendenti possano essere resi non validi con minore frequenza dopo le modifiche apportate agli oggetti da cui dipendono fa aumentare la disponibilità delle applicazioni.</p>
+          </li>
+
+          <li>
+            <p>Un indice invisibile costituisce una valida alternativa per evitare di rendere un indice inutilizzabile o addirittura di eliminarlo. Gli indici invisibili consentono di utilizzare le strutture di indice temporanee per determinate operazioni o moduli di applicazione senza avere effetto sull'intera applicazione. Possono essere utilizzati per verificare le conseguenze della rimozione di un indice senza effettuarne l'eliminazione, stabilendo così un periodo di proroga utile per i test negli ambienti di produzione.</p>
+          </li>
+
+          <li>
+            <p>In questa release al database Oracle è stato aggiunto un controllo a livello di sessione per i log delle viste materializzate. È possibile disabilitare la funzione di acquisizione delle modifiche apportate alle viste materializzate (log delle viste materializzate) per una singola sessione e lasciare attivo il log per le modifiche apportate dalle altre sessioni. Questa funzione riduce il tempo di inattività per l'aggiornamento delle applicazioni.</p>
+          </li>
+
+          <li>
+            <p>Nelle release precedenti non era possibile ridefinire una tabella che disponeva di un log o di una vista materializzata definita. Con questa release è possibile copiare temporaneamente il log delle viste materializzate, proprio come i trigger, gli indici e altri oggetti dipendenti simili. Alla fine della ridefinizione, i log ROWID vengono resi non validi. All'inizio, per tutte le viste materializzate dipendenti deve essere eseguito un aggiornamento completo.</p>
+          </li>
+
+          <li>
+            <p>La funzione Riduci ricompilazione del codice PL/SQL dipendente dopo ridefinizione tabella in linea riduce al minimo la necessità di ricompilare i package PL/SQL dipendenti dopo la ridefinizione di una tabella in linea. Questa funzione riduce il tempo e lo sforzo necessari per la ricompilazione manuale del codice PL/SQL dipendente dopo la ridefinizione delle tabelle in linea. Sono interessati anche elementi quali le viste, i sinonimi e gli altri oggetti dipendenti della tabella, ad eccezione dei trigger, che non sono interessati logicamente dalla ridefinizione.</p>
+
+          </li>
+
+          <li>
+            <p>I miglioramenti apportati alle funzioni di creazione e ricreazione degli indici in linea eliminano la necessità di definire lock esclusivi quando si crea o ricrea un indice in linea e rendono queste operazioni completamente trasparenti.</p>
+          </li>
+
+          <li>Oracle Database 11g presenta una nuova sintassi ALTER TABLE. Il sistema operativo imposta la precedente in modo da rendere il file di sola lettura anche per il rispettivo proprietario. In precedenza una tabella poteva essere resa di sola lettura per gli utenti che non fossero il proprietario.</li>
+        </ul>
+      </td>
+    </tr>
+
+    <tr>
+      <td>Colonne virtuali</td>
+
+      <td>
+        <ul>
+          <li>
+            <p>Le colonne virtuali vengono definite mediante la valutazione di un'espressione, i cui risultati diventano i metadati delle colonne per le tabelle. Le colonne virtuali possono essere definite quando si crea o modifica una tabella.</p>
+          </li>
+
+          <li>
+            <p>Le colonne virtuali consentono agli sviluppatori di applicazioni di definire i calcoli e le trasformazioni come definizione di colonne (metadati) delle tabelle senza consumo di spazio. Ciò rende lo sviluppo delle applicazioni meno soggetto a errori e migliora l'ottimizzazione delle query fornendo all'ottimizzatore ulteriori statistiche per le colonne virtuali.</p>
+          </li>
+        </ul>
+      </td>
+    </tr>
+
+    <tr>
+      <td>Supporto del linguaggio XML binario per Oracle XML DB</td>
+
+      <td>
+        <ul>
+          <li>
+            <p>Il linguaggio XML binario, ossia il metodo di rappresentazione della struttura di un documento XML, aggiunge al database un terzo modello di memorizzazione per il codice XML persistente. Questo modello va ad aggiungersi, e non a sostituire, ai modelli di memorizzazione degli oggetti e del testo esistenti.</p>
+          </li>
+
+          <li>
+            <p>Ne consegue un netto miglioramento delle operazioni XML, indipendentemente dalla disponibilità di uno schema XML. È inoltre possibile disporre della stessa rappresentazione interna del codice XML a prescindere dalla posizione in cui si trova (disco, memoria o posizione di rete).</p>
+          </li>
+        </ul>
+      </td>
+    </tr>
+
+    <tr>
+      <td>XMLIndex</td>
+
+      <td>
+        <ul>
+          <li>Questa funzione consente alle organizzazioni di indicizzare in modo efficiente i documenti XML senza che sia necessario conoscere in anticipo la forma o il contenuto di ciò che verrà indicizzato. È previsto il supporto completo per l'efficientissima funzione di ricerca del contenuto XML indicizzato basata su XPath.</li>
+        </ul>
+      </td>
+    </tr>
+
+    <tr>
+      <td>Repository di diagnostica automatica</td>
+
+      <td>
+        <ul>
+          <li>
+            <p>Il Repository di diagnostica automatica (ADR) è un nuovo repository gestito dal sistema per la memorizzazione e l'organizzazione dei file di trace e di altri dati di diagnosi degli errori. Il repository ADR fornisce una vista completa di tutti gli errori gravi rilevati dal database e gestisce tutti i dati necessari per la diagnosi e la risoluzione dei problemi.</p>
+          </li>
+
+          <li>
+            <p>Fornisce inoltre un meccanismo uniforme e coerente per memorizzare, formattare e individuare tutte le informazioni di diagnostica del database. Il repository ADR genera automaticamente gli incidenti per gli errori gravi e ne fornisce le funzionalità di gestione, riducendo in modo significativo il tempo dedicato dai clienti alla risoluzione dei problemi.</p>
+          </li>
+        </ul>
+      </td>
+    </tr>
+
+    <tr>
+      <td>Controllo automatico dello stato</td>
+
+      <td>
+        <ul>
+          <li>
+            <p>Il Controllo automatico dello stato controlla lo stato del database e identifica prontamente qualsiasi problema in grado di impedirne il corretto funzionamento. Grazie a questa funzione, l'amministratore del database dispone di una visione completa dello stato corrente del database e può risolvere più facilmente gli eventuali problemi riscontrati.</p>
+          </li>
+
+          <li>
+            <p>A seconda del componente o della situazione, la funzione Controllo automatico dello stato mette in quarantena il componente o la risorsa causa del problema oppure fornisce una soluzione. Questa funzione contribuisce a ridurre i periodi di inattività e consente di pianificare in anticipo i periodi di indisponibilità nelle aziende.</p>
+          </li>
+        </ul>
+      </td>
+    </tr>
+
+    <tr>
+      <td>Aggiornamento in sequenza di ASM</td>
+
+      <td>
+        <ul>
+          <li>La funzione di aggiornamento in sequenza consente di eseguire la migrazione o l'applicazione di patch per i nodi indipendenti di un cluster ASM senza influire sulla disponibilità del database. L'aggiornamento in sequenza garantisce tempi di attività più lunghi e la migrazione normale verso le nuove release.</li>
+        </ul>
+      </td>
+    </tr>
+
+    <tr>
+      <td>Nuovo privilegio SYSASM per l'amministrazione di ASM</td>
+
+      <td>
+        <ul>
+          <li>Questa funzione presenta il nuovo privilegio SYSASM, che consente di separare le responsabilità di gestione del database da quelle di gestione della memoria. Grazie al privilegio SYSASM, un amministratore può gestire i gruppi di dischi che possono essere condivisi da più database. Il privilegio SYSASM fornisce una chiara separazione dei compiti rispetto al privilegio SYSDBA.</li>
+        </ul>
+      </td>
+    </tr>
+
+    <tr>
+      <td>Conversione di ASM a istanza singola in ASM in cluster</td>
+
+      <td>
+        <ul>
+          <li>
+            <p>Questa funzione fornisce, all'interno di Enterprise Manager, il supporto per la conversione di un database ASM non in cluster in database ASM in cluster mediante la configurazione implicita di ASM su tutti i nodi. Estende inoltre la utility di conversione da istanza singola a Oracle RAC per supportare i database in standby.</p>
+          </li>
+
+          <li>
+            <p>Semplificare la conversione significa consentire ai clienti di eseguire la migrazione dei database in modo più facile nonché di godere dei vantaggi forniti da Oracle RAC, quali la scalabilità e l'alta disponibilità.</p>
+          </li>
+        </ul>      </td>
+    </tr>
+
+    <tr>
+      <td>Ripetizione database</td>
+
+      <td>
+        <ul>
+          <li>La funzione Ripetizione database consente agli utenti di eseguire test vicinissimi alla realtà mediante l'acquisizione del carico di lavoro effettivo del database sul sistema di produzione e la ripetizione del carico di lavoro sul sistema di test. Fornisce inoltre strumenti di analisi e report per evidenziare eventuali problemi (ad esempio, gli errori riscontrati e le differenze nelle prestazioni) e consiglia il modo per risolverli.</li>
+        </ul>
+      </td>
+    </tr>
+
+    <tr>
+      <td>Ripetizione SQL</td>
+
+      <td>
+        <ul>
+          <li>La funzione Ripetizione SQL fornisce un metodo semplice per valutare l'impatto di una modifica sulle prestazioni delle istruzioni SQL mediante il confronto dei tempi di risposta di ognuna prima e dopo la modifica. La funzione consente di acquisire il carico di lavoro SQL dal sistema di origine, ad esempio il database di produzione, e di ripeterlo nel sistema di test in cui è stata applicata la modifica.</li>
+        </ul>
+      </td>
+    </tr>
+
+    <tr>
+      <td>Miglioramenti della funzione di copia del database</td>
+
+      <td>
+        <ul>
+          <li>Questa funzione elimina la necessità di disporre di un'area intermedia di origine e di destinazione, supporta la copia da un backup set RMAN generico e migliora l'interfaccia utente di riepilogo dei job nelle pagine di copia del database di Enterprise Manager.</li>
+        </ul>
+      </td>
+    </tr>
+
+    <tr>
+      <td>Soglie delle metriche adattive migliorate</td>
+
+      <td>
+        <ul>
+          <li>
+            <p>La funzione Soglie delle metriche adattive semplifica e migliora la selezione delle soglie di avviso per le metriche delle prestazioni del database. Utilizzandola gli amministratori possono configurare soglie di avviso delle prestazioni di alta qualità e basate su baseline con il minimo sforzo.</p>
+          </li>
+
+          <li>
+            <p>La completa integrazione con le baseline AWR è l'origine per le statistiche delle metriche.</p>
+          </li>
+
+          <li>
+            <p>L'opzione di configurazione rapida offre un set iniziale di soglie basato sui profili di sistema OLTP o Data Warehouse.</p>
+          </li>
+
+          <li>
+            <p>Selezione automatica dei periodi di tempo per la baseline a finestra mobile SYSTEM.</p>
+          </li>
+
+          <li>
+            <p>Ricerca automatica guidata delle metriche di avviso candidate basata sui livelli di risposta ai problemi conosciuti.</p>
+          </li>
+
+          <li>
+            <p>Grafici e analisi delle metriche migliorati.</p>
+          </li>
+        </ul>
+      </td>
+    </tr>
+
+    <tr>
+      <td>Task automatico</td>
+
+      <td>
+        <ul>
+          <li>In Oracle Database 11g Task automatico è in grado di eseguire centinaia o migliaia di job nelle finestre di gestibilità. Aggiunge inoltre l'infrastruttura dello scheduler necessaria per la gestione automatica di tale carico di job ad alta gestibilità.</li>
+        </ul>
+      </td>
+    </tr>
+
+    <tr>
+      <td>Gestione dei task di gestione automatica</td>
+
+      <td>
+        <ul>
+          <li>Questa funzione facilita la gestione della distribuzione delle risorse (CPU e di input-output) tra i vari task di gestione del database, quali Raccolta automatica delle statistiche dell'optimizer e Segment advisor automatico. La CPU viene gestita automaticamente. Le operazioni di I/O vengono gestite solo se I/O Resource Manager è stato abilitato.</li>
+        </ul>
+      </td>
+    </tr>
+
+    <tr>
+      <td>Baseline AWR (repository del carico di lavoro automatico)</td>
+
+      <td>
+        <ul>
+          <li>
+            <p>Le baseline AWR (Automatic Workload Repository, Repository del carico di lavoro automatico) garantiscono il confronto accurato delle prestazioni offrendo la possibilità di contrassegnare come periodo interessato un certo periodo di tempo rispetto al quale potranno essere eseguiti i confronti in futuro.</p>
+          </li>
+
+          <li>
+            <p>Questa potente funzione consente di definire baseline dinamiche e future, semplificando il processo di creazione e gestione dei dati delle prestazioni utilizzati per il confronto.</p>
+          </li>
+        </ul>
+      </td>
+    </tr>
+
+    <tr>
+      <td>Migrazione di DBMS_JOB in Oracle Scheduler</td>
+
+      <td>
+        <ul>
+          <li>Gli utenti di DBMS_JOB possono scegliere di eseguire la migrazione dei propri job in Oracle Scheduler. A migrazione avvenuta, i job DBMS_JOB diventano job Oracle Scheduler e gli utenti DBMS_JOB possono quindi usufruire di tutte le funzioni di Oracle Scheduler. Gli utenti di DBMS_JOB possono usufruire di tutte le funzioni di Oracle Scheduler.</li>
+        </ul>
+      </td>
+    </tr>
+
+    <tr>
+      <td>Gestione semplificata dei parametri di inizializzazione</td>
+
+      <td>
+        <ul>
+          <li>In questa release sono disponibili alcuni miglioramenti, quali ad esempio un file dei parametri del server (SPFILE) più tollerante agli errori, una funzione di recupero del file dei parametri del server più semplice e un'interfaccia di gestione dei parametri di inizializzazione di Enterprise Manager più intuitiva, che facilitano la gestione del file dei parametri del server e dei valori dei parametri di inizializzazione.</li>
+      </ul>      </td>
+    </tr>
+
+    <tr>
+      <td>Supporto OFA (Optimal Flexible Architecture) migliorato</td>
+
+      <td>
+        <ul>
+          <li>
+            <p>Il processo di installazione del database è stato ridisegnato e basato sulla variabile di ambiente ORACLE_BASE. Finora l'impostazione di questa variabile era facoltativa e l'unica variabile richiesta era ORACLE_HOME. Con questa funzione, ORACLE_BASE diventa l'unico input richiesto e l'impostazione di ORACLE_HOME deriva dalla variabile ORACLE_BASE. Questa modifica rende più semplice l'organizzazione dell'installazione del software Oracle e, di conseguenza, la gestione globale.</p>
+          </li>
+
+          <li>
+            <p>Questa funzione migliora la gestibilità in quanto rende le installazioni predefinite del database Oracle più conformi alle specifiche OFA (Optimal Flexible Architecture).</p>
+          </li>
+        </ul>
+      </td>
+    </tr>
+
+    <tr>
+      <td>Miglioramenti relativi alla gestibilità</td>
+
+      <td>
+        <ul>
+          <li>
+            <p>Le nuove funzioni di Automatic Storage Management estendono l'automazione della gestione della memoria, migliorano la scalabilità e semplificano la gestione dei file del database Oracle.</p>
+          </li>
+
+          <li>
+            <p>Nelle release precedenti la funzione Advanced Replication era un metodo di replica basato su trigger. Con Oracle Database 11g, questa funzione costituisce un miglioramento delle funzionalità esistenti per Enterprise Manager Database Control basato sul Web. Questa funzione supporta i clienti di Advanced Replication esistenti mediante la gestione di Advanced Replication da Enterprise Manager Database Control 11g.</p>
+          </li>
+
+          <li>
+            <p>La funzione ADDM è stata migliorata per offrire una diagnostica completa delle prestazioni a livello di cluster e suggerimenti per il tuning. Una modalità speciale della funzione consente di analizzare il database Oracle RAC e di ottenere report sui problemi che interessano l'intero cluster e sui problemi che interessano le singole istanze.</p>
+
+            <p>Questa funzione contribuisce a una migliore distribuzione delle risorse globali, quali ad esempio le risorse di I/O e il traffico di interconnessione, e rende facile e preciso il tuning dei database Oracle RAC.</p>
+          </li>
+
+          <li>
+            <p>Ora il database Oracle individua automaticamente le istruzioni SQL con carichi elevati e le sottopone automaticamente a tuning nella finestra di gestione mediante la creazione di profili SQL appropriati. Fornisce inoltre suggerimenti per creare nuove strutture di accesso, quali ad esempio gli indici, in grado di migliorare in modo significativo le prestazioni delle istruzioni SQL con carichi elevati.</p>
+          </li>
+
+          <li>
+            <p>La disabilitazione di un processo Streams comporta la generazione automatica di un avviso. Gli avvisi vengono generati anche in base alle soglie definite dall'utente per le metriche chiave Streams. Questi avvisi forniscono all'amministratore informazioni utili sui componenti critici di Streams.</p>
+          </li>
+        </ul>
+      </td>
+    </tr>
+
+    <tr>
+      <td>Miglioramenti relativi alla memoria</td>
+
+      <td>
+        <ul>
+          <li>
+            <p>L'istanza Gestione automatica della memoria si basa sul parametro Dimensione della memoria (SGA e PGA), ridistribuendo la memoria tra l'area SGA (System Global Area) e l'area PGA (Program Global Area) aggregata a seconda delle esigenze. Il parametro di inizializzazione Dimensione della memoria (SGA e PGA) è dinamico: ciò vuol dire che è possibile modificarlo in qualsiasi momento senza dover riavviare il database. Quando l'opzione Gestione automatica della memoria è selezionata, l'istanza del database gestisce automaticamente la dimensione delle aree SGA e PGA.</p>
+          </li>
+
+          <li>
+            <p>In precedenza il numero dei cursori SQL inseriti nella cache da PL/SQL era determinato da OPEN_CURSORS. Nella release 11<em>g</em>, tale numero è determinato da SESSION_CACHED_CURSORS. Vedere il manuale <em>Oracle Database Reference</em>.</p>
+          </li>
+
+          <li>
+            <p>SHARED_POOL_SIZE deve essere aumentato per includere lo spazio necessario per il sovraccarico dello shared pool.</p>
+          </li>
+
+          <li>
+            <p>Il valore predefinito di DB_BLOCK_SIZE è specifico del sistema operativo, ma in genere è pari a 8 KB. Nelle release precedenti era di 2 KB.</p>
+          </li>
+        </ul>
+      </td>
+    </tr>
+
+    <tr>
+      <td>Transazione e spazio</td>
+
+      <td>
+        <ul>
+          <li>
+            <p>L'impostazione predefinita di Automatic Undo Management (AUM) ora viene abilitata per impostazione predefinita. Viene fornita una procedura PL/SQL che aiuta a definire la dimensione appropriata della tablespace di undo per ogni singolo ambiente. I database interessati dall'aggiornamento alla nuova release possono migrare ad AUM senza problemi.</p>
+          </li>
+
+          <li>
+            <p>La raccolta delle statistiche per gli oggetti partizionati è un processo avanzato di raccolta delle statistiche in grado di migliorare sensibilmente la velocità e l'accuratezza della raccolta delle statistiche per gli oggetti partizionati.</p>
+          </li>
+
+          <li>
+            <p>La funzione di gestione semplificata dello spazio temporaneo smitizza la gestione dello spazio temporaneo consentendo agli amministratori di database di determinare con facilità la quantità di spazio temporaneo utilizzata, l'utente che ne fa uso e se ne è necessaria una quantità maggiore. Questa funzione consente di ridurre il numero di errori dovuti a un configurazione inadeguata dello spazio temporaneo e identifica i problemi di progettazione delle applicazioni, quali ad esempio le query con esecuzione troppo lunga.</p>
+          </li>
+        </ul>
+      </td>
+    </tr>
+
+    <tr>
+      <td>Configurazione di Oracle Base e della destinazione Diagnostic</td>
+
+      <td>
+        <ul>
+          <li>
+            <p>La directory specificata durante la "fase di richiesta informazioni" dell'Assistente alla configurazione del database (DBCA) per ORACLE_BASE viene memorizzata nell'inventario della Oracle home come parametro DIAGNOSTIC_DEST e utilizzata durante le successive creazioni delle directory. (La directory predefinita è la directory $ORACLE_BASE). Inoltre, durante un'operazione ADD INSTANCE, l'Assistente all'aggiornamento del database (DBUA) presuppone che il valore ORACLE_BASE sia identico su tutti i nodi e lo convalida su tutti i nodi.</p>
+          </li>
+
+          <li>
+            <p>La posizione della destinazione Diagnostic contiene tutte le directory ADR (file diagnostici, quali alert log e così via). La directory di destinazione Diagnostic è necessaria quando si esegue l'aggiornamento da un database Oracle con release precedente alla 11<em>g</em> e si passa alla release 11<em>g</em> o successiva del database. Se la directory Oracle Base esiste già, l'Assistente all'aggiornamento recupera automaticamente queste informazioni e inserisce preventivamente il percorso della directory.</p>
+          </li>
+
+          <li>
+            <p>A partire dalla release 11<em>g</em> di Oracle Database, le impostazioni dei parametri di inizializzazione per le destinazioni dei file di dump dei processi di background, del dump utente e del dump della memoria saranno sostituite dalla destinazione Diagnostic.</p>
+          </li>
+        </ul>
+      </td>
+    </tr>
+
+    <tr>
+      <td>Aggiornamento XE</td>
+
+      <td>
+        <ul>
+          <li>
+            <p>Per i database a istanza singola, la utility di configurazione dell'Assistente all'aggiornamento del database (DBUA) consente di eseguire l'aggiornamento da Oracle Database Express Edition (Oracle Database XE) a Oracle Database 11<em>g</em>. DBUA identifica se il database interessato è un database XE.</p>
+          </li>
+
+          <li>
+            <p>I file del database XE risiedono nel percorso ORACLE_BASE/oradata/XE. Questi file devono essere copiati in una nuova posizione in quanto l'utente potrebbe rimuovere la Home XE dopo l'aggiornamento.</p>
+          </li>
+        </ul>
+      </td>
+    </tr>
+
+    <tr>
+      <td>Spostamento dei file di dati in ASM, SAN e in altri file system</td>
+
+      <td>
+        <ul>
+          <li>
+            <p>Nell'ambito di un'operazione di aggiornamento è possibile spostare i file di dati in ASM, OFS o in altri dispositivi di memorizzazione quali SAN (Storage Area Networks) e NAS (Network Area Storage). Se si sceglie di spostare i file del database durante l'aggiornamento, è possibile sfruttare il tempo di inattività che si verifica di solito per questa tablespace per effettuare un nuovo bilanciamento dei dischi e spostare i file su un dispositivo di memorizzazione migliore quale SAN, NAS o ASM.</p>
+          </li>
+        </ul>
+      </td>
+    </tr>
+
+    <tr>
+      <td>Aggiornamento/Downgrade</td>
+
+      <td>
+        <ul>
+          <li>
+            <p>È possibile eseguire il downgrade sia alle release principali che alle release dei set di patch in base alla versione originale dalla quale è stato eseguito l'aggiornamento del database. Per le release principali è possibile eseguire il downgrade alle versioni 10.2 e 10.1. Il downgrade è supportato per tutte le release di patch anteriori alla 11.1.<br> Tenere presente che non è possibile eseguire il downgrade di un database aggiornato da Oracle Database Express Edition.<br> L'esecuzione del downgrade è possibile solo verso la release dalla quale è stato eseguito l'aggiornamento. Ad esempio, se l'aggiornamento è stato eseguito dalla release 10.1 alla release 11.1, non sarà possibile eseguire il downgrade alla release 10.2; sarà consentito solo il downgrade alla release 10.1.</p>
+          </li>
+
+          <li>
+            <p>Se il numero di release del database Oracle10g Release 1 (10.1) in uso è inferiore a 10.1.0.5, si consiglia di installare la patch più recente per la release 10.1 prima di passare a una versione precedente. Analogamente, se il numero di release del database Oracle 10g Release 2 (10.2) in uso è inferiore a 10.2.0.3, si consiglia di installare la patch più recente per la release 10.2 prima di passare a una versione precedente. Tenere presente che è possibile eseguire l'aggiornamento a versioni successive da qualsiasi release di patch 10.1 o 10.2, ma è necessario installare la release di patch più recente nella ORACLE_HOME che si prevede di utilizzare dopo il passaggio a versioni precedenti.</p>
+          </li>
+
+          <li>
+            <p>I componenti Messaging Gateway e Workspace Manager del database non fanno parte dei set di patch di Oracle Database anteriori alle release 10.1.0.6 e 10.2.0.4. È quindi necessario applicare tutte le patch rilevanti a una ORACLE_HOME 10.2.0.3 o 10.1.0.5 ORACLE_HOME prima del passaggio a versioni precedenti.</p>
+          </li>
+
+          <li>La dimensione minima e la dimensione predefinita del file di log sono aumentate. La dimensione minima corrisponde attualmente a 4 MB, mentre quella predefinita è pari a 50 MB, a meno che non si utilizzi Oracle Managed Files (OMF); in questo caso, la dimensione è uguale a 100 MB.</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td height="101"> <p>Opzione della riga di comando per i file di sistema ad estensione automatica </p></td>
+      <td><ul>
+        <li> L'opzione della riga di comando AUTOEXTEND facilita l'estensione automatica dei file di dati nell'ambito dell'aggiornamento.Questa opzione estende automaticamente i file di dati durante l'aggiornamento e ripristina l'impostazione originale della funzione dopo l'aggiornamento. Si tratta di un'opzione utile se il disco dispone di spazio sufficiente e non è necessario aggiungere nuovi file di dati oppure aumentare manualmente la dimensione dei file. </li>
+      </ul></td>
+    </tr>
+  </table>
+
+  <h2>Argomenti correlati</h2>
+
+  <p><a href="migrationWhat_Is_Oracle_Data_Migration_Assistant.html">Panoramica dell'Assistente all'aggiornamento del database</a></p>
+
+  <p class="style1">Copyright © 1998-2008 Oracle e/o relative consociate. Tutti i diritti riservati.</p>
+</body>
+</html>

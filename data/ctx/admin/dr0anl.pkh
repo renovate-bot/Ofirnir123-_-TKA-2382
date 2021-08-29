@@ -1,0 +1,58 @@
+rem 
+rem $Header: ctx_src_2/src/dr/admin/dr0anl.pkh 
+rem 
+rem Copyright (c) 1991, 2018, Oracle and/or its affiliates. 
+rem All rights reserved.
+rem  NAME
+rem    CTX_ANL.pkh - ATG auto lexer utility package  
+rem
+rem  DESCRIPTION
+rem    Procedures for ATG dictionary support 	
+rem
+rem  PUBLIC FUNCTION(S)
+rem    ADD_DICTIONARY and DROP_DICTIONARY
+rem
+rem  PRIVATE FUNCTIONS (these should not be called by customers, and should
+rem			really be defined in a separate file!)
+rem
+rem  NOTES
+rem 
+rem 
+rem  BEGIN SQL_FILE_METADATA
+rem    SQL_SOURCE_FILE: ctx_src_2/src/dr/admin/dr0anl.pkh
+rem    SQL_SHIPPED_FILE: ctx/admin/dr0anl.pkh
+rem    SQL_PHASE: DR0ANL_PKH
+rem    SQL_STARTUP_MODE: NORMAL
+rem    SQL_IGNORABLE_ERRORS: NONE
+rem    SQL_CALLING_FILE: ctx/admin/ctxpkh.sql
+rem  END SQL_FILE_METADATA
+rem
+rem  MODIFIED    (MM/DD/YY)
+rem  snetrava 06/14/18 - 28102835: NONE LOG PRAGMA
+rem  surman   01/23/15 - 20411134: Add SQL metadata tags
+rem  surman   03/15/13 - 16473661: Common start and end scripts
+rem  rkadwe   12/22/11 - Logical standby support for CTX_ANL
+rem  rkadwe   11/15/11 - cleanup
+rem  shrtiwar 07/22/11 - creation 
+
+@@?/rdbms/admin/sqlsessstart.sql
+
+create or replace package CTX_ANL authid current_user as
+/*
+name            IN      A unique name (per user) identifying dictionary.
+language        IN      Which language does this dictionary belong to?
+dictionary              IN      The actual dictionary
+*/
+
+PRAGMA SUPPLEMENTAL_LOG_DATA(default, NONE);
+
+PROCEDURE add_dictionary(name     in VARCHAR2,
+                         language in VARCHAR2,
+                         dictionary  in CLOB);
+
+PROCEDURE drop_dictionary(name in VARCHAR2);
+
+END CTX_ANL;
+/
+
+@?/rdbms/admin/sqlsessend.sql

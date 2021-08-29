@@ -1,0 +1,175 @@
+#2021-08-04_09-42-59-AM
+INFO: oracle.server:IAction.perform() was called on {Action state:configuration in CfmAggregateInstance: oracle.server:19.0.0.0.0:common:family=CFM:oh=C:\WINDOWS.X64_193000_db_home:label=1}
+INFO: oracle.server:About to execute plug-in Oracle Net Configuration Assistant
+INFO: oracle.server:The plug-in Oracle Net Configuration Assistant is running
+INFO: oracle.server:Internal PlugIn Class: oracle.install.config.common.NetCAInternalPlugIn
+INFO: oracle.server:Classpath = C:\WINDOWS.X64_193000_db_home\install\jlib\instcommon.jar;C:\WINDOWS.X64_193000_db_home\install\jlib\installcommons_1.0.0b.jar
+WARNING: oracle.server:Class oracle.install.config.common.NetCAInternalPlugIn was loaded by a parent class loader, provided classpath (C:\WINDOWS.X64_193000_db_home\install\jlib\instcommon.jar;C:\WINDOWS.X64_193000_db_home\install\jlib\installcommons_1.0.0b.jar) will not be available from this class
+INFO: Executing NETCA
+INFO: Command C:\Windows\system32\cmd.exe /c call C:\WINDOWS.X64_193000_db_home\bin\netca.bat /orahome C:\WINDOWS.X64_193000_db_home /instype typical /inscomp client,oraclenet,javavm,server,ano /insprtcl tcp /cfg local /authadp NO_VALUE /responseFile C:\WINDOWS.X64_193000_db_home\network\install\netca_typ.rsp /silent /orahnam OraDB19Home1 /ouiinternal /maskPasswords false 
+INFO: ... GenericInternalPlugIn.handleProcess() entered.
+INFO: ... GenericInternalPlugIn: getting configAssistantParmas.
+INFO: ... GenericInternalPlugIn: checking secretArguments.
+INFO: ... GenericInternalPlugIn: starting read loop.
+INFO: Skipping line: 
+INFO: Skipping line: Parsing command line arguments:
+INFO: Skipping line:     Parameter "orahome" = C:\WINDOWS.X64_193000_db_home
+INFO: Skipping line:     Parameter "instype" = typical
+INFO: Skipping line:     Parameter "inscomp" = client,oraclenet,javavm,server,ano
+INFO: Skipping line:     Parameter "insprtcl" = tcp
+INFO: Skipping line:     Parameter "cfg" = local
+INFO: Skipping line:     Parameter "authadp" = NO_VALUE
+INFO: Skipping line:     Parameter "responsefile" = C:\WINDOWS.X64_193000_db_home\network\install\netca_typ.rsp
+INFO: Skipping line:     Parameter "silent" = true
+INFO: Skipping line:     Parameter "orahnam" = OraDB19Home1
+INFO: Skipping line:     Parameter "ouiinternal" = true
+INFO: Skipping line:     Parameter "maskpasswords" = false
+INFO: Skipping line: Done parsing command line arguments.
+INFO: Skipping line: Oracle Net Services Configuration:
+INFO: Skipping line: Profile configuration complete.
+INFO: Skipping line: Oracle Net Listener Startup:
+INFO: Skipping line:     Running Listener Control: 
+INFO: Skipping line:       C:\WINDOWS.X64_193000_db_home\bin\lsnrctl.exe start LISTENER
+INFO: Skipping line:     Listener Control complete.
+INFO: Skipping line:     Setting Listener service to start automatically.
+INFO: Skipping line:     Listener started successfully.
+INFO: Skipping line: Listener configuration complete.
+INFO: Skipping line: Default local naming configuration complete.
+INFO: Skipping line: Oracle Net Services configuration successful. The exit code is 0
+INFO: oracle.server:The plug-in Oracle Net Configuration Assistant has successfully been performed
+INFO: oracle.server:About to execute plug-in Oracle Database Configuration Assistant
+INFO: oracle.server:The plug-in Oracle Database Configuration Assistant is running
+INFO: oracle.server:Internal PlugIn Class: oracle.install.config.db.DBCAInternalPlugIn
+INFO: oracle.server:Classpath = C:\WINDOWS.X64_193000_db_home\install\jlib\instdb.jar;C:\WINDOWS.X64_193000_db_home\install\jlib\instcommon.jar;C:\WINDOWS.X64_193000_db_home\install\jlib\installcommons_1.0.0b.jar
+WARNING: oracle.server:Class oracle.install.config.db.DBCAInternalPlugIn was loaded by a parent class loader, provided classpath (C:\WINDOWS.X64_193000_db_home\install\jlib\instdb.jar;C:\WINDOWS.X64_193000_db_home\install\jlib\instcommon.jar;C:\WINDOWS.X64_193000_db_home\install\jlib\installcommons_1.0.0b.jar) will not be available from this class
+INFO: Executing DBCA
+INFO: Executing DBCA
+INFO: Command C:\Windows\system32\cmd.exe /c call C:\WINDOWS.X64_193000_db_home\bin\dbca.bat -progress_only -createDatabase -templateName General_Purpose.dbc -createAsContainerDatabase true -pdbName orclpdb -numberOfPDBs 1 -sid orcl -gdbName orcl -emConfiguration DBEXPRESS -emExpressPort 5500 -storageType FS -datafileDestination C:\oracle\oradata -datafileJarLocation C:\WINDOWS.X64_193000_db_home/assistants/dbca/templates -characterset AL32UTF8 -obfuscatedPasswords false -sampleSchema true -recoveryAreaDestination NONE -automaticMemoryManagement false -totalMemory 6446 -maskPasswords false -ignorePrereqFailure -skipEnforcePasswordComplexityCheck true -oui_internal 
+INFO: Command C:\Windows\system32\cmd.exe /c call C:\WINDOWS.X64_193000_db_home\bin\dbca.bat -progress_only -createDatabase -templateName General_Purpose.dbc -createAsContainerDatabase true -pdbName orclpdb -numberOfPDBs 1 -sid orcl -gdbName orcl -emConfiguration DBEXPRESS -emExpressPort 5500 -storageType FS -datafileDestination C:\oracle\oradata -datafileJarLocation C:\WINDOWS.X64_193000_db_home/assistants/dbca/templates -characterset AL32UTF8 -obfuscatedPasswords false -sampleSchema true -recoveryAreaDestination NONE -automaticMemoryManagement false -totalMemory 6446 -maskPasswords false -ignorePrereqFailure -skipEnforcePasswordComplexityCheck true -oui_internal 
+INFO: ... GenericInternalPlugIn.handleProcess() entered.
+INFO: ... GenericInternalPlugIn.handleProcess() entered.
+INFO: ... GenericInternalPlugIn: getting configAssistantParmas.
+INFO: ... GenericInternalPlugIn: getting configAssistantParmas.
+INFO: ... GenericInternalPlugIn: checking secretArguments.
+INFO: ... GenericInternalPlugIn: checking secretArguments.
+INFO: ... GenericInternalPlugIn: starting read loop.
+INFO: ... GenericInternalPlugIn: starting read loop.
+INFO: Skipping line: [WARNING] [DBT-11209] Current available memory is less than the required available memory (6,446MB) for creating the database.
+INFO: Skipping line: [WARNING] [DBT-11209] Current available memory is less than the required available memory (6,446MB) for creating the database.
+INFO: Skipping line:    CAUSE: Following nodes do not have required available memory :
+INFO: Skipping line:    CAUSE: Following nodes do not have required available memory :
+INFO: Skipping line:  Node:ofir-nir		Available memory:2.0094GB (2107008.0KB)
+INFO: Skipping line:  Node:ofir-nir		Available memory:2.0094GB (2107008.0KB)
+INFO: Skipping line: 
+INFO: Skipping line: 
+INFO: Processing: SYS_PASSWORD_PROMPT for argument tag -sysPassword
+INFO: Processing: SYS_PASSWORD_PROMPT for argument tag -sysPassword
+INFO: Skipping line:  *********
+INFO: Skipping line:  *********
+INFO: Processing: SYSTEM_PASSWORD_PROMPT for argument tag -systemPassword
+INFO: Processing: SYSTEM_PASSWORD_PROMPT for argument tag -systemPassword
+INFO: Skipping line:  *********
+INFO: Skipping line:  *********
+INFO: Processing: PDB_ADMIN_PASSWORD_PROMPT for argument tag -pdbAdminPassword
+INFO: Processing: PDB_ADMIN_PASSWORD_PROMPT for argument tag -pdbAdminPassword
+INFO: Skipping line:  *******
+INFO: Skipping line:  *******
+INFO: Skipping line: [WARNING] [DBT-06208] The SYS password entered does not conform to the Oracle recommended standards.
+INFO: Skipping line: [WARNING] [DBT-06208] The SYS password entered does not conform to the Oracle recommended standards.
+INFO: Skipping line:    CAUSE: 
+INFO: Skipping line:    CAUSE: 
+INFO: Skipping line: a. Oracle recommends that the password entered should be at least 8 characters in length, contain at least 1 uppercase character, 1 lower case character and 1 digit [0-9].
+INFO: Skipping line: a. Oracle recommends that the password entered should be at least 8 characters in length, contain at least 1 uppercase character, 1 lower case character and 1 digit [0-9].
+INFO: Skipping line: b.The password entered is a keyword that Oracle does not recommend to be used as password
+INFO: Skipping line: b.The password entered is a keyword that Oracle does not recommend to be used as password
+INFO: Skipping line:    ACTION: Specify a strong password. If required refer Oracle documentation for guidelines.
+INFO: Skipping line:    ACTION: Specify a strong password. If required refer Oracle documentation for guidelines.
+INFO: Skipping line: [WARNING] [DBT-06208] The SYSTEM password entered does not conform to the Oracle recommended standards.
+INFO: Skipping line: [WARNING] [DBT-06208] The SYSTEM password entered does not conform to the Oracle recommended standards.
+INFO: Skipping line:    CAUSE: 
+INFO: Skipping line:    CAUSE: 
+INFO: Skipping line: a. Oracle recommends that the password entered should be at least 8 characters in length, contain at least 1 uppercase character, 1 lower case character and 1 digit [0-9].
+INFO: Skipping line: a. Oracle recommends that the password entered should be at least 8 characters in length, contain at least 1 uppercase character, 1 lower case character and 1 digit [0-9].
+INFO: Skipping line: b.The password entered is a keyword that Oracle does not recommend to be used as password
+INFO: Skipping line: b.The password entered is a keyword that Oracle does not recommend to be used as password
+INFO: Skipping line:    ACTION: Specify a strong password. If required refer Oracle documentation for guidelines.
+INFO: Skipping line:    ACTION: Specify a strong password. If required refer Oracle documentation for guidelines.
+INFO: Skipping line: [WARNING] [DBT-06208] The PDBADMIN password entered does not conform to the Oracle recommended standards.
+INFO: Skipping line: [WARNING] [DBT-06208] The PDBADMIN password entered does not conform to the Oracle recommended standards.
+INFO: Skipping line:    CAUSE: 
+INFO: Skipping line:    CAUSE: 
+INFO: Skipping line: a. Oracle recommends that the password entered should be at least 8 characters in length, contain at least 1 uppercase character, 1 lower case character and 1 digit [0-9].
+INFO: Skipping line: a. Oracle recommends that the password entered should be at least 8 characters in length, contain at least 1 uppercase character, 1 lower case character and 1 digit [0-9].
+INFO: Skipping line: b.The password entered is a keyword that Oracle does not recommend to be used as password
+INFO: Skipping line: b.The password entered is a keyword that Oracle does not recommend to be used as password
+INFO: Skipping line:    ACTION: Specify a strong password. If required refer Oracle documentation for guidelines.
+INFO: Skipping line:    ACTION: Specify a strong password. If required refer Oracle documentation for guidelines.
+INFO: Skipping line: Prepare for db operation
+INFO: Skipping line: Prepare for db operation
+INFO: Skipping line: 8% complete
+INFO: Skipping line: 8% complete
+INFO: Skipping line: Copying database files
+INFO: Skipping line: Copying database files
+INFO: Skipping line: 31% complete
+INFO: Skipping line: 31% complete
+INFO: Skipping line: Creating and starting Oracle instance
+INFO: Skipping line: Creating and starting Oracle instance
+INFO: Skipping line: 32% complete
+INFO: Skipping line: 32% complete
+INFO: Skipping line: 36% complete
+INFO: Skipping line: 36% complete
+INFO: Skipping line: 40% complete
+INFO: Skipping line: 40% complete
+INFO: Skipping line: 43% complete
+INFO: Skipping line: 43% complete
+INFO: Skipping line: 46% complete
+INFO: Skipping line: 46% complete
+INFO: Skipping line: Completing Database Creation
+INFO: Skipping line: Completing Database Creation
+INFO: Skipping line: 51% complete
+INFO: Skipping line: 51% complete
+INFO: Skipping line: 54% complete
+INFO: Skipping line: 54% complete
+INFO: Skipping line: Creating Pluggable Databases
+INFO: Skipping line: Creating Pluggable Databases
+INFO: Skipping line: 58% complete
+INFO: Skipping line: 58% complete
+INFO: Skipping line: 77% complete
+INFO: Skipping line: 77% complete
+INFO: Skipping line: Executing Post Configuration Actions
+INFO: Skipping line: Executing Post Configuration Actions
+INFO: Skipping line: 100% complete
+INFO: Skipping line: 100% complete
+INFO: Skipping line: Database creation complete. For details check the logfiles at:
+INFO: Skipping line: Database creation complete. For details check the logfiles at:
+INFO: Skipping line:  C:\oracle\cfgtoollogs\dbca\orcl.
+INFO: Skipping line:  C:\oracle\cfgtoollogs\dbca\orcl.
+INFO: Skipping line: Database Information:
+INFO: Skipping line: Database Information:
+INFO: Skipping line: Global Database Name:orcl
+INFO: Skipping line: Global Database Name:orcl
+INFO: Skipping line: System Identifier(SID):orcl
+INFO: Skipping line: System Identifier(SID):orcl
+INFO: Skipping line: Look at the log file "C:\oracle\cfgtoollogs\dbca\orcl\orcl.log" for further details.
+INFO: Skipping line: Look at the log file "C:\oracle\cfgtoollogs\dbca\orcl\orcl.log" for further details.
+INFO: oracle.server:The plug-in Oracle Database Configuration Assistant has successfully been performed
+INFO: Executing MTS
+INFO: Executing MTS
+INFO: Command C:\Windows\system32\cmd.exe /c call C:\WINDOWS.X64_193000_db_home\bin\oramtsctl.exe -new -internal 
+INFO: Command C:\Windows\system32\cmd.exe /c call C:\WINDOWS.X64_193000_db_home\bin\oramtsctl.exe -new -internal 
+INFO: ... GenericInternalPlugIn.handleProcess() entered.
+INFO: ... GenericInternalPlugIn.handleProcess() entered.
+INFO: ... GenericInternalPlugIn: getting configAssistantParmas.
+INFO: ... GenericInternalPlugIn: getting configAssistantParmas.
+INFO: ... GenericInternalPlugIn: checking secretArguments.
+INFO: ... GenericInternalPlugIn: checking secretArguments.
+INFO: ... GenericInternalPlugIn: starting read loop.
+INFO: ... GenericInternalPlugIn: starting read loop.
+INFO: Skipping line: Service is being created.
+INFO: Skipping line: Service is being created.
+INFO: Skipping line: Service was created successfully.
+INFO: Skipping line: Service was created successfully.
+INFO: Skipping line: Service is starting...
+INFO: Skipping line: Service is starting...
+INFO: Skipping line: Service was started successfully.
+INFO: Skipping line: Service was started successfully.

@@ -1,0 +1,539 @@
+INFO:  [Aug 4, 2021 11:21:16 AM] Using oracle.bali.ewt.olaf2.OracleLookAndFeel LookAndFeel
+INFO:  [Aug 4, 2021 11:21:16 AM] Loading localized help from jar:file:/C:/WINDOWS.X64_193000_db_home/install/jlib/instdb.jar!/oracle/install/ivw/db/resource/helpset/en/dbinstaller_help.hs
+INFO:  [Aug 4, 2021 11:21:16 AM] Loading setup driver
+INFO:  [Aug 4, 2021 11:21:16 AM] Launching Oracle Database Setup Wizard...
+
+INFO:  [Aug 4, 2021 11:21:16 AM] Using default oui proxy mapping URL
+INFO:  [Aug 4, 2021 11:21:16 AM] Loading proxy mapping from jar:file:/C:/WINDOWS.X64_193000_db_home/install/jlib/installcommons_1.0.0b.jar!/oracle/install/driver/oui/proxy-mappings.properties
+INFO:  [Aug 4, 2021 11:21:16 AM] Using class oracle.install.commons.net.support.DefaultSSHSupportManager as proxy for oracle.install.commons.net.support.SSHSupportManager
+INFO:  [Aug 4, 2021 11:21:16 AM] Using class oracle.install.driver.oui.OUIOracleServiceRegistry as proxy for oracle.install.commons.base.util.OracleServiceRegistry
+INFO:  [Aug 4, 2021 11:21:16 AM] Set proxy mappings to System.properties
+INFO:  [Aug 4, 2021 11:21:16 AM] After setting: ORACLE_BASE = C:\Program Files\Oracle\Inventory\logs\InstallActions2021-08-04_11-21-15AM
+INFO:  [Aug 4, 2021 11:21:16 AM] After re-setting: ORACLE_BASE = 
+INFO:  [Aug 4, 2021 11:21:16 AM] oraInst.loc does not exist
+INFO:  [Aug 4, 2021 11:21:16 AM] ORACLE_HOME=C:\WINDOWS.X64_193000_db_home
+INFO:  [Aug 4, 2021 11:21:16 AM] fwhome=C:\WINDOWS.X64_193000_db_home
+INFO:  [Aug 4, 2021 11:21:17 AM] Gathering system details...
+INFO:  [Aug 4, 2021 11:21:17 AM] Gathering system details...
+INFO:  [Aug 4, 2021 11:21:17 AM] Registering setup bean
+INFO:  [Aug 4, 2021 11:21:17 AM] Building Flow
+INFO:  [Aug 4, 2021 11:21:17 AM] Opening bean stores from which the beans can be loaded
+INFO:  [Aug 4, 2021 11:21:17 AM] Loading beanstore from a given input stream
+WARNING:  [Aug 4, 2021 11:21:17 AM] Separator for key and value not found for the property:IntelliJ
+WARNING:  [Aug 4, 2021 11:21:17 AM] Unable to create xml tag for the key:CommonProgramFiles(x86)
+WARNING:  [Aug 4, 2021 11:21:17 AM] Unable to create xml tag for the key:ProgramFiles(x86)
+INFO:  [Aug 4, 2021 11:21:17 AM] Translating external format into raw format 
+INFO:  [Aug 4, 2021 11:21:17 AM] Loaded BeanStore using the flow data defaults
+INFO:  [Aug 4, 2021 11:21:17 AM] No global condition definition found.
+INFO:  [Aug 4, 2021 11:21:17 AM] Building the flow graph
+INFO:  [Aug 4, 2021 11:21:17 AM] Loaded state AutoUpdatesOptionsUI
+INFO:  [Aug 4, 2021 11:21:17 AM] Loaded state UpdatesListUI
+INFO:  [Aug 4, 2021 11:21:17 AM] Loaded state finishupdates
+INFO:  [Aug 4, 2021 11:21:17 AM] Building the flow graph
+INFO:  [Aug 4, 2021 11:21:17 AM] Loaded state prepInstall
+INFO:  [Aug 4, 2021 11:21:17 AM] Loaded state createGoldImage
+INFO:  [Aug 4, 2021 11:21:17 AM] Loaded state supportedOSCheck
+INFO:  [Aug 4, 2021 11:21:17 AM] Loaded state autoupdatesDecider
+INFO:  [Aug 4, 2021 11:21:17 AM] Loaded state preAutoUpdates
+INFO:  [Aug 4, 2021 11:21:17 AM] Loaded state AutoUpdatesOptionsUI
+INFO:  [Aug 4, 2021 11:21:17 AM] Loaded state UpdatesListUI
+INFO:  [Aug 4, 2021 11:21:17 AM] Loaded state mtsDialog
+INFO:  [Aug 4, 2021 11:21:17 AM] Loaded state installOptions
+INFO:  [Aug 4, 2021 11:21:17 AM] Loaded state DBImage
+INFO:  [Aug 4, 2021 11:21:17 AM] Loaded state getWindowsSecureOptionDetails
+INFO:  [Aug 4, 2021 11:21:17 AM] Loaded state getSystemClass
+INFO:  [Aug 4, 2021 11:21:17 AM] Loaded state DBTypeSelectionPage
+INFO:  [Aug 4, 2021 11:21:17 AM] Loaded state RACDBTypeSelectionPage
+INFO:  [Aug 4, 2021 11:21:17 AM] Loaded state nodeSelectionPage
+INFO:  [Aug 4, 2021 11:21:17 AM] Loaded state upgradeValidation
+INFO:  [Aug 4, 2021 11:21:17 AM] Loaded state installType
+INFO:  [Aug 4, 2021 11:21:17 AM] Loaded state quickInstallPage
+INFO:  [Aug 4, 2021 11:21:17 AM] Loaded state productLanguage
+INFO:  [Aug 4, 2021 11:21:17 AM] Loaded state inventoryPage
+INFO:  [Aug 4, 2021 11:21:17 AM] Loaded state getOracleHome
+INFO:  [Aug 4, 2021 11:21:17 AM] Loaded state dbEdition
+INFO:  [Aug 4, 2021 11:21:17 AM] Loaded state configurationType
+INFO:  [Aug 4, 2021 11:21:17 AM] Loaded state dbIdentifier
+INFO:  [Aug 4, 2021 11:21:17 AM] Loaded state configurationOption
+INFO:  [Aug 4, 2021 11:21:17 AM] Loaded state managementOption
+INFO:  [Aug 4, 2021 11:21:17 AM] Loaded state storageOption
+INFO:  [Aug 4, 2021 11:21:17 AM] Loaded state recoveryOption
+INFO:  [Aug 4, 2021 11:21:17 AM] Loaded state selectASMDiskGroups
+INFO:  [Aug 4, 2021 11:21:17 AM] Loaded state schemaPasswordDialog
+INFO:  [Aug 4, 2021 11:21:17 AM] Loaded state getPrivilegedOSGroups
+INFO:  [Aug 4, 2021 11:21:17 AM] Loaded state prereqExecutionDecider
+INFO:  [Aug 4, 2021 11:21:17 AM] Loaded state performChecks
+INFO:  [Aug 4, 2021 11:21:17 AM] Loaded state showSummary
+INFO:  [Aug 4, 2021 11:21:17 AM] Loaded state setup
+INFO:  [Aug 4, 2021 11:21:17 AM] Loaded state finish
+INFO:  [Aug 4, 2021 11:21:17 AM] Linking states 
+INFO:  [Aug 4, 2021 11:21:17 AM] State[AutoUpdatesOptionsUI]: route=NO_AUTO_UPDATES; to=installOptions
+INFO:  [Aug 4, 2021 11:21:17 AM] State[AutoUpdatesOptionsUI]: route=success; to=UpdatesListUI
+INFO:  [Aug 4, 2021 11:21:17 AM] State[DBImage]: route=advanced_yes_softwareDB_yes; to=DBTypeSelectionPage
+INFO:  [Aug 4, 2021 11:21:17 AM] State[DBImage]: route=migrate_yes_clusterware_no; to=upgradeValidation
+INFO:  [Aug 4, 2021 11:21:17 AM] State[DBImage]: route=migrate_yes_clusterware_yes; to=DBTypeSelectionPage
+INFO:  [Aug 4, 2021 11:21:17 AM] State[DBImage]: route=system_class; to=getSystemClass
+INFO:  [Aug 4, 2021 11:21:17 AM] State[DBTypeSelectionPage]: route=rac_dbcreate; to=RACDBTypeSelectionPage
+INFO:  [Aug 4, 2021 11:21:17 AM] State[DBTypeSelectionPage]: route=rac_no_dbcreate; to=nodeSelectionPage
+INFO:  [Aug 4, 2021 11:21:17 AM] State[DBTypeSelectionPage]: route=si_dbcreate; to=installType
+INFO:  [Aug 4, 2021 11:21:17 AM] State[DBTypeSelectionPage]: route=si_no_dbcreate; to=productLanguage
+INFO:  [Aug 4, 2021 11:21:17 AM] State[RACDBTypeSelectionPage]: route=admin; to=nodeSelectionPage
+INFO:  [Aug 4, 2021 11:21:17 AM] State[RACDBTypeSelectionPage]: route=policy; to=installType
+INFO:  [Aug 4, 2021 11:21:17 AM] State[UpdatesListUI]: route=success; to=installOptions
+INFO:  [Aug 4, 2021 11:21:17 AM] State[autoupdatesDecider]: route=AUTO_UPDATES_DISABLE; to=installOptions
+INFO:  [Aug 4, 2021 11:21:17 AM] State[autoupdatesDecider]: route=AUTO_UPDATES_STATE_SKIP; to=installOptions
+INFO:  [Aug 4, 2021 11:21:17 AM] State[autoupdatesDecider]: route=success; to=preAutoUpdates
+INFO:  [Aug 4, 2021 11:21:17 AM] Condition of state[autoupdatesDecider]: route=matched; to=installOptions
+INFO:  [Aug 4, 2021 11:21:17 AM] State[configurationOption]: route=success; to=storageOption
+INFO:  [Aug 4, 2021 11:21:17 AM] State[configurationType]: route=success; to=dbIdentifier
+INFO:  [Aug 4, 2021 11:21:17 AM] State[createGoldImage]: route=success; to=setup
+INFO:  [Aug 4, 2021 11:21:17 AM] State[dbEdition]: route=oraclehome_location; to=getWindowsSecureOptionDetails
+INFO:  [Aug 4, 2021 11:21:17 AM] State[dbIdentifier]: route=success; to=configurationOption
+INFO:  [Aug 4, 2021 11:21:17 AM] State[getOracleHome]: route=advanced_yes_createDB_yes; to=configurationType
+INFO:  [Aug 4, 2021 11:21:17 AM] State[getOracleHome]: route=advanced_yes_inventory_no; to=inventoryPage
+INFO:  [Aug 4, 2021 11:21:17 AM] State[getOracleHome]: route=advanced_yes_softwareDB_yes; to=prereqExecutionDecider
+INFO:  [Aug 4, 2021 11:21:17 AM] State[getOracleHome]: route=advanced_yes_upgrade_yes; to=prereqExecutionDecider
+INFO:  [Aug 4, 2021 11:21:17 AM] State[getPrivilegedOSGroups]: route=success; to=prereqExecutionDecider
+INFO:  [Aug 4, 2021 11:21:17 AM] State[getSystemClass]: route=desktop_class_yes; to=getWindowsSecureOptionDetails
+INFO:  [Aug 4, 2021 11:21:17 AM] State[getSystemClass]: route=server_class_yes; to=installType
+INFO:  [Aug 4, 2021 11:21:17 AM] State[getWindowsSecureOptionDetails]: route=basic_yes; to=quickInstallPage
+INFO:  [Aug 4, 2021 11:21:17 AM] State[getWindowsSecureOptionDetails]: route=desktop_class_yes; to=quickInstallPage
+INFO:  [Aug 4, 2021 11:21:17 AM] State[getWindowsSecureOptionDetails]: route=success; to=getOracleHome
+INFO:  [Aug 4, 2021 11:21:17 AM] State[installOptions]: route=advanced_yes_softwareDB_yes; to=DBTypeSelectionPage
+INFO:  [Aug 4, 2021 11:21:17 AM] State[installOptions]: route=migrate_yes_clusterware_no; to=upgradeValidation
+INFO:  [Aug 4, 2021 11:21:17 AM] State[installOptions]: route=migrate_yes_clusterware_yes; to=DBTypeSelectionPage
+INFO:  [Aug 4, 2021 11:21:17 AM] State[installOptions]: route=setup_wizard; to=DBImage
+INFO:  [Aug 4, 2021 11:21:17 AM] State[installOptions]: route=system_class; to=getSystemClass
+INFO:  [Aug 4, 2021 11:21:17 AM] State[installType]: route=advanced_yes; to=productLanguage
+INFO:  [Aug 4, 2021 11:21:17 AM] State[installType]: route=basic_yes; to=getWindowsSecureOptionDetails
+INFO:  [Aug 4, 2021 11:21:17 AM] State[inventoryPage]: route=advanced_yes_createDB_yes; to=configurationType
+INFO:  [Aug 4, 2021 11:21:17 AM] State[inventoryPage]: route=advanced_yes_softwareDB_yes; to=prereqExecutionDecider
+INFO:  [Aug 4, 2021 11:21:17 AM] State[inventoryPage]: route=basic_yes; to=prereqExecutionDecider
+INFO:  [Aug 4, 2021 11:21:17 AM] Condition of state[inventoryPage]: route=advanced_yes_createDB_yes; to=configurationType
+INFO:  [Aug 4, 2021 11:21:17 AM] Condition of state[inventoryPage]: route=advanced_yes_softwareDB_yes; to=prereqExecutionDecider
+INFO:  [Aug 4, 2021 11:21:17 AM] Condition of state[inventoryPage]: route=basic_yes; to=prereqExecutionDecider
+INFO:  [Aug 4, 2021 11:21:17 AM] State[managementOption]: route=success; to=recoveryOption
+INFO:  [Aug 4, 2021 11:21:17 AM] State[mtsDialog]: route=success; to=autoupdatesDecider
+INFO:  [Aug 4, 2021 11:21:17 AM] State[nodeSelectionPage]: route=create_and_configureDB; to=installType
+INFO:  [Aug 4, 2021 11:21:17 AM] State[nodeSelectionPage]: route=software_onlyDB; to=productLanguage
+INFO:  [Aug 4, 2021 11:21:17 AM] State[nodeSelectionPage]: route=upgradeDB; to=upgradeValidation
+INFO:  [Aug 4, 2021 11:21:17 AM] State[performChecks]: route=success; to=showSummary
+INFO:  [Aug 4, 2021 11:21:17 AM] State[preAutoUpdates]: route=success; to=AutoUpdatesOptionsUI
+INFO:  [Aug 4, 2021 11:21:17 AM] State[prepInstall]: route=DOWNLOAD_UPDATES_ONLY; to=AutoUpdatesOptionsUI
+INFO:  [Aug 4, 2021 11:21:17 AM] State[prepInstall]: route=configTools; to=setup
+INFO:  [Aug 4, 2021 11:21:17 AM] State[prepInstall]: route=createGoldImage; to=createGoldImage
+INFO:  [Aug 4, 2021 11:21:17 AM] State[prepInstall]: route=success; to=supportedOSCheck
+INFO:  [Aug 4, 2021 11:21:17 AM] State[prereqExecutionDecider]: route=executeprereqs; to=performChecks
+INFO:  [Aug 4, 2021 11:21:17 AM] State[prereqExecutionDecider]: route=ignoreprereqs; to=showSummary
+INFO:  [Aug 4, 2021 11:21:17 AM] State[productLanguage]: route=productlanguage_yes; to=dbEdition
+INFO:  [Aug 4, 2021 11:21:17 AM] Condition of state[productLanguage]: route=matched; to=dbEdition
+INFO:  [Aug 4, 2021 11:21:17 AM] State[quickInstallPage]: route=basic_yes_inventory_no; to=inventoryPage
+INFO:  [Aug 4, 2021 11:21:17 AM] State[quickInstallPage]: route=basic_yes_inventory_yes; to=prereqExecutionDecider
+INFO:  [Aug 4, 2021 11:21:17 AM] State[recoveryOption]: route=asm_chosen_asm_not_present; to=schemaPasswordDialog
+INFO:  [Aug 4, 2021 11:21:17 AM] State[recoveryOption]: route=asm_chosen_asm_present; to=selectASMDiskGroups
+INFO:  [Aug 4, 2021 11:21:17 AM] State[recoveryOption]: route=asm_not_chosen; to=schemaPasswordDialog
+INFO:  [Aug 4, 2021 11:21:17 AM] State[schemaPasswordDialog]: route=success; to=prereqExecutionDecider
+INFO:  [Aug 4, 2021 11:21:17 AM] State[selectASMDiskGroups]: route=success; to=schemaPasswordDialog
+INFO:  [Aug 4, 2021 11:21:17 AM] State[setup]: route=success; to=finish
+INFO:  [Aug 4, 2021 11:21:17 AM] State[showSummary]: route=success; to=setup
+INFO:  [Aug 4, 2021 11:21:17 AM] State[storageOption]: route=success; to=managementOption
+INFO:  [Aug 4, 2021 11:21:17 AM] State[supportedOSCheck]: route=success; to=mtsDialog
+INFO:  [Aug 4, 2021 11:21:17 AM] State[upgradeValidation]: route=success; to=productLanguage
+INFO:  [Aug 4, 2021 11:21:17 AM] State[AutoUpdatesOptionsUI]: route=NO_AUTO_UPDATES; to=finishupdates
+INFO:  [Aug 4, 2021 11:21:17 AM] State[AutoUpdatesOptionsUI]: route=success; to=UpdatesListUI
+INFO:  [Aug 4, 2021 11:21:17 AM] State[UpdatesListUI]: route=DOWNLOAD_UPDATES_FINISHED; to=finishupdates
+INFO:  [Aug 4, 2021 11:21:17 AM] Successfully built the flow
+INFO:  [Aug 4, 2021 11:21:17 AM] loading the beans from bean stores
+INFO:  [Aug 4, 2021 11:21:17 AM] Loading flow data beans
+INFO:  [Aug 4, 2021 11:21:17 AM] Loading beans from Properties Bean Store. [BeanStoreName:beanstore]
+INFO:  [Aug 4, 2021 11:21:17 AM] Setting value for the property:ORACLE_HOME in the bean:DBInstallSettings
+INFO:  [Aug 4, 2021 11:21:17 AM] Setting value for the property:DBInstallSettings in the bean:DBSetupBean
+INFO:  [Aug 4, 2021 11:21:17 AM] Setting value for the property:CentralInventorySettings in the bean:DBSetupBean
+INFO:  [Aug 4, 2021 11:21:17 AM] Setting value for the property:RootConfigurationSettings in the bean:DBSetupBean
+INFO:  [Aug 4, 2021 11:21:17 AM] Setting value for the property:PatchInstallSettings in the bean:DBSetupBean
+INFO:  [Aug 4, 2021 11:21:17 AM] Setting value for the property:WindowsSecureOptionSettings in the bean:DBSetupBean
+INFO:  [Aug 4, 2021 11:21:17 AM] Setting value for the property:oracle_install_autoupdates_myOracleSupportCredentials in the bean:AutoUpdatesInstallSettings
+INFO:  [Aug 4, 2021 11:21:17 AM] Setting value for the property:oracle_install_autoupdates_httpProxySettings in the bean:AutoUpdatesInstallSettings
+INFO:  [Aug 4, 2021 11:21:17 AM] Setting value for the property:AutoUpdatesInstallSettings in the bean:DBSetupBean
+INFO:  [Aug 4, 2021 11:21:17 AM] Loading beans from Xml Bean Store. [BeanStoreName:beanstore]
+INFO:  [Aug 4, 2021 11:21:17 AM] Setting value for the property:oracle_install_db_UseFileSystemForRecovery in the bean:DBInstallSettings
+INFO:  [Aug 4, 2021 11:21:17 AM] Setting value for the property:oracle_install_db_StorageType in the bean:DBInstallSettings
+INFO:  [Aug 4, 2021 11:21:17 AM] Setting value for the property:oracle_install_db_InstallOptionSelected in the bean:DBInstallSettings
+INFO:  [Aug 4, 2021 11:21:17 AM] Setting value for the property:oracle_install_db_managementOption in the bean:DBInstallSettings
+INFO:  [Aug 4, 2021 11:21:17 AM] Setting value for the property:oracle_install_db_CharSetOption in the bean:DBInstallSettings
+INFO:  [Aug 4, 2021 11:21:17 AM] Setting value for the property:oracle_install_db_ConfigTabSelected in the bean:DBInstallSettings
+INFO:  [Aug 4, 2021 11:21:17 AM] Setting value for the property:oracle_install_db_SuperAdminPasswords in the bean:DBInstallSettings
+INFO:  [Aug 4, 2021 11:21:17 AM] Setting value for the property:oracle_install_db_UseSamePassword in the bean:DBInstallSettings
+INFO:  [Aug 4, 2021 11:21:17 AM] Setting value for the property:ORACLE_HOME in the bean:DBInstallSettings
+INFO:  [Aug 4, 2021 11:21:17 AM] Setting value for the property:DBInstallSettings in the bean:DBSetupBean
+INFO:  [Aug 4, 2021 11:21:17 AM] Setting value for the property:CentralInventorySettings in the bean:DBSetupBean
+INFO:  [Aug 4, 2021 11:21:17 AM] Setting value for the property:RootConfigurationSettings in the bean:DBSetupBean
+INFO:  [Aug 4, 2021 11:21:17 AM] Setting value for the property:WindowsSecureOptionSettings in the bean:DBSetupBean
+INFO:  [Aug 4, 2021 11:21:17 AM] Setting value for the property:oracle_install_autoupdates_myOracleSupportCredentials in the bean:AutoUpdatesInstallSettings
+INFO:  [Aug 4, 2021 11:21:17 AM] Setting value for the property:oracle_install_autoupdates_httpProxySettings in the bean:AutoUpdatesInstallSettings
+INFO:  [Aug 4, 2021 11:21:17 AM] Setting value for the property:AutoUpdatesInstallSettings in the bean:DBSetupBean
+INFO:  [Aug 4, 2021 11:21:17 AM] Loading beans from Properties Bean Store. [BeanStoreName:beanstore]
+INFO:  [Aug 4, 2021 11:21:17 AM] Setting value for the property:ORACLE_HOME in the bean:dbinstallsettings
+INFO:  [Aug 4, 2021 11:21:17 AM] Setting value for the property:DBInstallSettings in the bean:dbsetupbean
+INFO:  [Aug 4, 2021 11:21:17 AM] Setting value for the property:CentralInventorySettings in the bean:dbsetupbean
+INFO:  [Aug 4, 2021 11:21:17 AM] Setting value for the property:RootConfigurationSettings in the bean:dbsetupbean
+INFO:  [Aug 4, 2021 11:21:17 AM] Setting value for the property:PatchInstallSettings in the bean:dbsetupbean
+INFO:  [Aug 4, 2021 11:21:17 AM] Setting value for the property:WindowsSecureOptionSettings in the bean:dbsetupbean
+INFO:  [Aug 4, 2021 11:21:17 AM] Setting value for the property:oracle_install_autoupdates_myOracleSupportCredentials in the bean:autoupdatesinstallsettings
+INFO:  [Aug 4, 2021 11:21:17 AM] Setting value for the property:oracle_install_autoupdates_httpProxySettings in the bean:autoupdatesinstallsettings
+INFO:  [Aug 4, 2021 11:21:17 AM] Setting value for the property:AutoUpdatesInstallSettings in the bean:dbsetupbean
+INFO:  [Aug 4, 2021 11:21:17 AM] Set value for bean DBSetupBean
+INFO:  [Aug 4, 2021 11:21:17 AM] Loading beans from Properties Bean Store. [BeanStoreName:beanstore]
+INFO:  [Aug 4, 2021 11:21:17 AM] Setting value for the property:ORACLE_HOME in the bean:DBInstallSettings
+INFO:  [Aug 4, 2021 11:21:17 AM] Loading beans from Xml Bean Store. [BeanStoreName:beanstore]
+INFO:  [Aug 4, 2021 11:21:17 AM] Loading beans from Properties Bean Store. [BeanStoreName:beanstore]
+INFO:  [Aug 4, 2021 11:21:17 AM] Loading beans from Xml Bean Store. [BeanStoreName:beanstore]
+INFO:  [Aug 4, 2021 11:21:17 AM] Loading beans from Properties Bean Store. [BeanStoreName:beanstore]
+INFO:  [Aug 4, 2021 11:21:17 AM] Setting value for the property:oracle_install_autoupdates_myOracleSupportCredentials in the bean:AutoUpdatesInstallSettings
+INFO:  [Aug 4, 2021 11:21:17 AM] Setting value for the property:oracle_install_autoupdates_httpProxySettings in the bean:AutoUpdatesInstallSettings
+INFO:  [Aug 4, 2021 11:21:17 AM] Loading beans from Xml Bean Store. [BeanStoreName:beanstore]
+INFO:  [Aug 4, 2021 11:21:17 AM] Closing bean stores from which the beans can be loaded
+INFO:  [Aug 4, 2021 11:21:17 AM] Registering the flow views
+INFO:  [Aug 4, 2021 11:21:17 AM] Adding View[type: oracle.install.commons.base.interview.common.view.PrereqGUI viewId: null uiType: null]
+INFO:  [Aug 4, 2021 11:21:17 AM] oracle.install.commons.base.interview.common.view.PrereqGUI added to View Type Registry with the key as [PrereqUI]
+INFO:  [Aug 4, 2021 11:21:17 AM] Adding View[type: oracle.install.commons.base.interview.common.view.SummaryGUI viewId: null uiType: null]
+INFO:  [Aug 4, 2021 11:21:17 AM] oracle.install.commons.base.interview.common.view.SummaryGUI added to View Type Registry with the key as [SummaryUI]
+INFO:  [Aug 4, 2021 11:21:17 AM] Adding View[type: oracle.install.commons.base.interview.common.view.SetupGUI viewId: null uiType: null]
+INFO:  [Aug 4, 2021 11:21:17 AM] oracle.install.commons.base.interview.common.view.SetupGUI added to View Type Registry with the key as [SetupUI]
+INFO:  [Aug 4, 2021 11:21:17 AM] Adding View[type: oracle.install.ivw.common.view.InventoryUI viewId: null uiType: null]
+INFO:  [Aug 4, 2021 11:21:17 AM] oracle.install.ivw.common.view.InventoryUI added to View Type Registry with the key as [InventoryUI]
+INFO:  [Aug 4, 2021 11:21:17 AM] Adding View[type: oracle.install.ivw.common.view.ProductLanguageGUI viewId: ProductLanguageUI uiType: null]
+INFO:  [Aug 4, 2021 11:21:17 AM] oracle.install.ivw.common.view.ProductLanguageGUI added to View Type Registry with the key as [ProductLanguageUI]
+INFO:  [Aug 4, 2021 11:21:17 AM] Adding View[type: oracle.install.ivw.db.view.ConfigurationTypeUI viewId: null uiType: null]
+INFO:  [Aug 4, 2021 11:21:17 AM] oracle.install.ivw.db.view.ConfigurationTypeUI added to View Type Registry with the key as [ConfigurationTypeUI]
+INFO:  [Aug 4, 2021 11:21:17 AM] Adding View[type: oracle.install.ivw.db.view.DBIdentifierUI viewId: null uiType: null]
+INFO:  [Aug 4, 2021 11:21:17 AM] oracle.install.ivw.db.view.DBIdentifierUI added to View Type Registry with the key as [DBIdentifierUI]
+INFO:  [Aug 4, 2021 11:21:17 AM] Adding View[type: oracle.install.ivw.db.view.ConfigurationOptionsUI viewId: null uiType: null]
+INFO:  [Aug 4, 2021 11:21:17 AM] oracle.install.ivw.db.view.ConfigurationOptionsUI added to View Type Registry with the key as [ConfigurationOptionsUI]
+INFO:  [Aug 4, 2021 11:21:17 AM] Adding View[type: oracle.install.ivw.db.view.StorageOptionsUI viewId: null uiType: null]
+INFO:  [Aug 4, 2021 11:21:17 AM] oracle.install.ivw.db.view.StorageOptionsUI added to View Type Registry with the key as [StorageOptionsUI]
+INFO:  [Aug 4, 2021 11:21:17 AM] Adding View[type: oracle.install.ivw.db.view.RecoveryBackupUI viewId: null uiType: null]
+INFO:  [Aug 4, 2021 11:21:17 AM] oracle.install.ivw.db.view.RecoveryBackupUI added to View Type Registry with the key as [RecoveryBackupUI]
+INFO:  [Aug 4, 2021 11:21:17 AM] Adding View[type: oracle.install.ivw.db.view.ManagementOptionsUI viewId: null uiType: null]
+INFO:  [Aug 4, 2021 11:21:17 AM] oracle.install.ivw.db.view.ManagementOptionsUI added to View Type Registry with the key as [ManagementOptionsUI]
+INFO:  [Aug 4, 2021 11:21:17 AM] Adding View[type: oracle.install.ivw.db.view.ASMDiskGroupSelectionGUI viewId: ASMDiskGroupSelectionUI uiType: null]
+INFO:  [Aug 4, 2021 11:21:17 AM] oracle.install.ivw.db.view.ASMDiskGroupSelectionGUI added to View Type Registry with the key as [ASMDiskGroupSelectionUI]
+INFO:  [Aug 4, 2021 11:21:17 AM] Adding View[type: oracle.install.ivw.db.view.SchemaPasswordUI viewId: null uiType: null]
+INFO:  [Aug 4, 2021 11:21:17 AM] oracle.install.ivw.db.view.SchemaPasswordUI added to View Type Registry with the key as [SchemaPasswordUI]
+INFO:  [Aug 4, 2021 11:21:17 AM] Adding View[type: oracle.install.ivw.db.view.QuickInstallUI viewId: null uiType: null]
+INFO:  [Aug 4, 2021 11:21:17 AM] oracle.install.ivw.db.view.QuickInstallUI added to View Type Registry with the key as [QuickInstallUI]
+INFO:  [Aug 4, 2021 11:21:17 AM] Adding View[type: oracle.install.ivw.db.view.InstallOptionsUI viewId: null uiType: null]
+INFO:  [Aug 4, 2021 11:21:17 AM] oracle.install.ivw.db.view.InstallOptionsUI added to View Type Registry with the key as [InstallOptionsUI]
+INFO:  [Aug 4, 2021 11:21:17 AM] Adding View[type: oracle.install.ivw.db.view.WindowsSecureOptionUI viewId: WindowsSecureOptionUI uiType: null]
+INFO:  [Aug 4, 2021 11:21:17 AM] oracle.install.ivw.db.view.WindowsSecureOptionUI added to View Type Registry with the key as [WindowsSecureOptionUI]
+INFO:  [Aug 4, 2021 11:21:17 AM] Adding View[type: oracle.install.ivw.db.view.SystemClassUI viewId: SystemClassUI uiType: null]
+INFO:  [Aug 4, 2021 11:21:17 AM] oracle.install.ivw.db.view.SystemClassUI added to View Type Registry with the key as [SystemClassUI]
+INFO:  [Aug 4, 2021 11:21:17 AM] Adding View[type: oracle.install.ivw.db.view.InstallLocationUI viewId: null uiType: null]
+INFO:  [Aug 4, 2021 11:21:17 AM] oracle.install.ivw.db.view.InstallLocationUI added to View Type Registry with the key as [InstallLocationUI]
+INFO:  [Aug 4, 2021 11:21:17 AM] Adding View[type: oracle.install.ivw.db.view.DBEditionGUI viewId: null uiType: null]
+INFO:  [Aug 4, 2021 11:21:17 AM] oracle.install.ivw.db.view.DBEditionGUI added to View Type Registry with the key as [DBEditionUI]
+INFO:  [Aug 4, 2021 11:21:17 AM] Adding View[type: oracle.install.ivw.db.view.NodeSelectionUI viewId: null uiType: null]
+INFO:  [Aug 4, 2021 11:21:17 AM] oracle.install.ivw.db.view.NodeSelectionUI added to View Type Registry with the key as [NodeSelectionUI]
+INFO:  [Aug 4, 2021 11:21:17 AM] Adding View[type: oracle.install.ivw.db.view.DBTypeSelectionGUI viewId: DBTypeSelectionUI uiType: null]
+INFO:  [Aug 4, 2021 11:21:17 AM] oracle.install.ivw.db.view.DBTypeSelectionGUI added to View Type Registry with the key as [DBTypeSelectionUI]
+INFO:  [Aug 4, 2021 11:21:17 AM] Adding View[type: oracle.install.ivw.db.view.RACDBTypeSelectionGUI viewId: RACDBTypeSelectionUI uiType: null]
+INFO:  [Aug 4, 2021 11:21:17 AM] oracle.install.ivw.db.view.RACDBTypeSelectionGUI added to View Type Registry with the key as [RACDBTypeSelectionUI]
+INFO:  [Aug 4, 2021 11:21:17 AM] Adding View[type: oracle.install.ivw.db.view.FinishUI viewId: null uiType: null]
+INFO:  [Aug 4, 2021 11:21:17 AM] oracle.install.ivw.db.view.FinishUI added to View Type Registry with the key as [FinishUI]
+INFO:  [Aug 4, 2021 11:21:17 AM] Adding View[type: oracle.install.ivw.db.view.PrivilegedOSGroupsGUI viewId: null uiType: null]
+INFO:  [Aug 4, 2021 11:21:17 AM] oracle.install.ivw.db.view.PrivilegedOSGroupsGUI added to View Type Registry with the key as [PrivilegedOSGroupsUI]
+INFO:  [Aug 4, 2021 11:21:17 AM] Adding View[type: oracle.install.ivw.db.view.InstallTypeGUI viewId: installTypeUI uiType: null]
+INFO:  [Aug 4, 2021 11:21:17 AM] oracle.install.ivw.db.view.InstallTypeGUI added to View Type Registry with the key as [installTypeUI]
+INFO:  [Aug 4, 2021 11:21:17 AM] Adding View[type: oracle.install.ivw.common.view.AutoUpdatesOptionsUI viewId: AutoUpdatesOptionsUI uiType: null]
+INFO:  [Aug 4, 2021 11:21:17 AM] oracle.install.ivw.common.view.AutoUpdatesOptionsUI added to View Type Registry with the key as [AutoUpdatesOptionsUI]
+INFO:  [Aug 4, 2021 11:21:17 AM] Adding View[type: oracle.install.ivw.common.view.UpdatesListUI viewId: UpdatesListUI uiType: null]
+INFO:  [Aug 4, 2021 11:21:17 AM] oracle.install.ivw.common.view.UpdatesListUI added to View Type Registry with the key as [UpdatesListUI]
+INFO:  [Aug 4, 2021 11:21:17 AM] Adding View[type: oracle.install.ivw.common.view.FinishUpdatesUI viewId: FinishUpdatesUI uiType: null]
+INFO:  [Aug 4, 2021 11:21:17 AM] oracle.install.ivw.common.view.FinishUpdatesUI added to View Type Registry with the key as [FinishUpdatesUI]
+INFO:  [Aug 4, 2021 11:21:17 AM] Initial values of Setup Properties :
+----------------------------------------------------------------------------------------------------
+ PROPERTY                                               VALUE                                      
+----------------------------------------------------------------------------------------------------
+ AutoUpdatesInstallSettings                             oracle.install.ivw.common.bean.AutoUpdates 
+                                                        InstallSettings@15a04efb                   
+ CentralInventorySettings                               oracle.install.ivw.common.bean.CentralInve 
+                                                        ntorySettings@93081b6                      
+ DBInstallSettings                                      oracle.install.ivw.db.bean.DBInstallSettin 
+                                                        gs@24c22fe                                 
+ INSTALL_TYPE                                           EE                                         
+ INVENTORY_LOCATION                                     C:\Program Files\Oracle\Inventory          
+ ORACLE_BASE                                                                                       
+ ORACLE_HOME                                            C:\WINDOWS.X64_193000_db_home              
+ ORACLE_HOSTNAME                                        OFIR-NIR                                   
+ PatchInstallSettings                                   oracle.install.ivw.common.bean.PatchInstal 
+                                                        lSettings@7ba8c737                         
+ RootConfigurationSettings                              oracle.install.ivw.common.bean.RootConfigu 
+                                                        rationSettings@cd1e646                     
+ SELECTED_LANGUAGES                                     {"en"}                                     
+ UNIX_GROUP_NAME                                                                                   
+ WindowsSecureOptionSettings                            oracle.install.ivw.common.bean.WindowsSecu 
+                                                        reOptionSettings@1890516e                  
+ b_rdbmsInstall                                         true                                       
+ oracle.install.db.isCCRAuthenticationUsed              false                                      
+ oracle_install_IsBuiltInAccount                        false                                      
+ oracle_install_IsOracleServiceUserExists               false                                      
+ oracle_install_IsVirtualAccount                        false                                      
+ oracle_install_NoMigration                             false                                      
+ oracle_install_OCR_PartitionLocation                                                              
+ oracle_install_ProductName                                                                        
+ oracle_install_RACInstall                              false                                      
+ oracle_install_RDBMSInstalling                         true                                       
+ oracle_install_autoupdates_httpProxyPort               0                                          
+ oracle_install_autoupdates_httpProxySettings           oracle.install.ivw.common.bean.HttpProxySe 
+                                                        ttings@2bec854f                            
+ oracle_install_autoupdates_myOracleSupportCredentials  oracle.install.ivw.common.bean.MyOracleSup 
+                                                        portSettings@16c069df                      
+ oracle_install_db_ASMSNMPUserPassword                  *Protected value, not to be logged*        
+ oracle_install_db_AutoMemoryOption                     false                                      
+ oracle_install_db_CharSetOption                        3                                          
+ oracle_install_db_CharacterSet                                                                    
+ oracle_install_db_ConfigTabSelected                    0                                          
+ oracle_install_db_ConfigurationType                    &General Purpose / Transaction Processing  
+ oracle_install_db_ConfigureAsContainerDB               false                                      
+ oracle_install_db_DiskGroupName                                                                   
+ oracle_install_db_DiskGroupNameForASM                                                             
+ oracle_install_db_EnableAutoBackup                     false                                      
+ oracle_install_db_InstallEdition                       EE                                         
+ oracle_install_db_InstallOption                        INSTALL_DB_AND_CONFIG                      
+ oracle_install_db_InstallOptionSelected                1                                          
+ oracle_install_db_InstallType                          EE                                         
+ oracle_install_db_LaunchDBCA                           false                                      
+ oracle_install_db_LaunchNETCA                          false                                      
+ oracle_install_db_LaunchODMA                           false                                      
+ oracle_install_db_LoadExampleSchemas                   false                                      
+ oracle_install_db_MountPointLocation                                                              
+ oracle_install_db_QuickInstallOption                   true                                       
+ oracle_install_db_RecoveryBackUpLocation                                                          
+ oracle_install_db_SID                                                                             
+ oracle_install_db_ServerPoolCardinality                0                                          
+ oracle_install_db_SetOracleBase                        false                                      
+ oracle_install_db_SkipHARegistration                   false                                      
+ oracle_install_db_StarterDatabaseType                  GENERAL_PURPOSE                            
+ oracle_install_db_StorageType                          0                                          
+ oracle_install_db_SuperAdminPasswords                  *Protected value, not to be logged*        
+ oracle_install_db_SuperAdminSamePasswdForAll           *Protected value, not to be logged*        
+ oracle_install_db_SystemClass                          DESKTOP_CLASS                              
+ oracle_install_db_Type                                 1                                          
+ oracle_install_db_UseFileSystemForRecovery             false                                      
+ oracle_install_db_UseSamePassword                      false                                      
+ oracle_install_db_isRACOneInstall                      false                                      
+ oracle_install_db_managementOption                     DEFAULT                                    
+ oracle_install_db_nodeList                             {}                                         
+ oracle_install_db_omsPort                              0                                          
+ oracle_install_db_racOneServiceName                                                               
+ oracle_install_db_useWalletForPasswords                false                                      
+ oracle_install_rootConfiguration_ExecuteRootScript     false                                      
+----------------------------------------------------------------------------------------------------
+
+INFO:  [Aug 4, 2021 11:21:17 AM] Launching Oracle Database 19c Installer
+INFO:  [Aug 4, 2021 11:21:17 AM] Started executing the flow in INTERACTIVE mode
+INFO:  [Aug 4, 2021 11:21:17 AM] Executing initialize action at state prepInstall
+INFO:  [Aug 4, 2021 11:21:17 AM] Completed executing initialize action at state <prepInstall>
+INFO:  [Aug 4, 2021 11:21:17 AM] Waiting for completion of background operations
+INFO:  [Aug 4, 2021 11:21:17 AM] Finishing all forked tasks at state prepInstall
+INFO:  [Aug 4, 2021 11:21:17 AM] Waiting for completion all forked tasks at state prepInstall
+INFO:  [Aug 4, 2021 11:21:17 AM] All forked task are completed at state prepInstall
+INFO:  [Aug 4, 2021 11:21:17 AM] Completed background operations
+INFO:  [Aug 4, 2021 11:21:17 AM] Waiting for completion of background operations
+INFO:  [Aug 4, 2021 11:21:17 AM] Completed background operations
+INFO:  [Aug 4, 2021 11:21:17 AM] Executing action at state prepInstall
+INFO:  [Aug 4, 2021 11:21:17 AM] Flow Mode: DBSetup
+INFO:  [Aug 4, 2021 11:21:17 AM] Completed executing action at state <prepInstall>
+INFO:  [Aug 4, 2021 11:21:17 AM] Waiting for completion of background operations
+INFO:  [Aug 4, 2021 11:21:17 AM] Completed background operations
+INFO:  [Aug 4, 2021 11:21:17 AM] Waiting for completion of background operations
+INFO:  [Aug 4, 2021 11:21:17 AM] Completed background operations
+INFO:  [Aug 4, 2021 11:21:17 AM] Moved to state <prepInstall>
+INFO:  [Aug 4, 2021 11:21:17 AM] Waiting for completion of background operations
+INFO:  [Aug 4, 2021 11:21:17 AM] Completed background operations
+INFO:  [Aug 4, 2021 11:21:17 AM] Validating view at state <prepInstall>
+INFO:  [Aug 4, 2021 11:21:17 AM] Completed validating view at state <prepInstall>
+INFO:  [Aug 4, 2021 11:21:17 AM] Validating state <prepInstall>
+INFO:  [Aug 4, 2021 11:21:17 AM] Completed validating state <prepInstall>
+INFO:  [Aug 4, 2021 11:21:17 AM] Verifying route success
+INFO:  [Aug 4, 2021 11:21:17 AM] Checking condition at state <autoupdatesDecider>
+INFO:  [Aug 4, 2021 11:21:17 AM] Successfully checked condition at state <autoupdatesDecider>
+INFO:  [Aug 4, 2021 11:21:17 AM] Condition matched at state <autoupdatesDecider>.
+INFO:  [Aug 4, 2021 11:21:17 AM] Redirecting to route <matched>.
+INFO:  [Aug 4, 2021 11:21:17 AM] Executing initialize action at state supportedOSCheck
+INFO:  [Aug 4, 2021 11:21:17 AM] Completed executing initialize action at state <supportedOSCheck>
+INFO:  [Aug 4, 2021 11:21:17 AM] Waiting for completion of background operations
+INFO:  [Aug 4, 2021 11:21:17 AM] Completed background operations
+INFO:  [Aug 4, 2021 11:21:17 AM] Waiting for completion of background operations
+INFO:  [Aug 4, 2021 11:21:17 AM] Completed background operations
+INFO:  [Aug 4, 2021 11:21:17 AM] Executing action at state supportedOSCheck
+INFO:  [Aug 4, 2021 11:21:17 AM] Loaded prereq XML file is: C:\WINDOWS.X64_193000_db_home\cv\cvdata\cvu_prereq.xml
+INFO:  [Aug 4, 2021 11:21:17 AM] Completed executing action at state <supportedOSCheck>
+INFO:  [Aug 4, 2021 11:21:17 AM] Waiting for completion of background operations
+INFO:  [Aug 4, 2021 11:21:17 AM] Completed background operations
+INFO:  [Aug 4, 2021 11:21:17 AM] Waiting for completion of background operations
+INFO:  [Aug 4, 2021 11:21:17 AM] Completed background operations
+INFO:  [Aug 4, 2021 11:21:17 AM] Moved to state <supportedOSCheck>
+INFO:  [Aug 4, 2021 11:21:17 AM] Waiting for completion of background operations
+INFO:  [Aug 4, 2021 11:21:17 AM] Completed background operations
+INFO:  [Aug 4, 2021 11:21:17 AM] Validating view at state <supportedOSCheck>
+INFO:  [Aug 4, 2021 11:21:17 AM] Completed validating view at state <supportedOSCheck>
+INFO:  [Aug 4, 2021 11:21:17 AM] Validating state <supportedOSCheck>
+INFO:  [Aug 4, 2021 11:21:17 AM] Verifying target environment...
+INFO:  [Aug 4, 2021 11:21:17 AM] Checking whether the IP address of the localhost could be determined...
+INFO:  [Aug 4, 2021 11:21:24 AM] Completed verification of target environment.
+INFO:  [Aug 4, 2021 11:21:24 AM] Completed validating state <supportedOSCheck>
+INFO:  [Aug 4, 2021 11:21:24 AM] Verifying route success
+INFO:  [Aug 4, 2021 11:21:24 AM] Checking condition at state <autoupdatesDecider>
+INFO:  [Aug 4, 2021 11:21:24 AM] Successfully checked condition at state <autoupdatesDecider>
+INFO:  [Aug 4, 2021 11:21:24 AM] Condition matched at state <autoupdatesDecider>.
+INFO:  [Aug 4, 2021 11:21:24 AM] Redirecting to route <matched>.
+INFO:  [Aug 4, 2021 11:21:24 AM] Executing initialize action at state mtsDialog
+INFO:  [Aug 4, 2021 11:21:24 AM] Completed executing initialize action at state <mtsDialog>
+INFO:  [Aug 4, 2021 11:21:24 AM] Waiting for completion of background operations
+INFO:  [Aug 4, 2021 11:21:24 AM] Completed background operations
+INFO:  [Aug 4, 2021 11:21:24 AM] Waiting for completion of background operations
+INFO:  [Aug 4, 2021 11:21:24 AM] Completed background operations
+INFO:  [Aug 4, 2021 11:21:24 AM] Executing action at state mtsDialog
+INFO:  [Aug 4, 2021 11:21:33 AM] Completed executing action at state <mtsDialog>
+INFO:  [Aug 4, 2021 11:21:33 AM] Waiting for completion of background operations
+INFO:  [Aug 4, 2021 11:21:33 AM] Completed background operations
+INFO:  [Aug 4, 2021 11:21:33 AM] Waiting for completion of background operations
+INFO:  [Aug 4, 2021 11:21:33 AM] Completed background operations
+INFO:  [Aug 4, 2021 11:21:33 AM] Moved to state <mtsDialog>
+INFO:  [Aug 4, 2021 11:21:33 AM] Waiting for completion of background operations
+INFO:  [Aug 4, 2021 11:21:33 AM] Completed background operations
+INFO:  [Aug 4, 2021 11:21:33 AM] Validating view at state <mtsDialog>
+INFO:  [Aug 4, 2021 11:21:33 AM] Completed validating view at state <mtsDialog>
+INFO:  [Aug 4, 2021 11:21:33 AM] Validating state <mtsDialog>
+INFO:  [Aug 4, 2021 11:21:33 AM] Completed validating state <mtsDialog>
+INFO:  [Aug 4, 2021 11:21:33 AM] Verifying route success
+INFO:  [Aug 4, 2021 11:21:33 AM] Checking condition at state <autoupdatesDecider>
+INFO:  [Aug 4, 2021 11:21:33 AM] Successfully checked condition at state <autoupdatesDecider>
+INFO:  [Aug 4, 2021 11:21:33 AM] Condition matched at state <autoupdatesDecider>.
+INFO:  [Aug 4, 2021 11:21:33 AM] Redirecting to route <matched>.
+INFO:  [Aug 4, 2021 11:21:33 AM] Get view named [InstallOptionsUI]
+INFO:  [Aug 4, 2021 11:21:33 AM] InstallOptionsUI Entering Constructor
+INFO:  [Aug 4, 2021 11:21:33 AM] InstallOptionsUI Exiting Constructor
+INFO:  [Aug 4, 2021 11:21:33 AM] View for [InstallOptionsUI] is oracle.install.ivw.db.view.InstallOptionsUI@2b85d988
+INFO:  [Aug 4, 2021 11:21:33 AM] Executing initialize action at state installOptions
+INFO:  [Aug 4, 2021 11:21:33 AM] Completed executing initialize action at state <installOptions>
+INFO:  [Aug 4, 2021 11:21:33 AM] Waiting for completion of background operations
+INFO:  [Aug 4, 2021 11:21:33 AM] Completed background operations
+INFO:  [Aug 4, 2021 11:21:33 AM] Initializing view <InstallOptionsUI> at state <installOptions>
+INFO:  [Aug 4, 2021 11:21:33 AM] Completed initializing view <InstallOptionsUI> at state <installOptions>
+INFO:  [Aug 4, 2021 11:21:33 AM] Displaying view <InstallOptionsUI> at state <installOptions>
+INFO:  [Aug 4, 2021 11:21:33 AM] Completed displaying view <InstallOptionsUI> at state <installOptions>
+INFO:  [Aug 4, 2021 11:21:33 AM] Loading view <InstallOptionsUI> at state <installOptions>
+INFO:  [Aug 4, 2021 11:21:33 AM] Completed loading view <InstallOptionsUI> at state <installOptions>
+INFO:  [Aug 4, 2021 11:21:33 AM] Localizing view <InstallOptionsUI> at state <installOptions>
+INFO:  [Aug 4, 2021 11:21:33 AM] Completed localizing view <InstallOptionsUI> at state <installOptions>
+INFO:  [Aug 4, 2021 11:21:33 AM] Waiting for completion of background operations
+INFO:  [Aug 4, 2021 11:21:33 AM] Completed background operations
+INFO:  [Aug 4, 2021 11:21:33 AM] Executing action at state installOptions
+INFO:  [Aug 4, 2021 11:21:33 AM] Completed executing action at state <installOptions>
+INFO:  [Aug 4, 2021 11:21:33 AM] Waiting for completion of background operations
+INFO:  [Aug 4, 2021 11:21:33 AM] Completed background operations
+INFO:  [Aug 4, 2021 11:21:33 AM] Waiting for completion of background operations
+INFO:  [Aug 4, 2021 11:21:33 AM] Completed background operations
+INFO:  [Aug 4, 2021 11:21:33 AM] Moved to state <installOptions>
+INFO:  [Aug 4, 2021 11:21:38 AM] Waiting for completion of background operations
+INFO:  [Aug 4, 2021 11:21:38 AM] Completed background operations
+INFO:  [Aug 4, 2021 11:21:38 AM] InstallOptions UI Entering & Exiting processInput
+INFO:  [Aug 4, 2021 11:21:38 AM] Validating view at state <installOptions>
+INFO:  [Aug 4, 2021 11:21:38 AM] Completed validating view at state <installOptions>
+INFO:  [Aug 4, 2021 11:21:38 AM] Validating state <installOptions>
+INFO:  [Aug 4, 2021 11:21:38 AM] oracle.install.library.crs.CRSInfo.isCRSConfigured() returns value false
+INFO:  [Aug 4, 2021 11:21:38 AM] oracle.install.library.crs.CRSInfo.isApplicationCluster() returns value :false
+INFO:  [Aug 4, 2021 11:21:38 AM] oracle.install.library.crs.CRSInfo.isCRSConfigured() returns value false
+INFO:  [Aug 4, 2021 11:21:38 AM] Completed validating state <installOptions>
+INFO:  [Aug 4, 2021 11:21:38 AM] InstallOptionsAction Actions.transition called
+INFO:  [Aug 4, 2021 11:21:38 AM] oracle.install.library.crs.CRSInfo.isCRSConfigured() returns value false
+INFO:  [Aug 4, 2021 11:21:38 AM] selectedInstallOption is :INSTALL_DB_AND_CONFIG
+INFO:  [Aug 4, 2021 11:21:38 AM] launchNETCA = true
+INFO:  [Aug 4, 2021 11:21:38 AM] RAC is disabled, install option is: INSTALL_DB_AND_CONFIG, list of selected nodes is null or empty, interactive mode.
+INFO:  [Aug 4, 2021 11:21:38 AM] Clearing the list of selected nodes.
+INFO:  [Aug 4, 2021 11:21:38 AM] Verifying route setup_wizard
+INFO:  [Aug 4, 2021 11:21:38 AM] Waiting for completion of background operations
+INFO:  [Aug 4, 2021 11:21:38 AM] Completed background operations
+INFO:  [Aug 4, 2021 11:21:38 AM] Waiting for completion of background operations
+INFO:  [Aug 4, 2021 11:21:38 AM] Completed background operations
+INFO:  [Aug 4, 2021 11:21:38 AM] Executing action at state DBImage
+INFO:  [Aug 4, 2021 11:21:38 AM] DBImage Action Entering and Exiting execute
+INFO:  [Aug 4, 2021 11:21:38 AM] Completed executing action at state <DBImage>
+INFO:  [Aug 4, 2021 11:21:38 AM] Waiting for completion of background operations
+INFO:  [Aug 4, 2021 11:21:38 AM] Completed background operations
+INFO:  [Aug 4, 2021 11:21:38 AM] Waiting for completion of background operations
+INFO:  [Aug 4, 2021 11:21:38 AM] Completed background operations
+INFO:  [Aug 4, 2021 11:21:38 AM] Moved to state <DBImage>
+INFO:  [Aug 4, 2021 11:21:38 AM] Waiting for completion of background operations
+INFO:  [Aug 4, 2021 11:21:38 AM] Completed background operations
+INFO:  [Aug 4, 2021 11:21:38 AM] Validating view at state <DBImage>
+INFO:  [Aug 4, 2021 11:21:38 AM] Completed validating view at state <DBImage>
+INFO:  [Aug 4, 2021 11:21:38 AM] Validating state <DBImage>
+INFO:  [Aug 4, 2021 11:21:38 AM] Verifying Oracle home contents...
+INFO:  [Aug 4, 2021 11:21:38 AM] The goldimage from C:\WINDOWS.X64_193000_db_home files list available value: true
+INFO:  [Aug 4, 2021 11:21:38 AM] The goldimage from C:\WINDOWS.X64_193000_db_home clone value: true
+INFO:  [Aug 4, 2021 11:21:38 AM] The goldimage from C:\WINDOWS.X64_193000_db_home fresh value: false
+SEVERE:  [Aug 4, 2021 11:21:38 AM] [FATAL] [INS-35955] The Database software home (C:\WINDOWS.X64_193000_db_home) is already registered in the central inventory. This tool can only be used in a non-registered Database home.
+   ACTION: Choose a different location as Oracle home.
+INFO:  [Aug 4, 2021 11:21:47 AM] Advice is ABORT
+INFO:  [Aug 4, 2021 11:21:47 AM] Adding ExitStatus INVALID_USER_INPUT to the exit status set
+INFO:  [Aug 4, 2021 11:21:47 AM] Completed validating state <DBImage>
+INFO:  [Aug 4, 2021 11:21:47 AM] Terminating all background operations
+INFO:  [Aug 4, 2021 11:21:47 AM] Terminated all background operations
+INFO:  [Aug 4, 2021 11:21:47 AM] Transition aborted
+INFO:  [Aug 4, 2021 11:21:47 AM] Rolled back to state <installOptions>
+INFO:  [Aug 4, 2021 11:21:55 AM] Waiting for completion of background operations
+INFO:  [Aug 4, 2021 11:21:55 AM] Completed background operations
+INFO:  [Aug 4, 2021 11:21:55 AM] InstallOptions UI Entering & Exiting processInput
+INFO:  [Aug 4, 2021 11:21:55 AM] Validating view at state <installOptions>
+INFO:  [Aug 4, 2021 11:21:55 AM] Completed validating view at state <installOptions>
+INFO:  [Aug 4, 2021 11:21:55 AM] Validating state <installOptions>
+INFO:  [Aug 4, 2021 11:21:55 AM] oracle.install.library.crs.CRSInfo.isCRSConfigured() returns value false
+INFO:  [Aug 4, 2021 11:21:55 AM] oracle.install.library.crs.CRSInfo.isApplicationCluster() returns value :false
+INFO:  [Aug 4, 2021 11:21:55 AM] oracle.install.library.crs.CRSInfo.isCRSConfigured() returns value false
+INFO:  [Aug 4, 2021 11:21:55 AM] Completed validating state <installOptions>
+INFO:  [Aug 4, 2021 11:21:55 AM] InstallOptionsAction Actions.transition called
+INFO:  [Aug 4, 2021 11:21:55 AM] oracle.install.library.crs.CRSInfo.isCRSConfigured() returns value false
+INFO:  [Aug 4, 2021 11:21:55 AM] selectedInstallOption is :INSTALL_DB_AND_CONFIG
+INFO:  [Aug 4, 2021 11:21:55 AM] launchNETCA = true
+INFO:  [Aug 4, 2021 11:21:55 AM] RAC is disabled, install option is: INSTALL_DB_AND_CONFIG, list of selected nodes is null or empty, interactive mode.
+INFO:  [Aug 4, 2021 11:21:55 AM] Clearing the list of selected nodes.
+INFO:  [Aug 4, 2021 11:21:55 AM] Verifying route setup_wizard
+INFO:  [Aug 4, 2021 11:21:55 AM] Waiting for completion of background operations
+INFO:  [Aug 4, 2021 11:21:55 AM] Completed background operations
+INFO:  [Aug 4, 2021 11:21:55 AM] Waiting for completion of background operations
+INFO:  [Aug 4, 2021 11:21:55 AM] Completed background operations
+INFO:  [Aug 4, 2021 11:21:55 AM] Executing action at state DBImage
+INFO:  [Aug 4, 2021 11:21:55 AM] DBImage Action Entering and Exiting execute
+INFO:  [Aug 4, 2021 11:21:55 AM] Completed executing action at state <DBImage>
+INFO:  [Aug 4, 2021 11:21:55 AM] Waiting for completion of background operations
+INFO:  [Aug 4, 2021 11:21:55 AM] Completed background operations
+INFO:  [Aug 4, 2021 11:21:55 AM] Waiting for completion of background operations
+INFO:  [Aug 4, 2021 11:21:55 AM] Completed background operations
+INFO:  [Aug 4, 2021 11:21:55 AM] Moved to state <DBImage>
+INFO:  [Aug 4, 2021 11:21:55 AM] Waiting for completion of background operations
+INFO:  [Aug 4, 2021 11:21:55 AM] Completed background operations
+INFO:  [Aug 4, 2021 11:21:55 AM] Validating view at state <DBImage>
+INFO:  [Aug 4, 2021 11:21:55 AM] Completed validating view at state <DBImage>
+INFO:  [Aug 4, 2021 11:21:55 AM] Validating state <DBImage>
+INFO:  [Aug 4, 2021 11:21:55 AM] Verifying Oracle home contents...
+SEVERE:  [Aug 4, 2021 11:21:55 AM] [FATAL] [INS-35955] The Database software home (C:\WINDOWS.X64_193000_db_home) is already registered in the central inventory. This tool can only be used in a non-registered Database home.
+   ACTION: Choose a different location as Oracle home.
+INFO:  [Aug 4, 2021 11:22:00 AM] Advice is ABORT
+INFO:  [Aug 4, 2021 11:22:00 AM] Adding ExitStatus INVALID_USER_INPUT to the exit status set
+INFO:  [Aug 4, 2021 11:22:00 AM] Completed validating state <DBImage>
+INFO:  [Aug 4, 2021 11:22:00 AM] Terminating all background operations
+INFO:  [Aug 4, 2021 11:22:00 AM] Terminated all background operations
+INFO:  [Aug 4, 2021 11:22:00 AM] Transition aborted
+INFO:  [Aug 4, 2021 11:22:00 AM] Rolled back to state <installOptions>
+INFO:  [Aug 4, 2021 11:22:01 AM] Pause Oracle Database 19c Installer
+INFO:  [Aug 4, 2021 11:22:02 AM] Resume Oracle Database 19c Installer
+INFO:  [Aug 4, 2021 11:22:02 AM] Adding ExitStatus USER_CANCELLED_INSTALL to the exit status set
+INFO:  [Aug 4, 2021 11:22:02 AM] Finding the most appropriate exit status for the current application
+INFO:  [Aug 4, 2021 11:22:02 AM] inventory location isC:\Program Files\Oracle\Inventory
+INFO:  [Aug 4, 2021 11:22:02 AM] Finding the most appropriate exit status for the current application
+INFO:  [Aug 4, 2021 11:22:02 AM] Exit Status is -4
+INFO:  [Aug 4, 2021 11:22:02 AM] Shutdown Oracle Database 19c Installer
+INFO:  [Aug 4, 2021 11:22:02 AM] Unloading Setup Driver

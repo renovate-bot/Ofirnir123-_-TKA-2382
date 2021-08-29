@@ -1,0 +1,75 @@
+Rem Copyright (c) 1991, 2018, Oracle and/or its affiliates. 
+Rem All rights reserved.
+Rem    NAME
+Rem      driacchelp.pkh - Helper for driacc
+Rem    DESCRIPTION
+Rem      Helper for driacc
+Rem    RETURNS
+Rem
+Rem    NOTES
+Rem      <other useful comments, qualifications, etc.>
+Rem
+Rem    BEGIN SQL_FILE_METADATA
+Rem      SQL_SOURCE_FILE: ctx_src_2/src/dr/admin/driacchelp.pkh
+Rem      SQL_SHIPPED_FILE: ctx/admin/driacchelp.pkh
+Rem      SQL_PHASE: DRIACCHELP_PKH
+Rem      SQL_STARTUP_MODE: NORMAL
+Rem      SQL_IGNORABLE_ERRORS: NONE
+Rem      SQL_CALLING_FILE: ctx/admin/ctxpkh.sql
+Rem    END SQL_FILE_METADATA
+Rem
+Rem    MODIFIED   (MM/DD/YY)
+Rem    snetrava    06/14/18 - Bug 28102835: NONE LOG PRAGMA
+Rem     rkadwe     09/22/15 - Creation: Bug 21701234
+
+@@?/rdbms/admin/sqlsessstart.sql
+
+CREATE OR REPLACE PACKAGE driacchelp authid definer 
+accessible by (PACKAGE driacc)
+AS
+
+PRAGMA SUPPLEMENTAL_LOG_DATA(default, NONE);
+
+--
+--
+-- NAME 
+--   do_syn - reduce one synonym link
+--
+-- DESCRIPTION
+--   This function takes in an object owner and name and 
+--   tries to follow synonym links to find out the real owner and
+--   name.   Then verifies that the base object exists.  Return
+--   TRUE if base object exists, FALSE if not.
+--
+-- ARGUMENTS
+--   p_owner     (IN OUT)   - the name of the owner
+--   p_object    (IN OUT)   - the name of the object
+--
+-- RETURN
+--   TRUE if exists, FALSE otherwise
+--
+FUNCTION do_syn (
+  p_objtype    IN VARCHAR2,
+  p_owner  IN OUT VARCHAR2,
+  p_object IN OUT VARCHAR2,
+  p_func   IN OUT VARCHAR2,
+  p_link   IN OUT VARCHAR2
+) RETURN BOOLEAN;
+ 
+FUNCTION get_role_direct(p_user in varchar2,
+                         p_role in varchar2) return number;
+
+PROCEDURE open_role_privs (p_user in varchar2,
+                           c_role_privs out SYS_REFCURSOR);
+FUNCTION fetch_role_privs(c_role_privs in SYS_REFCURSOR,
+                          l_role out varchar2) return number;
+PROCEDURE close_role_privs(c_role_privs in SYS_REFCURSOR);
+
+FUNCTION get_tab_privs (cv_system_pattern in varchar2, 
+                        p_user in varchar2, p_access in varchar2,
+                        p_owner in varchar2, p_object in varchar2) 
+return number;
+
+END driacchelp;
+/
+@?/rdbms/admin/sqlsessend.sql

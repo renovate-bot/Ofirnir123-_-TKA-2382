@@ -1,0 +1,1 @@
+This directory is the default location used to deploy .NET Stored Procedures.

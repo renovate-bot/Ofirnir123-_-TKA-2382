@@ -1,0 +1,87 @@
+<html>
+
+<head>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
+
+<title>Bienvenido</title>
+<meta NAME="topic-id" CONTENT="welcome_page">
+<link REL=stylesheet HREF=blafdoc.css TYPE="text/css">
+</head>
+<body>
+
+<h1>Bienvenido</h1>
+
+<p>Bienvenido a la herramienta de configuración de Oracle Real Application Clusters. </p>
+<p>Después de instalar el software de la base de datos Oracle, puede utilizar la herramienta de configuración de Oracle Real Application Clusters para convertir las bases de datos de instancia única en bases de datos de Oracle Real Application Clusters.</p>
+
+<h2>Visión General de la Herramienta de Configuración de Oracle Real Application Clusters </h2>
+
+<p>La herramienta de configuración Oracle Real Application Clusters le guía a través del proceso de conversión de una base de datos existente de instancia única en una base de datos Oracle Real Application Clusters. Esta herramienta realiza automáticamente las tareas que se suelen realizar manualmente para convertir la base de datos existente en una base de datos de cluster. La herramienta de configuración de Oracle Real Application Clusters se puede llamar utilizando el archivo de comandos ORACLE_HOME/bin/rconfig. Esta herramienta toma un archivo xml en el que puede especificar la configuración deseada para la base de datos Oracle Real Application Clusters convertida. Estas opciones incluyen la especificación de los diferentes almacenamientos para la base de datos Oracle Real Application Clusters, los pools de hosts/servidor en los que desea que se ejecuten las instancias de Oracle Real Application Clusters. También puede especificar un prefijo para instancias de Oracle Real Application Clusters y el directorio raíz de Oracle desde el que se deberían ejecutar estas instancias de Oracle Real Application Clusters. Este directorio raíz de Oracle puede ser diferente del de Oracle Real Application Clusters actual.</p>
+
+ <p><strong>Nota:</strong>Oracle recomienda realizar una copia de seguridad completa de la base de datos de instancia única antes de intentar realizar la conversión.</p>
+
+ <h2>Notas para los Usuarios de Real Application Cluster</h2>
+<p>Antes de que la herramienta rconfig pueda convertir la base de datos de instancia única en una base de datos Real Application Clusters, debe realizar las tareas de preinstalación y haber completado el proceso de instalación de dos fases para instalar CRS (Cluster Ready Services) y Oracle Enterprise Edition 11<em>g</em> con Real Application Clusters.</p>
+<p>Además, dependiendo del tipo de almacenamiento de base de datos que desee utilizar, debería realizar uno de los siguientes procedimientos de configuración antes de llamar a la herramienta rconfig para convertir una base de datos de instancia única en una base de datos Oracle Real Application Clusters.</p>
+<ul>
+  <li>
+    <p>Si la base de datos de instancia única utiliza el almacenamiento de ASM, instale una instancia de ASM de cluster. Asegúrese de que en todos los nodos se están ejecutando instancias de ASM. Utilice los Asistentes de Configuración de ASM (ASMCA) para definir y montar los grupos de discos de ASM.</p>
+  </li>
+  <li>
+    <p>Si no se puede acceder al almacenamiento de la base de datos de instancia única desde todos los nodos, especifique la partición del sistema de archivos de cluster para el almacenamiento de la base de datos al que se podrá acceder desde todos los nodos.</p>
+  </li>
+  <li>
+    <p>La herramienta rconfig no admite la conversión de bases de datos con almacenamiento de dispositivos raw.</p>
+  </li>
+</ul>
+
+<h2>Requisitos de la Herramienta RConfig</h2>
+
+<p>Hay que cumplir los siguientes requisitos para usar la herramienta rconfig para realizar la conversión a la base de datos Oracle Real Application Clusters. La herramienta realizará comprobaciones para asegurarse de que se cumplen estos criterios con el fin de garantizar que la conversión sea correcta.</p>
+<ul>
+  <li>
+    <p>La versión de la base de datos y CRS debería ser igual a 11.2</p>
+  </li>
+  <li>
+    <p>Se debería estar ejecutando CRS en todos los nodos que deberían tener instancias de Oracle Real Application Clusters en ejecución.</p>
+  </li>
+  <li>
+    <p> Se debería estar ejecutando el listener por defecto desde el directorio raíz de la infraestructura de grid (CRS).</p>
+  </li>
+  <li>
+    <p>Se debería poder acceder a la ubicación de almacenamiento dada desde todos los nodos del cluster. Si el almacenamiento que utiliza la base de datos de instancia única es ASM, se deberían estar ejecutando las instancias de ASM en cluster en todos los nodos que deberían tener instancias de Oracle Real Application Clusters.</p>
+  </li>
+</ul>
+
+<h2>Entrada de XML para que la Herramienta Rconfig Realice la Conversión a Oracle Real Application Clusters</h2>
+<p> La herramienta rconfig toma el archivo xml como entrada. En esta sección, se describe cada elemento de este archivo que se utiliza como entrada para la conversión. El esquema con el que se valida el xml de entrada está empaquetado en rconfig.jar junto con otros binarios. Se puede ver en /ORACLE_HOME/assistants/rconfig/sampleXMLs/rconfig.xsd. Este directorio también contiene un archivo XML de ejemplo que se puede utilizar como entrada para la herramienta rconfig.
+<ul>
+  <li>
+    <p>SID y credenciales para la base de datos de instancia única: Aquí se debería especificar el nombre de usuario y la contraseña del usuario con el rol sysdba. Además, se necesita el sid de la base de datos de instancia única existente para conectarse a ella.</p>
+  </li>
+
+  <li>
+    <p>Directorio raíz de Oracle existente: Aquí se debería especificar el directorio raíz de Oracle de la base de datos de instancia única.</p>
+  </li>
+  <li>
+    <p>Nuevo directorio raíz de Oracle: Aquí se debería especificar el directorio raíz de Oracle en el que desea que se ejecute la base de datos Oracle Real Application Clusters convertida. Puede ser el mismo que el directorio raíz de Oracle existente.</p>
+  </li>
+  
+  <li>
+    <p>Lista de pool de servidores/lista de nodos: En las bases de datos gestionadas por administrador, especifique la lista de nodos que deberían tener instancias de esta base de datos Oracle Real Application Clusters.</p>
+	<p>En las bases de datos gestionadas por políticas, especifique la lista de pool de servidores. Si no hay ningún pool de servidores, se creará. Para ello, especifique la cardinalidad de la base de datos. </p>
+  </li>
+  
+  <li>
+    <p>Prefijo para instancias de base de datos de cluster: Se trata de un campo opcional. Los nombres de las instancias de Oracle Real Application Clusters tendrán un prefijo concatenado con el número de la instancia. Este prefijo puede ser el mismo que el sid de la base de datos existente o puede ser diferente. Si se deja en blanco, el nombre por defecto será db_unique_name.</p>
+  </li>
+
+  <li>
+    <p>Almacenamiento Compartido: Especifique la ubicación de los archivos de datos y del área de recuperación que se debería configurar para la base de datos Oracle Real Application Clusters. Deje estos campos en blanco si también se debería utilizar el almacenamiento actual que usa la base de datos de instancia única para la base de datos Oracle Real Application Clusters. En este caso, la herramienta rconfig comprobará previamente si los archivos de datos, los archivos de control, los spfile y los archivos de recuperación actuales son accesibles desde todos los nodos. Si no es así, mostrará un error y no continuará la conversión. Si se especifican ubicaciones diferentes, la herramienta rconfig garantizará que la ubicación especificada sea accesible desde todos los nodos y, durante la conversión, y copiará todos los archivos en la ubicación especificada y creará nuevos archivos para las instancias de Oracle Real Application Clusters en esta ubicación.</p>
+  <p>Se aplican las mismas notas para el almacenamiento de ASM. Se deberían utilizar estos campos para especificar los grupos de discos que se van a utilizar en el almacenamiento compartido configurado. Los grupos de discos que se especifiquen deberían comenzar por '+'. Actualmente, sólo se puede especificar un grupo de discos para la ubicación de los archivos de datos y el área de recuperación.
+  </li>
+</ul>
+
+</body>
+
+</html>

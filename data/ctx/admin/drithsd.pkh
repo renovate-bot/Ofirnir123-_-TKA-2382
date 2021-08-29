@@ -1,0 +1,71 @@
+rem
+rem  Copyright (c) 1999 by Oracle Corporation
+rem
+rem    NAME
+rem      drithsd.pkh - Spec for ConText Option thesaurus package
+rem
+rem    DESCRIPTION
+rem      thesaurus export (Dump) functions
+rem
+rem    NOTES
+rem
+rem 
+rem    BEGIN SQL_FILE_METADATA
+rem      SQL_SOURCE_FILE: ctx_src_2/src/dr/admin/drithsd.pkh
+rem      SQL_SHIPPED_FILE: ctx/admin/drithsd.pkh
+rem      SQL_PHASE: DRITHSD_PKH
+rem      SQL_STARTUP_MODE: NORMAL
+rem      SQL_IGNORABLE_ERRORS: NONE
+rem      SQL_CALLING_FILE: ctx/admin/ctxpkh.sql
+rem    END SQL_FILE_METADATA
+rem
+rem    MODIFIED   (MM/DD/YY)
+Rem     snetrava   06/14/18  - Bug 28102835: NONE LOG PRAGMA
+rem    surman      01/23/15  - 20411134: Add SQL metadata tags
+rem    surman      03/15/13  - 16473661: Common start and end scripts
+rem    gkaminag    03/09/99 -  creation
+
+@@?/rdbms/admin/sqlsessstart.sql
+
+CREATE OR REPLACE PACKAGE drithsd AS
+
+PRAGMA SUPPLEMENTAL_LOG_DATA(default, NONE);
+
+/*------------------------------- dump_thesaurus -------------------------*/
+/*
+  NAME
+    dump_thesaurus
+
+  DESCRIPTION
+    initializes package for thesaurus dumping
+
+  ARGUMENTS
+    name    (IN) thesaurus name (if not specified, DEFAULT is used)
+*/
+
+PROCEDURE dump_thesaurus (
+  tname in varchar2
+);
+
+/*------------------------------- next_dump_line -------------------------*/
+/*
+  NAME
+    next_dump_line
+
+  DESCRIPTION
+    get next dump line
+
+  ARGUMENTS
+
+  RETURN
+    line, or NULL at EOD
+
+  NOTES
+    MUST call dump_thesaurus first
+*/
+FUNCTION next_dump_line RETURN VARCHAR2;
+
+end drithsd;
+/
+
+@?/rdbms/admin/sqlsessend.sql

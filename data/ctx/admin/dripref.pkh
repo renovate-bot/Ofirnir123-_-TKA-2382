@@ -1,0 +1,388 @@
+rem Copyright (c) 1997, 2018, Oracle and/or its affiliates. 
+rem All rights reserved.
+rem    NAME
+rem      dripref.pkh - DR Internal PREFerence management
+rem    DESCRIPTION
+rem      This package contains internal code to create, manage, and drop
+rem      preferences.
+rem
+rem    NOTES
+rem 
+rem    BEGIN SQL_FILE_METADATA
+rem      SQL_SOURCE_FILE: ctx_src_2/src/dr/admin/dripref.pkh
+rem      SQL_SHIPPED_FILE: ctx/admin/dripref.pkh
+rem      SQL_PHASE: DRIPREF_PKH
+rem      SQL_STARTUP_MODE: NORMAL
+rem      SQL_IGNORABLE_ERRORS: NONE
+rem      SQL_CALLING_FILE: ctx/admin/ctxpkh.sql
+rem    END SQL_FILE_METADATA
+rem
+rem    MODIFIED    (MM/DD/YY)
+Rem     snetrava   06/14/18  - Bug 28102835: NONE LOG PRAGMA
+rem      aczarlin   11/23/15 - bug 22218950
+rem      shuroy     10/22/15 - Bug 22074771
+rem      rkadwe     05/15/15 - Alter index for simplified syntax
+rem      surman     01/23/15 - 20411134: Add SQL metadata tags
+rem      surman     03/15/13 - 16473661: Common start and end scripts
+rem      hsarkar    06/20/11 - Logical Standby Support
+rem      rkadwe     05/16/11 - Btree Backed SDATA API
+rem      ssethuma   05/08/11 - Section specific stoplist
+rem      surman     02/12/10 - 9364581: Add new_sdata_section and
+rem      surman     12/09/08 - 7540290: binary_integer to number
+rem      gkaminag   08/22/05 - all_prefs flag to copt_preferences 
+rem      gkaminag   11/24/03 - copy policy 
+rem      surman     09/08/03 - 3101316: Add drop_user_preferences 
+rem      gkaminag   12/06/02 - security for classification
+rem      gkaminag   07/02/02 - security phase 2
+rem      gkaminag   06/11/02 - API Changes.
+rem      gkaminag   08/09/00 - local domain partition support
+rem      ehuang     06/20/00 - change get_default_section
+rem      ehuang     12/22/99 - add index owner to set_preferences
+rem      gkaminag   11/02/99 -
+rem      gkaminag   06/09/99 -  language column checking
+rem      ehuang     09/16/98 -  bug 726897
+rem      ehuang     09/14/98 -  bug 726898
+rem      syang      04/15/98 -  add rpl_preference
+rem      ehuang     03/30/98 -  policy->index
+rem      dyu        03/20/98 -  security check
+rem      gkaminag   03/18/98 -  pref system phase 4
+rem      ehuang     03/04/98 -  8.1 preference system change
+rem      gkaminag   12/08/97 -  add datastore_direct
+rem      gkaminag   04/17/97 -  add check_sg_usage
+rem      gkaminag   04/11/97 -  creation
+
+@@?/rdbms/admin/sqlsessstart.sql
+
+create or replace package dripref as
+
+PRAGMA SUPPLEMENTAL_LOG_DATA(default, NONE);
+
+/*--------------------------- get_oat_id -------------------------*/
+/*
+  NAME
+    get_oat_id
+
+  DESCRIPTION
+    given a class and object id and an attribute name, return oat_id
+*/
+function get_oat_id(
+  class_id  in binary_integer,
+  object_id in binary_integer,
+  att_name  in varchar2
+)
+return binary_integer;
+
+/*--------------------------- get_obj_info -------------------------*/
+/*
+  NAME
+    get_obj_info 
+
+  DESCRIPTION
+    given an object name, selects the object information and return
+    the data as a record
+*/
+function get_obj_info(
+  object_name   in  varchar2
+)
+return dr_def.obj_rec;
+
+/*--------------------------- get_pref_info -------------------------*/
+/*
+  NAME
+    get_pref_info
+
+  DESCRIPTION
+    given a preference name, selects the preference information and 
+    returns the data as a record.
+*/
+function get_pref_info(
+  pre_name   in  varchar2,
+  new_pref   in  boolean   default false,
+  check_own  in  boolean   default false
+)
+return dr_def.pref_rec;
+
+/*---------------------------- create_preference ----------------------------*/
+/*
+  NAME
+    create_preference
+
+  DESCRIPTION
+    this procedure create a preference for the framework object whose name 
+    is specified in 'object_name'.
+
+  ARGUMENTS
+    preference_name -  preference name, this can be structured as 
+                       [OWNER.]PREFERENCE_NAME
+    object_name     -  name of the object to apply the preference to.
+
+*/
+procedure create_preference(
+  preference_name  in varchar2,
+  object_name      in varchar2,
+  preference_implicit_commit in boolean);
+
+/*---------------------------- drop_preference ----------------------------*/
+/*
+  NAME
+    drop_preference
+
+  DESCRIPTION
+    delete the preference specified in 'name' from TexTile dictionary.
+
+  ARGUMENTS
+    name    - preference name
+*/
+procedure drop_preference(preference_name  in varchar2,
+                          preference_implicit_commit in boolean);
+
+/*--------------------------- drop_user_preferences ----------------------*/
+/*
+  NAME
+    drop_user_preferences
+
+  DESCRIPTION
+    deletes all preferences for the given user from the Text dictionary.
+    If the user is null, then preferences from all dropped users will
+    be deleted (called by ctx_adm.recover).
+
+  ARGUMENTS
+    user_name
+*/
+procedure drop_user_preferences(user_name in varchar2 := null);
+
+/*------------------------------ set_attribute ---------------------------*/
+/*
+  NAME
+    set_attribute 
+
+  DESCRIPTION
+   set the specified attribute in the specified preference to the 
+   provided value. if a setting for this attribute already exists,
+   this will override the old value for that attribute
+
+  ARGUMENTS
+*/
+procedure set_attribute(
+  preference_name in varchar2,
+  attribute_name  in varchar2,
+  attribute_value in varchar2,
+  preference_implicit_commit in boolean
+);
+
+/*---------------------------- unset_attribute ---------------------------*/
+/*
+  NAME
+    unset_attribute 
+
+  DESCRIPTION
+    remove the value for the specified attribute in the specified preference
+
+  ARGUMENTS
+*/
+procedure unset_attribute(
+  preference_name in  varchar2,
+  attribute_name  in  varchar2,
+  preference_implicit_commit in boolean
+);
+
+/*========================================================================*/
+/*========================================================================*/
+/*                               INDEXING                                 */
+/*========================================================================*/
+/*========================================================================*/
+
+/*--------------------------- set_preferences -------------------------*/
+/*
+  NAME
+   set_preferences - Check all preferences used in a policy
+*/
+procedure set_preferences(
+  idx_owner          in    varchar2,
+  idx_id             in    number,
+  idx_langcol        in    varchar2,
+  prefnames          in    DR_DEF.NAME_TAB,
+  new_sdata_section  out   boolean,
+  ia                 in    sys.ODCIIndexInfo default NULL,
+  p_dataguide     in  varchar2 default null,
+  p_search_on     in  varchar2 default null,
+  p_simple        in  number   default driparse.SIMPLE_SYNTAX_NONE,
+  p_create_idx_op in  boolean  default false
+);
+
+/*--------------------------- rpl_preferences -------------------------*/
+/*
+  NAME
+   rpl_preferences - replace preferences used in an index with the
+                     supplied ones
+*/
+procedure rpl_preferences(
+  idx_owner   in    varchar2,
+  idx_id     in     number,
+  idx_langcol in    varchar2,
+  prefnames  in     DR_DEF.NAME_TAB,
+  section_id in     number,
+  alt_I      out    boolean,
+  new_sdata_section  out boolean,
+  p_dataguide in varchar2 default null,
+  p_search_on in varchar2 default null
+);
+
+/*--------------------------- copy_preferences -------------------------*/
+/*
+  NAME
+   copy_preferences - copy prefs from one index to another
+*/
+procedure copy_preferences(
+  source_idx_id in    number,
+  dest_idx_id   in    number,
+  all_prefs     in    boolean default FALSE
+);
+
+/*--------------------------- get_default_filter ------------------*/
+/*
+  NAME
+    get_default_filter
+  
+  DESCRIPTION
+    get the default value for the filter preference
+*/
+function get_default_filter(
+  p_dstore_pref in varchar2,
+  p_coltype     in number
+)
+return varchar2;
+
+/*--------------------------- add_partition_storage ---------------*/
+/*
+  NAME
+    add_partition_storage
+  
+  DESCRIPTION
+    add a storage clause for the partition
+*/
+procedure add_partition_storage(
+  p_idx_id       in number,
+  p_part_id      in number,
+  p_storage_pref in varchar2
+);
+
+/*--------------------------- remove_partition_storage -----------*/
+/*
+  NAME
+    remove_partition_storage
+  
+  DESCRIPTION
+    remove storage class values for the partition
+*/
+procedure remove_partition_storage(
+  p_idx_id       in number,
+  p_part_id      in number
+);
+
+/*--------------------------- get_attribute_value ------------------*/
+/*
+  NAME
+    get_attribute_value 
+  
+  DESCRIPTION
+    given a preference record and an attribute name, returns the
+    value of the attribute in the preference. used from drival.
+*/
+function get_attribute_value(
+  pre_rec          dr_def.pref_rec,
+  attribute_name   varchar2
+)
+return varchar2;
+
+/*--------------------------- get_attribute_value2 ------------------*/
+/*
+  NAME
+    get_attribute_value2
+
+  DESCRIPTION
+    given a preference record and an attribute name, returns the
+    value of the attribute in the preference. If attribute was
+    not set in the preference then returns default value for that
+    attribute.
+*/
+
+function get_attribute_value2(
+  pre_rec          dr_def.pref_rec,
+  attribute_name   varchar2
+)
+return varchar2;
+
+
+/*========================================================================*/
+/*========================================================================*/
+/*                          AFTER-INDEXING REPORT                         */
+/*========================================================================*/
+/*========================================================================*/
+
+/*--------------------------- get_index_values ---------------------------*/
+/* get the values for the class for the index */
+
+PROCEDURE get_index_values(
+  p_idx_id in number,
+  p_cla_id in binary_integer,
+  o_ixv    in out nocopy dr_def.ixv_tab
+);
+
+/*--------------------------- get_sub_index_values -----------------------*/
+/* get the sub-values for the class for the index */
+
+PROCEDURE get_sub_index_values(
+  p_idx_id  in number,
+  p_cla_id  in binary_integer,
+  p_sub_grp in binary_integer,
+  o_ixv     in out nocopy dr_def.ixv_tab
+);
+
+/*========================================================================*/
+/*========================================================================*/
+/*                              CLASSIFICATION                            */
+/*========================================================================*/
+/*========================================================================*/
+
+/*---------------------------- GetPrefClaObj -----------------------------*/
+
+procedure GetPrefClaObj(
+  p_preid  in  number,
+  o_claid  out number,
+  o_objid  out number
+);
+
+/*---------------------------- GetObjDefault -----------------------------*/
+
+procedure GetObjDefault(
+  p_oatid   in  number,
+  o_default out varchar2
+);
+
+/*---------------------------- OpenPrefValue ------------------------------*/
+
+procedure OpenPrefValue(
+  p_preid   in number
+);
+
+/*---------------------------- NextPrefValue ------------------------------*/
+
+function NextPrefValue(
+  o_value   out varchar2,
+  o_oatid   out number
+) return binary_integer;
+
+/*-------------------------GetStageItabMaxRows ----------------------------*/
+
+function GetStageItabMaxRows(
+  p_idx_id  in number,
+  p_sub_grp in binary_integer,
+  ixv       in out nocopy dr_def.ixv_tab
+) return varchar2;
+
+
+end dripref;
+/
+
+@?/rdbms/admin/sqlsessend.sql

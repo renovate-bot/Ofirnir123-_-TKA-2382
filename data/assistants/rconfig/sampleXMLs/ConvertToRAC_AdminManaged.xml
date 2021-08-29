@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<n:RConfig xmlns:n="http://www.oracle.com/rconfig"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://www.oracle.com/rconfig rconfig.xsd">
+    <n:ConvertToRAC>   
+<!-- Verify does a precheck to ensure all pre-requisites are met, before the conversion is attempted. Allowable values are: YES|NO|ONLY -->
+	<n:Convert verify="YES">
+<!--Specify current OracleHome of non-rac database for SourceDBHome -->
+	      <n:SourceDBHome>/oracle/product/11.2.0/db_1</n:SourceDBHome>
+<!--Specify OracleHome where the rac database should be configured. It can be same as SourceDBHome -->
+	      <n:TargetDBHome>/oracle/product/11.2.0/db_1</n:TargetDBHome>
+<!--Specify SID of non-rac database -->
+              <n:SourceDBInfo SID="sales"/>
+<!--Specify the list of nodes that should have rac instances running for the Admin Managed Cluster Database. LocalNode should be the first node in this nodelist. -->
+	      <n:NodeList>        
+	        <n:Node name="node1"/>
+	        <n:Node name="node2"/>
+	      </n:NodeList>
+<!--Specify RacOneNode along with servicename to convert database to RACOne Node -->
+              <!--n:RacOneNode  servicename="salesrac1service"/-->
+<!--Instance Prefix tag is optional starting with 11.2. If left empty, it is derived from db_unique_name.-->
+	      <n:InstancePrefix>sales</n:InstancePrefix>
+<!-- Listener details are no longer needed starting 11.2. Database is registered with default listener and SCAN listener running from Oracle Grid Infrastructure home. -->
+<!--Specify the type of storage to be used by rac database. Allowable values are CFS|ASM. The non-rac database should have same storage type. ASM credentials are no needed for conversion. -->
+	      <n:SharedStorage type="ASM">
+<!--Specify Database Area Location to be configured for rac database.If this field is left empty, current storage will be used for rac database. For CFS, this field will have directory path. -->
+	        <n:TargetDatabaseArea>+ASMDG</n:TargetDatabaseArea>
+<!--Specify Fast Recovery Area to be configured for rac database. If this field is left empty, current recovery area of non-rac database will be configured for rac database. If current database is not using recovery Area, the resulting rac database will not have a recovery area. -->
+	        <n:TargetFlashRecoveryArea>+ASMDG</n:TargetFlashRecoveryArea>
+	      </n:SharedStorage>
+        </n:Convert>
+    </n:ConvertToRAC>
+</n:RConfig>

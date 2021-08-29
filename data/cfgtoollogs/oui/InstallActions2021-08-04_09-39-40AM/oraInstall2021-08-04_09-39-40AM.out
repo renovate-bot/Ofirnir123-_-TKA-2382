@@ -1,0 +1,40 @@
+You can find the log of this install session at:
+ C:\Users\OfirNir\AppData\Local\Temp\InstallActions2021-08-04_09-39-40AM\installActions2021-08-04_09-39-40AM.log
+PersistEnv
+
+INFO: Oracle.DataAccess.Dll entry removed from extproc!
+INFO: Oracle.DataAccess.Dll entry removed from extproc!
+INFO: Oracle.DataAccess.Dll entry removed from extproc!
+INFO: Oracle.Database.Extensions.Dll entry removed from extproc!
+INFO: Oracle.Database.Extensions.Dll entry removed from extproc!
+INFO: Oracle.Database.Extensions.Dll entry removed from extproc!
+
+
+INFO: The following section has been added to extproc.exe.config .
+<dependentAssembly xmlns="urn:schemas-microsoft-com:asm.v1"><assemblyIdentity name="Oracle.DataAccess" publicKeyToken="89B483F429C47342" culture="neutral" /><codeBase version="4.122.19.1" href="C:/WINDOWS.X64_193000_db_home/ODP.NET/bin/4/Oracle.DataAccess.dll" /><publisherPolicy apply="no" /><bindingRedirect oldVersion="4.112.0.0-4.112.9999.9999" newVersion="4.122.19.1" /></dependentAssembly>
+
+
+INFO: The following section has been adde
+d to extproc.exe.config .
+<dependentAssembly xmlns="urn:schemas-microsoft-com:asm.v1"><assemblyIdentity name="Oracle.DataAccess" publicKeyToken="89B483F429C47342" culture="neutral" /><codeBase version="4.122.19.1" href="C:/WINDOWS.X64_193000_db_home/ODP.NET/bin/4/Oracle.DataAccess.dll" /><publisherPolicy apply="no" /><bindingRedirect oldVersion="4.121.0.0-4.121.9999.9999" newVersion="4.122.19.1" /></dependentAssembly>
+
+
+INFO: The following section has been added to extproc.exe.config .
+<dependentAssemb
+ly xmlns="urn:schemas-microsoft-com:asm.v1"><assemblyIdentity name="Oracle.DataAccess" publicKeyToken="89B483F429C47342" culture="neutral" /><codeBase version="4.122.19.1" href="C:/WINDOWS.X64_193000_db_home/ODP.NET/bin/4/Oracle.DataAccess.dll" /><publisherPolicy apply="no" /><bindingRedirect oldVersion="4.122.0.0-4.122.19.1" newVersion="4.122.19.1" /></dependentAssembly>
+
+
+
+INFO: The following section has been added to extproc.exe.config .
+<dependentAssembly xmlns="urn:schemas-microsoft-com:asm.v1"><assemblyIdentity name="Oracle.Database.Extensions" publicKeyToken="89B483F429C47342" culture="neutral" /><codeBase version="4.122.19.1" href="C:/WINDOWS.X64_193000_db_home/ODE.NET/bin/4/Oracle.Database.Extensions.dll" /><publisherPolicy apply="no" /><bindingRedirect oldVersion="4.112.0.0-4.112.9999.9999" newVersion="4.122.19.1" /></dependentAssembly>
+
+
+INFO: The following sec
+tion has been added to extproc.exe.config .
+<dependentAssembly xmlns="urn:schemas-microsoft-com:asm.v1"><assemblyIdentity name="Oracle.Database.Extensions" publicKeyToken="89B483F429C47342" culture="neutral" /><codeBase version="4.122.19.1" href="C:/WINDOWS.X64_193000_db_home/ODE.NET/bin/4/Oracle.Database.Extensions.dll" /><publisherPolicy apply="no" /><bindingRedirect oldVersion="4.121.0.0-4.121.9999.9999" newVersion="4.122.19.1" /></dependentAssembly>
+
+
+INFO: The following section has been added to ex
+tproc.exe.config .
+<dependentAssembly xmlns="urn:schemas-microsoft-com:asm.v1"><assemblyIdentity name="Oracle.Database.Extensions" publicKeyToken="89B483F429C47342" culture="neutral" /><codeBase version="4.122.19.1" href="C:/WINDOWS.X64_193000_db_home/ODE.NET/bin/4/Oracle.Database.Extensions.dll" /><publisherPolicy apply="no" /><bindingRedirect oldVersion="4.122.0.0-4.122.19.1" newVersion="4.122.19.1" /></dependentAssembly>
+

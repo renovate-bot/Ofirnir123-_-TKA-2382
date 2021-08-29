@@ -1,0 +1,87 @@
+<html>
+
+<head>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
+
+<title>Bem-vindo</title>
+<meta NAME="topic-id" CONTENT="welcome_page">
+<link REL=stylesheet HREF=blafdoc.css TYPE="text/css">
+</head>
+<body>
+
+<h1>Bem-vindo</h1>
+
+<p>Bem-vindo à Ferramenta de Configuração do Oracle Real Application Clusters. </p>
+<p>Após instalar o software do Oracle Database, você pode usar a Ferramenta de Configuração do Oracle Real Application Clusters para converter seus bancos de dados de uma única instância para os bancos de dados do Oracle Real Application Clusters.</p>
+
+<h2>Visão Geral da Ferramenta de Configuração do Oracle Real Application Clusters </h2>
+
+<p>A Ferramenta de Configuração do Oracle Real Application Clusters o orienta no processo de conversão de um banco de dados de uma única instância existente para um banco de dados do Oracle Real Application Clusters. As tarefas normalmente executadas de forma manual para converter seu banco de dados existente para um banco de dados do cluster são realizadas automaticamente por esta ferramenta. A ferramenta de configuração pode ser chamada usando o script ORACLE_HOME/bin/rconfig. Esta ferramenta inclui um arquivo xml onde você pode especificar a configuração desejada para os bancos de dados do Oracle Real Application Clusters que tenham sido convertidos. Essas opções incluem a especificação de diferentes armazenamentos para o banco de dados do Oracle Real Application Clusters e os pools do host/servidor nos quais deseja que as instâncias do Oracle Real Application Clusters sejam executadas. Você também pode especificar um prefixo para as instâncias do Oracle Real Application e o Oracle home a partir do qual essas instâncias devem ser executadas. Esse Oracle home pode ser diferente do home atual do Oracle Real Application Clusters.</p>
+
+ <p><strong>Observação:</strong> O Oracle recomenda que você realize um backup completo do banco de dados de uma única instância antes de tentar fazer a conversão.</p>
+
+ <h2>Observações para Usuários do Real Application Clusters</h2>
+<p>Para que a ferramenta rconfig possa converter seu banco de dados de uma única instância para um banco de dados do Real Application Clusters, você deverá concluir as tarefas de pré-instalação, e deverá ter concluído o processo de instalação em duas fases para instalar o CRS (Cluster Ready Services) e o Oracle Enterprise Edition 11<em>g</em> com o Real Application Clusters.</p>
+<p>Além disso, dependendo do tipo de armazenamento de banco de dados que desejar usar, você deverá efetuar um dos seguintes procedimentos de configuração antes de chamar a ferramenta rconfig para converter o banco de dados de uma única instância para um banco de dados do Oracle Real Application Clusters.</p>
+<ul>
+  <li>
+    <p>Se o seu banco de dados de uma única instância usa Armazenamento ASM, instale uma instância ASM do cluster. Certifique-se de que todos os nós do cluster possuem instâncias ASM em execução. Use o ASMCA (Assistentes de Configuração do ASM) para definir e montar os Grupos de Discos do ASM.</p>
+  </li>
+  <li>
+    <p>Se não for possível acessar seu banco de dados de uma única instância a partir de todos os nós, especifique uma partição do sistema do arquivo de clusters para armazenamento de banco de dados que possa ser acessada de todos os nós.</p>
+  </li>
+  <li>
+    <p>A ferramenta rconfig não suporta a conversão de bancos de dados com armazenamento de dispositivos brutos.</p>
+  </li>
+</ul>
+
+<h2>Pré-requisitos da Ferramenta RConfig</h2>
+
+<p>Os seguintes pré-requisitos devem ser atendidos para o uso da ferramenta rconfig na conversão para o banco de dados do Oracle Real Application Clusters. A ferramenta realizará verificações a fim de garantir que esses critérios sejam atendidos, para assegurar uma conversão bem-sucedida.</p>
+<ul>
+  <li>
+    <p>O número do CRS e da Versão do Banco de Dados deve ser igual a 11.2.</p>
+  </li>
+  <li>
+    <p>O CRS deve estar em execução em todos os nós nos quais as instâncias do Oracle Real Application Clusters estão sendo executadas.</p>
+  </li>
+  <li>
+    <p> O listener default deve estar em execução no home do Grid Infrastructure (CRS).</p>
+  </li>
+  <li>
+    <p>O local de armazenamento em questão deve ser acessível a partir de todos os nós no cluster. Se o armazenamento usado pelo banco de dados de uma única instância for o ASM, as instâncias ASM clusterizadas devem ser executadas em todos os nós que possuem instâncias do Oracle Real Application Clusters.</p>
+  </li>
+</ul>
+
+<h2>Arquivo XML de entrada para que a ferramenta rconfig execute a conversão do Oracle Real Application Clusters.</h2>
+<p> A ferramenta rconfig usa o arquivo xml como entrada. Cada elemento do arquivo xml usado como entrada para a conversão é descrito nesta seção. O Esquema XML em relação ao qual o arquivo xml de entrada é validado é empacotado em rconfig.jar, juntamente com outros binários. Você pode visualizá-lo em /ORACLE_HOME/assistants/rconfig/sampleXMLs/rconfig.xsd. Este diretório também contém uma amostra de arquivo XML que pode ser usado como entrada para a ferramenta rconfig.
+<ul>
+  <li>
+    <p>SID e Credenciais para o banco de dados de uma única instância: o nome de usuário e a senha do usuário com atribuição sysdba devem ser especificados aqui. Além disso, o sid do banco de dados de uma única instância existente é necessário para estabelecer conexão com o banco de dados.</p>
+  </li>
+
+  <li>
+    <p>Oracle Home existente: o Oracle home do banco de dados de uma única instância deve ser especificado aqui.</p>
+  </li>
+  <li>
+    <p>Novo Oracle Home: o Oracle home a partir de onde você deseja que o banco de dados convertido do Oracle Real Application Clusters seja executado deve ser especificado aqui. Esse Oracle home pode ser igual ao Oracle home existente.</p>
+  </li>
+  
+  <li>
+    <p>Lista Pool do Servidor/Lista de Nós: para bancos de dados gerenciados pelo administrador, especifique a lista de nós que deve ter as instâncias deste banco de dados do Oracle Real Application Clusters.</p>
+	<p>Para banco de dados Gerenciados pela Política, especifique a lista de pools do servidor. Se não houver nenhum pool do servidor, ele será criado. Para criar o Pool do Servidor, especifique a cardinalidade do banco de dados. </p>
+  </li>
+  
+  <li>
+    <p>Prefixo para Instâncias do banco de dados do cluster: este é um campo opcional. As instâncias do Oracle Real Application Clusters serão nomeadas com um prefixo concatenado ao seu número. O prefixo pode ser igual ou diferente do sid para bancos de dados existentes. Se esse campo for deixado em branco, o default será db_unique_name</p>
+  </li>
+
+  <li>
+    <p>Armazenamento Compartilhado: especifique a Localização dos Arquivos de Dados e a Localização da Área de Recuperação que devem ser configuradas para o banco de dados do Oracle Real Application Clusters. Se o armazenamento atual usado pelo banco de dados de uma única instância também for usado para o banco de dados do Oracle Real Application Clusters, deixe esses campos em branco. Neste caso, a ferramenta rconfig realizará uma pré-verificação para avaliar se os arquivos de dados, os arquivos de controle, o spfile e os arquivos de recuperação atuais podem ser acessados a partir de todos os nós. Em caso negativo, a ferramenta exibirá um erro e não prosseguirá com a conversão. Se localizações diferentes forem especificadas, a ferramenta rconfig irá assegurar que a localização especificada pode ser acessada a partir de todos os nós e, durante a conversão, copiará todos os arquivos para essa localização e criará novos arquivos para as novas instâncias do Oracle Real Application Clusters neste local.</p>
+  <p>As mesmas observações aplicam-se ao armazenamento ASM. Esses campos devem ser usados para especificar os grupos de discos a serem usados para o armazenamento compartilhado configurado. O grupos de discos devem ser especificados começando com "+". Atualmente, apenas um grupo de disco pode ser especificado para a Localização dos Arquivos de Dados e para a Localização da Área de Recuperação.
+  </li>
+</ul>
+
+</body>
+
+</html>

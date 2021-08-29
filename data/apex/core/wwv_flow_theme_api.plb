@@ -1,0 +1,44 @@
+set define off
+set verify off
+prompt ...wwv_flow_theme_api
+create or replace package body wwv_flow_theme_api wrapped 
+a000000
+1
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+b
+15bd 49c
+vqBSdELusdfT0JqhJfyWu0FDkIgwg83qTCAFyo5Vxz9EEnXxWliNzT0nbOAPmE02uqnri73N
+a+sbeYMc6IG7u6yG23Dx6CwpRSY/8o/AJP+t3WPoMWxiN1blzy5IIKoTcpo/aOwPD0i8mnWu
+JJ3T5WAIZKdcOULvN5EfyEyro4LrFvUBFsE9lF3v6GCZFlgE8+RUNeLiK+jdPozK9hTrHhp+
+tQNufOmiaq2zH1CDBSCYphrYkWY+XnB1UMpEQ83KWHfNKLdcrcgDx2Vh9HfTwvJdWQPydZQK
+Vz3I0LAmx7LhhpQpEV2V3QGhuvTFk0ie9aEeq8dq50ynffln830ZRRkdgKvWdOKz0Al1Q6Zi
+LQa3VEu5sD4BPbTkyU4+re/HLEVv1VapA197jnbyt/4swU46BzE8f7BRWXej3lTsbMmsva7U
+BTFsAXo44OmtZqypJ1M8ht6mC52LTABUSLPjR0BgwO0+ZjV4CQ5dxct33P7FmkdVCpLEVD8T
+gC8+pBhcN9995qxQYCkqW2VSUvbWzmKv48m+pt4+L9riVYnyo5mnneseq8kTARZt+XhUPGDM
+9A4MuJlVRSZy/j/XMKsyy7c1vbdizTWUTeqqkTwD0tO/p1Ygx/YtdkahjHBIDj92dRHxhDX9
+4sSfVbz8ins0YkquQMRJjQBpEkQidCeWFxfegOZL7Wcp3rgib0MLXO0I+OF8ImD/qBW//DGR
+8gDm6wW7VLR/bj4E1HkU6ltw/opBQfsTxodvy+uP6o9Z7WvWiVTrAKAhnpEPHA2/vjHL5nRQ
+gfS0xq/LEP3v0SOgDbf7ZPPQPCczFTOLd50471273Q2QXvswixcZ33RLn6CSCxCyNld7HqR8
+zLhKmoPW11UqWTicNcw4akfv0iBWTDwXqFg/ujKP2EWaQjLGWA0+Yn4Dz+JFkMLNA5exEOA7
+aaVMHzGSXyp1r9EWD4vRfU+nAV/kGbfhEt468p2MtVBCHwbS9XGMLqrHLF2DMdS++RPGWKoI
+JF1a/Wi1uZMsvDRVE3/KZvCeqw/m/2CQoz2wp+4t11SgfkklB9lOIsZZIT8aPh01H6eLF1e4
+QW3sjIeaE0W6o28eb6nrJevEeWr+IJRi/bs+rcrJzkhyWJIH+vjQU9UW6hxChMlWEp8bfQgt
+BtLXLNU09Hc=
+
+/
+show errors
+set define '^'

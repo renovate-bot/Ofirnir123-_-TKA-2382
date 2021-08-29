@@ -1,0 +1,87 @@
+<html>
+
+<head>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
+
+<title>歡迎</title>
+<meta NAME="topic-id" CONTENT="welcome_page">
+<link REL=stylesheet HREF=blafdoc.css TYPE="text/css">
+</head>
+<body>
+
+<h1>歡迎</h1>
+
+<p>歡迎使用「Oracle Real Application Clusters 組態工具」。 </p>
+<p>安裝「Oracle 資料庫」軟體之後，您可以使用「Oracle Real Application Clusters 組態」工具，將您的單一執行處理資料庫轉換成 Oracle Real Application Clusters 資料庫。</p>
+
+<h2>Oracle Real Application Clusters 組態工具簡介 </h2>
+
+<p>「Oracle Real Application Clusters 組態工具」可引導您完成將現有的單一執行處理資料庫轉換成 Oracle Real Application Clusters 資料庫的程序。此工具會自動執行一般手動將現有資料庫轉換成叢集資料庫所需執行的作業。您可以使用 ORACLE_HOME/bin/rconfig 命令檔來呼叫 Oracle Real Application Clusters 組態工具。此工具使用 xml 檔案，您可以在此檔案中為轉換的 Oracle Real Application Clusters 資料庫指定想要的組態。這些選項包括替 Oracle Real Application Clusters 資料庫指定不同的儲存體，以及指定執行 Oracle Real Application Clusters 執行處理的主機/伺服器集區。您也可以指定 Oracle Real Application Clusters 執行處理的前置碼以及執行這些 Oracle Real Application Clusters 執行處理的 Oracle 本位目錄。此 Oracle 本位目錄可與目前的 Oracle Real Application Clusters 本位目錄不同。</p>
+
+ <p><strong>注意：</strong>Oracle 建議您先將單一執行處理資料庫完全備份後再嘗試轉換。</p>
+
+ <h2>Real Application Cluster 使用者注意事項</h2>
+<p>您必須先完成安裝前的工作，而且必須已經完成在 Real Application Clusters 安裝 CRS (Cluster Ready Services) 和 Oracle Enterprise Edition 11<em>g</em> 的兩階段安裝程序之後，rconfig 工具才能夠將單一執行處理資料庫轉換成 Real Application Clusters 資料庫。</p>
+<p>除此以外，根據您想要使用之資料庫儲存體類型的不同，您必須先執行下列其中一個安裝程序才能呼叫 rconfig 工具，以將單一執行處理資料庫轉換成 Oracle Real Application Clusters 資料庫。</p>
+<ul>
+  <li>
+    <p>如果您的單一執行處理資料庫使用「ASM 儲存體」，請安裝叢集 ASM 執行處理。請確定叢集的所有節點均有執行中的 ASM 執行處理。請使用「ASM 組態輔助程式 (ASMCA)」來定義並掛載「ASM 磁碟群組」。</p>
+  </li>
+  <li>
+    <p>如果無法從所有節點存取您的單一執行處理資料庫儲存體，請指定將可從所有節點存取之資料庫儲存體的叢集檔案系統分割區。</p>
+  </li>
+  <li>
+    <p>RConfig 工具不支援包含原始裝置儲存體的資料庫轉換。</p>
+  </li>
+</ul>
+
+<h2>RConfig 工具的先決條件</h2>
+
+<p>下列是使用 rconfig 工具執行轉換成 Oracle Real Application Clusters 資料庫應符合的先決條件。此工具會執行檢查，確定所有條件均符合，以確保成功的轉換。</p>
+<ul>
+  <li>
+    <p>CRS 和資料庫版本號碼必須是 11.2</p>
+  </li>
+  <li>
+    <p>所有執行 Oracle Real Application Clusters (RAC) 執行處理的節點都必須執行 CRS。</p>
+  </li>
+  <li>
+    <p> 必須從 Grid Infrastructure (CRS) 本位目錄執行預設監聽器。</p>
+  </li>
+  <li>
+    <p>指定的儲存體位置必須能夠從叢集中的所有節點存取。如果單一執行處理資料庫使用的儲存體是 ASM，那麼所有執行 Oracle Real Application Clusters (RAC) 執行處理的節點都必須執行叢集的 ASM 執行處理。</p>
+  </li>
+</ul>
+
+<h2>輸入 XML 以供 rconfig 工具執行 Oracle Real Application Clusters 轉換</h2>
+<p> RConfig 工具接受 XML 檔案的輸入值。此段落說明作為轉換輸入值之 XML 檔案的每個元素。驗證輸入之 XML 所用的「XML 綱要」連同其他二進位檔案封裝在 rconfig.jar 中。您可以在 /ORACLE_HOME/assistants/rconfig/sampleXMLs/rconfig.xsd 檢視它。此目錄同時包含可當作 rconfig 工具之輸入值使用的範例 XML 檔案。
+<ul>
+  <li>
+    <p>單一執行處理資料庫的 SID 和證明資料：請在此處指定具 sysdba 角色之使用者的使用者名稱和密碼。此外，也需要現有單一執行處理資料庫的 SID 才能連線資料庫。</p>
+  </li>
+
+  <li>
+    <p>現有的 Oracle 本位目錄：請在此處指定單一執行處理資料庫的 Oracle 本位目錄。</p>
+  </li>
+  <li>
+    <p>新的 Oracle 本位目錄：請在此處指定執行轉換之 Oracle Real Application Clusters 資料庫的 Oracle 本位目錄。它可與現有的 Oracle 本位目錄相同。</p>
+  </li>
+  
+  <li>
+    <p>伺服器集區清單/節點清單：對於「管理員管理」的資料庫，請指定必須要有此 Oracle Real Application Clusters 資料庫之執行處理的節點清單。</p>
+	<p>對於「原則管理」的資料庫，請指定伺服器集區清單。如果伺服器集區不存在，將會予以建立。若要建立「伺服器集區」，請指定資料庫的基數。 </p>
+  </li>
+  
+  <li>
+    <p>叢集資料庫執行處理前置碼：這是選擇性欄位。Oracle Real Application Clusters 執行處理的名稱將是前置碼加執行處理編號。前置碼可與現有資料庫的 SID 相同或不同。如果留白的話，將預設為 db_unique_name。</p>
+  </li>
+
+  <li>
+    <p>共用儲存體：指定必須為 Oracle Real Application Clusters 資料庫設定的「資料檔位置」和「復原區域位置」。如果 Oracle Real Application Clusters 資料庫也應使用單一執行處理資料庫目前使用的儲存體，請將這兩個欄位留白。在此情況下，rconfig 工具將會預先檢查是否能夠從所有節點存取目前的資料檔、控制檔、spfile 和復原檔案。如果無法存取，將會顯示錯誤並停止轉換。如果指定不同的位置，rconfig 工具將會確定可從所有節點存取指定的位置，且在進行轉換時，將所有檔案複製到指定的位置，以及在此位置為新的 Oracle Real Application Clusters 執行處理建立新檔案。</p>
+  <p>相同的注意事項也適用 ASM 儲存體。在這些欄位指定用於已設定之共用儲存體的磁碟群組。指定磁碟群組時，請使用 '+' 為開頭。目前只能在「資料檔位置」和「復原區域位置」指定一個磁碟群組。
+  </li>
+</ul>
+
+</body>
+
+</html>
