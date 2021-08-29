@@ -1,0 +1,161 @@
+rem 
+rem $Header: ctx_src_2/src/dr/admin/dr0adm.pkh /main/22 2017/02/06 21:04:59 stanaya Exp $ 
+rem 
+rem Copyright (c) 1991, 2017, Oracle and/or its affiliates. 
+rem All rights reserved.
+rem  NAME
+rem    CTX_ADM.pkh - DR system ADMinistration services
+rem
+rem  DESCRIPTION
+rem	Administration services for ConText Option    
+rem
+rem  PUBLIC FUNCTION(S)
+rem    spawn_server
+rem    shutdown
+rem    pause
+rem    continue
+rem    refresh
+rem
+rem  PRIVATE FUNCTIONS (these should not be called by customers, and should
+rem			really be defined in a separate file!)
+rem    create_object - create framework object
+rem
+rem  NOTES
+rem 
+rem  BEGIN SQL_FILE_METADATA
+rem    SQL_SOURCE_FILE: ctx_src_2/src/dr/admin/dr0adm.pkh
+rem    SQL_SHIPPED_FILE: ctx/admin/dr0adm.pkh
+rem    SQL_PHASE: DR0ADM_PKH
+rem    SQL_STARTUP_MODE: NORMAL
+rem    SQL_IGNORABLE_ERRORS: NONE
+rem    SQL_CALLING_FILE: ctx/admin/ctxpkh.sql
+rem  END SQL_FILE_METADATA
+rem
+rem  MODIFIED    (MM/DD/YY)
+rem    surman     01/23/15 - 20411134: Add SQL metadata tags
+rem    surman     03/15/13 - 16473661: Common start and end scripts
+rem    hsarkar    06/08/11 - Logical Standby Support
+rem    rpalakod   08/05/10 - Bug 9973683
+rem    rpalakod   07/17/09 - autooptimize
+rem    surman     09/04/03 - 3101316: Add drop_user_objects 
+rem    gkaminag   04/09/02 - remove ctxsrv.
+rem    yucheng    10/31/01 - mark_failed
+rem    yucheng    10/02/01 - add mark_failture
+rem    gkaminag   12/16/99 - add test_extproc
+rem    gkaminag   09/09/98 - cleanup
+rem    gkaminag   05/19/98 - set system param
+rem    gkaminag   03/20/98 - cleanup
+rem    gkaminag   03/12/98 - remove queue primitives
+rem    ehuang     03/11/98 - new preference schema
+rem    gkaminag   04/04/97 - add define_object
+rem    gkaminag   08/05/96 - add recover
+rem    sbedarka   02/28/96 - fix bug 331922
+rem    sbedarka   11/22/95 - check server with a specific mask is available
+rem    qtran      03/11/95 - create_tile and define tile's attributes
+rem    qtran    07/29/94 -  Creation 
+
+@@?/rdbms/admin/sqlsessstart.sql
+
+create or replace package CTX_ADM as
+
+/*------------------------------- shutdown ----------------------------------*/
+/*
+  NAME
+   shutdown
+
+  DESCRIPTION
+   this call is obsolete.  It exists simply to avoid invalidating 
+   obsolete customer code which may call it.
+*/
+
+procedure shutdown(
+name in varchar2 default 'ALL', 
+sdmode in number default NULL
+);
+
+/*------------------------- recover ----------------------------*/
+/*
+  NAME
+   recover
+  DESCRIPTION
+   Recover data dictionary
+  ARGUMENTS
+*/
+procedure recover;
+PRAGMA SUPPLEMENTAL_LOG_DATA(recover, AUTO);
+
+/*------------------------- set_parameter ----------------------------*/
+/*
+  NAME
+   set_parameter
+
+  DESCRIPTION
+   Set a system parameter
+
+  ARGUMENTS
+   param name
+   param value
+    
+*/
+procedure set_parameter(param_name in varchar2, param_value in varchar2);
+PRAGMA SUPPLEMENTAL_LOG_DATA(set_parameter, AUTO);
+
+/*------------------------- test_extproc ----------------------------*/
+/*
+  NAME
+   test_extproc
+
+  DESCRIPTION
+   test extproc invocation
+
+  NOTES
+   If this procedure succeeds, extproc can be invoked
+    
+*/
+procedure test_extproc;
+
+/*------------------------- mark_failed ----------------------------*/
+/* 
+  NAME
+   mark_failed
+
+  DESCRIPTION
+   mark the index status from INPROGRESS to FAILURE so that 
+   alter index can run. 
+
+  NOTES
+   this procedure is not published
+*/
+
+procedure mark_failed(owner_name in varchar2, index_name in varchar2);
+PRAGMA SUPPLEMENTAL_LOG_DATA(mark_failed, AUTO);
+
+/*------------------------ drop_user_objects ---------------------------*/
+/*
+  NAME
+   drop_user_objects
+
+  DESCRIPTION
+   Drops all of the text objects (preferences, etc.) for the given user.  If
+   the user does not exist or there are no objects, no errors are raised.
+
+  NOTES
+   This is called during a database DROP USER operation.
+*/
+procedure drop_user_objects(user_name in varchar2);
+
+/*--------------------------- reset_auto_optimize_status -------------------*/
+/* reset the autoopt_status table */
+procedure reset_auto_optimize_status;
+
+/*--------------------------- stop_optimize --------------------------------*/
+/* stop an optimize for an index / partition */
+procedure stop_optimize(owner_name in varchar2,
+                        index_name in varchar2,
+                        partition_name in varchar2 default null);
+
+end CTX_ADM;
+/
+
+
+@?/rdbms/admin/sqlsessend.sql

@@ -1,0 +1,39 @@
+#2021-08-04_09-42-59-AM
+INFO: oracle.server:IAction.perform() was called on {Action state:configuration in CfmAggregateInstance: oracle.server:19.0.0.0.0:common:family=CFM:oh=C:\WINDOWS.X64_193000_db_home:label=1}
+INFO: Framework waiting for Action to complete at 09:42:59.633
+INFO: CfwProgressMonitor:actionStart:Will perform action=configuration Status=is running with ActionStep=0
+INFO: CfwProgressMonitor:actionStart:Will perform action=configuration Status=is running with ActionStep=1
+INFO: CfwProgressMonitor:actionStart:Will perform action=configuration Status=is running with ActionStep=3
+INFO: CfwProgressMonitor:actionStart:Will perform action=configuration Status=is running with ActionStep=4
+INFO: CfwProgressMonitor:actionProgress:About to perform Action=configuration Status=is running with ActionStep=0 stepIndex=0 microStep=0
+INFO: oracle.server:About to execute plug-in Oracle Net Configuration Assistant
+INFO: oracle.server:The plug-in Oracle Net Configuration Assistant is running
+INFO: oracle.server:Internal PlugIn Class: oracle.install.config.common.NetCAInternalPlugIn
+INFO: oracle.server:Classpath = C:\WINDOWS.X64_193000_db_home\install\jlib\instcommon.jar;C:\WINDOWS.X64_193000_db_home\install\jlib\installcommons_1.0.0b.jar
+WARNING: oracle.server:Class oracle.install.config.common.NetCAInternalPlugIn was loaded by a parent class loader, provided classpath (C:\WINDOWS.X64_193000_db_home\install\jlib\instcommon.jar;C:\WINDOWS.X64_193000_db_home\install\jlib\installcommons_1.0.0b.jar) will not be available from this class
+INFO: Cfm.save() was called
+INFO: Cfm.save(): 4 aggregate instances saved
+INFO: oracle.server:The plug-in Oracle Net Configuration Assistant has successfully been performed
+INFO: CfwProgressMonitor:actionProgress:About to perform Action=configuration Status=is running with ActionStep=1 stepIndex=1 microStep=0
+INFO: oracle.server:About to execute plug-in Oracle Database Configuration Assistant
+INFO: oracle.server:The plug-in Oracle Database Configuration Assistant is running
+INFO: oracle.server:Internal PlugIn Class: oracle.install.config.db.DBCAInternalPlugIn
+INFO: oracle.server:Classpath = C:\WINDOWS.X64_193000_db_home\install\jlib\instdb.jar;C:\WINDOWS.X64_193000_db_home\install\jlib\instcommon.jar;C:\WINDOWS.X64_193000_db_home\install\jlib\installcommons_1.0.0b.jar
+WARNING: oracle.server:Class oracle.install.config.db.DBCAInternalPlugIn was loaded by a parent class loader, provided classpath (C:\WINDOWS.X64_193000_db_home\install\jlib\instdb.jar;C:\WINDOWS.X64_193000_db_home\install\jlib\instcommon.jar;C:\WINDOWS.X64_193000_db_home\install\jlib\installcommons_1.0.0b.jar) will not be available from this class
+INFO: Cfm.save() was called
+INFO: Cfm.save(): 4 aggregate instances saved
+INFO: oracle.server:The plug-in Oracle Database Configuration Assistant has successfully been performed
+INFO: CfwProgressMonitor:actionProgress:About to perform Action=configuration Status=is running with ActionStep=3 stepIndex=3 microStep=0
+INFO: CfwProgressMonitor:actionProgress:About to perform Action=configuration Status=is running with ActionStep=4 stepIndex=4 microStep=0
+INFO: oracle.ntoramts:About to execute plug-in Oracle Services For Microsoft Transaction Server
+INFO: oracle.ntoramts:The plug-in Oracle Services For Microsoft Transaction Server is running
+INFO: oracle.ntoramts:Internal PlugIn Class: oracle.install.config.common.MTSInternalPlugIn
+INFO: oracle.ntoramts:Classpath = C:\WINDOWS.X64_193000_db_home\install\jlib\instcommon.jar;C:\WINDOWS.X64_193000_db_home\install\jlib\installcommons_1.0.0b.jar
+WARNING: oracle.ntoramts:Class oracle.install.config.common.MTSInternalPlugIn was loaded by a parent class loader, provided classpath (C:\WINDOWS.X64_193000_db_home\install\jlib\instcommon.jar;C:\WINDOWS.X64_193000_db_home\install\jlib\installcommons_1.0.0b.jar) will not be available from this class
+INFO: Cfm.save() was called
+INFO: Cfm.save(): 4 aggregate instances saved
+INFO: oracle.ntoramts:The plug-in Oracle Services For Microsoft Transaction Server has successfully been performed
+INFO: CfwProgressMonitor:actionEnd:Performed Action=configuration Status=Has successfully completed
+INFO: done waiting for Action from 09:42:59.633
+INFO: Cfm.save() was called
+INFO: Cfm.save(): 4 aggregate instances saved

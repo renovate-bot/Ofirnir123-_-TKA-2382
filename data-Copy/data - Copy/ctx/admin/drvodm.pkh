@@ -1,0 +1,230 @@
+Rem Copyright (c) 1998, 2018, Oracle and/or its affiliates. 
+Rem All rights reserved.
+Rem
+Rem    NAME
+Rem      drvodm.pkh - Interface to Oracle Data Mining
+Rem
+Rem    DESCRIPTION
+Rem
+Rem    RETURNS
+Rem 
+Rem    NOTES
+Rem
+Rem 
+Rem    BEGIN SQL_FILE_METADATA
+Rem      SQL_SOURCE_FILE: ctx_src_2/src/dr/admin/drvodm.pkh
+Rem      SQL_SHIPPED_FILE: ctx/admin/drvodm.pkh
+Rem      SQL_PHASE: DRVODM_PKH
+Rem      SQL_STARTUP_MODE: NORMAL
+Rem      SQL_IGNORABLE_ERRORS: NONE
+Rem      SQL_CALLING_FILE: ctx/admin/ctxpkh.sql
+Rem    END SQL_FILE_METADATA
+Rem
+Rem    MODIFIED   (MM/DD/YY)
+Rem     snetrava   06/14/18  - Bug 28102835: NONE LOG PRAGMA
+Rem       snetrava 06/26/17 - Bug 26260099: make feature_prep_nc private
+Rem       shuroy   01/29/16 - Bug 22499125: Adding MAX_CLUSTERS
+Rem       shuroy   10/22/15 - Bug 22074771
+Rem       surman   01/23/15 - 20411134: Add SQL metadata tags
+Rem       surman   03/15/13 - 16473661: Common start and end scripts
+Rem       daliao   04/01/05 - remove static odm dependency 
+Rem       daliao   01/26/05 - lrg 1824561
+Rem       daliao   12/16/04 - bug 4044885
+Rem       daliao   11/20/04 - odm API change
+Rem       ehuang   12/09/03 - odm kmeans 
+Rem       ehuang   11/10/03 - odm integration 
+Rem       daliao   08/04/03 - get rid of temporary fix for trainsamp
+Rem       daliao   07/01/03 - OCIDuration
+Rem       daliao   06/18/03 - ODM API change
+Rem       daliao   01/27/03 - temparory fix due to ODM unavailability
+Rem       mfaisal  01/20/03 - fix install user
+Rem       daliao   01/09/03 - daliao_classification_10i_1
+Rem       daliao   01/08/03 - 
+Rem       daliao   12/05/02 - rename to drvodm
+Rem       daliao   11/13/02 - add more interface
+Rem       daliao   10/31/02 - daliao_classification10i
+Rem     daliao  10/28/2002 - rename drisvm to driodm  
+Rem	daliao	10/10/2002 - Creation 
+Rem
+
+@@?/rdbms/admin/sqlsessstart.sql
+
+------------------------------------------------------------------------------
+-- centroid(s) data type are used to read ODM kmean model 
+------------------------------------------------------------------------------
+
+create or replace type ctx_centroid force as object (
+  attribute_name varchar2(30),
+  mean           number,
+  mode_value     varchar2(4000),
+  variance       number
+);
+/
+
+create or replace type ctx_centroids as table of ctx_centroid;
+/
+
+create or replace public synonym ctx_centroids for ctxsys.ctx_centroids;
+
+GRANT EXECUTE ON ctx_centroids TO PUBLIC 
+/
+
+CREATE OR REPLACE PACKAGE drvodm AUTHID current_user AS
+
+PRAGMA SUPPLEMENTAL_LOG_DATA(default, NONE);
+
+MAX_CLUSTERS constant number := 100;  /* Max number of clusters */
+
+TYPE CurType IS REF CURSOR;
+
+/* type used for svm interface to odm containing training set */
+TYPE trainsamp IS RECORD (
+    sequence_id    NUMBER,  -- document id
+    attribute_id   NUMBER,  -- feature id >=0 
+                            -- or -1 for rows that contain doc. assignment info
+    value          NUMBER   -- feature weight
+                            -- or catid for rows for doc. assignment info
+  );
+
+TYPE trainsamps IS TABLE OF trainsamp; 
+
+/* type used for feature definition */
+TYPE feature IS RECORD (
+	text varchar2(160),     -- feature text
+	type number(3),         -- feature type with 0:single token, 
+				--		     1:theme
+ 				--		     9:stem words
+	id   number,            -- feature id
+	score number            -- statistic feature score which can be idf 
+				--    if need to calculate idf for feature 
+				--    weight in documents or simply document 
+			        --    frequency. 
+	);
+TYPE features IS TABLE OF feature;
+
+TYPE suggestion IS RECORD (
+	docid  number,          -- document id  
+	catid  number,          -- suggested category id
+	scr    number           -- associate score between doc and category         
+);
+TYPE suggestions IS TABLE of suggestion;
+
+TYPE kmeanmodel_rec IS RECORD (
+	id integer,                  -- cluster id
+	parent number,  	     -- parent id
+	dispersion number,	     -- coherencen of the cluster
+        attribute_name varchar2(30));  -- attribute id 
+TYPE kmeanmodel is table of kmeanmodel_rec;
+        
+/* train SVM model */
+PROCEDURE svm_train(
+    	idx_owner varchar2,
+	idx_name  varchar2,
+	doctab    varchar2,
+	docid     varchar2,
+	cattab    varchar2,
+	catdocid  varchar2,
+	catid     varchar2,
+	restab    varchar2,
+	prefrec   dr_def.pref_rec
+) accessible by (ctxsys.ctx_cls);
+
+/* ----table function used for ODM to extract feature from training set ----*/
+/* DESCRIPTION
+   The result table is either created by users before calling this function or 
+   created in this program with the specified table name and under the current 
+   user (if the specified table does not exist).     
+   If user create the result table (which can support table schema for 
+   different users),
+   the restab should have the following three columns with the exact column 
+   names:
+	cat_id number
+	type number(3) not null
+	rule blob
+*/
+FUNCTION feature_prep(
+	index_name  varchar2, -- context index name on training document table.
+	docid     varchar2,   -- document id column name in document table
+	cattab    varchar2,   -- name of category table
+	catdocid  varchar2,   -- document id column name for category table
+	catid     varchar2,   -- category id column name for category table
+	restab    varchar2,   -- result table to write the model
+	preference varchar2   -- preference name
+) RETURN trainsamps PIPELINED;
+
+/* -- table function used for ODM to get features for test set ----------*/
+/* DESCRIPTION
+   This function is used in apply time. The <restab> is the result table
+   output from calling feature preparation function based on training set. 
+*/
+FUNCTION feature_prep(
+	index_name  varchar2, -- context index name on training document table.
+	docid     varchar2,   -- document id column name in document table
+	restab    varchar2    -- table storing the feature definition
+) RETURN trainsamps PIPELINED;
+
+/* ----------------------- for ODM to explain features ------------------*/
+/* DESCRIPTION
+   The <restab> is the result table output from calling feature preparation 
+   function based on training set.
+*/
+FUNCTION feature_explain(
+	restab    varchar2    -- table storing the feature definition
+	) RETURN features PIPELINED;
+
+
+
+/*--------------------------------------------------------------------------*/
+/*                                                                          */
+/*------------The following functions is internal functions  ---------------*/
+/*                                                                          */ 
+/*--------------------------------------------------------------------------*/
+
+/* name transfer from '"owner"."tablename"' to 'drm$object#' */
+FUNCTION odm_modelname(tabname varchar2) return varchar2;
+
+/* start classify a document.Assume: The document feature vector has been 
+   generated */
+FUNCTION get_suggestions(model_name varchar2, dur number)
+   return suggestions PIPELINED;
+
+/* type used for ODM setup */
+TYPE settingdbrec_t IS RECORD (
+    id             NUMBER,
+    value          VARCHAR2(128)
+  );
+TYPE setting_t IS TABLE of settingdbrec_t;
+
+FUNCTION odmtrainset return setting_t PIPELINED;
+
+FUNCTION  get_features 
+RETURN trainsamps PIPELINED;
+
+PROCEDURE fvstab(
+	fvstab    OUT varchar2);
+
+PROCEDURE fi2ttab(
+	fi2ttab    OUT varchar2);
+
+
+FUNCTION odmktrainset(p_srt in varchar2,
+p_cluster_num in number) return setting_t PIPELINED;
+
+-- generate model
+PROCEDURE odm_genmodel(
+p_fvstab in varchar2,
+p_srtab  in varchar2,
+p_cluster_num in number,
+o_modname OUT varchar2);
+
+FUNCTION odm_readkmeanmodel(
+	p_modname varchar2) return kmeanmodel PIPELINED;
+
+-- drop model
+PROCEDURE odm_drpmodel(
+p_modname IN varchar2);
+
+END drvodm;
+/
+
+@?/rdbms/admin/sqlsessend.sql

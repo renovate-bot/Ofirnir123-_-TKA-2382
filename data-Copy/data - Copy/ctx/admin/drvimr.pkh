@@ -1,0 +1,505 @@
+rem 
+rem Copyright (c) 2002, 2018, Oracle and/or its affiliates. 
+rem All rights reserved.
+rem
+rem    NAME
+rem      drvimr.pkh - DR Internal, inVoker's rights In-Memory Result services
+rem
+rem    DESCRIPTION
+rem      functions called by ConText C code to store and manage in-memory
+rem      results for various query and document services
+rem   
+rem    NOTES
+rem      This package is intended to have PUBLIC execute, so don't put 
+rem      anything here that cannot be safely called by anyone.
+rem
+rem 
+rem    BEGIN SQL_FILE_METADATA
+rem      SQL_SOURCE_FILE: ctx_src_2/src/dr/admin/drvimr.pkh
+rem      SQL_SHIPPED_FILE: ctx/admin/drvimr.pkh
+rem      SQL_PHASE: DRVIMR_PKH
+rem      SQL_STARTUP_MODE: NORMAL
+rem      SQL_IGNORABLE_ERRORS: NONE
+rem      SQL_CALLING_FILE: ctx/admin/ctxpkh.sql
+rem    END SQL_FILE_METADATA
+rem
+rem    MODIFIED    (MM/DD/YY)
+Rem     snetrava   06/14/18  - Bug 28102835: NONE LOG PRAGMA
+rem    pkosaraj     04/12/17 - Bug 25742600 Move global var to pkb
+rem    nspancha     12/22/16 - Bug 22068230:Widening token buffers to 255 bytes
+rem    surman       01/23/15 - 20411134: Add SQL metadata tags
+rem    shuroy       12/08/14 - Porject 48424: Changes to r_tok and add_token
+rem    shorwitz     01/23/14 - Enable 128 byte database objects
+rem    surman       03/15/13 - 16473661: Common start and end scripts
+rem    ssethuma     08/24/11 - Add ttype to add_token
+rem    momedin      11/12/10 - Increasing length of kwic
+rem    rpalakod     09/18/09 - Bug 8654177
+rem    rpalakod     08/17/09 - Backport rpalakod_bug-8440319 from main
+rem    daliao       06/18/04 - kwic document service
+rem    surman       05/25/04 - 3639796: Extra line feeds in XML output 
+rem    ehuang       03/25/03 - add s1
+rem    qxiao        02/07/03 - ctx_report function query_log_summary
+rem    daliao       01/21/03 - kmean clustering
+rem    gkaminag     12/02/02 - ifilter to trusted callout
+rem    daliao       12/04/02 - add document feature functions
+rem    gkaminag     08/19/02 - gkaminag_security_phase2_020620
+rem    gkaminag     07/23/02 - ctx_report functions
+rem    gkaminag     07/18/02 - document services
+rem    gkaminag     07/15/02 - security phase 2
+
+@@?/rdbms/admin/sqlsessstart.sql
+
+create or replace package drvimr authid current_user as
+
+PRAGMA SUPPLEMENTAL_LOG_DATA(default, NONE);
+
+/*=========================================================================*/
+/*======================  CTX_QUERY FUNCTIONS =============================*/
+/*=========================================================================*/
+
+/*---------------------------- explain ------------------------------------*/
+
+procedure add_explain(
+  p_id          in binary_integer,
+  p_parent_id   in binary_integer,
+  p_operation   in varchar2,
+  p_options     in varchar2,
+  p_object_name in varchar2,
+  p_position    in binary_integer
+);
+
+PROCEDURE delete_exp_tab;
+
+/*---------------------------- hqfeedback ---------------------------------*/
+
+procedure add_hqf(
+  p_id          in binary_integer,
+  p_parent_id   in binary_integer,
+  p_operation   in varchar2,
+  p_options     in varchar2,
+  p_object_name in varchar2,
+  p_position    in binary_integer,
+  p_bt          in ctx_feedback_type,
+  p_rt          in ctx_feedback_type,
+  p_nt          in ctx_feedback_type
+);
+
+/*-----------------------------insert_hfeed_tab---------------------------*/
+
+PROCEDURE insert_hfeed_tab(
+  feedback_id    in varchar2,
+  fmode          in number,
+  restab         in drvutl.dr_longbuf
+);
+
+PROCEDURE delete_hfeed_tab;
+
+
+/*---------------------------- browse_words --------------------------------*/
+
+procedure add_brw(
+  p_word    in varchar2,
+  p_count   in binary_integer
+);
+
+/*-------------------------------delete_brw_tab----------------------*/
+
+PROCEDURE delete_brw_tab;
+
+
+/*-----------------------------brw_count---------------------------*/
+
+FUNCTION brw_count return number;
+
+
+/*----------------------------- get_brw_rec---------------------------*/
+
+PROCEDURE get_brw_rec(
+i          in number,
+word       in out drvutl.dr_longbuf,
+doc_count  in out binary_integer
+);
+
+
+/*=========================================================================*/
+/*========================  CTX_DOC FUNCTIONS =============================*/
+/*=========================================================================*/
+
+TTYPE_NORMAL     constant number := 0;
+TTYPE_THEME      constant number := 1;
+TTYPE_STEM       constant number := 2;
+MODE_CLOB        constant number := 1;
+MODE_BLOB        constant number := 2;
+MODE_BFILE       constant number := 3;
+MODE_VCHR2       constant number := 4;
+
+PROCEDURE direct_set (
+  p_mode   in binary_integer default NULL,
+  p_lang   in varchar2 default NULL,
+  p_format in varchar2 default NULL,
+  p_cset   in varchar2 default NULL,
+  p_vchr2  in varchar2 default NULL,
+  p_bfile  in bfile    default NULL,
+  p_clob   in clob     default NULL,
+  p_blob   in blob     default NULL
+);
+
+/*--------------------------- direct_set_vchr2 ------------------------*/
+PROCEDURE direct_set_vchr2 (rsd in varchar2);
+
+/*--------------------------- direct_get ------------------------------*/
+PROCEDURE direct_get (
+  p_mode     in out binary_integer,
+  p_lang     in out varchar2,
+  p_format   in out varchar2,
+  p_cset     in out varchar2
+);
+
+/*--------------------------- direct_get_lang -------------------------*/
+FUNCTION direct_get_lang return varchar2;
+
+/*--------------------------- direct_get_clob --------------------------*/
+FUNCTION direct_get_clob return clob;
+
+/*--------------------------- direct_get_blob --------------------------*/
+FUNCTION direct_get_blob return blob;
+
+/*--------------------------- direct_get_bfile -------------------------*/
+FUNCTION direct_get_bfile return bfile;
+
+/*--------------------------- direct_get_vchr2 -------------------------*/
+FUNCTION direct_get_vchr2 return varchar2;
+
+
+/*---------------------------- themes --------------------------------------*/
+
+PROCEDURE add_theme(
+  p_theme  in varchar2,
+  p_weight in number
+);
+
+FUNCTION rthm_count return number;
+
+PROCEDURE get_rthm_rec (
+  i         in number,
+  theme     in out NOCOPY varchar2,
+  weight    in out number
+);
+
+PROCEDURE rthm_delete;
+
+/*------------------------------ gist --------------------------------------*/
+
+PROCEDURE add_gist(
+  p_pov    in varchar2
+);
+
+PROCEDURE add_gist_txt(
+  p_text   in varchar2
+);
+
+PROCEDURE clear_gist_tab;
+
+FUNCTION gist_count return number;
+
+PROCEDURE get_gist_rec (
+  i      in number,
+  theme  in out varchar2,
+  weight in out number
+);
+
+PROCEDURE get_gist_txt (
+  i         in number,
+  gst_txt   in out NOCOPY drvutl.dr_maxbuf
+);
+
+/*------------------------------ tokens ------------------------------------*/
+
+PROCEDURE add_token(
+  p_token  in varchar2,
+  p_offset in number,
+  p_length in number,
+  p_ttype  in number,
+  p_ttok   in varchar2
+);
+
+FUNCTION rtok_count return number;
+
+PROCEDURE get_rtok_rec (
+  i         in number,
+  token     in out NOCOPY varchar2,
+  offset    in out number,
+  length    in out number,
+  thestok   in out NOCOPY varchar2
+);
+
+PROCEDURE rtok_delete;
+
+/*------------------------------ stems ------------------------------------*/
+
+PROCEDURE add_stem(
+  p_stem          in varchar2,
+  p_offset        in number,
+  p_length        in number,
+  p_is_in_lexicon in number,
+  p_orig          in varchar2
+);
+
+FUNCTION rstems_count return number;
+
+PROCEDURE get_rstems_rec (
+  i              in number,
+  stem           in out NOCOPY varchar2,
+  offset         in out number,
+  length         in out number,
+  orig           in out NOCOPY varchar2,
+  is_in_lexicon  in out boolean
+);
+
+PROCEDURE rstems_delete;
+
+/*------------------------------ noun phrases ------------------------------------*/
+
+PROCEDURE add_noun_phrase(
+  p_np_term       in varchar2,
+  p_term_pos      in varchar2,
+  p_offset        in number,
+  p_length        in number,
+  p_is_grp_start  in number,
+  p_is_in_lexicon in number
+);
+
+FUNCTION rnounphrases_count return number;
+
+PROCEDURE get_rnounphrases_rec (
+  i              in number,
+  term           in out NOCOPY varchar2,
+  pos            in out NOCOPY varchar,
+  offset         in out number,
+  length         in out number,
+  is_grp_start   in out boolean,
+  is_in_lexicon  in out boolean
+);
+
+PROCEDURE rnounphrases_delete;
+
+/*------------------------------ languages ------------------------------------*/
+
+PROCEDURE add_language(
+  p_language      in varchar2,
+  p_score         in number
+);
+
+FUNCTION rlanguages_count return number;
+
+PROCEDURE get_rlanguages_rec (
+  i      in number,
+  lang   in out NOCOPY varchar2,
+  score  in out number
+);
+
+PROCEDURE rlanguages_delete;
+ 
+
+/*------------------------------ part of speech ---------------------------------*/
+
+PROCEDURE add_pos(
+  p_word          in varchar2,
+  p_pos           in varchar2,
+  p_offset        in number,
+  p_length        in number,
+  p_is_new_word   in number,
+  p_is_in_lexicon in number
+);
+
+FUNCTION rpos_count return number;
+
+
+PROCEDURE rpos_delete;
+
+
+PROCEDURE get_rpos_rec_part1 (
+  i              in number,
+  word           in out NOCOPY varchar2,
+  offset         in out number,
+  length         in out number,
+  is_in_lexicon  in out boolean
+);
+
+PROCEDURE get_rpos_rec_part2 (
+  i             in number,
+  is_new_word   in out boolean,
+  pos           in out NOCOPY varchar2
+);
+
+/*------------------------------ highlight ---------------------------------*/
+
+PROCEDURE add_highlight(
+  p_offset in number,
+  p_length in number
+);
+
+FUNCTION get_hiltab_count return number;
+
+PROCEDURE get_hilrec (
+  i        in number,
+  offset   in out number,
+  length   in out number
+);
+
+PROCEDURE delete_hiltab;
+
+
+/*========================================================================*/
+/*=================== DOCUMENT FEATURE FUNCTIONS =========================*/
+/*========================================================================*/
+/* reset the document feature buffer */
+PROCEDURE reset_feature;
+
+/* add one feature */
+PROCEDURE add_feature(id number, weight number);
+
+/* get feature number */
+FUNCTION feature_count RETURN NUMBER;
+
+/* get feature by index */
+PROCEDURE get_feature(
+	 idx BINARY_INTEGER,
+ 	 id  OUT NUMBER,
+	 weight OUT NUMBER
+	);
+
+/*========================================================================*/
+/*=================== DOCUMENT CLUSTERING FUNCTIONS ======================*/
+/*========================================================================*/
+/* add one item to the document cluster assignment table */
+PROCEDURE add_doccls(
+	docid     number,
+	clusterid number,
+	score     number);
+
+/* add one item to the cluster table */
+PROCEDURE add_cluster (
+	clusterid     number, 
+	descript      varchar2,
+	label         varchar2,
+	sze           number,
+	quality_score number,
+	parent        number);
+
+/* start item id scan */
+PROCEDURE start_didscan;
+
+/* next item id */
+FUNCTION next_did (
+	did         out  number,
+	row         out  rowid) 
+return  number;
+
+/* clear cluster table */
+PROCEDURE clear_clstab;
+
+/* set the document id */
+PROCEDURE set_did_rec (
+  ind     in number,
+  did     in number,
+  rowno   in rowid
+);
+
+/* return doctab count */
+FUNCTION get_doctab_count return number;
+
+/* return doctab record */
+PROCEDURE get_doc_rec (
+  i          in number,
+  docid      in out number,
+  clusterid  in out number,
+  score      in out number
+);
+
+/* return cluster table count */
+FUNCTION get_clstab_count return number;
+
+/* return cluster table record */
+PROCEDURE get_cls_rec(
+  i              in number,
+  clusterid      in out number,
+  descript       in out NOCOPY varchar2,
+  label          in out NOCOPY varchar2,
+  sze            in out number,
+  quality_score  in out number,
+  parent         in out number
+);
+
+/*=========================================================================*/
+/*======================  CTX_REPORT FUNCTIONS ============================*/
+/*=========================================================================*/
+
+  s1   constant drvutl.dr_shortbuf := ' ';
+  s75  constant drvutl.dr_medbuf := 
+ '                                                                           ';
+  e75  constant drvutl.dr_medbuf := 
+ '===========================================================================';
+  h75  constant drvutl.dr_medbuf := 
+ '---------------------------------------------------------------------------';
+
+procedure initreport;
+
+procedure title(
+  title  in varchar2 default null,
+  title2 in varchar2 default null,
+  sep    in varchar2 default null
+);
+procedure wl(lline in varchar2);
+procedure w(lline in varchar2);
+procedure blankln;
+procedure endreport(report in out nocopy clob);
+
+/*--------------------------query_log_summary -------------------------------*/
+PROCEDURE add_query(
+  p_query  in varchar2,
+  p_times  in number
+);
+
+/*----------------------- query_count ---------------------------------*/
+FUNCTION query_count return number;
+
+
+/*----------------------- get_queryrec ---------------------------------*/
+PROCEDURE get_queryrec (
+  i      in number,
+  qry    in out nocopy varchar2,
+  times  in out number
+);
+
+/*----------------------- delete_querytab ---------------------------------*/
+PROCEDURE delete_querytab;
+
+
+/*--------------------------------Snippet-------------------------------------*/
+
+function get_kwic return varchar2;
+
+procedure set_kwic(kwic in varchar2);
+
+/*--------------------------------Sentiment-----------------------------------*/
+
+PROCEDURE add_sentiment(
+  p_snippet  in varchar2,
+  p_score    in number
+);
+
+FUNCTION senttab_count return number;
+
+PROCEDURE get_sent_rec (
+  i        in number,
+  snippet  in out NOCOPY drvutl.dr_maxbuf,
+  score    in out number
+);
+
+PROCEDURE delete_senttab;
+
+end drvimr;
+/
+
+@?/rdbms/admin/sqlsessend.sql

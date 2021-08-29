@@ -1,0 +1,1046 @@
+rem 
+rem Copyright (c) 2002, 2018, Oracle and/or its affiliates. 
+rem All rights reserved.
+rem
+rem    NAME
+rem      drvddl.pkh - DR cartridge internal, inVoker's rights DDL services
+rem
+rem    DESCRIPTION
+rem      functions called by ConText cartridge routines to perform 
+rem      various DDL functionalities
+rem   
+rem    NOTES
+rem  
+rem 
+rem    BEGIN SQL_FILE_METADATA
+rem      SQL_SOURCE_FILE: ctx_src_2/src/dr/admin/drvddl.pkh
+rem      SQL_SHIPPED_FILE: ctx/admin/drvddl.pkh
+rem      SQL_PHASE: DRVDDL_PKH
+rem      SQL_STARTUP_MODE: NORMAL
+rem      SQL_IGNORABLE_ERRORS: NONE
+rem      SQL_CALLING_FILE: ctx/admin/ctxpkh.sql
+rem    END SQL_FILE_METADATA
+rem
+rem    MODIFIED    (MM/DD/YY)
+Rem     snetrava   06/14/18  - Bug 28102835: NONE LOG PRAGMA
+rem    boxia        07/15/17 - Bug 25952271: prevent public access to
+rem                            drvxmd.{add|drop|run}_bg_optimize
+rem    snetrava     06/21/17 - Bug 26313456 Parallel $KG Optimize
+rem    rodfuent     05/15/17 - Bug 25217590: Add functions for old DML callouts
+rem    demukhin     05/25/17 - bug 26051570: keep $R for legacy indexes
+rem    boxia        03/17/17 - Bug 25468759: PARALLEL for CIX/AIX OPTIMIZE
+rem    boxia        01/17/17 - Bug 25390928: add opt_type, opt_interval to
+rem                            partition
+rem    boxia        11/19/16 - Bug 25172618: modify IndexCreate
+rem    snetrava     11/02/16 - Added Section Type parameter to IndexOptimize
+rem    rkadwe       03/21/16 - Bug 22878664
+rem    aczarlin     02/22/16 - bug 22302092 default ctxagg DOP is 4
+rem    hxzhang      09/08/15 - bug#21804525, add PartitionAdd
+rem    rkadwe       08/26/15 - Bug 20699336
+rem    aczarlin     08/07/15 - bug 21562436 ctxagg
+rem    aczarlin     07/27/15 - ctxagg
+rem    hxzhang      07/17/15 - system managed partiton for CONTEXT_V2
+rem    rkadwe       05/01/15 - Alter index simplified syntax
+rem    shuroy       04/27/15 - Adding maxtokens to IndexOptimize
+rem    surman       01/23/15 - 20411134: Add SQL metadata tags
+rem    rkadwe       02/28/14 - Dataguide + NEVER_POPULATE
+rem    surman       03/15/13 - 16473661: Common start and end scripts
+rem    gauryada     05/23/12 - bug#13724080
+rem    gauryada     03/21/12 - Partition specific stage_itab enhancements
+rem    rpalakod     01/22/12 - repopulate_dollarn
+rem    hsarkar      12/12/11 - Asynchronous update project
+rem    gauryada     05/12/11 - Added configuration column to dr$index
+rem    ssethuma     05/08/11 - Add section specific stopword
+rem    rkadwe       02/09/11 - Btree Backed SDATA
+rem    rpalakod     11/15/10 - Bug 10276515
+rem    surman       10/06/10 - 10169701: Handle errors during optimize rebuild
+rem    rpalakod     05/24/10 - Bug 9354204
+rem    rkadwe       05/12/10 - Bug 9692791
+rem    rkadwe       04/15/10 - Activate Direct Path Loading
+rem    rkadwe       03/25/10 - Document Level Lexer Phase 2
+rem    rpalakod     03/09/10 - optimize rearchitecture
+rem    rpalakod     03/02/10 - bug 9439697
+rem    rpalakod     02/24/10 - Bug 9409038
+rem    nenarkhe     12/17/09 - Bug 9141863
+rem    igeller      12/04/09 - bug 8918625: Adding split_dollari()
+rem    igeller      09/16/09 - adding SplitDollari() for bug 8918625
+rem    rpalakod     05/28/09 - Backport rpalakod_bug-8500390 from main
+rem    rpalakod     05/26/09 - Bug 8511078
+rem    rpalakod     05/06/09 - Backport rpalakod_bug-8473813 from main
+rem    rpalakod     05/05/09 - Bug 8473813: disable stage_itab
+rem    rpalakod     03/30/09 - Backport rpalakod_bug-8344603 from main
+rem    rpalakod     03/25/09 - ttype default 0 in IndexOptimize
+rem    igeller      07/25/08 - make CursorToBitVector() public
+rem    wclin        10/30/06 - add IndexColRename() 
+rem    wclin        01/09/06 - take out CDI hack 
+rem    yucheng      01/04/06 - rebuild partition online 
+rem    yucheng      11/28/05 - 
+rem    gkaminag     10/25/05 - sdata update 
+rem    yucheng      10/20/05 - recreate index online phase2 
+rem    gkaminag     10/13/05 - incremental indexing enhancements 
+rem    wclin        10/16/03 - spprt altr idx rplc metadata (non)txntional 
+rem    smuralid     10/09/03 - IndexSync: direct_path defaults to false 
+rem    gkaminag     10/23/03 - optimize type 
+rem    yucheng      08/11/03 - local online indexing support 
+rem    gkaminag     07/24/03 - replace metadata partition
+rem    yucheng      06/26/03 - Fix bug 2960964
+rem    smuralid     06/23/03 - IndexPartResume: add 'isReplace' param
+rem    gkaminag     06/11/03 - replace lang col and lexer
+rem    gkaminag     06/05/03 - replace metadata
+rem    yucheng      05/08/03 - DML enhancements
+rem    smuralid     04/21/03 - IndexSync: new parameter 'direct_path'
+rem    wclin        05/09/03 - statement consistency support
+rem    gkaminag     03/06/03 - switch user on opt if needed
+rem    smuralid     12/25/02 - IndexCreate: eliminate 'roption' parameter
+rem    yucheng      11/20/02 - inter-partition parallel support
+rem    smuralid     11/18/02 - parallel optimize issues
+rem    gkaminag     07/03/02 - security phase 2
+rem    gkaminag     06/25/02 - gkaminag_misc_020625
+rem    gkaminag     06/03/02 - creation 
+
+@@?/rdbms/admin/sqlsessstart.sql
+
+create or replace package drvddl authid current_user as
+
+  PRAGMA SUPPLEMENTAL_LOG_DATA(default, NONE);
+
+  pv_idx_mem            number;
+  pv_is_import          boolean;
+  pv_master_params      varchar2(2000);
+  pv_partition_populate boolean;
+
+  px_partition_error    EXCEPTION;
+
+  PARALLEL_OP  constant number :=  1;      
+  CREATE_OP    constant number := 16;      
+  RESUME_OP    constant number := 32;      
+
+  P_CREATE_OP  constant number := 16 + 1;  
+  P_RESUME_OP  constant number := 32 + 1;  
+  P_SYNC_OP    constant number := 64 + 1;  
+
+  CTXAGG_PAR   constant number := 4;  /* default ctxagg parallel degree */
+
+  -- 10169701: Keep track of any tokens which had errors during optimize 
+  -- rebuild
+  type text_tab is table of varchar2(64) index by binary_integer;
+  type type_tab is table of number index by binary_integer;
+  opt_rebuild_error_text text_tab;
+  opt_rebuild_error_type type_tab;
+
+  BGOPT_SET    constant drvutl.dr_shortbuf := '1';
+  BGOPT_UNSET  constant drvutl.dr_shortbuf := '0';
+
+/*----------------------- PartitionCreate  -----------------------*/
+
+PROCEDURE PartitionCreate(
+  ia              in  sys.ODCIIndexInfo,
+  owner           in  varchar2,
+  index_name      in  varchar2,
+  index_partition in  varchar2,
+  table_owner     in  varchar2,
+  table_name      in  varchar2,
+  table_partition in  varchar2,
+  idxmem          in  number,
+  storage         in  varchar2,
+  populate        in  boolean default TRUE,
+  sync_type       in  varchar2 default NULL,
+  sync_memory     in  varchar2 default NULL,
+  sync_paradegree in  number   default NULL,
+  sync_interval   in  varchar2 default NULL,
+  is_online       in  boolean default FALSE,
+  sync_dpl        in  boolean default FALSE,
+  opt_type        in  varchar2 default NULL,
+  opt_interval    in  varchar2 default NULL
+);
+
+/*-------------------------IndexPartitionLoad---------------------------*/
+/* Populate the index content tables for system partitioned index       */
+PROCEDURE IndexPartitionLoad(
+  ia              in  sys.ODCIIndexInfo,
+  owner           in  varchar2,
+  index_name      in  varchar2,
+  index_partition in  varchar2,
+  table_owner     in  varchar2,
+  table_name      in  varchar2,
+  table_partition in  varchar2,
+  idxmem          in  number,
+  storage         in  varchar2,
+  populate        in  boolean default TRUE,
+  sync_type       in  varchar2 default NULL,
+  sync_memory     in  varchar2 default NULL,
+  sync_paradegree in  number   default NULL,
+  sync_interval   in  varchar2 default NULL,
+  is_online       in  boolean  default FALSE,
+  sync_dpl        in  boolean  default FALSE
+);
+
+/*----------------------- IndexCreate  -----------------------*/
+/*
+  NAME
+    IndexCreate
+
+  DESCRIPTION
+    create an index
+
+  ARGUMENTS
+    owner        index owner
+    index_name   index name
+    table_owner  table owner
+    table_name   table name
+    column_name  text column name
+    column_type  text column type (optional)
+    populate     populate/nopopulate
+    para         parallel degree
+    langcol      language column
+    fmtcol       format column name
+    csetcol      charset column name
+    configcol    charset column name
+    idxmem       index memory
+    datastore    datastore pref name
+    filter       filter pref name
+    section      section group pref name
+    lexer        lexer pref name
+    wordlist     wordlist pref name
+    stoplist     stoplist pref name
+    storage      storage pref name
+    txntional    transactional pref name
+    tree         supports ctx_tree
+    async_upd    asynchronous update
+    opt_type     auto optimize type
+    opt_interval repeat interval of auto optimize
+    opt_paradegree parallel degree of background auto optimize
+    no_r         no $R
+
+  NOTES
+ 
+  EXCEPTIONS
+ 
+  RETURNS
+ 
+*/
+PROCEDURE IndexCreate(
+  ia          in  sys.odciindexinfo,
+  owner       in  varchar2,
+  index_name  in  varchar2,
+  index_part  in  varchar2,
+  table_owner in  varchar2,
+  table_name  in  varchar2,
+  table_part  in  varchar2,
+  column_name in  varchar2,
+  column_type in varchar2,
+  call_prop   in  number,
+  populate    in  boolean,
+  para        in  number,
+  langcol     in  varchar2,
+  fmtcol      in  varchar2,
+  csetcol     in  varchar2,
+  idxmem      in  number,
+  datastore   in  varchar2,
+  filter      in  varchar2,
+  section     in  varchar2,
+  lexer       in  varchar2,
+  wordlist    in  varchar2,
+  stoplist    in  varchar2,
+  storage     in  varchar2,
+  txntional   in  varchar2,
+  sync_type   in  varchar2,
+  sync_memory     in  varchar2,
+  sync_paradegree in  number,
+  sync_interval   in  varchar2,
+  tree            in  boolean,
+  sync_dpl        in  boolean,
+  configcol       in  varchar2,
+  async_upd       in  boolean,
+  simplesyntax    in  number,
+  dataguide       in  varchar2, 
+  search_on       in  varchar2,
+  opt_type        in  varchar2,
+  opt_interval    in  varchar2,
+  opt_paradegree  in number,
+  no_r            in  boolean
+);
+
+/*----------------------- IndexDrop  -------------------------*/
+/*
+  NAME
+    IndexDrop
+
+  DESCRIPTION
+    drop an index
+
+  ARGUMENTS
+    ia           index info
+*/
+PROCEDURE IndexDrop(
+  ia          in  sys.ODCIIndexInfo,
+  owner       in  varchar2, 
+  index_name  in  varchar2,
+  call_prop   in  number
+);
+
+/*----------------------- IndexTruncate  ---------------------*/
+/*
+  NAME
+    IndexTruncate
+
+  DESCRIPTION
+    truncate an index
+
+  ARGUMENTS
+    ia           index info
+    owner        index owner
+    index_name   index name
+    ixp_name     index partition name
+    call_prop    call property
+*/
+PROCEDURE IndexTruncate(
+  ia           in sys.odciindexinfo,
+  owner        in varchar2,
+  index_name   in varchar2,
+  ixp_name     in varchar2,
+  call_prop    in number
+
+);
+
+/*----------------------- IndexTransport  -----------------------*/
+/*
+  NAME
+    IndexTransport
+
+  DESCRIPTION
+    transport tablespace support 
+
+  ARGUMENTS
+    owner        index owner
+    index_name   index name
+    index_part   index partition name
+    table_owner  table owner
+    table_name   table name
+    table_part   table partition name
+
+  NOTES
+
+  EXCEPTIONS
+
+  RETURNS
+
+*/
+PROCEDURE IndexTransport(
+  owner       in  varchar2,
+  index_name  in  varchar2,
+  index_part  in  varchar2,
+  table_owner in  varchar2,
+  table_name  in  varchar2,
+  table_part  in  varchar2,
+  IndexInfoFlags in number,
+  CallProperty   in number
+);
+
+/*----------------------- PartitionSplit  -----------------------*/
+/*
+  NAME
+    PartitionSplit
+
+  DESCRIPTION
+    split one partition into two
+
+  ARGUMENTS
+    ia          ODCIIndexInfo for the spliting partition
+    part1       ODCIPartInfo for resulting partition
+    part2       ODCIPartInfo for resulting partition
+
+
+  NOTES
+
+  EXCEPTIONS
+
+  RETURNS
+
+*/
+PROCEDURE PartitionSplit(
+  ia              in  sys.odciindexinfo,
+  part1           in  sys.odcipartinfo,     
+  part2           in  sys.odcipartinfo
+);
+
+/*----------------------- PartitionMerge  -----------------------*/
+/*
+  NAME
+    PartitionMerge
+
+  DESCRIPTION
+    split one partition into two
+
+  ARGUMENTS
+    ia          ODCIIndexInfo for the resulting partition
+    part1       ODCIPartInfo for one of the merging partitions
+    part2       ODCIPartInfo for one of the merging  partition
+
+
+  NOTES
+
+  EXCEPTIONS
+
+  RETURNS
+
+*/
+PROCEDURE PartitionMerge(
+  ia              in  sys.odciindexinfo,
+  part1           in  sys.odcipartinfo,     
+  part2           in  sys.odcipartinfo      
+);
+
+/*----------------------- PartitionDrop  -----------------------*/
+/*
+  NAME
+    PartitionDrop
+
+  DESCRIPTION
+    Drop one partition 
+
+  ARGUMENTS
+    ia          ODCIIndexInfo for the resulting partition
+    idxid       index id
+    p_ixpid     partition id
+    p_dropAll   flag indicates if drop all index tables
+
+
+  NOTES
+
+  EXCEPTIONS
+
+  RETURNS
+
+*/
+PROCEDURE PartitionDrop(
+  ia              in  sys.odciindexinfo,
+  idxid           in number,
+  p_ixpid         in number default null,
+  p_dropAll       in boolean default FALSE
+);
+
+/*----------------------- PartitionExchange  -----------------------*/
+/*
+  NAME
+    PartitionExchange
+
+  DESCRIPTION
+    Swap a partition with a table 
+
+  ARGUMENTS
+    ia          ODCIIndexInfo for the partition index to be exchanged 
+    ia1         ODCIIndexinfo for the index on the table 
+
+
+  NOTES
+
+  EXCEPTIONS
+
+  RETURNS
+
+*/
+PROCEDURE PartitionExchange(
+  ia              in  sys.odciindexinfo,
+  ia1             in  sys.odciindexinfo
+);
+
+/*----------------------- IndexRename  ---------------------*/
+/*
+  NAME
+    IndexRename
+
+  DESCRIPTION
+    rename an index
+
+  ARGUMENTS
+    ia           index info
+    owner        index owner
+    index_name   index name
+    new_name     new name
+*/
+PROCEDURE IndexRename(
+  ia           in sys.odciindexinfo,
+  owner        in varchar2,
+  index_name   in varchar2,
+  new_name     in varchar2
+);
+
+/*----------------------- IndexColRename  ---------------------*/
+/*
+  NAME
+    IndexColRename
+
+  DESCRIPTION
+    rename an index column 
+
+  ARGUMENTS
+    ia           index info
+    owner        index owner
+    index_name   index name
+    new_name     new name
+*/
+PROCEDURE IndexColRename(
+  ia           in sys.odciindexinfo,
+  owner        in varchar2,
+  index_name   in varchar2,
+  new_name     in varchar2
+);
+
+/*----------------------- IndexTabRename  ---------------------*/
+/*
+  NAME
+    IndexTabRename
+
+  DESCRIPTION
+    rename base table
+
+  ARGUMENTS
+    ia           index info
+    owner        index owner
+    index_name   index name
+    new_name     new name
+*/
+PROCEDURE IndexTabRename(
+  ia           in sys.odciindexinfo,
+  owner        in varchar2,
+  index_name   in varchar2,
+  new_name     in varchar2
+);
+
+/*----------------------- IndexReplace  -------------------------*/
+/*
+  NAME
+    IndexReplace
+
+  DESCRIPTION
+    rebuild an index, replacing preferences as needed
+
+  ARGUMENTS
+    ia           index info
+    idx          index record
+    idxmem       index memory
+    para         parallel degree
+    langcol      language column
+    fmtcol       format column name
+    csetcol      charset column name
+    configcol    configuration column name
+    datastore    datastore pref name
+    filter       filter pref name
+    section      section group pref name
+    lexer        lexer pref name
+    wordlist     wordlist pref name
+    stoplist     stoplist pref name
+    storage      storage pref name
+    isonline     is online ? 
+    sync_dpl     direct path loading?
+    section_name section name
+    opt_type     auto bg optimize type
+    opt_interval repeat interval of auto bg optimize
+    opt_paradegree parallel degree of auto bg optimize
+*/
+PROCEDURE IndexReplace(
+  ia          in  sys.ODCIIndexInfo,
+  idx         in out nocopy  dr_def.idx_rec,
+  idxmem      in  number,
+  para        in  number,
+  langcol     in  varchar2,
+  fmtcol      in  varchar2,
+  csetcol     in  varchar2,
+  datastore   in  varchar2,
+  filter      in  varchar2,
+  section     in  varchar2,
+  lexer       in  varchar2,
+  wordlist    in  varchar2,
+  stoplist    in  varchar2,
+  storage     in  varchar2,
+  txntional   in  varchar2,
+  sync_type   in  varchar2,
+  sync_memory     in   varchar2,
+  sync_paradegree in   number,
+  sync_interval   in   varchar2,
+  isonline    in  boolean default FALSE,
+  metadataonly in boolean default FALSE,
+  populate     in boolean default TRUE,
+  sync_dpl     in boolean default FALSE,
+  section_name in varchar2 default NULL,
+  configcol   in  varchar2 default NULL,
+  async_upd   in  boolean default NULL,
+  dataguide   in  varchar2 default NULL,
+  search_on   in  varchar2 default NULL,
+  opt_type        in  varchar2 default NULL,
+  opt_interval    in  varchar2 default NULL,
+  opt_paradegree  in  number default 1,
+  no_r            in  boolean default NULL
+);
+
+/*----------------------- IndexPartReplace  -------------------------*/
+/*
+  NAME
+    IndexPartReplace
+
+  DESCRIPTION
+    rebuild a index partition, replacing preferences as needed
+
+  ARGUMENTS
+    ia           index info
+    idx          index record
+    ixp          index partition
+    idxmem       index memory
+    storage      storage pref name
+    para         parallel degree
+*/
+PROCEDURE IndexPartReplace(
+  ia          in  sys.ODCIIndexInfo,
+  idx         in  dr_def.idx_rec,
+  ixp         in  dr_def.ixp_rec,
+  idxmem      in  number,
+  storage     in  varchar2,
+  para        in  number,
+  sync_type   in  varchar2,
+  sync_memory     in   varchar2,
+  sync_paradegree in   number,
+  sync_interval   in   varchar2,
+  isonline     in boolean default FALSE,
+  metadataonly in boolean default FALSE,
+  populate     in boolean default TRUE,
+  sync_dpl     in boolean default FALSE,
+  opt_type        in  varchar2 default NULL,
+  opt_interval    in  varchar2 default NULL,
+  opt_paradegree  in  number   default 1
+);
+
+/*----------------------- IndexResume  -------------------------*/
+/*
+  NAME
+    IndexResume
+
+  DESCRIPTION
+    resume index creation
+
+  ARGUMENTS
+    ia           index info
+    idx          index record
+    para         parallel degree
+    idxmem       index memory
+    isOnline     is online?
+    isreplace    called from replace
+*/
+PROCEDURE IndexResume(
+  ia          in  sys.ODCIIndexInfo,
+  idx         in  dr_def.idx_rec,
+  para        in  number,
+  idxmem      in  number,
+  isonline    in  boolean default FALSE,
+  isreplace   in  boolean default FALSE,
+  populate     in boolean default TRUE
+);
+
+/*----------------------- IndexPartResume  -------------------------*/
+/*
+  NAME
+    IndexPartResume
+
+  DESCRIPTION
+    resume index creation on a partition
+
+  ARGUMENTS
+    ia           index info which also has partition info
+    idx          index record
+    para         parallel degree
+    idxmem       index memory
+*/
+PROCEDURE IndexPartResume(
+  ia          in  sys.ODCIIndexInfo,
+  idx         in  dr_def.idx_rec,
+  para        in  number,
+  idxmem      in  number,
+  isOnline    in  boolean default FALSE,
+  isReplace   in  boolean default FALSE,
+  populate    in  boolean default TRUE
+);
+
+/*----------------------- IndexOptimize  -------------------------*/
+/*
+  NAME
+    IndexOptimize
+
+  DESCRIPTION
+    optimize the index
+
+  ARGUMENTS
+    idx          index record
+    ixpname      partition name
+    operation    FAST, FULL, or TOKEN
+    maxtime      maxtime for gc
+    token	 text token string 
+    maxtokens    number of tokens to optimize
+    section_type called to optimize a specific section type
+    opcreate     called during create index
+*/
+PROCEDURE IndexOptimize(
+  idx          in  dr_def.idx_rec,
+  ixpname      in  varchar2,
+  operation    in  varchar2,
+  maxtime      in  number,
+  token        in  varchar2,
+  ttype        in  number default 0,
+  pdegree      in  number default 1,
+  memory       in  number default 0,
+  background   in  number default 0,
+  maxtokens    in  number default 0,
+  section_type in number default null,
+  opcreate     in  boolean default FALSE
+);
+
+TYPE popcurtyp is ref cursor return ctxsys.dr$number_sequence%rowtype;
+
+FUNCTION IndexOptimizeParFn(
+  crsr         in popcurtyp,
+  idxownid     in number,
+  idxowner     in varchar2,
+  idxname      in varchar2,
+  ixpname      in varchar2,
+  shadow_itab  in varchar2,
+  nextid       in number,
+  optmode      in number,
+  maxtime      in number,
+  logfile      in varchar2,
+  maxhash      in number,
+  ttype        in number,
+  background   in number,
+  section_type in number default 0
+) return varchar2;
+
+/*----------------------- SplitDollari  -------------------------*/
+/*
+  NAME
+    SplitDollari
+
+  DESCRIPTION
+    Split the $I table into multiple $I tables
+
+  ARGUMENTS
+    idx          index record
+    ixpname      the name of the partition whose $I table we are 
+                 splitting(the $I is not modified)
+    mapping_tab  the table that maps rowids to partition names
+    name_prefix  the name of the output table in case of less than
+                 two partitions, a name to which the partition 
+                 name gets appended otherwise: 
+                 name_prefix||'_'||part_name
+    tspace       the name of the tablespace where additional 
+                 mapping tables will be created (for cleanup 
+                 purposes in case of core dump)
+*/
+PROCEDURE SplitDollari(
+  idx         in  dr_def.idx_rec,
+  ixpname     in  varchar2,
+  mapping_tab in  varchar2,
+  name_prefix in  varchar2,
+  tspace      in  varchar2 default null
+);
+
+/*----------------------- IndexSync  -------------------------*/
+/*
+  NAME
+    IndexSync
+
+  DESCRIPTION
+    sync the index
+
+  ARGUMENTS
+    idx          index record
+    idxmem       index memory
+    ixpname      index partition name
+    direct_path  should we use direct-path inserts ?
+*/
+PROCEDURE IndexSync(
+  idx         in  dr_def.idx_rec,
+  ixpname     in  varchar2,
+  idxmem      in  number,
+  parallel_degree in number default 1,
+  direct_path in  boolean default false,
+  maxtime     in  number,
+  locking     in  number
+);
+
+/*----------------------- LockBaseTable  -------------------------*/
+/*
+  NAME
+    LockBaseTable
+
+  DESCRIPTION
+    lock the base table
+
+  ARGUMENTS
+    table_own    name of table owner
+    table_name   name of table
+    table_part   name of table partition (if any)
+*/
+PROCEDURE LockBaseTable(
+  table_own   in varchar2,
+  table_name  in varchar2,
+  table_part  in varchar2 default NULL
+);
+
+PROCEDURE ProcessOnlinePending (
+  table_own        in varchar2,
+  table_name       in varchar2, 
+  index_own        in varchar2,
+  index_name       in varchar2,
+  polid            in number,
+  is_part          in boolean,
+  is_online        in boolean,
+  is_alter         in boolean,
+  table_partition  in varchar2 default NULL,
+  index_partition  in varchar2 default NULL
+) ;
+
+/*----------------------- CDIUpdate  -------------------------*/
+
+PROCEDURE CDIUpdate(
+  polid       in number, 
+  ia          in sys.odciindexinfo,
+  env         in sys.ODCIEnv,
+  ridlist     in sys.odciridlist,
+  oldvallist  in sys.odcicolarrayvallist,
+  newvallist  in sys.odcicolarrayvallist
+);
+
+PROCEDURE RIOCleanup(
+  idx_shadow  in dr_def.idx_rec
+);
+
+PROCEDURE PartCleanup(
+  idx_shadow   dr_def.idx_rec,
+  ixp_shadow   dr_def.ixp_rec,
+  p_sysPart    in boolean default FALSE
+);
+
+FUNCTION CursorToBitVector(
+  crsr    in popcurtyp,
+  numbits in number) RETURN varchar2;
+
+PROCEDURE add_big_io(
+  idx in dr_def.idx_rec
+);
+
+PROCEDURE remove_big_io( 
+  idx in dr_def.idx_rec
+);
+
+PROCEDURE add_separate_offsets(
+  idx in dr_def.idx_rec
+);
+
+PROCEDURE add_stage_itab(
+  idx in dr_def.idx_rec,
+  ixp       in dr_def.ixp_rec default NULL
+);
+
+PROCEDURE remove_stage_itab(
+  idx in dr_def.idx_rec,
+  ixp       in dr_def.ixp_rec default NULL
+);
+
+/*--------------------------- field_to_mdata -------------------------------*/
+/* convert a field section to mdata */
+PROCEDURE field_to_mdata(
+  idx in dr_def.idx_rec,
+  fsec in varchar2,
+  read_only in boolean
+);
+
+/*------------------------ IndexMapLanguagesDriver -------------------------*/
+/* Driver for IndexMapLanguages - partitioned and non partitioned case. */
+procedure IndexMapLanguagesDriver(
+  idx      in dr_def.idx_rec
+);
+
+/*--------------------------- IndexMapLanguages ---------------------------*/
+/* Map language column in base table to mdata sections */
+procedure IndexMapLanguages(
+  idx      in dr_def.idx_rec,
+  ixp      in dr_def.ixp_rec,
+  pdegree  in number,
+  flags    in binary_integer,
+  sectyp   in binary_integer,
+  hash_usable in number
+);
+
+/*---------------------- AddDocLexerMDATATokens ------------------------*/
+/* Add DR$ML MDATA Tokens to $I */
+PROCEDURE AddDocLexerMDATATokens(
+  ia       in sys.ODCIIndexInfo,
+  idx      in dr_def.idx_rec
+);
+
+/*---------------------- RemDocLexerMDATATokens ------------------------*/
+/* Remove DR$ML MDATA Tokens from $I(s) */
+PROCEDURE RemDocLexerMDATATokens(
+  ia       in sys.ODCIIndexInfo,
+  idx in dr_def.idx_rec
+);
+
+/*--------------------------- idx_add_slx ------------------------------*/
+/* Add sublexer to the Index */
+PROCEDURE idx_add_slx(
+  ia        in sys.ODCIIndexInfo,
+  idx       in dr_def.idx_rec,
+  sub_lexer in varchar2,
+  language  in varchar2,
+  alt_value in varchar2,
+  language_dependent in boolean default TRUE
+);
+
+/*--------------------------- idx_rem_slx ------------------------------*/
+/* Remove sublexer from the Index */
+PROCEDURE idx_rem_slx(
+  ia        in sys.ODCIIndexInfo,
+  idx       in dr_def.idx_rec,
+  sub_lexer in varchar2
+);
+
+/*--------------------------- idx_add_sw ------------------------------*/
+/* Add stopword to the Index */
+PROCEDURE idx_add_sw(
+  ia        in sys.ODCIIndexInfo,
+  idx       in dr_def.idx_rec,
+  stopword  in varchar2,
+  language  in varchar2,
+  language_dependent in boolean default TRUE,
+  secname   in varchar2
+);
+
+/*--------------------------- idx_rem_sw ------------------------------*/
+/* Remove stopword from the Index */
+PROCEDURE idx_rem_sw(
+  ia        in sys.ODCIIndexInfo,
+  idx       in dr_def.idx_rec,
+  stopword    in  varchar2,
+  language    in  varchar2,
+  for_all     in boolean default FALSE
+);
+
+/*--------------------------- repopulate_dollarn ---------------------------*/
+/* repopulate_dollarn - repopulate $N as opposite of $K */
+PROCEDURE repopulate_dollarn(
+  idx       in dr_def.idx_rec,
+  ixp       in dr_def.ixp_rec
+);
+
+/*------------------------------ set_read_mode -----------------------------*/
+/* set_read_mode - Set read mode to TRUE/FALSE, for given partition */
+PROCEDURE set_read_mode(
+  ia        in sys.ODCIIndexInfo,
+  idx       in dr_def.idx_rec,
+  ixp       in dr_def.ixp_rec default NULL,
+  read_mode in boolean
+);
+/*
+PROCEDURE validate_and_get_options(table_name  in varchar2, 
+                                   column_name in varchar2,
+                                   dataguide   in varchar2,
+                                   search_on   in varchar2,
+                                   new_section in out varchar2,
+                                   new_neverpopulate in out boolean);
+*/
+
+PROCEDURE create_search_tables(idx in dr_def.idx_rec);
+PROCEDURE create_dataguide_table(idx in dr_def.idx_rec);
+PROCEDURE drop_dataguide_table(idx in dr_def.idx_rec);
+
+/*----------------------- PartitionAdd  -----------------------------------*/
+
+PROCEDURE PartitionAdd(
+  ia              in  sys.ODCIIndexInfo,
+  owner           in  varchar2,
+  index_name      in  varchar2,
+  index_partition in  varchar2,
+  table_owner     in  varchar2,
+  table_name      in  varchar2,
+  table_partition in  varchar2
+);
+
+/*--------------------- ContextOldInsert ----------------------------------*/
+FUNCTION ContextOldInsert(
+  ia      in sys.ODCIIndexInfo,
+  ridlist in sys.ODCIRidList,
+  env     in sys.ODCIEnv
+) return number is language C
+name "insert"
+library dr$lib
+with context
+parameters (
+  context,
+  ia,
+  ia INDICATOR STRUCT,
+  ridlist,
+  ridlist INDICATOR,
+  env,
+  env INDICATOR STRUCT,
+  return OCINumber
+);
+
+/*--------------------- ContextOldDelete ----------------------------------*/
+FUNCTION ContextOldDelete(
+  ia      in sys.ODCIIndexInfo,
+  ridlist in sys.ODCIRidList,
+  env     in sys.ODCIEnv
+) return number is language C
+name "delete"
+library dr$lib
+with context
+parameters (
+  context,
+  ia,
+  ia INDICATOR STRUCT,
+  ridlist,
+  ridlist INDICATOR,
+  env,
+  env INDICATOR STRUCT,
+  return OCINumber
+);
+
+/*--------------------- ContextOldUpdate ----------------------------------*/
+FUNCTION ContextOldUpdate(
+  ia      in sys.ODCIIndexInfo,
+  ridlist in sys.ODCIRidList,
+  env     in sys.ODCIEnv
+) return number is language C
+name "update"
+library dr$lib
+with context
+parameters (
+  context,
+  ia,
+  ia INDICATOR STRUCT,
+  ridlist,
+  ridlist INDICATOR,
+  env,
+  env INDICATOR STRUCT,
+  return OCINumber
+);
+
+/*--------------------------- add_bg_optimize ----------------------------*/
+/* add a background job of optimize index / partition */
+procedure add_bg_optimize(p_idx_name    in varchar2,
+                          p_ixp_name    in varchar2 default null,
+                          p_optlevel    in varchar2,
+                          p_para_degree in number default 1, -- parallel degree
+                          p_repeat_interval in varchar2 default null
+);
+
+/*--------------------------- drop_bg_optimize ----------------------------*/
+/* drop background jobs of optimize index / partition */
+procedure drop_bg_optimize(p_idx_id      in number,
+                           p_idx_name    in varchar2,
+                           p_ixp_id      in number default null,
+                           p_optlevel    in varchar2 default null
+);
+
+end drvddl;
+/
+
+@?/rdbms/admin/sqlsessend.sql

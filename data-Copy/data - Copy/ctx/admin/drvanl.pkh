@@ -1,0 +1,59 @@
+rem
+rem $Header: ctx_src_2/src/dr/admin/dr0anl.pkh
+rem
+rem Copyright (c) 1991, 2018, Oracle and/or its affiliates. 
+rem All rights reserved.
+rem  NAME
+rem    drvanl.pkh - ATG auto lexer utility package
+rem
+rem  DESCRIPTION
+rem    Procedures for ATG dictionary support
+rem
+rem
+rem  PRIVATE FUNCTIONS (these should not be called by customers, and should
+rem                     really be defined in a separate file!)
+rem
+rem  NOTES
+rem
+rem 
+rem  BEGIN SQL_FILE_METADATA
+rem    SQL_SOURCE_FILE: ctx_src_2/src/dr/admin/drvanl.pkh
+rem    SQL_SHIPPED_FILE: ctx/admin/drvanl.pkh
+rem    SQL_PHASE: DRVANL_PKH
+rem    SQL_STARTUP_MODE: NORMAL
+rem    SQL_IGNORABLE_ERRORS: NONE
+rem    SQL_CALLING_FILE: ctx/admin/ctxpkh.sql
+rem  END SQL_FILE_METADATA
+rem
+rem  MODIFIED    (MM/DD/YY)
+Rem     snetrava   06/14/18  - Bug 28102835: NONE LOG PRAGMA
+rem  surman      01/23/15  - 20411134: Add SQL metadata tags
+rem  surman      03/15/13  - 16473661: Common start and end scripts
+rem  rkadwe      12/22/11  - Implicit commit support for CTX_ANL APIs
+rem  rkadwe      12/12/11  - AUTO_LEXER attribute: Dictionary (ATG)
+rem  rkadwe      11/15/11 -  ATG cleanup
+
+@@?/rdbms/admin/sqlsessstart.sql
+
+
+create or replace package drvanl authid current_user as
+
+PRAGMA SUPPLEMENTAL_LOG_DATA(default, NONE);
+
+PROCEDURE ADD_DICTIONARY(name     in VARCHAR2,
+                         language in VARCHAR2,
+                         dictionary  in CLOB,
+                         preference_implicit_commit in boolean);
+
+PROCEDURE DROP_DICTIONARY(name in VARCHAR2,
+                          preference_implicit_commit in boolean);
+
+PROCEDURE COPY_USER_ANL_DICT(p_idx_id in NUMBER,
+                             lv_pref  in dr_def.pref_rec);
+
+PROCEDURE REM_USER_ANL_DICT(p_idxid in NUMBER);
+
+end drvanl;
+/
+
+@?/rdbms/admin/sqlsessend.sql

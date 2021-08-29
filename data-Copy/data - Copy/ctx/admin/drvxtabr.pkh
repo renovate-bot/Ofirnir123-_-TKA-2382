@@ -1,0 +1,89 @@
+rem Copyright (c) 2000, 2018, Oracle and/or its affiliates. 
+rem All rights reserved.
+rem
+rem    NAME
+rem      drvxtabr.pkh - 
+rem
+rem    DESCRIPTION
+rem
+rem   
+rem    NOTES
+rem  
+rem 
+rem    BEGIN SQL_FILE_METADATA
+rem      SQL_SOURCE_FILE: ctx_src_2/src/dr/admin/drvxtabr.pkh
+rem      SQL_SHIPPED_FILE: ctx/admin/drvxtabr.pkh
+rem      SQL_PHASE: DRVXTABR_PKH
+rem      SQL_STARTUP_MODE: NORMAL
+rem      SQL_IGNORABLE_ERRORS: NONE
+rem      SQL_CALLING_FILE: ctx/admin/ctxpkh.sql
+rem    END SQL_FILE_METADATA
+rem
+rem    MODIFIED    (MM/DD/YY)
+Rem     snetrava   06/14/18  - Bug 28102835: NONE LOG PRAGMA
+rem    surman       01/23/15 - 20411134: Add SQL metadata tags
+rem    surman       03/15/13 - 16473661: Common start and end scripts
+rem    gkaminag     10/14/02 - gkaminag_security_020924
+rem    gkaminag     09/27/02 - security phase 3
+rem    ehuang       08/08/00 - move ctxrule from drvxtab
+rem    ehuang       08/18/00 - creation
+
+@@?/rdbms/admin/sqlsessstart.sql
+
+create or replace package drvxtabr authid current_user as
+
+PRAGMA SUPPLEMENTAL_LOG_DATA(default, NONE);
+
+/* ====================================================================== */
+/* ====================================================================== */
+/*                             CTXRULE                                    */
+/* ====================================================================== */
+/* ====================================================================== */
+
+/*----------------------- create_tables --------------------------*/
+
+PROCEDURE create_tables( 
+  idx_owner in varchar2, 
+  idx_name  in varchar2,
+  idxid     in number
+);
+
+/*----------------------- create_indexes  ------------------------*/
+
+PROCEDURE create_indexes( 
+  idx_owner in varchar2, 
+  idx_name  in varchar2,
+  idxid     in number
+);
+
+/*----------------------- drop_tables  ---------------------------*/
+
+PROCEDURE drop_tables( 
+  idx_owner in varchar2, 
+  idx_name  in varchar2,
+  idxid     in number
+);
+
+/*----------------------- trunc_tables  ---------------------------*/
+
+PROCEDURE trunc_tables( 
+  idx_owner in varchar2, 
+  idx_name  in varchar2,
+  idxid     in number
+);
+
+/*----------------------- rename_tables  ---------------------------*/
+
+PROCEDURE rename_tables( 
+  idx_owner in varchar2, 
+  idx_name  in varchar2,
+  idxid     in number,
+  new_name  in varchar2,
+  has_idx   in boolean
+);
+
+end drvxtabr;
+/
+
+
+@?/rdbms/admin/sqlsessend.sql

@@ -1,0 +1,2 @@
+rem Copyright (c) 1999, 2018, Oracle. All rights reserved.
+C:\WINDOWS.X64_193000_db_home\oui\bin\runConfig.bat ORACLE_HOME=C:\WINDOWS.X64_193000_db_home MODE=perform ACTION=configure RERUN=true %*

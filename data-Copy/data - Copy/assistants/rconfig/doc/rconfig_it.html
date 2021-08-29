@@ -1,0 +1,87 @@
+<html>
+
+<head>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
+
+<title>Benvenuti</title>
+<meta NAME="topic-id" CONTENT="welcome_page">
+<link REL=stylesheet HREF=blafdoc.css TYPE="text/css">
+</head>
+<body>
+
+<h1>Benvenuti</h1>
+
+<p>Benvenuti nello strumento di configurazione di Oracle Real Application Clusters. </p>
+<p>dopo l'installazione del software Oracle Database, è possibile utilizzare lo strumento di configurazione di Oracle Real Application Clusters per convertire i database a istanza singola in database Oracle Real Application.</p>
+
+<h2>Panoramica dello strumento di configurazione di Oracle Real Application Cluster </h2>
+
+<p>Lo strumento di configurazione di Oracle Real Application Clusters guida l'utente nel processo di conversione di un database a istanza singola esistente in un database Oracle Real Application Clusters. I task che verrebbero in genere eseguiti manualmente per convertire il database esistente in un database cluster vengono eseguiti manualmente da questo strumento. Lo strumento di configurazione di Oracle Real Application Cluster può essere richiamato utilizzando lo script ORACLE_HOME/bin/rconfig. Questo tool comprende un file xml in cui è possibile specificare la configurazione desiderata per il database Oracle Real Application Clusters convertito. Queste opzioni includono la specifica di aree di memorizzazione diverse per il database Oracle Real Application Clusters, gli host/pool di server su cui si desidera che vengano eseguite le istanze di Oracle Real Application Clusters. È inoltre possibile specificare un prefisso per le istanze Oracle Real Application Clusters e la Oracle home da cui tali istanze di Oracle Real Application Clusters devono essere eseguite. Tale Oracle home può essere diversa dalla home di Oracle Real Application Clusters corrente.</p>
+
+ <p><strong>Nota:</strong> la Oracle consiglia di effettuare un backup completo del database a istanza singola prima di tentare la conversione.</p>
+
+ <h2>Note per gli utenti di Real Application Clusters</h2>
+<p>Prima che lo strumento rconfig possa convertire un database a istanza singola in un database Real Application Clusters, è necessario completare i task di preinstallazione e aver completato il processo di installazione in due fasi di CRS (Cluster Ready Service) e di Oracle Enterprise Edition 11<em>g</em> con Real Application Clusters.</p>
+<p>Inoltre, a seconda del tipo di memorizzazione del database che si desidera utilizzare, è necessario effettuare una delle procedure di configurazione riportate di seguito prima di richiamare lo strumento rconfig per convertire il database a istanza singola in un database Oracle Real Application Clusters.</p>
+<ul>
+  <li>
+    <p>Se il database a istanza singola utilizza la memorizzazione ASM, installare un'istanza ASM del cluster. Accertarsi che siano in esecuzione istanze ASM per tutti i nodi del cluster. Utilizzare L'Assistente alla configurazione ASM (ASMCA) per definire e installare i gruppi di dischi ASM.</p>
+  </li>
+  <li>
+    <p>Se l'area di memorizzazione del database a istanza singola non è accessibile da tutti i nodi, specificare una partizione del file system cluster per la memorizzazione del database che sia accessibile da tutti i nodi.</p>
+  </li>
+  <li>
+    <p>La conversione per i database con memoria dell'unità raw non è supportata dallo strumento rconfig.</p>
+  </li>
+</ul>
+
+<h2>Prerequisiti per lo strumento RConfig</h2>
+
+<p>Per poter utilizzare lo strumento rconfig per la conversione in database Oracle Real Application Clusters, è necessario che vengano soddisfatti i prerequisiti riportati di seguito. Lo strumento eseguirà controlli per assicurarsi che questi criteri siano soddisfatti e garantire la riuscita della conversione.</p>
+<ul>
+  <li>
+    <p>Il numero di versione di CRS e del database deve essere uguale a 11.2</p>
+  </li>
+  <li>
+    <p>CRS deve essere in esecuzione su tutti i nodi su cui devono essere eseguite istanze di Oracle Real Application Clusters.</p>
+  </li>
+  <li>
+    <p> Il listener predefinito deve essere in esecuzione dalla home di Grid Infrastructure(CRS).</p>
+  </li>
+  <li>
+    <p>La posizione specificata per l'area di memorizzazione deve essere accessibile da tutti i nodi del cluster. Se l'area di memorizzazione utilizzata da un database a istanza singola è ASM, le istanze ASM in cluster devono essere in esecuzione su tutti i nodi che devono contenere istanze di Oracle Real Application Clusters.</p>
+  </li>
+</ul>
+
+<h2>XML di input per lo strumento rconfig per l'esecuzione della conversione Oracle Real Application Clusters</h2>
+<p> Lo strumento rconfig riceve input da un file xml. Ciascun elemento del file xml utilizzato come input per la conversione è descritto in questa sezione. Lo schema XML con il quale viene convalidato l'input xml è incluso nel package di rconfig.jar con gli altri file binari. È possibile visualizzare lo schema XML in /Oracle home:/assistants/rconfig/sampleXMLs/rconfig.xsd. Questa directory contiene anche un file XML di esempio che può essere utilizzato come input per lo strumento rconfig.
+<ul>
+  <li>
+    <p>SID e credenziali per il database a istanza singola: il nome utente e la password per l'utente con ruolo SYSDBA devono essere specificati qui. Inoltre, il SID per il database a istanza singola è necessario per la connessione al database.</p>
+  </li>
+
+  <li>
+    <p>Oracle home esistente: specificare qui la Oracle home del database a istanza singola.</p>
+  </li>
+  <li>
+    <p>Nuova Oracle home: specificare qui la Oracle home in cui si desidera che venga eseguito il database Oracle Real Application Clusters convertito. Può essere lo stesso valore della Oracle home esistente.</p>
+  </li>
+  
+  <li>
+    <p>Lista dei pool di server/NodeList: per i database gestiti tramite amministratore, specificare la lista di nodi che deve contenere le istanze di questo database Oracle Real Application Clusters.</p>
+	<p>Per i database gestiti tramite criteri, specificare la lista dei pool di server. Se non esiste un pool di server, verrà creato. Per creare il pool di server, specificare la cardinalità del database. </p>
+  </li>
+  
+  <li>
+    <p>Prefisso per le istanze di database cluster: si tratta di un campo facoltativo. Le istanze Oracle Real Application Clusters verranno denominate con il prefisso concatenato con il numero dell'istanza. Il prefisso può corrispondere al SID del database esistente o essere diverso. Se non specificato, per impostazione predefinita viene utilizzato db_unique_name.</p>
+  </li>
+
+  <li>
+    <p>Memoria condivisa: specificare Posizione e Posizione area di recupero dei file di dati da configurare per il database Oracle Real Applications Clusters. Lasciare vuoti questi campi se per il database Oracle Applications Clusters si desidera utilizzare l'area di memorizzazione corrente utilizzata dal database a istanza singola. In questo caso, lo strumento rconfig effettuerà i controlli preliminari per verificare se i file di dati, i control file, lo spfile e i file di recupero correnti sono accessibili da tutti i nodi. In caso contrario, verrà visualizzato un errore e la conversione verrà interrotta. Se si specificano posizioni diverse, lo strumento rconfig verificherà che la posizione specificata sia accessibile da tutti i nodi e durante la conversione copierà tutti i file nella posizione specificata e creerà nuovi file per le nuove istanze di Oracle Real Application Clusters in questa posizione.</p>
+  <p>Le stesse note si applicano all'area di memorizzazione ASM. Questi campi devono essere usati per specificare i gruppi di dischi da utilizzare per configurare la memoria condivisa. I gruppi di dischi devono essere specificati iniziando con '+'. Attualmente, è possibile specificare un solo gruppo di dischi per Posizione file di dati e Posizione area di recupero.
+  </li>
+</ul>
+
+</body>
+
+</html>

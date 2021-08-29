@@ -1,0 +1,38 @@
+set define '^' verify off
+prompt ...create flow auditing
+create or replace package body wwv_flow_audit wrapped 
+a000000
+1
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+b
+7d1 398
+BxRbBwp2xVJdhkeRljuGSMcyThwwg41cLtAFyi/NDTqUaHYMK6CYJ1wmzMsEG8tMdOMosK1r
+8lxj8o0j3piqnXCKdRSfYUNwCzCCP4JOBI4bclP7wwwj5paWquTELCQP5JyaD5215rTYp0Al
+8aYyqy+fiZPQ9AEJDoGeAms0lSpblriZfeB8N3vY+vsesCepy6d4CznsNOXBiE24ebIjNpeS
+ti8S+LVHF77g6IDHchEwbFsFOKGViV8MKiFZ0v1tKGGAxgvB/nEcePAXO/GDIxvPWl6Mrxok
+lagqJ3qvQHCeOgYRzbIvsFgARHiGd3ije5TeZbZaUvm1QNrSUP0xHeMDDTkeoFqo1ucZ/gU9
+ifHQmPp4jP37Tzu7fJrRRqrMx9/FqErgURE1OoOT1QI+5emp1Kx2j8uskxEPMTNbjyeI5pEK
+bpXMQr92AriIELJ3TzYLdRHJf8yhh1KxdUN5GAD1yooQWnsW6BaWClfjKokKuh/4ewM4oBYH
+/MDHTFFVXHboVMDakJgDgnU36Tj/ESn8f5BsG3QRBa7Ybhor2tQ+EU+DGD11CFkMXyuEar0y
+N/xROsMW2jOU/O2BR9X1YU9vhFcd1EQcaiFFLAnqqISiMf05iFd8iJlBM64b92kX4R+QsEVa
+MGDmAXSixrFrSPeEzCsIXMlanqIJVBc7ARq+lwWDmCi7LOVUc1cI/CZk5JRdUkZ6YIWGfX2r
+eKWIMncdSKoPySuh++u/WtlAPDu9VH7LMlOH37JULKeGLXTt6kbk6Dx7TcfjeIXJmBiD+m1F
+7UV5IaDC1ogyTff9ozSkkqdPNs5vLhjHp1LJiHUufXtdMRNAs6Jf4Vv9IMjtp81M9DOlhvvh
+avfU0YxGhMPHLjpP7L/yl3mPqCpShoqMmoO8OpmBdDH2
+
+/
+show errors  

@@ -1,0 +1,500 @@
+rem Copyright (c) 1999, 2018, Oracle and/or its affiliates. 
+rem All rights reserved.
+rem
+rem    NAME
+rem      driparse.pkh - DR cartridge Internal PARSE routines
+rem
+rem    DESCRIPTION
+rem      functions called by ConText cartridge type to parse
+rem      parameters strings.  These routines do not do much
+rem      work on their own -- they mainly call back out to driddl.
+rem   
+rem    NOTES
+rem  
+rem 
+rem    BEGIN SQL_FILE_METADATA
+rem      SQL_SOURCE_FILE: ctx_src_2/src/dr/admin/driparse.pkh
+rem      SQL_SHIPPED_FILE: ctx/admin/driparse.pkh
+rem      SQL_PHASE: DRIPARSE_PKH
+rem      SQL_STARTUP_MODE: NORMAL
+rem      SQL_IGNORABLE_ERRORS: NONE
+rem      SQL_CALLING_FILE: ctx/admin/ctxpkh.sql
+rem    END SQL_FILE_METADATA
+rem
+rem    MODIFIED    (MM/DD/YY)
+Rem     snetrava   06/14/18  - Bug 28102835: NONE LOG PRAGMA
+rem    demukhin     05/25/17 - bug 26051570: keep $R for legacy indexes
+rem    boxia        03/17/17 - Bug 25468759: add opt_paradegree
+rem    snetrava     12/21/16 - 24715401: ownername.sectiongroup/preference name
+rem    boxia        11/19/16 - Bug 25172618: add opt_type,opt_interval
+rem                            to createRec
+rem    nspancha     11/07/16 - 22068230:Increase token size from 64  to 255
+rem    surman       01/23/15 - 20411134: Add SQL metadata tags
+rem    boxia        07/08/14 - Add att_val to type alterRec
+rem    rkadwe       02/28/14 - Dataguide + NEVER_POPULATE
+rem    surman       03/15/13 - 16473661: Common start and end scripts
+rem    gauryada     08/31/12 - bug#7028553
+rem    gauryada     05/23/12 - bug#13724080
+rem    hsarkar      12/12/11 - Asynchronous update project
+rem    ssethuma     05/07/11 - Section specific stoplist
+rem    rpalakod     04/20/10 - upd_sub_lexer
+rem    rkadwe       04/15/10 - Activate Direct Path Loading
+rem    rkadwe       03/25/10 - Document Level Lexer Phase 2
+rem    rpalakod     02/24/10 - Bug 9409038
+rem    rkadwe       02/23/10 - Document Level Lexer
+rem    nenarkhe     12/17/09 - Bug 9141863
+rem    rpalakod     05/28/09 - Backport rpalakod_bug-8500390 from main
+rem    rpalakod     05/06/09 - Backport rpalakod_bug-8473813 from main
+rem    yucheng      01/10/06 - add swap to createRec 
+rem    yucheng      10/24/05 - recreate index online phase2 
+rem    gkaminag     07/24/03 - replace metadata partition
+rem    gkaminag     06/05/03 - replace metadata
+rem    yucheng      05/01/03 - add sync attributes to CreateRec
+rem    wclin        05/09/03 - statement consistency support
+rem    daliao       11/05/02 - classifier
+rem    wclin        09/25/01 - ctxxpath
+rem    gkaminag     05/03/01 - bug 1749617
+rem    gkaminag     08/25/00 - partitioning support
+rem    gkaminag     08/10/00 - partitioning support
+rem    gkaminag     08/09/00 - local domain partition support
+rem    salpha       06/26/00 - ctxrule implementation
+rem    gkaminag     04/05/00 - ctxcat cleanup
+rem    gkaminag     02/21/00 - ctxcat implementation
+rem    gkaminag     11/07/99 - multi stoplist
+rem    ymatsuda     06/29/99 - remove parallel option
+rem    gkaminag     06/21/99 - format and charset collumns
+rem    gkaminag     06/09/99 - multi lexer
+rem    gkaminag     06/07/99 - multi-lingual lexer
+rem    gkaminag     04/28/99 - add section
+rem    ymatsuda     04/28/99 - parallel indexing
+rem    gkaminag     02/15/99 - creation
+
+@@?/rdbms/admin/sqlsessstart.sql
+
+create or replace package driparse authid definer as
+
+PRAGMA SUPPLEMENTAL_LOG_DATA(default, NONE);
+
+type createRec is record (
+  populate        boolean,
+  swap            boolean,
+  idxmem          number,
+  langcol         varchar2(256),
+  fmtcol          varchar2(256),
+  csetcol         varchar2(256),
+  datastore       varchar2(256),
+  filter          varchar2(256),
+  section         varchar2(256),
+  lexer           varchar2(256),
+  wordlist        varchar2(256),
+  stoplist        varchar2(256),
+  storage         varchar2(256),
+  indexset        varchar2(65),
+  classifier      varchar2(65),
+  txntional       varchar2(65),
+  sync_type       varchar2(65),
+  sync_memory     varchar2(100),
+  sync_paradegree number,
+  sync_interval   varchar2(4000),
+  tree            boolean,
+  sync_dpl        boolean,
+  secname         varchar2(256),
+  configcol       varchar2(256),
+  async_upd       boolean,
+  never_populate  boolean,
+  simplesyntax    number,
+  search_on       varchar2(65),
+  dataguide       varchar2(65),
+  opt_type        drvutl.dr_medbuf,
+  opt_interval    drvutl.dr_extrabuf,
+  opt_paradegree  number,
+  no_r            boolean
+);
+
+type alterRec is record (
+  operation  number,
+  op_subtype varchar2(30),
+  string1    varchar2(255+16),
+  string2    varchar2(255),
+  number1    number,
+  flag1      boolean,
+  idx_opt    createRec,
+  num1       number,
+  att_val    number
+);  
+
+OP_NULL                 constant number := -1;
+-- Deprecated operation
+--OP_SYNC               constant number :=  1;
+OP_RESUME               constant number :=  2;
+OP_REPLACE              constant number :=  3;
+OP_ADD_STOPWORD         constant number :=  4;
+-- Deprecated operation
+--OP_OPTIMIZE           constant number :=  5;
+OP_ADD_SECTION          constant number :=  6;
+-- internal only
+OP_EXCHANGE             constant number :=  7;
+-- end of internal only
+OP_ADD_STAGE_ITAB       constant number := 8;
+OP_REMOVE_STAGE_ITAB    constant number := 9;
+OP_ADD_BIG_IO           constant number := 10;
+OP_REMOVE_BIG_IO        constant number := 11;
+OP_ADD_SEPARATE_OFFSETS constant number := 12;
+OP_ADD_SUB_LEXER        constant number := 13;
+OP_REM_SUB_LEXER        constant number := 14;
+OP_REM_STOPWORD         constant number := 15;
+OP_REM_STOPWORDS        constant number := 16;
+OP_MIGRATE_TO_MULTISTOP   constant number := 17;
+OP_MIGRATE_FIELD_TO_MDATA constant number := 18;
+OP_UPD_SUB_LEXER        constant number := 19;
+OP_READ_TRUE            constant number := 20;
+OP_READ_FALSE           constant number := 21;
+OP_WRITE_TRUE           constant number := 22;
+OP_WRITE_FALSE          constant number := 23;
+OP_SIMPLE_SYNTAX        constant number := 24;
+
+
+SIMPLE_SYNTAX_NONE      constant number := 0;
+SIMPLE_SYNTAX_JSON      constant number := 1;
+SIMPLE_SYNTAX_XML       constant number := 2;
+
+/* ======================================================================= */
+/* ======================================================================= */
+/*                               CONTEXT                                   */
+/* ======================================================================= */
+/* ======================================================================= */
+
+/*----------------------- InitCreateRec  -----------------------*/
+/*
+  NAME
+    InitCreateRec
+
+  DESCRIPTION
+    initialize createrec
+
+  ARGUMENTS
+
+  NOTES
+ 
+  EXCEPTIONS
+ 
+  RETURNS
+ 
+*/
+FUNCTION InitCreateRec return createRec;
+
+/*----------------------- ParseCreate  -----------------------*/
+/*
+  NAME
+    ParseCreate
+
+  DESCRIPTION
+    parse create index parameters string 
+
+  ARGUMENTS
+    params       paramstring
+    alter_op     zero unless called from ParseAlter
+    opts         create index options (OUT)
+
+  NOTES
+ 
+  EXCEPTIONS
+ 
+  RETURNS
+ 
+*/
+PROCEDURE ParseCreate(
+  params      in  varchar2,
+  alter_op    in  number,
+  opts        out createRec,
+  metadataonly out boolean,
+  isPart      in   boolean default FALSE
+);
+
+/*----------------------- ParsePartCreate  -----------------------*/
+/*
+  NAME
+    ParsePartCreate
+
+  DESCRIPTION
+    parse create index (partition create) parameters string 
+
+  ARGUMENTS
+    params       paramstring
+    opts         create index options (OUT)
+
+  NOTES
+ 
+  EXCEPTIONS
+ 
+  RETURNS
+ 
+*/
+PROCEDURE ParsePartCreate(
+  params      in  varchar2,
+  alter_op    in  number,
+  def_idxmem  in  number,
+  opts        out createRec,
+  metadataonly out boolean  
+);
+
+/*----------------------- ParseAlter  -----------------------*/
+/*
+  NAME
+    ParseAlter
+
+  DESCRIPTION
+    parse alter index parameters string 
+
+  ARGUMENTS
+    idxid        index id
+    params       paramstring
+    opts         alter index options (OUT)
+    isPart       if the index is partitioned -- only set in
+                 recreate_index_online
+
+  NOTES
+ 
+  EXCEPTIONS
+ 
+  RETURNS
+ 
+*/
+PROCEDURE ParseAlter(
+  idxid       in     number,
+  params      in     varchar2,
+  opts        in out alterRec,
+  isPart      in     boolean default FALSE
+);
+
+/*----------------------- ParsePartAlter  -----------------------*/
+/*
+  NAME
+    ParsePartAlter
+
+  DESCRIPTION
+    parse alter index partition parameters string 
+
+  ARGUMENTS
+    idxid        index id
+    params       paramstring
+    opts         alter index options (OUT)
+
+  NOTES
+ 
+  EXCEPTIONS
+ 
+  RETURNS
+ 
+*/
+PROCEDURE ParsePartAlter(
+  idxid       in     number,
+  params      in     varchar2,
+  opts        in out alterRec
+);
+
+/* ======================================================================= */
+/* ======================================================================= */
+/*                               CTXCAT                                    */
+/* ======================================================================= */
+/* ======================================================================= */
+
+/*----------------------- ParseCreateCat  -----------------------*/
+/*
+  NAME
+    ParseCreateCat
+
+  DESCRIPTION
+    parse create index parameters string for ctxcat indextype 
+
+  ARGUMENTS
+    params       paramstring
+    opts         create index options (OUT)
+
+  NOTES
+ 
+  EXCEPTIONS
+ 
+  RETURNS
+ 
+*/
+PROCEDURE ParseCreateCat(
+  params      in  varchar2,
+  opts        out createRec
+);
+
+/*----------------------- ParseAlterCat  -----------------------*/
+/*
+  NAME
+    ParseAlterCat
+
+  DESCRIPTION
+    parse alter index parameters string for ctxcat indextype 
+
+  ARGUMENTS
+    params       paramstring
+    opts         create index options (OUT)
+
+  NOTES
+ 
+  EXCEPTIONS
+ 
+  RETURNS
+ 
+*/
+PROCEDURE ParseAlterCat(
+  idxid       in  number,
+  params      in  varchar2,
+  opts        out alterRec
+);
+
+/*----------------------- normalize_column_list  -----------------------*/
+/*
+  NAME
+    normalize_column_list
+
+  DESCRIPTION
+    normalize a column list
+
+  ARGUMENTS
+    column_list  column list
+
+  NOTES
+ 
+  EXCEPTIONS
+ 
+  RETURNS
+    normalized column list 
+*/
+FUNCTION normalize_column_list(
+  column_list in varchar2
+) RETURN varchar2;
+
+
+
+
+/* ======================================================================= */
+/* ======================================================================= */
+/*                               CTXRULE                                   */
+/* ======================================================================= */
+/* ======================================================================= */
+
+/*----------------------- ParseCreateRule  -----------------------*/
+/*
+  NAME
+    ParseCreateRule
+
+  DESCRIPTION
+    parse create index parameters string for ctxrule indextype
+
+  ARGUMENTS
+    params       paramstring
+    alter_op     zero unless called from ParseAlter
+    opts         create index options (OUT)
+
+  NOTES
+ 
+  EXCEPTIONS
+ 
+  RETURNS
+ 
+*/
+PROCEDURE ParseCreateRule(
+  params      in  varchar2,
+  alter_op    in  number,
+  opts        out createRec
+);
+
+/*----------------------- ParseAlterRule  -----------------------*/
+/*
+  NAME
+    ParseAlter
+
+  DESCRIPTION
+    parse alter index parameters string for ctxrule indextype
+
+  ARGUMENTS
+    idxid        index id
+    params       paramstring
+    opts         alter index options (OUT)
+
+  NOTES
+ 
+  EXCEPTIONS
+ 
+  RETURNS
+ 
+*/
+PROCEDURE ParseAlterRule(
+  idxid       in     number,
+  params      in     varchar2,
+  opts        in out alterRec
+);
+
+/* ======================================================================= */
+/* ======================================================================= */
+/*                             CTXXPATH                                    */
+/* ======================================================================= */
+/* ======================================================================= */
+
+/*----------------------- ParseCreateXPath  -----------------------*/
+/*
+  NAME
+    ParseCreateXPath
+
+  DESCRIPTION
+    parse create index parameters string for ctxxpath indextype 
+
+  ARGUMENTS
+    params       paramstring
+    opts         create index options (OUT)
+
+  NOTES
+ 
+  EXCEPTIONS
+ 
+  RETURNS
+ 
+*/
+PROCEDURE ParseCreateXPath(
+  params      in  varchar2,
+  alter_op    in  number,
+  opts        out createRec
+);
+
+/*----------------------- ParseAlterXPath  -----------------------*/
+/*
+  NAME
+    ParseAlter
+
+  DESCRIPTION
+    parse alter index parameters string 
+
+  ARGUMENTS
+    idxid        index id
+    params       paramstring
+    opts         alter index options (OUT)
+
+  NOTES
+ 
+  EXCEPTIONS
+ 
+  RETURNS
+ 
+*/
+PROCEDURE ParseAlterXPath(
+  idxid       in     number,
+  params      in     varchar2,
+  opts        in out alterRec
+);
+
+PROCEDURE ParseMigrate (
+  params  in out varchar2,
+  opts    in out alterRec
+);
+
+end driparse;
+/
+
+
+@?/rdbms/admin/sqlsessend.sql

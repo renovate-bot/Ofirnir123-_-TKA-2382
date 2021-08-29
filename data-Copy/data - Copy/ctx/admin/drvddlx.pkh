@@ -1,0 +1,216 @@
+rem 
+rem Copyright (c) 2002, 2018, Oracle and/or its affiliates. 
+rem All rights reserved.
+rem
+rem    NAME
+rem      drvddlx.pkh - DR cartridge internal, inVoker's rights DDL services
+rem
+rem    DESCRIPTION
+rem      functions called by ConText cartridge routines to perform 
+rem      various DDL functionalities for ctxxpath index type
+rem   
+rem    NOTES
+rem  
+rem 
+rem    BEGIN SQL_FILE_METADATA
+rem      SQL_SOURCE_FILE: ctx_src_2/src/dr/admin/drvddlx.pkh
+rem      SQL_SHIPPED_FILE: ctx/admin/drvddlx.pkh
+rem      SQL_PHASE: DRVDDLX_PKH
+rem      SQL_STARTUP_MODE: NORMAL
+rem      SQL_IGNORABLE_ERRORS: NONE
+rem      SQL_CALLING_FILE: ctx/admin/ctxpkh.sql
+rem    END SQL_FILE_METADATA
+rem
+rem    MODIFIED    (MM/DD/YY)
+Rem     snetrava   06/14/18  - Bug 28102835: NONE LOG PRAGMA
+rem    surman       01/23/15 - 20411134: Add SQL metadata tags
+rem    surman       03/15/13 - 16473661: Common start and end scripts
+rem    bsthanik     12/17/09 - IsBinaryXMLColumn signature change
+rem    sichandr     07/06/11 - add IsBinaryXMLColumn
+rem    wclin        10/30/06 - add IndexColRename() 
+rem    gkaminag     10/14/02 - gkaminag_security_020924
+rem    gkaminag     06/03/02 - creation 
+
+@@?/rdbms/admin/sqlsessstart.sql
+
+create or replace package drvddlx authid current_user as
+
+PRAGMA SUPPLEMENTAL_LOG_DATA(default, NONE);
+
+/*----------------------- IndexCreate  -----------------------*/
+/*
+  NAME
+    IndexCreate
+
+  DESCRIPTION
+    create an index
+*/
+PROCEDURE IndexCreate(
+  ia          in  sys.odciindexinfo,
+  owner       in  varchar2,
+  index_name  in  varchar2,
+  table_owner in  varchar2,
+  table_name  in  varchar2,
+  column_name in  varchar2,
+  idxmem      in  number,
+  storage     in  varchar2
+);
+
+/*----------------------- IndexTransport  -----------------------*/
+/*
+  NAME
+    IndexTransport
+
+  DESCRIPTION
+    meta-data cleanup after transportable tablespace
+*/
+PROCEDURE IndexTransport( 
+    owner           in  varchar2,
+    index_name      in  varchar2,
+    table_owner     in  varchar2,
+    table_name      in  varchar2,
+    IndexInfoFlags  in  number
+);
+
+/*----------------------- IndexDrop  -------------------------*/
+/*
+  NAME
+    IndexDrop
+
+  DESCRIPTION
+    drop an index
+
+  ARGUMENTS
+    ia           index info
+*/
+PROCEDURE IndexDrop(
+  ia          in  sys.ODCIIndexInfo,
+  owner       in  varchar2, 
+  index_name  in  varchar2
+);
+
+/*----------------------- IndexRename  ---------------------*/
+/*
+  NAME
+    IndexRename
+
+  DESCRIPTION
+    rename an index
+
+  ARGUMENTS
+    ia           index info
+    owner        index owner
+    index_name   index name
+    new_name     new name
+*/
+PROCEDURE IndexRename(
+  ia           in sys.odciindexinfo,
+  owner        in varchar2,
+  index_name   in varchar2,
+  new_name     in varchar2
+);
+
+/*----------------------- IndexColRename  ---------------------*/
+/*
+  NAME
+    IndexColRename
+
+  DESCRIPTION
+    rename an index column 
+
+  ARGUMENTS
+    ia           index info
+    owner        index owner
+    index_name   index name
+    new_name     new name
+*/
+PROCEDURE IndexColRename(
+  ia           in sys.odciindexinfo,
+  owner        in varchar2,
+  index_name   in varchar2,
+  new_name     in varchar2
+);
+
+/*----------------------- IndexTruncate  ---------------------*/
+/*
+  NAME
+    IndexTruncate
+
+  DESCRIPTION
+    truncate an index
+
+  ARGUMENTS
+    owner        index owner
+    index_name   index name
+*/
+PROCEDURE IndexTruncate(
+  ia           in sys.odciindexinfo,
+  owner        in varchar2,
+  index_name   in varchar2
+);
+
+/*----------------------- IndexReplace  -------------------------*/
+/*
+  NAME
+    IndexReplace
+
+  DESCRIPTION
+    rebuild an index, replacing preferences as needed
+
+  ARGUMENTS
+    ia           index info
+    idx          index record
+    idxmem       index memory
+    storage      storage pref name
+*/
+PROCEDURE IndexReplace(
+  ia          in  sys.ODCIIndexInfo,
+  idx         in  dr_def.idx_rec,
+  idxmem      in  number,
+  storage     in  varchar2
+);
+
+/*----------------------- IndexResume  -------------------------*/
+/*
+  NAME
+    IndexResume
+
+  DESCRIPTION
+    resume index creation
+
+  ARGUMENTS
+    ia           index info
+    idx          index record
+    para         parallel degree
+    idxmem       index memory
+*/
+PROCEDURE IndexResume(
+  ia          in  sys.ODCIIndexInfo,
+  idx         in  dr_def.idx_rec,
+  idxmem      in  number
+);
+
+/*----------------------- IsBinaryXMLColumn -------------------*/
+/*
+ NAME
+   IsBinaryXMLColumn
+
+ DESCRIPTION
+   Is this XMLType column stored as binary?
+
+ ARGUMENTS
+   tableSchema   schema owning the table
+   tableName     table name
+   colName       column name
+*/
+FUNCTION isBinaryXMLColumn(
+  tableSchema IN VARCHAR2,
+  tableName   IN VARCHAR2,
+  colName     IN VARCHAR2,
+  indexName   IN VARCHAR2
+) return boolean;
+
+end drvddlx;
+/
+
+@?/rdbms/admin/sqlsessend.sql

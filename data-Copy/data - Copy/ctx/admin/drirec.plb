@@ -1,0 +1,33 @@
+@@?/rdbms/admin/sqlsessstart.sql
+create or replace package body drirec wrapped 
+a000000
+1
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+b
+3cb 250
+b6govXPQWZCOG85w8SjRHJKR6hAwg/BeLUgFfC/N2GRX9S02jhxlYN6m7HrZB2kUxxReQiVQ
+n4XstSzAUV1aYHkONqJpXZi/v9DQNSkfPah2NK1qT9D+0J2dNZX8IzYzqy7JNmDNmsgenqC7
+1r9908jWeJWSGs77dBxcYb2fl4NMRLLIuKRL7+r73UO6VGCEew09oO9+APqrW/Co90+Pndx9
+3eee0PhGhGZt72USQBRJXo6Ff0OR/kCCHM5jkCnBJk761voQBAvxGwWZjJwRStXGjrrOgLvJ
+EaQPOxT8E2EjI6OIQU/qz4UIwwybSGSSUt7BaKBE3RhmGVZxkseLJRC6Vf21hUxG5ceJjV4A
+hz75zrZxYWEWAJlMlPsaU90JqTgs1NN7c2aM6wTq4uhMCCmOgTmWnumNWEjWC0v9flkiVBgp
+y8eKFW9fI0UGLQtPapDnqwYbrG6vNQa5CCjtPn0pfDAM7KUkyAiBGxhKSz17rE7eszAL7Jbo
+zNiH0VqjCc/iHwyfdaeD1349uoyL23exYUcPraqKvLvsZSqVCbfefTABQdnrWGEUa4phmiL7
+bsQeLg==
+
+/
+@?/rdbms/admin/sqlsessend.sql

@@ -1,0 +1,42 @@
+Rem
+Rem $Header: ctx_src_2/src/dr/admin/dr0ulex.pkh /main/4 2017/02/06 21:05:00 stanaya Exp $
+Rem
+Rem Copyright (c) 2000, 2017, Oracle and/or its affiliates. 
+Rem All rights reserved.
+Rem
+Rem    NAME
+Rem      dr0ulexer.pkh - User-defined LEXER
+Rem
+Rem    DESCRIPTION
+Rem      User-defined lexer package
+Rem
+Rem    NOTES
+Rem      
+Rem
+Rem 
+Rem    BEGIN SQL_FILE_METADATA
+Rem      SQL_SOURCE_FILE: ctx_src_2/src/dr/admin/dr0ulex.pkh
+Rem      SQL_SHIPPED_FILE: ctx/admin/dr0ulex.pkh
+Rem      SQL_PHASE: DR0ULEX_PKH
+Rem      SQL_STARTUP_MODE: NORMAL
+Rem      SQL_IGNORABLE_ERRORS: NONE
+Rem      SQL_CALLING_FILE: ctx/admin/ctxpkh.sql
+Rem    END SQL_FILE_METADATA
+Rem
+Rem    MODIFIED   (MM/DD/YY)
+Rem    surman      01/23/15 - 20411134: Add SQL metadata tags
+Rem    surman      03/15/13 - 16473661: Common start and end scripts
+Rem    mfaisal     12/21/00 - Creation
+
+@@?/rdbms/admin/sqlsessstart.sql
+
+CREATE OR REPLACE PACKAGE ctx_ulexer AS
+
+  -- index-by table to specify offset of those characters in the query
+  -- word which are to be treated as wildcard characters
+  TYPE wildcard_tab IS TABLE OF NUMBER INDEX BY BINARY_INTEGER;
+
+END ctx_ulexer;
+/
+
+@?/rdbms/admin/sqlsessend.sql

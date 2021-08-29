@@ -1,0 +1,560 @@
+rem
+rem Copyright (c) 2002, 2018, Oracle and/or its affiliates. 
+rem All rights reserved.
+rem
+rem    NAME
+rem      drisgp.pkh - DR Internal Section GrouP management
+rem    DESCRIPTION
+rem      This package contains internal code to create, manage, and drop
+rem      section groups
+rem
+rem    NOTES
+rem 
+rem    BEGIN SQL_FILE_METADATA
+rem      SQL_SOURCE_FILE: ctx_src_2/src/dr/admin/drisgp.pkh
+rem      SQL_SHIPPED_FILE: ctx/admin/drisgp.pkh
+rem      SQL_PHASE: DRISGP_PKH
+rem      SQL_STARTUP_MODE: NORMAL
+rem      SQL_IGNORABLE_ERRORS: NONE
+rem      SQL_CALLING_FILE: ctx/admin/ctxpkh.sql
+rem    END SQL_FILE_METADATA
+rem
+rem    MODIFIED    (MM/DD/YY)
+Rem     snetrava   06/14/18  - Bug 28102835: NONE LOG PRAGMA
+rem    snetrava     12/31/16 - Updated Signature of drisgp.GetMaxSec
+rem    snetrava     11/07/16 - Added Function GetMaxSecID
+rem    pkosaraj     04/08/16 - Bug 22665061
+rem    shuroy       05/07/15 - Bug 20784428
+rem    rkadwe       04/27/15 - Alter index for simplified syntax
+rem    boxia        09/15/14 - Bug 19346827: modify IndexAddSection
+rem    boxia        08/14/14 - Bug 18795228: add GetSearchSdataFlag
+rem    boxia        07/10/14 - sdata_altidx_dollars: modify IndexAddSection
+rem    shuroy       06/18/14 - Bug 17959105: Added IsFilterSection1
+rem    yiqi         04/18/13 - Bug 15854990
+rem    rkadwe       11/06/12 - Raise SDATA section limit to 99 
+rem    thbaby       01/10/12 - prototype change for ins_sec_grp_attr_by_id
+rem    thbaby       01/10/12 - add rem_sec_grp_attr_val
+rem    thbaby       01/10/12 - add add_sec_grp_attr_val
+rem    thbaby       06/14/11 - section group specific attributes
+rem    rpalakod     12/01/10 - section specific attributes
+rem    rkadwe       01/06/11 - Remove SDATA Section Cap
+rem    rpalakod     11/01/10 - Bug 10193103
+rem    rpalakod     07/01/10 - Bug 9749745
+rem    surman       02/12/10 - 9364581: Add new_sdata_section and
+rem    rkadwe       04/15/10 - XbranchMerge rkadwe_incr_mdata_lim from
+rem                            st_ctx_11.1.2.2
+rem    rkadwe       03/26/10 - Document Level Lexer Phase 2
+rem    rkadwe       03/11/10 - Document Level Lexer
+rem    rpalakod     02/24/10 - Bug 9409038
+rem    rkadwe       02/09/10 - Remove MDATA section cap
+rem    nenarkhe     10/30/09 - GetSections
+rem    nenarkhe     10/19/09 - HasSectionType
+rem    rkadwe       06/22/09 - Remove Field Section Cap
+rem    surman       12/09/08 - 7540290: binary_integer to number
+rem    wclin        10/10/08 - change GetSectionType() to GetSection()
+rem    nenarkhe     09/10/08 - MVDATA support
+rem    rigandhi     06/06/06 - name search 
+rem    ymatsuda     02/17/06 - sdata section support 
+rem    gkaminag     10/16/05 - column mdata 
+rem    gkaminag     09/30/05 - cdi indexing 
+rem    gkaminag     10/21/03 - mdata phase 2 
+rem    surman       09/09/03 - 3101316: Add drop_user_section_groups 
+rem    gkaminag     09/16/03 - mdata 
+rem    gkaminag     08/19/02 - gkaminag_security_phase2_020620
+rem    gkaminag     07/22/02  - 
+rem    gkaminag     07/02/02 -  creation
+
+@@?/rdbms/admin/sqlsessstart.sql
+
+create or replace package drisgp as
+
+  PRAGMA SUPPLEMENTAL_LOG_DATA(default, NONE);
+
+  SEC_TYPE_UNKNOWN              constant number :=  0;
+  SEC_TYPE_ZONE                 constant number :=  1;
+  SEC_TYPE_FIELD                constant number :=  2;
+  SEC_TYPE_SPECIAL              constant number :=  3;
+  SEC_TYPE_STOP                 constant number :=  4;
+  SEC_TYPE_ATTR                 constant number :=  5;
+  SEC_TYPE_XML                  constant number :=  6;
+  SEC_TYPE_MDATA                constant number :=  7;
+  SEC_TYPE_CSDATA               constant number :=  8;
+  SEC_TYPE_CMDATA               constant number :=  9;
+  SEC_TYPE_SDATA                constant number := 10;
+  SEC_TYPE_NDATA                constant number := 11;
+  SEC_TYPE_MVDATA               constant number := 12;
+
+  SEC_DATATYPE_UNKNOWN          constant binary_integer :=  0;
+  SEC_DATATYPE_NUMBER           constant binary_integer :=  2;
+  SEC_DATATYPE_VARCHAR2         constant binary_integer :=  5;
+  SEC_DATATYPE_DATE             constant binary_integer := 12;
+  SEC_DATATYPE_RAW              constant binary_integer := 23;
+  SEC_DATATYPE_CHAR             constant binary_integer := 96;
+
+  SEC_DATATYPE_IBFLOAT          constant binary_integer := 100;
+  SEC_DATATYPE_IBDOUBLE         constant binary_integer := 101;
+  SEC_DATATYPE_TIMESTAMP        constant binary_integer := 187;
+  SEC_DATATYPE_TIMESTAMPZ       constant binary_integer := 188;
+  SEC_DATATYPE_INTERVALYTM      constant binary_integer := 189;
+  SEC_DATATYPE_INTERVALDTS      constant binary_integer := 190;
+
+  SEC_ZONE_FID                  constant number :=  1;  
+
+  SEC_FIELD_LOW_MIN_FID         constant number :=  16; 
+  SEC_FIELD_LOW_MAX_FID         constant number :=  79;
+  SEC_FIELD_HIGH_MIN_FID        constant number :=  1001; 
+  SEC_FIELD_HIGH_MAX_FID        constant number :=  1333;  
+
+  SEC_MDATA_LOW_MIN_FID         constant number := 400; 
+  SEC_MDATA_LOW_MAX_FID         constant number := 499;
+  SEC_MDATA_HIGH_MIN_FID        constant number := 5000;
+  SEC_MDATA_HIGH_MAX_FID        constant number := 5999;
+  SEC_MAX_MDATA                 constant number := 100;
+
+  SEC_NDATA_MIN_FID             constant number := 200; 
+  SEC_NDATA_MAX_FID             constant number := 299;
+  SEC_MAX_NDATA                 constant number := 100;
+
+  SEC_SDATA_LOW_MIN_FID        constant number := 101;
+  SEC_SDATA_LOW_MAX_FID        constant number := 199;
+  SEC_SDATA_HIGH_MIN_FID       constant number := 2000;
+  SEC_SDATA_HIGH_MAX_FID       constant number := 2999;
+
+  SEC_MVDATA_MIN_FID            constant number := 300;
+  SEC_MVDATA_MAX_FID            constant number := 399;
+  SEC_MAX_MVDATA                constant number := 100;
+
+  SDATA_OPT_FOR_SORT            constant number := 1;
+  SDATA_OPT_FOR_SEARCH          constant number := 2;
+  SDATA_OPT_FOR_SORT_AND_SEARCH constant number := 3;
+
+  SEC_MAX_TAGLEN                constant number := 64;
+  SEC_MAX_LTAGLEN               constant number := 256;
+
+/*-------------------- create_section_group  ---------------------------*/
+/* create a new section group */
+
+PROCEDURE create_section_group(
+  p_group_name   in    varchar2
+, p_group_type   in    varchar2
+,  preference_implicit_commit in boolean
+);
+
+/*-------------------- drop_section_group  ---------------------------*/
+/* drop a section group */
+
+PROCEDURE drop_section_group(
+  p_group_name   in    varchar2,
+  preference_implicit_commit in boolean
+);
+
+/*-------------------------- set_sec_grp_attr -------------------------------*/
+/*
+  NAME
+    set_sec_grp_attr
+  DESCRIPTION
+    add a section group specific attribute to a section group identified by
+    name
+  ARGUMENTS
+    group_name      - section group name
+    attribute_name  - section group attribute name
+    attribute_value - section group attribute value
+  NOTES
+
+  EXCEPTIONS
+
+*/
+procedure set_sec_grp_attr(group_name      in varchar2,
+                           attribute_name  in varchar2,
+                           attribute_value in varchar2);
+
+/*----------------------- ins_sec_grp_attr_by_id ----------------------------*/
+/*
+  NAME
+    ins_sec_grp_attr_by_id
+  DESCRIPTION
+    add a section group specific attribute to a a section group identified
+    by an id
+  ARGUMENTS
+    sgp_name        - section group name
+    sgp_id          - section group id
+    attribute_name  - section group attribute name
+    attribute_value - section group attribute value
+    operation       - 'SET' or 'ADD' depending on whether the attribute
+                      value is being set for the first time for this section
+                      group or whether the attribute value is being added
+                      to an already existing list of values for this section
+                      group
+  NOTES
+
+  EXCEPTIONS
+
+*/
+procedure ins_sec_grp_attr_by_id(sgp_name        in varchar2,
+                                 sgp_id          in number,
+                                 attribute_name  in varchar2,
+                                 attribute_value in varchar2,
+                                 operation       in varchar2);
+
+/*-------------------------- add_sec_grp_attr_val --------------------*/
+/*
+  NAME
+    add_sec_grp_attr_val
+  DESCRIPTION
+    add a section group attribute value to the list of values of an already
+    existing section group attribute. 
+    
+  ARGUMENTS
+    group_name      - section group name
+    attribute_name  - section group attribute name
+    attribute_value - section group attribute value
+  NOTES
+
+  EXCEPTIONS
+
+*/
+procedure add_sec_grp_attr_val(group_name      in varchar2,
+                               attribute_name  in varchar2,
+                               attribute_value in varchar2);
+
+/*-------------------------- rem_sec_grp_attr_val --------------------*/
+/*
+  NAME
+    rem_sec_grp_attr_val
+  DESCRIPTION
+    remove a specific section group attribute value from the list of values
+    of an existing section group attribute. 
+    
+  ARGUMENTS
+    group_name      - section group name
+    attribute_name  - section group attribute name
+    attribute_value - section group attribute value
+  NOTES
+
+  EXCEPTIONS
+
+*/
+procedure rem_sec_grp_attr_val(group_name      in varchar2,
+                               attribute_name  in varchar2,
+                               attribute_value in varchar2);
+
+/*---------------------- unset_sec_grp_attr ---------------------------------*/
+/*
+  NAME
+    unset_sec_grp_attr
+  DESCRIPTION
+    remove a section group specific attribute
+  ARGUMENTS
+    group_name      - section group name
+    attribute_name  - section group attribute name
+  NOTES
+
+  EXCEPTIONS
+
+*/
+procedure unset_sec_grp_attr(group_name      in varchar2,
+                             attribute_name  in varchar2);
+
+/*-------------------- drop_user_section_groups ----------------------*/
+/* Drop section groups owned by a user */
+
+PROCEDURE drop_user_section_groups(
+  p_user_name in varchar2 := null
+);
+
+/*-------------------- add_section --------------------*/
+/* add a section to a section group */
+
+PROCEDURE add_section(
+  p_group_name     in     varchar2,
+  p_section_name   in     varchar2,
+  p_tag            in     varchar2,
+  p_section_type   in     binary_integer,
+  p_visible        in     boolean,
+  p_datatype       in     varchar2 default NULL,
+  preference_implicit_commit in boolean
+);
+
+/*-------------------- remove_section ---------------------------*/
+
+PROCEDURE remove_section(
+  group_name    in    varchar2,
+  section_name  in    varchar2,
+  preference_implicit_commit in boolean
+);
+
+PROCEDURE remove_section(
+  group_name     in    varchar2,
+  section_id     in    number,
+  preference_implicit_commit in boolean
+);
+
+/*--------------------------- get_default_section ------------------*/
+/* get the default value for the section group preference */
+
+function get_default_section(
+  p_dstore_pref in varchar2,
+  p_filter_pref in varchar2,
+  p_dtype_pref  in varchar2
+)
+return varchar2;
+
+/*--------------------------- get_sg_info -------------------------*/
+/* get section group info */
+
+function get_sg_info(
+  p_sg_name    in  varchar2,
+  f_new_sg     in  boolean   default false,
+  f_check_own  in  boolean   default false
+)
+return dr_def.pref_rec;
+
+
+/*---------------------------get_section_id-------------------------------------*/
+/* get section id for section specific stopwords */
+PROCEDURE get_section_id(
+  idxid          in number,
+  secname        in varchar2,
+  secid          out number
+);
+
+/*------------------------ copy_section_group ------------------------------*/
+/* copy section group info into index meta data */
+
+function copy_section_group(
+  p_idx_id     in  number, 
+  p_sgroup     in  varchar2,
+  p_rcount     out number,
+  alt_I        out boolean,
+  p_new_sdata_section  out boolean,
+  ia           in  sys.ODCIIndexInfo default NULL,
+  p_dataguide  in  varchar2 default null,
+  p_search_on  in  varchar2 default null,
+  p_simple     in  number   default driparse.SIMPLE_SYNTAX_NONE,
+  p_create_idx_op  in boolean default false
+) 
+return dr_def.pref_rec;
+
+/*----------------------- IndexAddSection  ---------------------------*/
+/* add a section to an already existing index */
+
+PROCEDURE IndexAddSection(
+  ia               in  sys.ODCIIndexInfo,
+  idx              in  dr_def.idx_rec,
+  sectype          in  varchar2,
+  secname          in  varchar2,
+  tag              in  varchar2,
+  visible          in  number,
+  new_s_sort_tab   out boolean,
+  new_s_search_tab out boolean,
+  dtype            in  number,
+  optype           in  number,
+  alt_I            out boolean,
+  skip_lk          in boolean
+);
+
+/*----------------------- LoadSectionMD  ---------------------------*/
+/* load section metadata from the index values table */
+
+PROCEDURE LoadSectionMD(
+  p_idxid    in         number,
+  p_fonly    in         boolean,
+  o_sectab   out nocopy dr_def.sec_tab
+);
+
+/*--------------------- GetSearchSdataFlag ---------------------------*/
+/* Compute the flag indicating which $S* table to create */
+FUNCTION GetSearchSdataFlag(
+  p_idxid    in        number
+) RETURN number;
+
+/*----------------------- GetSection ------------------------------*/
+/* return type of section given name */
+FUNCTION GetSection(
+  p_idxid    in         number,
+  p_secname  in         varchar2
+) return dr_def.sec_rec;
+
+/*----------------------- GetSections ------------------------------*/
+/* return sections associated with given index */
+FUNCTION GetSections(
+  p_idxid    in         number
+) return dr_def.sec_tab;
+
+/*----------------------- HasSectionType ------------------------------*/
+/* return true if section group has section of given type */
+FUNCTION HasSectionType(
+  p_sec_grp  in         varchar2,
+  p_sectype  in         number
+) return boolean;
+
+/*----------------------- HasFilterSection ------------------------------*/
+/* return true if section group has Filter Section */
+FUNCTION HasFilterSection(
+  p_sgp_name in         varchar2
+) return boolean;
+
+/*------------------------IsFilterSection-------------------------------*/
+/*return true if section is a filter section */
+FUNCTION IsFilterSection(
+  sec_id  in number
+) return boolean;
+
+
+/*--------------------------- field_to_mdata ------------------------------*/
+/* make the metadata changes to convert a field section to mdata */
+PROCEDURE field_to_mdata(
+  idx in dr_def.idx_rec,
+  fsec in varchar2,
+  read_only in boolean,
+  ftyp out number,
+  mdatatyp out number
+);
+
+/*----------------------- IndexRemSection  ---------------------------*/
+/* Remove section from index metadata, used for doc lexer */
+PROCEDURE IndexRemSection(
+  ia          in  sys.ODCIIndexInfo,
+  idx         in  dr_def.idx_rec,
+  sectype     in  varchar2,
+  secname     in  varchar2,
+  sectag      in  varchar2,
+  secfid      in  number,
+  skip_lk     in  boolean
+);
+
+/*----------------------- SecIsMDATA -------------------------------*/
+/* Returns true if given fid/ttype is MDATA   */
+FUNCTION SecIsMDATA(
+  sec_fid    in         number
+) return boolean;
+
+/*--------------------------- GetTkTypMVDATA ------------------------*/
+/* check that it's an  MVDATA section and return token_type */
+FUNCTION GetTkTypMVDATA(
+  p_idx     in dr_def.idx_rec,
+  p_secname in varchar2
+) return binary_integer;
+
+/*--------------------------- CheckUpdMdata ------------------------*/
+/* check that mdata section is updateable, and return token_type */
+FUNCTION CheckUpdMdata(
+  p_idx     in dr_def.idx_rec,
+  p_secname in varchar2
+) return binary_integer;
+
+/*---------------------------- set_section_attribute -----------------------*/
+/*
+  NAME
+    set_section_attribute
+  DESCRIPTION
+    add a section specific attribute
+  ARGUMENTS
+    group_name      - section group name
+    section_name    - section name
+    attribute_name  - section attribute name
+    attribute_value - section attribute value
+  NOTES
+
+  EXCEPTIONS
+
+*/
+procedure set_section_attribute(group_name      in varchar2,
+                                section_name    in varchar2,
+                                attribute_name  in varchar2,
+                                attribute_value in varchar2,
+                                preference_implicit_commit in boolean);
+
+/*------------------------- set_section_attribute_by_id --------------------*/
+procedure set_section_attribute_by_id(sgp_id in number,
+                                      sec_id in number,
+                                      attribute_name  in varchar2,
+                                      attribute_value in varchar2);
+
+/*-------------------------- unset_section_attribute -----------------------*/
+
+procedure unset_section_attribute(group_name      in varchar2,
+                                  section_name    in varchar2,
+                                  attribute_name  in varchar2,
+                                  preference_implicit_commit in boolean);
+
+/*-------------------------- csv_to_section_attr -----------------------*/
+
+procedure  csv_to_section_attr(p_idxid   in number,
+                               p_sectype in varchar2,
+                               p_csv     in varchar2);
+
+/*-------------------------- IndexSetSectionAttribute -----------------------*/
+procedure IndexSetSectionAttribute(idx_id          in number,
+                                   sgp_obj_id      in number,
+                                   section_id      in number,
+                                   attribute_name  in varchar2,
+                                   attribute_value in varchar2);
+
+/*------------------------- IndexUnsetSectionAttribute ----------------------*/
+procedure IndexUnsetSectionAttribute(idx_id        in number,
+                                     section_name  in varchar2,
+                                     section_tag   in varchar2,
+                                     section_id   out number);
+
+/*------------------------- IndexUpdateSectionAttribute ---------------------*/
+procedure IndexUpdateSectionAttribute(idx_id          in number,
+                                   section_id      in number,
+                                   attribute_name  in varchar2,
+                                   attribute_value in varchar2);
+
+/*-------------------------- IndexGetSectionAttribute -----------------------*/
+procedure IndexGetSectionAttribute(idx_id          in number,
+                                   section_id      in number,
+                                   attribute_name  in varchar2,
+                                   attribute_value out varchar2);
+
+/*--------------------------- IndexGetSectionId -------------------------*/
+procedure IndexGetSectionId(idxid           in number,
+                            section_name    in varchar2,
+                            section_tag     in varchar2,
+                            section_id      out number);
+
+/*----------------------- SecIsSDATA -------------------------------*/
+/* Returns true if given fid/ttype is SDATA   */
+FUNCTION SecIsSDATA(
+  sec_fid    in         number
+) return boolean;
+
+/*------------------------- handleSimpleSyntaxAlter ------------------*/
+procedure handleSimpleSyntaxAlter(idxid in number,
+                                  p_dataguide in out varchar2,
+                                  p_search_on in out varchar2,
+                                  p_simple    in out number);
+
+/*--------------------------- IndexAddTextMD -----------------------*/
+PROCEDURE IndexAddTextMD(ia  in  sys.ODCIIndexInfo,
+                         idx in dr_def.idx_rec,
+                         search_on in varchar2);
+
+/*------------------------- IndexAddSearchSDATAMD ---------------------*/
+PROCEDURE IndexAddSearchSDATAMD(ia  in  sys.ODCIIndexInfo,
+                                idx in dr_def.idx_rec,
+                                search_on in varchar2,
+                                create_s_tables in out boolean);
+
+/*------------------------- IndexAddDataguideMD ---------------------*/
+PROCEDURE IndexAddDataguideMD(ia  in sys.ODCIIndexInfo,
+                              idx in  dr_def.idx_rec,
+                              ss_state  in drixmd.ss_metadata,
+                              dataguide in varchar2);
+
+/*------------------------- IndexAddDataguideMD ------------------------*/
+PROCEDURE IndexRemoveDataguideMD(ia  in  sys.ODCIIndexInfo,
+                                 idx in  dr_def.idx_rec);
+
+/* Returns the maximum used section id of given section type   */
+FUNCTION GetMaxSecID(
+  idx_id     in    number,
+  sectype    in    varchar2
+) return number;
+
+end drisgp;
+/
+
+@?/rdbms/admin/sqlsessend.sql

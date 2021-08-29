@@ -1,0 +1,88 @@
+<HTML><HEAD>
+{## IF ELEMENT=Property.Title}
+  <TITLE>{## INSERT ELEMENT=Property.Title}</TITLE>
+{## /IF}
+
+<META NAME="SOURCE MIME TYPE" CONTENT="{## INSERT OEM=mimetype}">
+
+{## comment}
+{## IF ELEMENT=Property.Author}
+  <META NAME="AUTHOR" CONTENT="{## INSERT ELEMENT=Property.Author}">
+{## /IF}
+{## IF ELEMENT=Property.Subject}
+  <META NAME="SUBJECT" CONTENT="{## INSERT ELEMENT=Property.Subject}">
+{## /IF}
+{## IF ELEMENT=Property.Keywords}
+  <META NAME="KEYWORDS" CONTENT="{## INSERT ELEMENT=Property.Keywords}">
+{## /IF}
+{## IF ELEMENT=Property.Comment}
+  <META NAME="COMMENT" CONTENT="{## INSERT ELEMENT=Property.Comment}">
+{## /IF}
+{## /comment}
+{## REPEAT ELEMENT=Property.All}
+   <META NAME="{## INSERT ELEMENT=Property.All.Current.Name}" CONTENT="{## INSERT ELEMENT=Property.All.Current.Body}">
+{## /REPEAT}
+
+</HEAD>
+<BODY>
+{## option ex_toc=use_original_document}
+{## REPEAT ELEMENT=Sections}
+   {## IF ELEMENT=Sections.Current.Type VALUE=AR}
+	{## if element=arctype value=file}
+	<ul>
+	  {## link element=sections.current.decompressedFile template=metadata.tpt}
+	</ul>
+	{## else}
+	<ul>
+	  {## link element=sections.current.decompressedFile template=metadata.tpt}
+	</ul>
+	{## /if}
+
+  {## ELSEIF ELEMENT=Sections.Current.Type VALUE=WP}
+    {## IF ELEMENT=Sections.Current.Headers.1.Body}<BR>
+      {## REPEAT ELEMENT=Sections.Current.Headers} 
+        {## INSERT ELEMENT=Sections.Current.Headers.Current.Body}<BR>
+      {## /REPEAT}
+    {## /IF}
+
+    {## INSERT ELEMENT=Sections.Current.Body}
+
+    {## IF ELEMENT=Sections.Current.Footnotes.1.Body}<BR>
+      {## REPEAT ELEMENT=Sections.Current.Footnotes}
+        {## INSERT ELEMENT=Sections.Current.Footnotes.Current.Body}<BR>
+      {## /REPEAT}
+    {## /IF}
+
+    {## IF ELEMENT=Sections.Current.Endnotes.1.Body}<BR>
+      {## REPEAT ELEMENT=Sections.Current.Endnotes}
+        {## INSERT ELEMENT=Sections.Current.Endnotes.Current.Body}<BR>
+      {## /REPEAT}
+    {## /IF}
+
+    {## IF ELEMENT=Sections.Current.Annotations.1.Body}<BR>
+      {## REPEAT ELEMENT=Sections.Current.Annotations} 
+        {## INSERT ELEMENT=Sections.Current.Annotations.Current.Body}<BR>
+      {## /REPEAT}
+    {## /IF}
+
+    {## IF ELEMENT=Sections.Current.Footers.1.Body}<BR>
+      {## REPEAT ELEMENT=Sections.Current.Footers} 
+        {## INSERT ELEMENT=Sections.Current.Footers.Current.Body}<BR>
+      {## /REPEAT}
+    {## /IF}
+
+  {## ELSEIF ELEMENT=Sections.Current.Type VALUE=PR}<BR>
+    {## INSERT ELEMENT=Sections.Current.Body}<BR>
+  
+  {## ELSEIF ELEMENT=Sections.Current.Type VALUE=MM}<BR>
+    {## REPEAT ELEMENT=Property.All}
+	{## INSERT ELEMENT=Property.All.Current.Name}<BR>
+	{## INSERT ELEMENT=Property.All.Current.Body}<BR>
+    {## /REPEAT}
+
+  {## ELSE}
+    <H1>{## INSERT ELEMENT=Sections.Current.Body.Title}</H1>
+    {## INSERT ELEMENT=Sections.Current.Body}<BR>
+  {## /IF}
+{## /REPEAT}
+</BODY></HTML>

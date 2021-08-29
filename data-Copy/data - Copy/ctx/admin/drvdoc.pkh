@@ -1,0 +1,246 @@
+rem 
+rem Copyright (c) 2002, 2018, Oracle and/or its affiliates. 
+rem All rights reserved.
+rem
+rem    NAME
+rem      drvdoc.pkh - DR inVoker's rights DOC services
+rem
+rem    DESCRIPTION
+rem      functions called by ConText cartridge routines to perform 
+rem      document services helper functionalities
+rem   
+rem    NOTES
+rem
+rem 
+rem    BEGIN SQL_FILE_METADATA
+rem      SQL_SOURCE_FILE: ctx_src_2/src/dr/admin/drvdoc.pkh
+rem      SQL_SHIPPED_FILE: ctx/admin/drvdoc.pkh
+rem      SQL_PHASE: DRVDOC_PKH
+rem      SQL_STARTUP_MODE: NORMAL
+rem      SQL_IGNORABLE_ERRORS: NONE
+rem      SQL_CALLING_FILE: ctx/admin/ctxpkh.sql
+rem    END SQL_FILE_METADATA
+rem
+rem    MODIFIED    (MM/DD/YY)
+Rem     snetrava   06/14/18  - Bug 28102835: NONE LOG PRAGMA
+rem    shuroy       10/20/15 - Removing max_length from Sentiment APIs
+rem    surman       01/23/15 - 20411134: Add SQL metadata tags
+rem    shuroy       12/05/14 - Project 48424: changing drvdoc.token_request api
+rem    surman       03/15/13 - 16473661: Common start and end scripts
+rem    gauryada     05/15/12 - bug#13948684 Fix for parallel save_copy
+rem    momedin      10/21/10 - introduced two optional parameters into snippet
+rem    rpalakod     08/17/09 - Backport rpalakod_bug-8440319 from main
+rem    wclin        12/06/06 - clob query support
+rem    daliao       06/18/04 - kwic document service 
+rem    gkaminag     07/22/02 - gkaminag_security_phase2_020620
+rem    gkaminag     07/19/02 - creation 
+
+@@?/rdbms/admin/sqlsessstart.sql
+
+create or replace package drvdoc authid current_user as
+
+PRAGMA SUPPLEMENTAL_LOG_DATA(default, NONE);
+
+/*-------------------------- rid_to_partname ---------------------------*/
+/* Returns partition name corresponding to given rowid */
+function rid_to_partname (
+  table_owner in varchar2,  
+  table_name  in varchar2,  
+  rid         in rowid
+) return varchar2;
+
+/*-------------------------- rid_to_partposition ---------------------------*/
+/* Returns partition position corresponding to given rowid */
+
+function rid_to_partposition (
+  table_owner in varchar2,  
+  table_name  in varchar2,  
+  rid       in rowid 
+) return varchar2;
+
+/*------------------------ partposition_to_partname ------------------------*/
+/* Return partition name of given partition position */
+
+function partposition_to_partname (
+  table_name  in varchar2,  
+  partpos   in number
+) return varchar2;
+
+/*------------------------ partname_to_partposition ------------------------*/
+
+function partname_to_partposition (
+  table_name  in varchar2,  
+  partname  in varchar2
+) return varchar2;
+
+/*------------------------------- get_rowid ------------------------------*/
+/* translates a primary key string into a rowid */
+
+FUNCTION get_rowid (
+  p_idx     in dr_def.idx_rec,
+  p_textkey in varchar2
+) RETURN VARCHAR2;
+
+/*--------------------------- restab_chk ------------------------------*/
+/* various checks on result tables */
+
+PROCEDURE restab_chk (
+  query_id in number,
+  restab   in            varchar2,
+  resout   in out nocopy varchar2
+);
+
+/*--------------------------- reslob_chk ------------------------------*/
+/* various checks on result lob */
+
+PROCEDURE reslob_chk (
+  reslob in out nocopy clob
+);
+
+
+/*--------------------------- gist_options ----------------------------*/
+/* set gist options */
+
+PROCEDURE gist_options(
+  glvl     in     varchar2,
+  pov      in     varchar2,
+  forcepov in     boolean,
+  numpar   in     number,
+  maxpct   in     number,
+  numthm   in     number
+);
+
+/*--------------------------- theme_options ----------------------------*/
+/* set theme options */
+
+PROCEDURE theme_options(
+  full_themes in boolean,
+  num_themes  in number
+);
+ 
+/*------------------------------- ling_request ---------------------------*/
+/* performs a linguistic request -- common code to themes and gist */
+
+PROCEDURE ling_request (
+  index_name  in varchar2,
+  textkey     in varchar2,
+  inmem       in boolean,
+  direct      in boolean,
+  reslob      in out nocopy clob,
+  use_saved_copy in number 
+);
+
+/*---------------------- token_request ---------------------------------*/
+/* do a tokens call */
+
+PROCEDURE token_request (
+  index_name     in   varchar2,
+  textkey        in   varchar2,
+  inmem          in   boolean,
+  direct         in   boolean,
+  thes_name      in   varchar2,
+  thes_toktype   in   varchar2,
+  use_saved_copy in number 
+);
+
+/*---------------------- stems_request ---------------------------------*/
+/* do a stems call */
+
+PROCEDURE stems_request (
+  index_name  in   varchar2
+);
+
+/*---------------------- noun_phrases_request ---------------------------------*/
+/* do a noun phrase extraction call */
+
+PROCEDURE noun_phrases_request (
+  index_name  in   varchar2
+);
+
+/*---------------------- languages_request ---------------------------------*/
+/* do a language[s] extraction call */
+
+PROCEDURE languages_request (
+  index_name  in   varchar2
+);
+
+/*---------------------- part_of_speech_request ---------------------------------*/
+/* do a part_of_speech extraction call */
+
+PROCEDURE part_of_speech_request (
+  index_name        in   varchar2, 
+  disambiguate_tags in   boolean
+);
+
+/*--------------------------- markup_options ----------------------------*/
+/* check and set markup options */
+
+PROCEDURE markup_options(
+  plaintext in boolean,
+  tagset    in varchar2,
+  starttag  in varchar2,
+  endtag    in varchar2,
+  prevtag   in varchar2,
+  nexttag   in varchar2
+);
+
+/*---------------------- concordance_options ----------------------------*/
+/* check and set concordance options */
+
+PROCEDURE concordance_options(
+  starttag  		IN  VARCHAR2,  
+  endtag  		IN  VARCHAR2,  
+  entity_translation  	IN  BOOLEAN,  
+  kwicradius  		IN  NUMBER,  
+  max_length  		IN  NUMBER,  
+  separator  		IN  VARCHAR2  
+);
+
+/*--------------------------- highlight_options ----------------------------*/
+/* check and set highlight options */
+
+PROCEDURE highlight_options(
+  plaintext in boolean
+);
+
+/*--------------------------- filter_options ----------------------------*/
+/* check and set filter options */
+
+PROCEDURE filter_options(
+  plaintext in boolean
+);
+
+/*--------------------------- highlight_request ----------------------------*/
+/* common code to markup, highlight, filter */
+
+procedure highlight_request (
+  index_name in varchar2,
+  textkey    in varchar2,
+  query      in varchar2,
+  query_clob in clob,
+  inmem      in boolean,
+  direct     in boolean,
+  reslob     in out nocopy clob,
+  use_saved_copy in number 
+);
+/*------------------------------sentiment----------------------------------*/
+
+function get_sentiment(
+  index_name   IN varchar2,
+  textkey      IN varchar2,
+  topic        IN varchar2,
+  ttype        IN varchar2,
+  clsfier_name IN varchar2,
+  radius       IN number,
+  max_inst     IN number,
+  starttag     IN varchar2,
+  endtag       IN varchar2,
+  agg          IN boolean,
+  reslob       in out nocopy clob,
+  use_saved_copy in number
+) return number;
+
+end drvdoc;
+/
+
+@?/rdbms/admin/sqlsessend.sql

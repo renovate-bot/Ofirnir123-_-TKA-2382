@@ -1,0 +1,121 @@
+Rem Copyright (c) 1999, 2018, Oracle and/or its affiliates. 
+Rem All rights reserved.
+Rem
+Rem    NAME
+Rem      dridoc.pkh - Internal DOCument services
+Rem
+Rem    DESCRIPTION
+Rem
+Rem    RETURNS
+Rem 
+Rem    NOTES
+Rem
+Rem 
+Rem    BEGIN SQL_FILE_METADATA
+Rem      SQL_SOURCE_FILE: ctx_src_2/src/dr/admin/dridoc.pkh
+Rem      SQL_SHIPPED_FILE: ctx/admin/dridoc.pkh
+Rem      SQL_PHASE: DRIDOC_PKH
+Rem      SQL_STARTUP_MODE: NORMAL
+Rem      SQL_IGNORABLE_ERRORS: NONE
+Rem      SQL_CALLING_FILE: ctx/admin/ctxpkh.sql
+Rem    END SQL_FILE_METADATA
+Rem
+Rem    MODIFIED   (MM/DD/YY)
+Rem     snetrava   06/14/18  - Bug 28102835: NONE LOG PRAGMA
+Rem     nspancha   12/22/16  - Bug 22068230:Widening token buffers to 255 bytes                            
+Rem     surman     01/23/15  - 20411134: Add SQL metadata tags
+Rem     surman     03/15/13  - 16473661: Common start and end scripts
+Rem     ehuang     02/01/02  - add new package variables
+Rem     jkud       02/01/00 -  add token_add
+Rem     gkaminag   04/09/99 -  creation
+Rem
+
+@@?/rdbms/admin/sqlsessstart.sql
+
+CREATE OR REPLACE PACKAGE dridoc AS
+
+PRAGMA SUPPLEMENTAL_LOG_DATA(default, NONE);
+
+type theme_rec is record (
+  theme  varchar2(2000),
+  weight number
+);
+type theme_tab is table of theme_rec index by binary_integer;
+
+type token_rec is record (
+  token varchar2(255),
+  offset number,
+  length number
+);
+type token_tab is table of token_rec index by binary_integer;
+ 
+type highlight_rec is record (
+  offset number,
+  length number
+);
+type highlight_tab is table of highlight_rec index by binary_integer;
+
+pv_theme_tab     theme_tab;
+pv_highlight_tab highlight_tab;
+pv_clob          clob;
+pv_token_tab     token_tab;
+
+MODE_CLOB        constant number := 1;
+MODE_BLOB        constant number := 2;
+MODE_BFILE       constant number := 3;
+MODE_VCHR2       constant number := 4;
+direct_mode      number;
+direct_clob      clob;
+direct_blob      blob;
+direct_bfile     bfile;
+direct_vchr2     varchar2(32767);
+direct_lang      varchar2(256);      
+direct_format    varchar2(256);
+direct_cset      varchar2(256);
+
+/*---------------------------- highlight_add -----------------------------*/
+/* add a highlight to the internal result table -- called by C code */
+
+PROCEDURE highlight_add(
+  offset in number,
+  length in number
+);
+
+/*---------------------------- theme_add ---------------------------------*/
+/* add a theme to the internal result table -- called by C code */
+
+PROCEDURE theme_add(
+  theme  in varchar2,
+  weight in number
+);
+
+/*---------------------------- token_add ---------------------------------*/
+/* add a token to the internal result table -- called by C code */
+
+PROCEDURE token_add(
+  token  in varchar2,
+  offset in number,
+  length in number
+);
+
+/*---------------------------- text_new ----------------------------------*/
+/* prepare the internal clob result -- called by dr0doc */
+
+PROCEDURE text_new;
+
+/*---------------------------- text_add ----------------------------------*/
+/* add some text to the internal clob result -- called by C code */
+
+PROCEDURE text_add(
+  text   in varchar2
+);
+
+/*---------------------------- text_end ----------------------------------*/
+/* clear the internal clob result -- called by dr0doc */
+
+PROCEDURE text_end;
+
+END dridoc;
+/
+
+@?/rdbms/admin/sqlsessend.sql

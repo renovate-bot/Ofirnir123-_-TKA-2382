@@ -1,0 +1,142 @@
+rem
+rem Copyright (c) 2002, 2018, Oracle and/or its affiliates. 
+rem All rights reserved.
+rem
+rem    NAME
+rem      drispl.pkh - DR Internal SToPList management
+rem    DESCRIPTION
+rem      This package contains internal code to create, manage, and drop
+rem      stoplists
+rem
+rem    NOTES
+rem 
+rem    BEGIN SQL_FILE_METADATA
+rem      SQL_SOURCE_FILE: ctx_src_2/src/dr/admin/drisplpkh
+rem      SQL_SHIPPED_FILE: ctx/admin/drispl.pkh
+rem      SQL_PHASE: DRISPL_PKH
+rem      SQL_STARTUP_MODE: NORMAL
+rem      SQL_IGNORABLE_ERRORS: NONE
+rem      SQL_CALLING_FILE: ctx/admin/ctxpkh.sql
+rem    END SQL_FILE_METADATA
+rem
+rem    MODIFIED    (MM/DD/YY)
+Rem     snetrava   06/14/18  - Bug 28102835: NONE LOG PRAGMA
+rem    rkadwe       02/23/10 - Document Level Lexer
+rem    surman       12/09/08 - 7540290: binary_integer to number
+rem    surman       09/09/03 - 3101316: Add drop_user_stoplists 
+rem    gkaminag     08/19/02 - gkaminag_security_phase2_020620
+rem    gkaminag     07/22/02  - 
+rem    gkaminag     07/02/02 -  creation
+
+@@?/rdbms/admin/sqlsessstart.sql
+
+create or replace package drispl as
+
+PRAGMA SUPPLEMENTAL_LOG_DATA(default, NONE);
+
+/*-------------------- create_stoplist --------------------------*/
+
+PROCEDURE create_stoplist(
+  stoplist_name  in   varchar2,
+  stoplist_type  in   varchar2 default 'BASIC_STOPLIST',
+  preference_implicit_commit in boolean
+);
+
+/*-------------------- drop_stoplist --------------------------*/
+
+PROCEDURE drop_stoplist(
+  stoplist_name  in   varchar2,
+  preference_implicit_commit in boolean
+);
+
+/*-------------------- drop_user_stoplists ---------------------*/
+
+PROCEDURE drop_user_stoplists(
+  user_name in varchar2 := null
+);
+
+/*-------------------- add_stopobj --------------------------*/
+
+PROCEDURE add_stopobj(
+  stoplist_name  in   varchar2,
+  obj_type       in   varchar2,
+  stopword       in   varchar2,
+  stoppattern    in   varchar2 default NULL,
+  language       in   varchar2 default NULL,
+  language_dependent in boolean default TRUE,
+  preference_implicit_commit in boolean
+);
+
+/*-------------------- remove_stopobj --------------------------*/
+
+PROCEDURE remove_stopobj(
+  stoplist_name  in   varchar2,
+  obj_type       in   varchar2,
+  stopword       in   varchar2,
+  language       in   varchar2 default NULL
+);
+
+/*------------------------ copy_stoplist -----------------------------------*/
+
+function copy_stoplist(
+  p_idx_id     in  number, 
+  p_stoplist   in  varchar2,
+  p_section_id in  number,
+  p_rcount     out number
+) 
+return dr_def.pref_rec;
+
+/*----------------------- IndexAddStopword  -------------------------*/
+/* add a stopword to an already-existing index */
+
+PROCEDURE IndexAddStopword(
+  ia          in  sys.ODCIIndexInfo,
+  idx         in  dr_def.idx_rec,
+  stopword    in  varchar2,
+  language    in  varchar2,
+  language_dependent in boolean default TRUE,
+  sectionid   in  number,
+  add_ML_tokens     out boolean
+);
+
+/*----------------------- IndexRemStopword  -------------------------*/
+/* remove a stopword from an already-existing index */
+
+PROCEDURE IndexRemStopword(
+  ia          in  sys.ODCIIndexInfo,
+  idx         in  dr_def.idx_rec,
+  stopword    in  varchar2,
+  language    in  varchar2,
+  for_all     in boolean default FALSE,
+  rem_ML_tokens out boolean
+);
+
+/*----------------------- GetIndexStopwords  -------------------------*/
+/* get stopwords from already-existing index */
+
+PROCEDURE GetIndexStopwords(
+  p_idx_id    in  number,
+  p_obj_id    in  binary_integer,
+  o_spw       in out nocopy dr_def.spw_tab
+);
+
+/*---------------------- MigrateToMultiStoplist ---------------------*/
+/* Migrate from basic stoplist to multi stoplist */
+
+PROCEDURE MigrateToMultiStoplist(
+  ia      in sys.ODCIIndexInfo,
+  idx     in dr_def.idx_rec,
+  langcol in varchar2
+);
+
+PROCEDURE GetSPLLang(
+  idx         in  dr_def.idx_rec,
+  language    in  varchar2,
+  language_dependent in boolean,
+  out_lang    in out varchar2
+);
+
+end drispl;
+/
+
+@?/rdbms/admin/sqlsessend.sql

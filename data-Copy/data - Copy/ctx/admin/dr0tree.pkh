@@ -1,0 +1,224 @@
+--
+-- $Header: ctx_src_2/src/dr/admin/dr0tree.pkh /main/6 2017/02/06 21:05:00 stanaya Exp $
+--
+-- dr0tree.pkh
+--
+-- Copyright (c) 2007, 2017, Oracle and/or its affiliates. All rights reserved.
+--
+--   NAME
+--     dr0tree.pkh - CTX_TREE package
+--
+--   DESCRIPTION
+--     Package header for CTX_TREE package
+--
+--   RETURNS
+--
+--   NOTES
+--     <other useful comments, qualifications, etc.>
+--
+-- 
+--   BEGIN SQL_FILE_METADATA
+--     SQL_SOURCE_FILE: ctx_src_2/src/dr/admin/dr0tree.pkh
+--     SQL_SHIPPED_FILE: ctx/admin/dr0tree.pkh
+--     SQL_PHASE: DR0TREE_PKH
+--     SQL_STARTUP_MODE: NORMAL
+--     SQL_IGNORABLE_ERRORS: NONE
+--     SQL_CALLING_FILE: ctx/admin/ctxpkh.sql
+--   END SQL_FILE_METADATA
+--
+--   MODIFIED   (MM/DD/YY)
+--   surman      01/23/15 - 20411134: Add SQL metadata tags
+--   surman      03/15/13 - 16473661: Common start and end scripts
+--   hsarkar     06/08/11 - Logical Standby Support
+--   igeller     05/12/10 - Adding optimization mode for $A and $F trees
+--   nenarkhe    12/22/09 - changing drv$tree to a sequence
+--   nenarkhe    09/17/09 - register_index()
+--   nenarkhe    09/05/09 - remove_node
+--   nenarkhe    08/18/09 - ctx_tree.get_roots()
+--   nenarkhe    06/29/09 - Creation
+
+@@?/rdbms/admin/sqlsessstart.sql
+
+CREATE OR REPLACE PACKAGE ctx_tree AUTHID current_user AS
+
+/*------------------------------- TYPE DEFINITIONS ------------------------*/
+
+/*---------------------------- register_index ----------------------*/
+/*
+   NAME
+     register_index
+
+   DESCRIPTION
+     registers an index with the CTX_TREE package
+
+   ARGUMENT
+     index_name		- the name of the index
+
+*/
+
+PROCEDURE register_index(
+  index_name      IN VARCHAR2
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(register_index, AUTO);
+
+/*---------------------------- add_node ----------------------*/
+/*
+   NAME
+     add_node
+
+   DESCRIPTION
+     add a new node to a tree associated with a MVDATA section and index
+
+   ARGUMENT
+     index_name		- the name for the index
+     section_name       - the name of the MVDATA section
+     path               - the new path to be added to a tree 
+     id_list            - return value of the corresponding node ids
+     force              - complete successfully even if the path already
+                          exists 
+
+*/
+
+PROCEDURE add_node(
+  index_name      IN VARCHAR2,
+  section_name    IN VARCHAR2,
+  path            IN CLOB,
+  id_list         OUT CLOB,
+  force           IN BOOLEAN DEFAULT FALSE 
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(add_node, AUTO);
+
+/*---------------------------- get_node_id ----------------------*/
+/*
+   NAME
+     get_node_id
+
+   DESCRIPTION
+     looks up the node identifier of an existing path in a tree 
+     associated with a MVDATA section and index
+
+   ARGUMENT
+     index_name		- the name for the index
+     section_name       - the name of the MVDATA section
+     path               - an existing path in a tree 
+     id                 - return value of the corresponding node id 
+
+*/
+
+PROCEDURE get_node_id(
+  index_name      IN VARCHAR2,
+  section_name    IN VARCHAR2,
+  path            IN CLOB,
+  id              OUT INTEGER
+) ;
+
+/*---------------------------- get_children ----------------------*/
+/*
+   NAME
+     get_children
+
+   DESCRIPTION
+     looks up the children names of the node identified by a path in a tree 
+     associated with a MVDATA section and index
+
+   ARGUMENT
+     index_name		- the name for the index
+     section_name       - the name of the MVDATA section
+     path               - an existing path in a tree 
+     child_list         - return value of the children node names (comma-sep)
+
+*/
+
+PROCEDURE get_children(
+  index_name      IN VARCHAR2,
+  section_name    IN VARCHAR2,
+  path            IN CLOB,
+  child_list      IN OUT CLOB
+);
+
+/*---------------------------- get_nodeid_list ----------------------*/
+/*
+   NAME
+     get_nodeid_list
+
+   DESCRIPTION
+     looks up the node identifiers of all nodes in an existing path in a tree 
+     associated with a MVDATA section and index
+
+   ARGUMENT
+     index_name		- the name for the index
+     section_name       - the name of the MVDATA section
+     path               - an existing path in a tree 
+     id_list            - return value of the corresponding node ids
+
+*/
+
+PROCEDURE get_nodeid_list(
+  index_name      IN VARCHAR2,
+  section_name    IN VARCHAR2,
+  path            IN CLOB,
+  id_list         IN OUT CLOB
+);
+
+/*---------------------------- get_roots ----------------------*/
+/*
+   NAME
+     get_roots
+
+   DESCRIPTION
+     looks up the roots of all the trees associated with a MVDATA section 
+     and index
+
+   ARGUMENT
+     index_name		- the name for the index
+     section_name       - the name of the MVDATA section
+     roots              - list of roots (names)
+
+*/
+
+PROCEDURE get_roots(
+  index_name      IN  VARCHAR2,
+  section_name    IN  VARCHAR2,
+  roots           OUT CLOB
+);
+
+/*---------------------------- remove_node ----------------------*/
+/*
+   NAME
+     remove_node
+
+   DESCRIPTION
+     Removes specified node from the tree associated with the MVDATA section
+     and Index
+
+   ARGUMENT
+     index_name		- the name for the index
+     section_name       - the name of the MVDATA section
+     path               - input node path to be deleted
+
+*/
+
+PROCEDURE remove_node(
+  index_name      IN  VARCHAR2,
+  section_name    IN  VARCHAR2,
+  path            IN CLOB
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(remove_node, AUTO);
+
+PROCEDURE DropSequences(
+  idx_owner       IN VARCHAR2,
+  idx_name        IN VARCHAR2,
+  idx_id          IN NUMBER
+);
+
+PROCEDURE regindex(
+  index_name      IN VARCHAR2,
+  purge           IN BOOLEAN
+);
+
+
+
+END ctx_tree;
+/
+
+@?/rdbms/admin/sqlsessend.sql

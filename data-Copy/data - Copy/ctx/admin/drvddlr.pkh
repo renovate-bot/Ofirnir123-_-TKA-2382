@@ -1,0 +1,298 @@
+Rem 
+Rem Copyright (c) 1998, 2018, Oracle and/or its affiliates. 
+Rem All rights reserved.
+Rem
+Rem    NAME
+Rem      driddlr.pkh - DR cartridge DDL services package spec.
+Rem
+Rem    DESCRIPTION
+Rem  
+Rem      functions called by ConText cartridge routines to perform 
+Rem      various DDL functionalities for ctxrule
+Rem      
+Rem    NOTES
+Rem  
+Rem 
+Rem    BEGIN SQL_FILE_METADATA
+Rem      SQL_SOURCE_FILE: ctx_src_2/src/dr/admin/drvddlr.pkh
+Rem      SQL_SHIPPED_FILE: ctx/admin/drvddlr.pkh
+Rem      SQL_PHASE: DRVDDLR_PKH
+Rem      SQL_STARTUP_MODE: NORMAL
+Rem      SQL_IGNORABLE_ERRORS: NONE
+Rem      SQL_CALLING_FILE: ctx/admin/ctxpkh.sql
+Rem    END SQL_FILE_METADATA
+Rem
+Rem    MODIFIED    (MM/DD/YY)
+Rem     snetrava   06/14/18  - Bug 28102835: NONE LOG PRAGMA
+Rem    demukhin    07/14/17 - bug 26051570: keep $R for legacy indexes
+Rem    surman      01/23/15 - 20411134: Add SQL metadata tags
+Rem    surman      03/15/13 - 16473661: Common start and end scripts
+Rem    gauryada    05/12/11 - Added configuration column to dr$index
+Rem    wclin       10/30/06 - add IndexColRename() 
+Rem    daliao      11/05/02 - add classifier
+Rem    gkaminag    10/14/02 - gkaminag_security_020924
+Rem    gkaminag    10/09/02 - 
+Rem    gkaminag    09/27/02 - migrate from driddlr, security phase 3
+Rem    gshank       09/03/02 - Theme lexing
+Rem    gshank       08/21/02 - Theme lexing
+Rem    gkaminag     06/10/02 - API change.
+Rem    wclin        03/27/01 - kglpurge in index truncate
+Rem    gkaminag     03/02/01 - transportable tablespace support
+Rem    salpha       06/27/00 - creation
+
+@@?/rdbms/admin/sqlsessstart.sql
+
+
+create or replace package drvddlr authid current_user as
+
+PRAGMA SUPPLEMENTAL_LOG_DATA(default, NONE);
+
+/*----------------------- IndexCreate  -----------------------*/
+/*
+  NAME
+    IndexCreate
+
+  DESCRIPTION
+    create an index 
+*/
+PROCEDURE IndexCreate(
+  ia          in  sys.odciindexinfo,
+  owner       in  varchar2,
+  index_name  in  varchar2,
+  table_owner in  varchar2,
+  table_name  in  varchar2,
+  column_name in  varchar2,
+  populate    in  boolean,
+  langcol     in  varchar2,
+  fmtcol      in  varchar2,
+  csetcol     in  varchar2,
+  idxmem      in  number,
+  datastore   in  varchar2,
+  filter      in  varchar2,
+  section     in  varchar2,
+  lexer       in  varchar2,
+  wordlist    in  varchar2,
+  stoplist    in  varchar2,
+  storage     in  varchar2,
+  classifier  in  varchar2,
+  configcol   in  varchar2,
+  no_r        in  boolean
+);
+
+/*----------------------- IndexRename  ---------------------*/
+/*
+  NAME
+    IndexRename
+
+  DESCRIPTION
+    rename an index
+
+  ARGUMENTS
+    ia           index info
+    owner        index owner
+    index_name   index name
+    new_name     new name
+*/
+PROCEDURE IndexRename(
+  ia           in sys.odciindexinfo,
+  owner        in varchar2,
+  index_name   in varchar2,
+  new_name     in varchar2
+);
+
+/*----------------------- IndexColRename  ---------------------*/
+/*
+  NAME
+    IndexColRename
+
+  DESCRIPTION
+    rename an index column 
+
+  ARGUMENTS
+    ia           index info
+    owner        index owner
+    index_name   index name
+    new_name     new name
+*/
+PROCEDURE IndexColRename(
+  ia           in sys.odciindexinfo,
+  owner        in varchar2,
+  index_name   in varchar2,
+  new_name     in varchar2
+);
+
+/*----------------------- IndexTruncate  ---------------------*/
+/*
+  NAME
+    IndexTruncate
+
+  DESCRIPTION
+    truncate an index
+
+  ARGUMENTS
+    owner        index owner
+    index_name   index name
+*/
+PROCEDURE IndexTruncate(
+  ia           in sys.odciindexinfo,
+  owner        in varchar2,
+  index_name   in varchar2
+);
+
+/*----------------------- IndexDrop  -------------------------*/
+/*
+  NAME
+    IndexDrop
+
+  DESCRIPTION
+    drop an index
+
+  ARGUMENTS
+    ia           index info
+*/
+PROCEDURE IndexDrop(
+  ia          in  sys.ODCIIndexInfo,
+  owner       in  varchar2, 
+  index_name  in  varchar2
+);
+
+/*----------------------- IndexReplace  -------------------------*/
+/*
+  NAME
+    IndexReplace
+
+  DESCRIPTION
+    rebuild an index, replacing preferences as needed
+
+  ARGUMENTS
+    ia           index info
+    idx          index record
+    idxmem       index memory
+    para         parallel degree
+    langcol      language column
+    fmtcol       format column name
+    csetcol      charset column name
+    configcol    charset column name
+    datastore    datastore pref name
+    filter       filter pref name
+    section      section group pref name
+    lexer        lexer pref name
+    wordlist     wordlist pref name
+    stoplist     stoplist pref name
+    storage      storage pref name
+    classifier   classifier pref name
+    no_r         no $R flag
+*/
+PROCEDURE IndexReplace(
+  ia          in  sys.ODCIIndexInfo,
+  idx         in  dr_def.idx_rec,
+  idxmem      in  number,
+  langcol     in  varchar2,
+  fmtcol      in  varchar2,
+  csetcol     in  varchar2,
+  datastore   in  varchar2,
+  filter      in  varchar2,
+  section     in  varchar2,
+  lexer       in  varchar2,
+  wordlist    in  varchar2,
+  stoplist    in  varchar2,
+  storage     in  varchar2,
+  classifier  in  varchar2,
+  configcol   in  varchar2,
+  no_r        in  boolean
+);
+
+/*----------------------- IndexResume  -------------------------*/
+/*
+  NAME
+    IndexResume
+
+  DESCRIPTION
+    resume index creation
+
+  ARGUMENTS
+    ia           index info
+    idx          index record
+    idxmem       index memory
+*/
+PROCEDURE IndexResume(
+  ia          in  sys.ODCIIndexInfo,
+  idx         in  dr_def.idx_rec,
+  idxmem      in  number
+);
+
+
+/*----------------------- IndexOptimize  -------------------------*/
+/*
+  NAME
+    IndexOptimize
+
+  DESCRIPTION
+    optimize the index
+
+  ARGUMENTS
+    idx          index record
+    index_id     index id
+    operation    FAST, FULL, or TOKEN
+    maxtime      maxtime for gc
+    token	 text token string 
+*/
+PROCEDURE IndexOptimize(
+  idx         in  dr_def.idx_rec,
+  operation   in  varchar2,
+  maxtime     in  number,
+  token       in  varchar2
+);
+
+/*----------------------- IndexSync  -------------------------*/
+/*
+  NAME
+    IndexSync
+
+  DESCRIPTION
+    sync the index
+
+  ARGUMENTS
+    idx          index record
+    idxmem       index memory
+*/
+PROCEDURE IndexSync(
+  idx         in  dr_def.idx_rec,
+  idxmem      in  number
+);
+
+/*----------------------- IndexTransport  -----------------------*/
+/*
+  NAME
+    IndexTransport
+
+  DESCRIPTION
+    transport tablespace support 
+
+  ARGUMENTS
+    owner        index owner
+    index_name   index name
+    index_part   index partition name
+    table_owner  table owner
+    table_name   table name
+    table_part   table partition name
+
+  NOTES
+
+  EXCEPTIONS
+
+  RETURNS
+
+*/
+PROCEDURE IndexTransport(
+  index_owner in  varchar2,
+  index_name  in  varchar2,
+  table_owner in  varchar2,
+  table_name  in  varchar2,
+  IndexInfoFlags in number
+);
+
+end drvddlr;
+/
+
+@?/rdbms/admin/sqlsessend.sql

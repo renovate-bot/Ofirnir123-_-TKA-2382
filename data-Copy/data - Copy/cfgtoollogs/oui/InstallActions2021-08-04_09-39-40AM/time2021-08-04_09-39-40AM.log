@@ -1,0 +1,905 @@
+ # Message # ElapsedTime # Current Time ( ms )
+ # Starting step:INITIALIZE_ACTION of state:prepInstall #  0  # 1628059184716
+ # Finished step:INITIALIZE_ACTION of state:prepInstall # 0 # 1628059184716
+ # Starting step:EXECUTE of state:prepInstall #  0  # 1628059184716
+ # Finished step:EXECUTE of state:prepInstall # 0 # 1628059184716
+ # Starting step:VALIDATE_VIEW of state:prepInstall #  0  # 1628059184716
+ # Finished step:VALIDATE_VIEW of state:prepInstall # 15 # 1628059184731
+ # Starting step:VALIDATE of state:prepInstall #  0  # 1628059184731
+ # Finished step:VALIDATE of state:prepInstall # 0 # 1628059184731
+ # Starting step:TRANSITION of state:prepInstall #  0  # 1628059184731
+ # Finished step:TRANSITION of state:prepInstall # 0 # 1628059184731
+ # Starting step:INITIALIZE_ACTION of state:supportedOSCheck #  0  # 1628059184747
+ # Finished step:INITIALIZE_ACTION of state:supportedOSCheck # 0 # 1628059184747
+ # Starting step:EXECUTE of state:supportedOSCheck #  0  # 1628059184747
+ # Finished step:EXECUTE of state:supportedOSCheck # 22 # 1628059184769
+ # Starting step:VALIDATE_VIEW of state:supportedOSCheck #  0  # 1628059184769
+ # Finished step:VALIDATE_VIEW of state:supportedOSCheck # 0 # 1628059184769
+ # Starting step:VALIDATE of state:supportedOSCheck #  0  # 1628059184769
+ # Finished step:VALIDATE of state:supportedOSCheck # 9947 # 1628059194716
+ # Starting step:TRANSITION of state:supportedOSCheck #  0  # 1628059194716
+ # Finished step:TRANSITION of state:supportedOSCheck # 0 # 1628059194716
+ # Starting step:INITIALIZE_ACTION of state:mtsDialog #  0  # 1628059194716
+ # Finished step:INITIALIZE_ACTION of state:mtsDialog # 0 # 1628059194716
+ # Starting step:EXECUTE of state:mtsDialog #  0  # 1628059194716
+ # Finished step:EXECUTE of state:mtsDialog # 8680 # 1628059203396
+ # Starting step:VALIDATE_VIEW of state:mtsDialog #  0  # 1628059203396
+ # Finished step:VALIDATE_VIEW of state:mtsDialog # 0 # 1628059203396
+ # Starting step:VALIDATE of state:mtsDialog #  0  # 1628059203396
+ # Finished step:VALIDATE of state:mtsDialog # 0 # 1628059203396
+ # Starting step:TRANSITION of state:mtsDialog #  0  # 1628059203396
+ # Finished step:TRANSITION of state:mtsDialog # 0 # 1628059203396
+ # Starting step:INITIALIZE_ACTION of state:installOptions #  0  # 1628059203464
+ # Finished step:INITIALIZE_ACTION of state:installOptions # 0 # 1628059203464
+ # Starting step:INITIALIZE_VIEW of state:installOptions #  0  # 1628059203464
+ # Finished step:INITIALIZE_VIEW of state:installOptions # 0 # 1628059203464
+ # Starting step:DISPLAY_VIEW of state:installOptions #  0  # 1628059203464
+ # Finished step:DISPLAY_VIEW of state:installOptions # 0 # 1628059203464
+ # Starting step:LOAD_VIEW of state:installOptions #  0  # 1628059203464
+ # Finished step:LOAD_VIEW of state:installOptions # 0 # 1628059203464
+ # Starting step:LOCALIZE_VIEW of state:installOptions #  0  # 1628059203464
+ # Finished step:LOCALIZE_VIEW of state:installOptions # 19 # 1628059203483
+ # Starting step:EXECUTE of state:installOptions #  0  # 1628059203483
+ # Finished step:EXECUTE of state:installOptions # 0 # 1628059203483
+ # Starting step:PROCESS_INPUT_FROM_VIEW of state:installOptions #  0  # 1628059209594
+ # Finished step:PROCESS_INPUT_FROM_VIEW of state:installOptions # 0 # 1628059209594
+ # Starting step:VALIDATE_VIEW of state:installOptions #  0  # 1628059209594
+ # Finished step:VALIDATE_VIEW of state:installOptions # 0 # 1628059209594
+ # Starting step:VALIDATE of state:installOptions #  0  # 1628059209594
+ # Finished step:VALIDATE of state:installOptions # 8 # 1628059209602
+ # Starting step:TRANSITION of state:installOptions #  0  # 1628059209602
+ # Finished step:TRANSITION of state:installOptions # 0 # 1628059209602
+ # Starting step:UNLOAD_VIEW of state:installOptions #  0  # 1628059209602
+ # Finished step:UNLOAD_VIEW of state:installOptions # 0 # 1628059209602
+ # Starting step:EXECUTE of state:DBImage #  0  # 1628059209623
+ # Finished step:EXECUTE of state:DBImage # 0 # 1628059209623
+ # Starting step:VALIDATE_VIEW of state:DBImage #  0  # 1628059209624
+ # Finished step:VALIDATE_VIEW of state:DBImage # 0 # 1628059209624
+ # Starting step:VALIDATE of state:DBImage #  0  # 1628059209624
+ # Finished step:VALIDATE of state:DBImage # 1099 # 1628059210723
+ # Starting step:TRANSITION of state:DBImage #  0  # 1628059210723
+ # Finished step:TRANSITION of state:DBImage # 0 # 1628059210723
+ # Starting step:INITIALIZE_ACTION of state:getSystemClass #  0  # 1628059210762
+ # Finished step:INITIALIZE_ACTION of state:getSystemClass # 0 # 1628059210762
+ # Starting step:INITIALIZE_VIEW of state:getSystemClass #  0  # 1628059210762
+ # Finished step:INITIALIZE_VIEW of state:getSystemClass # 0 # 1628059210762
+ # Starting step:DISPLAY_VIEW of state:getSystemClass #  0  # 1628059210762
+ # Finished step:DISPLAY_VIEW of state:getSystemClass # 5 # 1628059210767
+ # Starting step:LOAD_VIEW of state:getSystemClass #  0  # 1628059210767
+ # Finished step:LOAD_VIEW of state:getSystemClass # 0 # 1628059210767
+ # Starting step:LOCALIZE_VIEW of state:getSystemClass #  0  # 1628059210767
+ # Finished step:LOCALIZE_VIEW of state:getSystemClass # 0 # 1628059210767
+ # Starting step:EXECUTE of state:getSystemClass #  0  # 1628059210767
+ # Finished step:EXECUTE of state:getSystemClass # 0 # 1628059210767
+ # Starting step:PROCESS_INPUT_FROM_VIEW of state:getSystemClass #  0  # 1628059225590
+ # Finished step:PROCESS_INPUT_FROM_VIEW of state:getSystemClass # 0 # 1628059225590
+ # Starting step:VALIDATE_VIEW of state:getSystemClass #  0  # 1628059225590
+ # Finished step:VALIDATE_VIEW of state:getSystemClass # 0 # 1628059225590
+ # Starting step:VALIDATE of state:getSystemClass #  0  # 1628059225590
+ # Finished step:VALIDATE of state:getSystemClass # 16 # 1628059225606
+ # Starting step:TRANSITION of state:getSystemClass #  0  # 1628059225606
+ # Finished step:TRANSITION of state:getSystemClass # 1 # 1628059225607
+ # Starting step:UNLOAD_VIEW of state:getSystemClass #  0  # 1628059225607
+ # Finished step:UNLOAD_VIEW of state:getSystemClass # 0 # 1628059225607
+ # Starting step:INITIALIZE_ACTION of state:getWindowsSecureOptionDetails #  0  # 1628059225618
+ # Finished step:INITIALIZE_ACTION of state:getWindowsSecureOptionDetails # 0 # 1628059225618
+ # Starting step:INITIALIZE_VIEW of state:getWindowsSecureOptionDetails #  0  # 1628059225620
+ # Finished step:INITIALIZE_VIEW of state:getWindowsSecureOptionDetails # 9 # 1628059225629
+ # Starting step:DISPLAY_VIEW of state:getWindowsSecureOptionDetails #  0  # 1628059225629
+ # Finished step:DISPLAY_VIEW of state:getWindowsSecureOptionDetails # 8 # 1628059225637
+ # Starting step:LOAD_VIEW of state:getWindowsSecureOptionDetails #  0  # 1628059225637
+ # Finished step:LOAD_VIEW of state:getWindowsSecureOptionDetails # 3 # 1628059225640
+ # Starting step:LOCALIZE_VIEW of state:getWindowsSecureOptionDetails #  0  # 1628059225640
+ # Finished step:LOCALIZE_VIEW of state:getWindowsSecureOptionDetails # 4 # 1628059225644
+ # Starting step:EXECUTE of state:getWindowsSecureOptionDetails #  0  # 1628059225644
+ # Finished step:EXECUTE of state:getWindowsSecureOptionDetails # 0 # 1628059225644
+ # Starting step:PROCESS_INPUT_FROM_VIEW of state:getWindowsSecureOptionDetails #  0  # 1628059232961
+ # Finished step:PROCESS_INPUT_FROM_VIEW of state:getWindowsSecureOptionDetails # 0 # 1628059232961
+ # Starting step:VALIDATE_VIEW of state:getWindowsSecureOptionDetails #  0  # 1628059232961
+ # Finished step:VALIDATE_VIEW of state:getWindowsSecureOptionDetails # 0 # 1628059232961
+ # Starting step:VALIDATE of state:getWindowsSecureOptionDetails #  0  # 1628059232961
+ # Finished step:VALIDATE of state:getWindowsSecureOptionDetails # 9 # 1628059232970
+ # Starting step:TRANSITION of state:getWindowsSecureOptionDetails #  0  # 1628059232970
+ # Finished step:TRANSITION of state:getWindowsSecureOptionDetails # 0 # 1628059232970
+ # Starting step:UNLOAD_VIEW of state:getWindowsSecureOptionDetails #  0  # 1628059232976
+ # Finished step:UNLOAD_VIEW of state:getWindowsSecureOptionDetails # 1 # 1628059232976
+ # Starting step:INITIALIZE_VIEW of state:quickInstallPage #  0  # 1628059237753
+ # Finished step:INITIALIZE_VIEW of state:quickInstallPage # 4451 # 1628059242204
+ # Starting step:DISPLAY_VIEW of state:quickInstallPage #  0  # 1628059242204
+ # Finished step:DISPLAY_VIEW of state:quickInstallPage # 5 # 1628059242209
+ # Starting step:LOAD_VIEW of state:quickInstallPage #  0  # 1628059242209
+ # Finished step:LOAD_VIEW of state:quickInstallPage # 3 # 1628059242212
+ # Starting step:LOCALIZE_VIEW of state:quickInstallPage #  0  # 1628059242212
+ # Finished step:LOCALIZE_VIEW of state:quickInstallPage # 0 # 1628059242212
+ # Starting step:EXECUTE of state:quickInstallPage #  0  # 1628059242214
+ # Finished step:EXECUTE of state:quickInstallPage # 1 # 1628059242215
+ # Starting step:PROCESS_INPUT_FROM_VIEW of state:quickInstallPage #  0  # 1628059273698
+ # Finished step:PROCESS_INPUT_FROM_VIEW of state:quickInstallPage # 14 # 1628059273712
+ # Starting step:VALIDATE_VIEW of state:quickInstallPage #  0  # 1628059273712
+ # Finished step:VALIDATE_VIEW of state:quickInstallPage # 0 # 1628059273712
+ # Starting step:VALIDATE of state:quickInstallPage #  0  # 1628059273712
+ # Finished step:VALIDATE of state:quickInstallPage # 2980 # 1628059276692
+ # Starting step:PROCESS_INPUT_FROM_VIEW of state:quickInstallPage #  0  # 1628059293802
+ # Finished step:PROCESS_INPUT_FROM_VIEW of state:quickInstallPage # 11 # 1628059293813
+ # Starting step:VALIDATE_VIEW of state:quickInstallPage #  0  # 1628059293813
+ # Finished step:VALIDATE_VIEW of state:quickInstallPage # 0 # 1628059293813
+ # Starting step:VALIDATE of state:quickInstallPage #  0  # 1628059293813
+ # Finished step:VALIDATE of state:quickInstallPage # 2348 # 1628059296161
+ # Starting step:TRANSITION of state:quickInstallPage #  0  # 1628059296161
+ # Finished step:TRANSITION of state:quickInstallPage # 1 # 1628059296162
+ # Starting step:UNLOAD_VIEW of state:quickInstallPage #  0  # 1628059296163
+ # Finished step:UNLOAD_VIEW of state:quickInstallPage # 0 # 1628059296163
+ # Starting step:EXECUTE of state:inventoryPage #  0  # 1628059296185
+ # Finished step:EXECUTE of state:inventoryPage # 0 # 1628059296185
+ # Starting step:VALIDATE_VIEW of state:inventoryPage #  0  # 1628059296186
+ # Finished step:VALIDATE_VIEW of state:inventoryPage # 1 # 1628059296187
+ # Starting step:VALIDATE of state:inventoryPage #  0  # 1628059296187
+ # Finished step:VALIDATE of state:inventoryPage # 0 # 1628059296187
+ # Starting step:TRANSITION of state:inventoryPage #  0  # 1628059296187
+ # Finished step:TRANSITION of state:inventoryPage # 0 # 1628059296187
+ # Starting step:INITIALIZE_ACTION of state:prereqExecutionDecider #  0  # 1628059296207
+ # Finished step:INITIALIZE_ACTION of state:prereqExecutionDecider # 0 # 1628059296207
+ # Starting step:EXECUTE of state:prereqExecutionDecider #  0  # 1628059296207
+ # Finished step:EXECUTE of state:prereqExecutionDecider # 0 # 1628059296207
+ # Starting step:VALIDATE_VIEW of state:prereqExecutionDecider #  0  # 1628059296208
+ # Finished step:VALIDATE_VIEW of state:prereqExecutionDecider # 0 # 1628059296208
+ # Starting step:VALIDATE of state:prereqExecutionDecider #  0  # 1628059296208
+ # Finished step:VALIDATE of state:prereqExecutionDecider # 0 # 1628059296208
+ # Starting step:TRANSITION of state:prereqExecutionDecider #  0  # 1628059296208
+ # Finished step:TRANSITION of state:prereqExecutionDecider # 0 # 1628059296208
+ # Starting step:INITIALIZE_ACTION of state:performChecks #  0  # 1628059296320
+ # Finished step:INITIALIZE_ACTION of state:performChecks # 0 # 1628059296320
+ # Starting step:INITIALIZE_VIEW of state:performChecks #  0  # 1628059296325
+ # Finished step:INITIALIZE_VIEW of state:performChecks # 1 # 1628059296326
+ # Starting step:DISPLAY_VIEW of state:performChecks #  0  # 1628059296326
+ # Finished step:DISPLAY_VIEW of state:performChecks # 10 # 1628059296336
+ # Starting step:LOAD_VIEW of state:performChecks #  0  # 1628059296336
+ # Finished step:LOAD_VIEW of state:performChecks # 3 # 1628059296339
+ # Starting step:LOCALIZE_VIEW of state:performChecks #  0  # 1628059296339
+ # Finished step:LOCALIZE_VIEW of state:performChecks # 0 # 1628059296339
+ # Starting step:EXECUTE of state:performChecks #  0  # 1628059296339
+ # Finished step:EXECUTE of state:performChecks # 4318 # 1628059300657
+ # Starting step:PROCESS_INPUT_FROM_VIEW of state:performChecks #  0  # 1628059305890
+ # Finished step:PROCESS_INPUT_FROM_VIEW of state:performChecks # 0 # 1628059305890
+ # Starting step:VALIDATE_VIEW of state:performChecks #  0  # 1628059305890
+ # Finished step:VALIDATE_VIEW of state:performChecks # 0 # 1628059305890
+ # Starting step:VALIDATE of state:performChecks #  0  # 1628059305890
+ # Finished step:VALIDATE of state:performChecks # 3 # 1628059305893
+ # Starting step:TRANSITION of state:performChecks #  0  # 1628059305893
+ # Finished step:TRANSITION of state:performChecks # 0 # 1628059305893
+ # Starting step:UNLOAD_VIEW of state:performChecks #  0  # 1628059305898
+ # Finished step:UNLOAD_VIEW of state:performChecks # 0 # 1628059305898
+ # Starting step:INITIALIZE_ACTION of state:showSummary #  0  # 1628059305951
+ # Finished step:INITIALIZE_ACTION of state:showSummary # 0 # 1628059305951
+ # Starting step:INITIALIZE_VIEW of state:showSummary #  0  # 1628059305953
+ # Finished step:INITIALIZE_VIEW of state:showSummary # 1 # 1628059305954
+ # Starting step:DISPLAY_VIEW of state:showSummary #  0  # 1628059305954
+ # Finished step:DISPLAY_VIEW of state:showSummary # 1 # 1628059305955
+ # Starting step:LOAD_VIEW of state:showSummary #  0  # 1628059305955
+ # Finished step:LOAD_VIEW of state:showSummary # 0 # 1628059305955
+ # Starting step:LOCALIZE_VIEW of state:showSummary #  0  # 1628059305955
+ # Finished step:LOCALIZE_VIEW of state:showSummary # 0 # 1628059305955
+ # Starting step:EXECUTE of state:showSummary #  0  # 1628059305955
+ # Finished step:EXECUTE of state:showSummary # 27 # 1628059305982
+ # Starting step:PROCESS_INPUT_FROM_VIEW of state:showSummary #  0  # 1628059330392
+ # Finished step:PROCESS_INPUT_FROM_VIEW of state:showSummary # 0 # 1628059330392
+ # Starting step:VALIDATE_VIEW of state:showSummary #  0  # 1628059330392
+ # Finished step:VALIDATE_VIEW of state:showSummary # 0 # 1628059330392
+ # Starting step:VALIDATE of state:showSummary #  0  # 1628059330392
+ # Finished step:VALIDATE of state:showSummary # 0 # 1628059330392
+ # Starting step:TRANSITION of state:showSummary #  0  # 1628059330392
+ # Finished step:TRANSITION of state:showSummary # 20 # 1628059330412
+ # Starting step:UNLOAD_VIEW of state:showSummary #  0  # 1628059330414
+ # Finished step:UNLOAD_VIEW of state:showSummary # 0 # 1628059330414
+ # Starting step:INITIALIZE_ACTION of state:setup #  0  # 1628059330432
+ # Finished step:INITIALIZE_ACTION of state:setup # 0 # 1628059330432
+ # Starting step:INITIALIZE_VIEW of state:setup #  0  # 1628059330453
+ # Finished step:INITIALIZE_VIEW of state:setup # 9 # 1628059330462
+ # Starting step:DISPLAY_VIEW of state:setup #  0  # 1628059330462
+ # Finished step:DISPLAY_VIEW of state:setup # 1 # 1628059330463
+ # Starting step:LOAD_VIEW of state:setup #  0  # 1628059330463
+ # Finished step:LOAD_VIEW of state:setup # 0 # 1628059330463
+ # Starting step:LOCALIZE_VIEW of state:setup #  0  # 1628059330463
+ # Finished step:LOCALIZE_VIEW of state:setup # 0 # 1628059330463
+ # Starting step:EXECUTE of state:setup #  0  # 1628059330463
+ # Finished step:EXECUTE of state:setup # 0 # 1628059330463
+ # This job loads the clone driver in progress. #  0  # 1628059334784
+ # This job loads the clone driver successful. # 18 # 1628059334802
+ # Message # ElapsedTime #  Current Time ( ms )
+ # oracle.sysman.oii.oiif.oiifw.OiifwInvLocWCCE@16bcf70e:initialize # 0 # 1628059337098
+ # oracle.sysman.oii.oiif.oiifw.OiifwInvLocWCCE@16bcf70e:doOperation # 0 # 1628059337098
+ # oracle.sysman.oii.oiic.OiicInvSetupWCCE@187b1ba9:initialize # 4 # 1628059337102
+ # oracle.sysman.oii.oiic.OiicInvSetupWCCE@187b1ba9:doOperation # 2020 # 1628059339122
+ # XML Reader, Read Comps for Home 1 # 82 # 1628059339218
+ # XML Reader, Relase notes for Stage Inventory  # 9 # 1628059339232
+ # oracle.sysman.oii.oiic.OiicCloneSession$OiifwCloneModeInvSetupWCCE@113301dd:initialize # 120 # 1628059339242
+ # oracle.sysman.oii.oiic.OiicCloneSession$OiifwCloneModeInvSetupWCCE@113301dd:doOperation # 0 # 1628059339242
+ # oracle.sysman.oii.oiif.oiifw.OiifwValidateOraHomeVarsWCCE@54efda81:initialize # 0 # 1628059339242
+ # oracle.sysman.oii.oiif.oiifw.OiifwValidateOraHomeVarsWCCE@54efda81:doOperation # 5 # 1628059339247
+ # XML Reader, Read Comps for Stage Inventory  # 163 # 1628059339432
+ # XML Reader, Relase notes for Stage Inventory  # 0 # 1628059339432
+ # XML Reader, Read Libs from StageInventory  # 5 # 1628059339437
+ # oracle.sysman.oii.oiic.OiicInstOHSetupWCCE@499f120a:initialize # 1056 # 1628059340303
+ # oracle.sysman.oii.oiic.OiicInstOHSetupWCCE@499f120a:doOperation # 0 # 1628059340303
+ # oracle.sysman.oii.oiif.oiifw.OiifwCloneDepCalcWCCE@5889acfd:initialize # 0 # 1628059340303
+ # XML Reader, Read Libs for Home 1 # 0 # 1628059340683
+ # oracle.sysman.oii.oiif.oiifw.OiifwCloneDepCalcWCCE@5889acfd:doOperation # 601 # 1628059340904
+ # oracle.sysman.oii.oiif.oiifw.OiifwHostNameWCDE@4a9d0aac:initialize # 0 # 1628059340904
+ # Specify Local Host Name # 0 # 1628059340904
+ # oracle.sysman.oii.oiif.oiifw.OiifwHostNameWCDE@4a9d0aac:doOperation # 0 # 1628059340904
+ # oracle.sysman.oii.oiic.OiicCompsWizEngine@26e9415b:initialize # 0 # 1628059340904
+ # Parsing C:/WINDOWS.X64_193000_db_home/inventory/ContentsXML/oui-patch.xml :  # 52 # 1628059340964
+ # CompsWizEngine, Component Context Loading  # 168 # 1628059341072
+ # Components.oracle.server.v19_0_0_0_0.CompContext@e102cff1:initialize # 0 # 1628059341072
+ # Components.oracle.server.v19_0_0_0_0.CompContext@e102cff1:doOperation # 160 # 1628059341232
+ # Components.oracle.options.v19_0_0_0_0.CompContext@573722d6:initialize # 0 # 1628059341232
+ # Components.oracle.options.v19_0_0_0_0.CompContext@573722d6:doOperation # 12 # 1628059341244
+ # Components.oracle.rdbms.partitioning.v19_0_0_0_0.CompContext@ec566b44:initialize # 0 # 1628059341244
+ # Components.oracle.rdbms.partitioning.v19_0_0_0_0.CompContext@ec566b44:doOperation # 9 # 1628059341253
+ # Components.oracle.sdo.v19_0_0_0_0.CompContext@4e93d936:initialize # 0 # 1628059341253
+ # Components.oracle.sdo.v19_0_0_0_0.CompContext@4e93d936:doOperation # 9 # 1628059341262
+ # Components.oracle.oraolap.v19_0_0_0_0.CompContext@d8e7b44a:initialize # 0 # 1628059341262
+ # Components.oracle.oraolap.v19_0_0_0_0.CompContext@d8e7b44a:doOperation # 12 # 1628059341274
+ # Components.oracle.rdbms.v19_0_0_0_0.CompContext@2a726a5e:initialize # 0 # 1628059341274
+ # Components.oracle.rdbms.v19_0_0_0_0.CompContext@2a726a5e:doOperation # 10 # 1628059341284
+ # Components.oracle.network.v19_0_0_0_0.CompContext@22a10146:initialize # 0 # 1628059341284
+ # Components.oracle.network.v19_0_0_0_0.CompContext@22a10146:doOperation # 10 # 1628059341294
+ # Components.oracle.ctx.v19_0_0_0_0.CompContext@9e4a346d:initialize # 0 # 1628059341294
+ # Components.oracle.ctx.v19_0_0_0_0.CompContext@9e4a346d:doOperation # 8 # 1628059341302
+ # Components.oracle.network.listener.v19_0_0_0_0.CompContext@dc1c84e0:initialize # 0 # 1628059341302
+ # Components.oracle.network.listener.v19_0_0_0_0.CompContext@dc1c84e0:doOperation # 12 # 1628059341314
+ # Components.oracle.has.db.v19_0_0_0_0.CompContext@e1b8b4c2:initialize # 0 # 1628059341314
+ # Components.oracle.has.db.v19_0_0_0_0.CompContext@e1b8b4c2:doOperation # 18 # 1628059341332
+ # Components.oracle.ldap.client.v19_0_0_0_0.CompContext@f9740802:initialize # 0 # 1628059341332
+ # Components.oracle.ldap.client.v19_0_0_0_0.CompContext@f9740802:doOperation # 13 # 1628059341345
+ # Components.oracle.rdbms.util.v19_0_0_0_0.CompContext@81ba693a:initialize # 0 # 1628059341345
+ # oracle.sysman.oii.oiif.oiifb.OiifbCompWizChainCondElem@6d0bf979:initialize # 0 # 1628059341365
+ # oracle.sysman.oii.oiif.oiifb.OiifbCompWizChainCondElem@6d0bf979:doOperation # 0 # 1628059341365
+ # oracle.sysman.oii.oiif.oiifb.OiifbCompWizChainCondElem@1f2d8ebf:initialize # 0 # 1628059341365
+ # oracle.sysman.oii.oiif.oiifb.OiifbCompWizChainCondElem@1f2d8ebf:doOperation # 0 # 1628059341365
+ # Components.oracle.rdbms.util.v19_0_0_0_0.CompContext@81ba693a:doOperation # 20 # 1628059341365
+ # Components.oracle.network.aso.v19_0_0_0_0.CompContext@c5baba97:initialize # 0 # 1628059341365
+ # Components.oracle.network.aso.v19_0_0_0_0.CompContext@c5baba97:doOperation # 59 # 1628059341424
+ # Components.oracle.javavm.server.v19_0_0_0_0.CompContext@4902423c:initialize # 0 # 1628059341424
+ # Components.oracle.javavm.server.v19_0_0_0_0.CompContext@4902423c:doOperation # 13 # 1628059341437
+ # Components.oracle.rdbms.scheduler.v19_0_0_0_0.CompContext@2683b31:initialize # 0 # 1628059341437
+ # oracle.sysman.oii.oiif.oiifb.OiifbCompWizChainCondElem@21f596bd:initialize # 0 # 1628059341447
+ # oracle.sysman.oii.oiif.oiifb.OiifbCompWizChainCondElem@21f596bd:doOperation # 0 # 1628059341447
+ # Components.oracle.rdbms.scheduler.v19_0_0_0_0.CompContext@2683b31:doOperation # 10 # 1628059341447
+ # Components.oracle.xdk.v19_0_0_0_0.CompContext@9f50e295:initialize # 0 # 1628059341447
+ # Components.oracle.xdk.v19_0_0_0_0.CompContext@9f50e295:doOperation # 9 # 1628059341456
+ # Components.oracle.rdbms.oci.v19_0_0_0_0.CompContext@c52c5817:initialize # 0 # 1628059341456
+ # Components.oracle.rdbms.oci.v19_0_0_0_0.CompContext@c52c5817:doOperation # 10 # 1628059341466
+ # Components.oracle.ordim.server.v19_0_0_0_0.CompContext@3295cac8:initialize # 0 # 1628059341466
+ # Components.oracle.ordim.server.v19_0_0_0_0.CompContext@3295cac8:doOperation # 9 # 1628059341475
+ # Components.oracle.sdo.locator.v19_0_0_0_0.CompContext@ac9c0f8e:initialize # 0 # 1628059341475
+ # Components.oracle.sdo.locator.v19_0_0_0_0.CompContext@ac9c0f8e:doOperation # 12 # 1628059341487
+ # Components.oracle.sqlplus.v19_0_0_0_0.CompContext@6ee1564c:initialize # 0 # 1628059341487
+ # Components.oracle.sqlplus.v19_0_0_0_0.CompContext@6ee1564c:doOperation # 11 # 1628059341498
+ # Components.oracle.assistants.server.v19_0_0_0_0.CompContext@a8450f38:initialize # 0 # 1628059341498
+ # Components.oracle.assistants.server.v19_0_0_0_0.CompContext@a8450f38:doOperation # 13 # 1628059341511
+ # Components.oracle.precomp.v19_0_0_0_0.CompContext@f858d3c2:initialize # 0 # 1628059341511
+ # Components.oracle.precomp.v19_0_0_0_0.CompContext@f858d3c2:doOperation # 9 # 1628059341520
+ # Components.oracle.rdbms.hsodbc.v19_0_0_0_0.CompContext@77070abb:initialize # 0 # 1628059341520
+ # Components.oracle.rdbms.hsodbc.v19_0_0_0_0.CompContext@77070abb:doOperation # 9 # 1628059341529
+ # Components.oracle.rdbms.hs_common.v19_0_0_0_0.CompContext@ee8800cd:initialize # 0 # 1628059341529
+ # Components.oracle.rdbms.hs_common.v19_0_0_0_0.CompContext@ee8800cd:doOperation # 9 # 1628059341538
+ # Components.oracle.assistants.netca.client.v19_0_0_0_0.CompContext@2c52b23d:initialize # 0 # 1628059341538
+ # Components.oracle.assistants.netca.client.v19_0_0_0_0.CompContext@2c52b23d:doOperation # 13 # 1628059341551
+ # Components.oracle.ons.v19_0_0_0_0.CompContext@768d85c0:initialize # 0 # 1628059341551
+ # Components.oracle.ons.v19_0_0_0_0.CompContext@768d85c0:doOperation # 10 # 1628059341561
+ # Components.oracle.rdbms.rman.v19_0_0_0_0.CompContext@5c81ee54:initialize # 0 # 1628059341562
+ # Components.oracle.rdbms.rman.v19_0_0_0_0.CompContext@5c81ee54:doOperation # 9 # 1628059341571
+ # Components.oracle.network.client.v19_0_0_0_0.CompContext@ecc288a9:initialize # 0 # 1628059341571
+ # Components.oracle.network.client.v19_0_0_0_0.CompContext@ecc288a9:doOperation # 14 # 1628059341585
+ # Components.oracle.assistants.acf.v19_0_0_0_0.CompContext@44105855:initialize # 0 # 1628059341585
+ # Components.oracle.assistants.acf.v19_0_0_0_0.CompContext@44105855:doOperation # 10 # 1628059341595
+ # Components.oracle.help.ohj.v11_1_1_7_0.CompContext@2fd9ef6f:initialize # 0 # 1628059341595
+ # Components.oracle.help.ohj.v11_1_1_7_0.CompContext@2fd9ef6f:doOperation # 9 # 1628059341604
+ # Components.oracle.bali.ice.v11_1_1_7_0.CompContext@f108fbfa:initialize # 0 # 1628059341604
+ # Components.oracle.bali.ice.v11_1_1_7_0.CompContext@f108fbfa:doOperation # 10 # 1628059341614
+ # Components.oracle.clrintg.ode_net_2.v19_0_0_0_0.CompContext@6ac034a0:initialize # 0 # 1628059341614
+ # Components.oracle.clrintg.ode_net_2.v19_0_0_0_0.CompContext@6ac034a0:doOperation # 10 # 1628059341624
+ # Components.oracle.buildtools.common.v19_0_0_0_0.CompContext@8492b31c:initialize # 0 # 1628059341624
+ # Components.oracle.buildtools.common.v19_0_0_0_0.CompContext@8492b31c:doOperation # 10 # 1628059341634
+ # Components.oracle.ldap.admin.v19_0_0_0_0.CompContext@cf7df98c:initialize # 0 # 1628059341634
+ # Components.oracle.ldap.admin.v19_0_0_0_0.CompContext@cf7df98c:doOperation # 10 # 1628059341644
+ # Components.oracle.rdbms.install.common.v19_0_0_0_0.CompContext@478d960f:initialize # 0 # 1628059341644
+ # Components.oracle.rdbms.install.common.v19_0_0_0_0.CompContext@478d960f:doOperation # 11 # 1628059341655
+ # Components.oracle.rdbms.install.plugins.v19_0_0_0_0.CompContext@261ab16e:initialize # 0 # 1628059341655
+ # Components.oracle.rdbms.install.plugins.v19_0_0_0_0.CompContext@261ab16e:doOperation # 10 # 1628059341665
+ # Components.oracle.winprod.v19_0_0_0_0.CompContext@180eee1:initialize # 0 # 1628059341665
+ # Components.oracle.winprod.v19_0_0_0_0.CompContext@180eee1:doOperation # 11 # 1628059341676
+ # Components.oracle.ntoramts.v19_0_0_0_0.CompContext@dcebdc00:initialize # 0 # 1628059341676
+ # oracle.sysman.oii.oiif.oiifb.OiifbCompWizChainCondElem@6be6297:initialize # 0 # 1628059341688
+ # oracle.sysman.oii.oiif.oiifb.OiifbCompWizChainCondElem@6be6297:doOperation # 0 # 1628059341688
+ # oracle.sysman.oii.oiif.oiifb.OiifbCompWizChainCondElem@3ad5d3e4:initialize # 1 # 1628059341689
+ # oracle.sysman.oii.oiif.oiifb.OiifbCompWizChainCondElem@3ad5d3e4:doOperation # 0 # 1628059341689
+ # oracle.sysman.oii.oiif.oiifb.OiifbCompWizChainCondElem@618d9ab5:initialize # 0 # 1628059341689
+ # oracle.sysman.oii.oiif.oiifb.OiifbCompWizChainCondElem@618d9ab5:doOperation # 0 # 1628059341689
+ # Components.oracle.ntoramts.v19_0_0_0_0.CompContext@dcebdc00:doOperation # 13 # 1628059341689
+ # Components.oracle.has.common.v19_0_0_0_0.CompContext@9b863af5:initialize # 0 # 1628059341689
+ # oracle.sysman.oii.oiif.oiifb.OiifbCompWizChainCondElem@181dfff5:initialize # 0 # 1628059341701
+ # oracle.sysman.oii.oiif.oiifb.OiifbCompWizChainCondElem@181dfff5:doOperation # 0 # 1628059341701
+ # oracle.sysman.oii.oiif.oiifb.OiifbCompWizChainCondElem@6dc28cbb:initialize # 12 # 1628059341713
+ # oracle.sysman.oii.oiif.oiifb.OiifbCompWizChainCondElem@6dc28cbb:doOperation # 0 # 1628059341713
+ # Components.oracle.has.common.v19_0_0_0_0.CompContext@9b863af5:doOperation # 24 # 1628059341713
+ # Components.oracle.has.common.cvu.v19_0_0_0_0.CompContext@fcc4cd81:initialize # 0 # 1628059341713
+ # Components.oracle.has.common.cvu.v19_0_0_0_0.CompContext@fcc4cd81:doOperation # 17 # 1628059341730
+ # Components.oracle.ldap.owm.v19_0_0_0_0.CompContext@54f4add6:initialize # 0 # 1628059341730
+ # Components.oracle.ldap.owm.v19_0_0_0_0.CompContext@54f4add6:doOperation # 14 # 1628059341744
+ # Components.oracle.ldap.security.osdt.v19_0_0_0_0.CompContext@1e07a5b4:initialize # 0 # 1628059341744
+ # Components.oracle.ldap.security.osdt.v19_0_0_0_0.CompContext@1e07a5b4:doOperation # 12 # 1628059341756
+ # Components.oracle.xdk.parser.java.v19_0_0_0_0.CompContext@f8b71919:initialize # 0 # 1628059341756
+ # Components.oracle.xdk.parser.java.v19_0_0_0_0.CompContext@f8b71919:doOperation # 11 # 1628059341767
+ # Components.oracle.aspnet_2.v19_0_0_0_0.CompContext@2ce392c2:initialize # 0 # 1628059341767
+ # Components.oracle.aspnet_2.v19_0_0_0_0.CompContext@2ce392c2:doOperation # 11 # 1628059341778
+ # Components.oracle.install.deinstalltool.v19_0_0_0_0.CompContext@3686b4a1:initialize # 0 # 1628059341778
+ # Components.oracle.install.deinstalltool.v19_0_0_0_0.CompContext@3686b4a1:doOperation # 10 # 1628059341788
+ # Components.oracle.rdbms.plsql.v19_0_0_0_0.CompContext@31a5107a:initialize # 0 # 1628059341788
+ # Components.oracle.rdbms.plsql.v19_0_0_0_0.CompContext@31a5107a:doOperation # 10 # 1628059341798
+ # Components.oracle.precomp.common.v19_0_0_0_0.CompContext@9fb7408d:initialize # 0 # 1628059341798
+ # Components.oracle.precomp.common.v19_0_0_0_0.CompContext@9fb7408d:doOperation # 12 # 1628059341810
+ # Components.oracle.sqlplus.ic.v19_0_0_0_0.CompContext@b2e6c274:initialize # 0 # 1628059341810
+ # Components.oracle.sqlplus.ic.v19_0_0_0_0.CompContext@b2e6c274:doOperation # 11 # 1628059341821
+ # Components.oracle.bali.ewt.v11_1_1_6_0.CompContext@c1d60484:initialize # 0 # 1628059341821
+ # Components.oracle.bali.ewt.v11_1_1_6_0.CompContext@c1d60484:doOperation # 10 # 1628059341831
+ # Components.oracle.precomp.lang.v19_0_0_0_0.CompContext@ca1789ea:initialize # 0 # 1628059341831
+ # Components.oracle.precomp.lang.v19_0_0_0_0.CompContext@ca1789ea:doOperation # 12 # 1628059341843
+ # Components.oracle.rdbms.dbscripts.v19_0_0_0_0.CompContext@ae97e702:initialize # 0 # 1628059341844
+ # Components.oracle.rdbms.dbscripts.v19_0_0_0_0.CompContext@ae97e702:doOperation # 10 # 1628059341854
+ # Components.oracle.wwg.plsql.v19_0_0_0_0.CompContext@5d467be9:initialize # 0 # 1628059341854
+ # Components.oracle.wwg.plsql.v19_0_0_0_0.CompContext@5d467be9:doOperation # 9 # 1628059341863
+ # Components.oracle.oraolap.dbscripts.v19_0_0_0_0.CompContext@89ab9ee:initialize # 0 # 1628059341863
+ # Components.oracle.oraolap.dbscripts.v19_0_0_0_0.CompContext@89ab9ee:doOperation # 10 # 1628059341873
+ # Components.oracle.odbc.v19_0_0_0_0.CompContext@496268be:initialize # 0 # 1628059341873
+ # Components.oracle.odbc.v19_0_0_0_0.CompContext@496268be:doOperation # 10 # 1628059341883
+ # Components.oracle.duma.v19_0_0_0_0.CompContext@1a6fc58f:initialize # 0 # 1628059341883
+ # Components.oracle.duma.v19_0_0_0_0.CompContext@1a6fc58f:doOperation # 11 # 1628059341894
+ # Components.oracle.javavm.client.v19_0_0_0_0.CompContext@10fa2eb4:initialize # 0 # 1628059341895
+ # Components.oracle.javavm.client.v19_0_0_0_0.CompContext@10fa2eb4:doOperation # 14 # 1628059341909
+ # Components.oracle.ordim.client.v19_0_0_0_0.CompContext@fa8db740:initialize # 0 # 1628059341909
+ # Components.oracle.ordim.client.v19_0_0_0_0.CompContext@fa8db740:doOperation # 12 # 1628059341921
+ # Components.oracle.dbjava.jdbc.v19_0_0_0_0.CompContext@3745b24b:initialize # 0 # 1628059341921
+ # Components.oracle.dbjava.jdbc.v19_0_0_0_0.CompContext@3745b24b:doOperation # 13 # 1628059341934
+ # Components.oracle.dbjava.ucp.v19_0_0_0_0.CompContext@838c3900:initialize # 0 # 1628059341934
+ # Components.oracle.dbjava.ucp.v19_0_0_0_0.CompContext@838c3900:doOperation # 11 # 1628059341945
+ # Components.oracle.ldap.ssl.v19_0_0_0_0.CompContext@b8f38afd:initialize # 0 # 1628059341945
+ # Components.oracle.ldap.ssl.v19_0_0_0_0.CompContext@b8f38afd:doOperation # 15 # 1628059341960
+ # Components.oracle.ntoledb.v19_0_0_0_0.CompContext@da6bc314:initialize # 0 # 1628059341960
+ # Components.oracle.ntoledb.v19_0_0_0_0.CompContext@da6bc314:doOperation # 13 # 1628059341973
+ # Components.oracle.ntoledbolap.v19_0_0_0_0.CompContext@31ca4dc8:initialize # 0 # 1628059341973
+ # Components.oracle.ntoledbolap.v19_0_0_0_0.CompContext@31ca4dc8:doOperation # 16 # 1628059341989
+ # Components.oracle.javavm.server.core.v19_0_0_0_0.CompContext@cc04341f:initialize # 0 # 1628059341989
+ # Components.oracle.javavm.server.core.v19_0_0_0_0.CompContext@cc04341f:doOperation # 15 # 1628059342004
+ # Components.oracle.javavm.companion.v19_0_0_0_0.CompContext@2e7415fd:initialize # 0 # 1628059342004
+ # Components.oracle.javavm.companion.v19_0_0_0_0.CompContext@2e7415fd:doOperation # 14 # 1628059342018
+ # Components.oracle.ntoledb.odp_net_2.v19_0_0_0_0.CompContext@3cd0dd36:initialize # 0 # 1628059342018
+ # oracle.sysman.oii.oiif.oiifb.OiifbCompWizChainCondElem@19adf8f4:initialize # 0 # 1628059342033
+ # oracle.sysman.oii.oiif.oiifb.OiifbCompWizChainCondElem@19adf8f4:doOperation # 0 # 1628059342033
+ # Components.oracle.ntoledb.odp_net_2.v19_0_0_0_0.CompContext@3cd0dd36:doOperation # 15 # 1628059342033
+ # Components.oracle.rhp.db.v19_0_0_0_0.CompContext@2a0d2b22:initialize # 0 # 1628059342033
+ # Components.oracle.rhp.db.v19_0_0_0_0.CompContext@2a0d2b22:doOperation # 13 # 1628059342046
+ # Components.oracle.rhp.common.v19_0_0_0_0.CompContext@1df88155:initialize # 0 # 1628059342046
+ # Components.oracle.rhp.common.v19_0_0_0_0.CompContext@1df88155:doOperation # 12 # 1628059342058
+ # Components.oracle.rdbms.deconfig.v19_0_0_0_0.CompContext@e7807659:initialize # 0 # 1628059342058
+ # Components.oracle.rdbms.deconfig.v19_0_0_0_0.CompContext@e7807659:doOperation # 13 # 1628059342071
+ # Components.oracle.dbtoolslistener.v19_0_0_0_0.CompContext@b227b803:initialize # 0 # 1628059342071
+ # Components.oracle.dbtoolslistener.v19_0_0_0_0.CompContext@b227b803:doOperation # 10 # 1628059342081
+ # Components.oracle.blaslapack.v19_0_0_0_0.CompContext@22227e0a:initialize # 0 # 1628059342081
+ # Components.oracle.blaslapack.v19_0_0_0_0.CompContext@22227e0a:doOperation # 12 # 1628059342093
+ # Components.oracle.rsf.v19_0_0_0_0.CompContext@7c17219b:initialize # 0 # 1628059342093
+ # Components.oracle.rsf.v19_0_0_0_0.CompContext@7c17219b:doOperation # 11 # 1628059342104
+ # Components.oracle.swd.opatchautodb.v12_2_0_1_5.CompContext@ce0751f:initialize # 0 # 1628059342104
+ # Components.oracle.swd.opatchautodb.v12_2_0_1_5.CompContext@ce0751f:doOperation # 8 # 1628059342112
+ # Components.oracle.nlsrtl.rsf.v19_0_0_0_0.CompContext@894150c5:initialize # 0 # 1628059342112
+ # Components.oracle.nlsrtl.rsf.v19_0_0_0_0.CompContext@894150c5:doOperation # 12 # 1628059342124
+ # Components.oracle.xdk.server.v19_0_0_0_0.CompContext@cc287402:initialize # 0 # 1628059342124
+ # Components.oracle.xdk.server.v19_0_0_0_0.CompContext@cc287402:doOperation # 8 # 1628059342132
+ # Components.oracle.xdk.xquery.v19_0_0_0_0.CompContext@b0b17595:initialize # 0 # 1628059342132
+ # Components.oracle.xdk.xquery.v19_0_0_0_0.CompContext@b0b17595:doOperation # 8 # 1628059342140
+ # Components.oracle.mgw.common.v19_0_0_0_0.CompContext@74ad4f78:initialize # 0 # 1628059342140
+ # Components.oracle.mgw.common.v19_0_0_0_0.CompContext@74ad4f78:doOperation # 10 # 1628059342150
+ # Components.oracle.rdbms.install.seeddb.v19_0_0_0_0.CompContext@4929d0da:initialize # 0 # 1628059342150
+ # Components.oracle.rdbms.install.seeddb.v19_0_0_0_0.CompContext@4929d0da:doOperation # 8 # 1628059342158
+ # Components.oracle.oracore.rsf.v19_0_0_0_0.CompContext@4bf2cb8d:initialize # 0 # 1628059342158
+ # Components.oracle.oracore.rsf.v19_0_0_0_0.CompContext@4bf2cb8d:doOperation # 10 # 1628059342168
+ # Components.oracle.oracore.rsf.core.v19_0_0_0_0.CompContext@4800d9d2:initialize # 0 # 1628059342168
+ # Components.oracle.oracore.rsf.core.v19_0_0_0_0.CompContext@4800d9d2:doOperation # 9 # 1628059342177
+ # Components.oracle.rdbms.locator.v19_0_0_0_0.CompContext@b80af8b6:initialize # 0 # 1628059342177
+ # Components.oracle.rdbms.locator.v19_0_0_0_0.CompContext@b80af8b6:doOperation # 9 # 1628059342186
+ # Components.oracle.sdo.locator.jrf.v19_0_0_0_0.CompContext@2cb7bb5e:initialize # 0 # 1628059342186
+ # Components.oracle.sdo.locator.jrf.v19_0_0_0_0.CompContext@2cb7bb5e:doOperation # 9 # 1628059342195
+ # Components.oracle.dbjava.ic.v19_0_0_0_0.CompContext@15f6988c:initialize # 0 # 1628059342195
+ # Components.oracle.dbjava.ic.v19_0_0_0_0.CompContext@15f6988c:doOperation # 10 # 1628059342205
+ # Components.oracle.ordim.jai.v19_0_0_0_0.CompContext@8f19d26b:initialize # 0 # 1628059342205
+ # Components.oracle.ordim.jai.v19_0_0_0_0.CompContext@8f19d26b:doOperation # 9 # 1628059342214
+ # Components.oracle.ordim.rdbms.v19_0_0_0_0.CompContext@c1b938a7:initialize # 0 # 1628059342214
+ # Components.oracle.ordim.rdbms.v19_0_0_0_0.CompContext@c1b938a7:doOperation # 9 # 1628059342223
+ # Components.oracle.has.rsf.v19_0_0_0_0.CompContext@89b326e3:initialize # 0 # 1628059342223
+ # Components.oracle.has.rsf.v19_0_0_0_0.CompContext@89b326e3:doOperation # 10 # 1628059342233
+ # Components.oracle.precomp.rsf.v19_0_0_0_0.CompContext@6b0e3482:initialize # 0 # 1628059342233
+ # Components.oracle.precomp.rsf.v19_0_0_0_0.CompContext@6b0e3482:doOperation # 11 # 1628059342244
+ # Components.oracle.ctx.atg.v19_0_0_0_0.CompContext@9392a107:initialize # 0 # 1628059342244
+ # Components.oracle.ctx.atg.v19_0_0_0_0.CompContext@9392a107:doOperation # 9 # 1628059342253
+ # Components.oracle.ctx.companion.v19_0_0_0_0.CompContext@816d2a4f:initialize # 0 # 1628059342253
+ # Components.oracle.ctx.companion.v19_0_0_0_0.CompContext@816d2a4f:doOperation # 9 # 1628059342262
+ # Components.oracle.nlsrtl.rsf.ic.v19_0_0_0_0.CompContext@c657b2d5:initialize # 0 # 1628059342262
+ # Components.oracle.nlsrtl.rsf.ic.v19_0_0_0_0.CompContext@c657b2d5:doOperation # 9 # 1628059342271
+ # Components.oracle.slax.rsf.v19_0_0_0_0.CompContext@656940d:initialize # 0 # 1628059342271
+ # Components.oracle.slax.rsf.v19_0_0_0_0.CompContext@656940d:doOperation # 9 # 1628059342280
+ # Components.oracle.precomp.common.core.v19_0_0_0_0.CompContext@7ef6806e:initialize # 0 # 1628059342280
+ # Components.oracle.precomp.common.core.v19_0_0_0_0.CompContext@7ef6806e:doOperation # 9 # 1628059342289
+ # Components.oracle.ovm.v19_0_0_0_0.CompContext@3e94eb0e:initialize # 0 # 1628059342290
+ # Components.oracle.ovm.v19_0_0_0_0.CompContext@3e94eb0e:doOperation # 9 # 1628059342299
+ # Components.oracle.sqlj.sqljruntime.v19_0_0_0_0.CompContext@6130eeaa:initialize # 0 # 1628059342299
+ # Components.oracle.sqlj.sqljruntime.v19_0_0_0_0.CompContext@6130eeaa:doOperation # 9 # 1628059342308
+ # Components.oracle.rdbms.rsf.v19_0_0_0_0.CompContext@a1b65f66:initialize # 0 # 1628059342308
+ # Components.oracle.rdbms.rsf.v19_0_0_0_0.CompContext@a1b65f66:doOperation # 10 # 1628059342318
+ # Components.oracle.ons.ic.v19_0_0_0_0.CompContext@914cee80:initialize # 0 # 1628059342318
+ # Components.oracle.ons.ic.v19_0_0_0_0.CompContext@914cee80:doOperation # 10 # 1628059342328
+ # Components.oracle.marvel.v19_0_0_0_0.CompContext@36f3f935:initialize # 0 # 1628059342328
+ # Components.oracle.marvel.v19_0_0_0_0.CompContext@36f3f935:doOperation # 9 # 1628059342337
+ # Components.oracle.dbdev.v19_0_0_0_0.CompContext@19b5f1bd:initialize # 0 # 1628059342337
+ # Components.oracle.dbdev.v19_0_0_0_0.CompContext@19b5f1bd:doOperation # 8 # 1628059342345
+ # Components.oracle.dbjava.server.v19_0_0_0_0.CompContext@d03ebe83:initialize # 0 # 1628059342345
+ # Components.oracle.dbjava.server.v19_0_0_0_0.CompContext@d03ebe83:doOperation # 11 # 1628059342356
+ # Components.oracle.buildtools.rsf.v19_0_0_0_0.CompContext@2a286f1d:initialize # 0 # 1628059342356
+ # Components.oracle.buildtools.rsf.v19_0_0_0_0.CompContext@2a286f1d:doOperation # 12 # 1628059342368
+ # Components.oracle.xdk.rsf.v19_0_0_0_0.CompContext@aafd718f:initialize # 0 # 1628059342368
+ # Components.oracle.xdk.rsf.v19_0_0_0_0.CompContext@aafd718f:doOperation # 10 # 1628059342378
+ # Components.oracle.nlsrtl.rsf.lbuilder.v19_0_0_0_0.CompContext@159fa8aa:initialize # 0 # 1628059342378
+ # Components.oracle.nlsrtl.rsf.lbuilder.v19_0_0_0_0.CompContext@159fa8aa:doOperation # 10 # 1628059342388
+ # Components.oracle.perlint.v5_28_1_0_0.CompContext@811a085e:initialize # 0 # 1628059342388
+ # oracle.sysman.oii.oiif.oiifb.OiifbCompWizChainCondElem@2cbda0cf:initialize # 0 # 1628059342398
+ # oracle.sysman.oii.oiif.oiifb.OiifbCompWizChainCondElem@2cbda0cf:doOperation # 0 # 1628059342398
+ # oracle.sysman.oii.oiif.oiifb.OiifbCompWizChainCondElem@d16a10:initialize # 0 # 1628059342398
+ # oracle.sysman.oii.oiif.oiifb.OiifbCompWizChainCondElem@d16a10:doOperation # 0 # 1628059342398
+ # Components.oracle.perlint.v5_28_1_0_0.CompContext@811a085e:doOperation # 10 # 1628059342398
+ # Components.oracle.rdbms.dv.v19_0_0_0_0.CompContext@91f52caa:initialize # 0 # 1628059342398
+ # Components.oracle.rdbms.dv.v19_0_0_0_0.CompContext@91f52caa:doOperation # 11 # 1628059342409
+ # Components.oracle.help.share.v11_1_1_7_0.CompContext@4907b7c1:initialize # 0 # 1628059342409
+ # Components.oracle.help.share.v11_1_1_7_0.CompContext@4907b7c1:doOperation # 9 # 1628059342418
+ # Components.oracle.oraolap.api.v19_0_0_0_0.CompContext@205f739e:initialize # 0 # 1628059342418
+ # Components.oracle.oraolap.api.v19_0_0_0_0.CompContext@205f739e:doOperation # 9 # 1628059342427
+ # Components.oracle.rdbms.olap.v19_0_0_0_0.CompContext@278ac3b0:initialize # 0 # 1628059342427
+ # Components.oracle.rdbms.olap.v19_0_0_0_0.CompContext@278ac3b0:doOperation # 9 # 1628059342436
+ # Components.oracle.rdbms.dm.v19_0_0_0_0.CompContext@6bd74793:initialize # 0 # 1628059342436
+ # Components.oracle.rdbms.dm.v19_0_0_0_0.CompContext@6bd74793:doOperation # 10 # 1628059342446
+ # Components.oracle.network.rsf.v19_0_0_0_0.CompContext@1919d97e:initialize # 0 # 1628059342446
+ # Components.oracle.network.rsf.v19_0_0_0_0.CompContext@1919d97e:doOperation # 10 # 1628059342456
+ # Components.oracle.ldap.rsf.ic.v19_0_0_0_0.CompContext@cf24af43:initialize # 0 # 1628059342456
+ # Components.oracle.ldap.rsf.ic.v19_0_0_0_0.CompContext@cf24af43:doOperation # 9 # 1628059342465
+ # Components.oracle.rdbms.lbac.v19_0_0_0_0.CompContext@477e1fe4:initialize # 0 # 1628059342465
+ # Components.oracle.rdbms.lbac.v19_0_0_0_0.CompContext@477e1fe4:doOperation # 10 # 1628059342475
+ # Components.oracle.rdbms.rat.v19_0_0_0_0.CompContext@f495ef07:initialize # 0 # 1628059342475
+ # Components.oracle.rdbms.rat.v19_0_0_0_0.CompContext@f495ef07:doOperation # 10 # 1628059342485
+ # Components.oracle.oracler.server.v19_0_0_0_0.CompContext@196976b7:initialize # 0 # 1628059342485
+ # Components.oracle.oracler.server.v19_0_0_0_0.CompContext@196976b7:doOperation # 10 # 1628059342495
+ # Components.oracle.ldap.rsf.v19_0_0_0_0.CompContext@5aa55b17:initialize # 0 # 1628059342495
+ # Components.oracle.ldap.rsf.v19_0_0_0_0.CompContext@5aa55b17:doOperation # 9 # 1628059342504
+ # Components.oracle.perlint.modules.v5_28_1_0_0.CompContext@e31917e5:initialize # 0 # 1628059342504
+ # Components.oracle.perlint.modules.v5_28_1_0_0.CompContext@e31917e5:doOperation # 9 # 1628059342513
+ # Components.oracle.perlint.expat.v2_0_1_0_5.CompContext@429a81ee:initialize # 0 # 1628059342513
+ # Components.oracle.perlint.expat.v2_0_1_0_5.CompContext@429a81ee:doOperation # 9 # 1628059342522
+ # Components.oracle.rdbms.crs.v19_0_0_0_0.CompContext@bc269928:initialize # 0 # 1628059342522
+ # Components.oracle.rdbms.crs.v19_0_0_0_0.CompContext@bc269928:doOperation # 8 # 1628059342530
+ # Components.oracle.has.db.cvu.v19_0_0_0_0.CompContext@8e5b98ce:initialize # 0 # 1628059342530
+ # Components.oracle.has.db.cvu.v19_0_0_0_0.CompContext@8e5b98ce:doOperation # 9 # 1628059342539
+ # Components.oracle.rdbms.rsf.ic.v19_0_0_0_0.CompContext@e4691494:initialize # 0 # 1628059342539
+ # Components.oracle.rdbms.rsf.ic.v19_0_0_0_0.CompContext@e4691494:doOperation # 10 # 1628059342549
+ # Components.oracle.odbc.ic.v19_0_0_0_0.CompContext@452842c2:initialize # 0 # 1628059342549
+ # Components.oracle.odbc.ic.v19_0_0_0_0.CompContext@452842c2:doOperation # 10 # 1628059342559
+ # Components.oracle.bali.jewt.v11_1_1_6_0.CompContext@4053f7aa:initialize # 0 # 1628059342559
+ # Components.oracle.bali.jewt.v11_1_1_6_0.CompContext@4053f7aa:doOperation # 8 # 1628059342567
+ # Components.oracle.nlsrtl.rsf.core.v19_0_0_0_0.CompContext@7f8cd79a:initialize # 0 # 1628059342567
+ # Components.oracle.nlsrtl.rsf.core.v19_0_0_0_0.CompContext@7f8cd79a:doOperation # 9 # 1628059342576
+ # Components.oracle.bali.share.v11_1_1_6_0.CompContext@6e1725c7:initialize # 0 # 1628059342576
+ # Components.oracle.bali.share.v11_1_1_6_0.CompContext@6e1725c7:doOperation # 10 # 1628059342586
+ # Components.oracle.assistants.deconfig.v19_0_0_0_0.CompContext@3c92f1b8:initialize # 0 # 1628059342586
+ # Components.oracle.assistants.deconfig.v19_0_0_0_0.CompContext@3c92f1b8:doOperation # 8 # 1628059342594
+ # Components.oracle.usm.deconfig.v19_0_0_0_0.CompContext@5bab0e92:initialize # 0 # 1628059342594
+ # Components.oracle.usm.deconfig.v19_0_0_0_0.CompContext@5bab0e92:doOperation # 9 # 1628059342603
+ # Components.oracle.tfa.db.v19_0_0_0_0.CompContext@d2947bd7:initialize # 0 # 1628059342603
+ # Components.oracle.tfa.db.v19_0_0_0_0.CompContext@d2947bd7:doOperation # 7 # 1628059342610
+ # Components.oracle.swd.commonlogging.v13_3_0_0_0.CompContext@af8cf2b1:initialize # 0 # 1628059342610
+ # Components.oracle.swd.commonlogging.v13_3_0_0_0.CompContext@af8cf2b1:doOperation # 10 # 1628059342620
+ # Components.oracle.swd.oui.v12_2_0_7_0.CompContext@c381fafd:initialize # 0 # 1628059342620
+ # Components.oracle.swd.oui.v12_2_0_7_0.CompContext@c381fafd:doOperation # 9 # 1628059342629
+ # Components.oracle.swd.opatch.v12_2_0_1_15.CompContext@1a59b48b:initialize # 0 # 1628059342629
+ # Components.oracle.swd.opatch.v12_2_0_1_15.CompContext@1a59b48b:doOperation # 9 # 1628059342638
+ # Components.oracle.swd.oui.core.v12_2_0_7_0.CompContext@c1f1983a:initialize # 0 # 1628059342638
+ # Components.oracle.swd.oui.core.v12_2_0_7_0.CompContext@c1f1983a:doOperation # 10 # 1628059342648
+ # Components.oracle.swd.oui.core.min.v12_2_0_7_0.CompContext@84590956:initialize # 0 # 1628059342648
+ # Components.oracle.swd.oui.core.min.v12_2_0_7_0.CompContext@84590956:doOperation # 9 # 1628059342657
+ # Components.oracle.jdk.v1_8_0_201_0.CompContext@50ac1ad9:initialize # 0 # 1628059342657
+ # Components.oracle.jdk.v1_8_0_201_0.CompContext@50ac1ad9:doOperation # 9 # 1628059342666
+ # oracle.sysman.oii.oiic.OiicCompsWizEngine@26e9415b:doOperation # 268 # 1628059342666
+ # oracle.sysman.oii.oiif.oiifw.OiifwActionsPhaseWCDE@398ffb97:initialize # 9 # 1628059342675
+ # oracle.sysman.oii.oiif.oiifw.OiifwUpdateLibrariesWCCE@3eea8156:initialize # 0 # 1628059342675
+ # oracle.sysman.oii.oiif.oiifw.OiifwUpdateLibrariesWCCE@3eea8156:doOperation # 2 # 1628059342677
+ # oracle.sysman.oii.oiif.oiifw.OiifwInstallPhaseWCCE@5ca8b8fa:initialize # 2 # 1628059342679
+ # oracle.sysman.oii.oiif.oiifw.OiifwHomeSetupWCCE@59a6b10b:initialize # 0 # 1628059343653
+ # oracle.sysman.oii.oiif.oiifw.OiifwHomeSetupWCCE@59a6b10b:doOperation # 1 # 1628059343654
+ # oracle.sysman.oii.oiif.oiifw.OiifwInstallPhaseWCCE$OiifwComponentIP1WCCE@260a24f9:initialize # 0 # 1628059343654
+ # Start of Install Phase 1 # 0 # 1628059343654
+ # Configure Local Node in progress. #  0  # 1628059343654
+ # Configure Local Node in progress. #  0  # 1628059343654
+ # Prepare in progress. #  0  # 1628059343654
+ # Prepare in progress. #  0  # 1628059343654
+ # oracle.jdk_1.8.0.201.0 # 68 # 1628059343725
+ # oracle.swd.oui.core.min_12.2.0.7.0 # 9 # 1628059343734
+ # oracle.swd.oui.core_12.2.0.7.0 # 62 # 1628059343796
+ # oracle.swd.opatch_12.2.0.1.15 # 10 # 1628059343806
+ # oracle.swd.oui_12.2.0.7.0 # 39 # 1628059343845
+ # oracle.swd.commonlogging_13.3.0.0.0 # 10 # 1628059343855
+ # oracle.tfa.db_19.0.0.0.0 # 79 # 1628059343934
+ # oracle.usm.deconfig_19.0.0.0.0 # 4 # 1628059343938
+ # oracle.assistants.deconfig_19.0.0.0.0 # 3 # 1628059343941
+ # oracle.bali.share_11.1.1.6.0 # 2 # 1628059343943
+ # oracle.nlsrtl.rsf.core_19.0.0.0.0 # 9 # 1628059343952
+ # oracle.bali.jewt_11.1.1.6.0 # 3 # 1628059343955
+ # oracle.odbc.ic_19.0.0.0.0 # 4 # 1628059343959
+ # oracle.rdbms.rsf.ic_19.0.0.0.0 # 7 # 1628059343966
+ # oracle.has.db.cvu_19.0.0.0.0 # 3 # 1628059343969
+ # oracle.rdbms.crs_19.0.0.0.0 # 2 # 1628059343971
+ # oracle.perlint.expat_2.0.1.0.5 # 4 # 1628059343975
+ # oracle.perlint.modules_5.28.1.0.0 # 20 # 1628059343995
+ # oracle.ldap.rsf_19.0.0.0.0 # 8 # 1628059344003
+ # oracle.oracler.server_19.0.0.0.0 # 32 # 1628059344035
+ # oracle.rdbms.rat_19.0.0.0.0 # 3 # 1628059344038
+ # oracle.rdbms.lbac_19.0.0.0.0 # 21 # 1628059344059
+ # oracle.ldap.rsf.ic_19.0.0.0.0 # 4 # 1628059344063
+ # oracle.network.rsf_19.0.0.0.0 # 5 # 1628059344068
+ # oracle.rdbms.dm_19.0.0.0.0 # 4 # 1628059344072
+ # oracle.rdbms.olap_19.0.0.0.0 # 3 # 1628059344075
+ # oracle.oraolap.api_19.0.0.0.0 # 3 # 1628059344078
+ # oracle.help.share_11.1.1.7.0 # 3 # 1628059344081
+ # oracle.rdbms.dv_19.0.0.0.0 # 4 # 1628059344085
+ # oracle.perlint_5.28.1.0.0 # 15 # 1628059344100
+ # oracle.nlsrtl.rsf.lbuilder_19.0.0.0.0 # 18 # 1628059344118
+ # oracle.xdk.rsf_19.0.0.0.0 # 9 # 1628059344127
+ # oracle.buildtools.rsf_19.0.0.0.0 # 8 # 1628059344135
+ # oracle.dbjava.server_19.0.0.0.0 # 3 # 1628059344138
+ # oracle.dbdev_19.0.0.0.0 # 5 # 1628059344143
+ # oracle.marvel_19.0.0.0.0 # 138 # 1628059344281
+ # oracle.ons.ic_19.0.0.0.0 # 3 # 1628059344284
+ # oracle.rdbms.rsf_19.0.0.0.0 # 61 # 1628059344345
+ # oracle.sqlj.sqljruntime_19.0.0.0.0 # 4 # 1628059344349
+ # oracle.ovm_19.0.0.0.0 # 3 # 1628059344352
+ # oracle.precomp.common.core_19.0.0.0.0 # 5 # 1628059344357
+ # oracle.slax.rsf_19.0.0.0.0 # 4 # 1628059344362
+ # oracle.nlsrtl.rsf.ic_19.0.0.0.0 # 7 # 1628059344369
+ # oracle.ctx.companion_19.0.0.0.0 # 4 # 1628059344373
+ # oracle.ctx.atg_19.0.0.0.0 # 5 # 1628059344378
+ # oracle.precomp.rsf_19.0.0.0.0 # 4 # 1628059344382
+ # oracle.has.rsf_19.0.0.0.0 # 4 # 1628059344386
+ # oracle.ordim.rdbms_19.0.0.0.0 # 3 # 1628059344389
+ # oracle.ordim.jai_19.0.0.0.0 # 4 # 1628059344393
+ # oracle.dbjava.ic_19.0.0.0.0 # 3 # 1628059344396
+ # oracle.sdo.locator.jrf_19.0.0.0.0 # 4 # 1628059344400
+ # oracle.rdbms.locator_19.0.0.0.0 # 8 # 1628059344408
+ # oracle.oracore.rsf.core_19.0.0.0.0 # 5 # 1628059344413
+ # oracle.oracore.rsf_19.0.0.0.0 # 5 # 1628059344418
+ # oracle.rdbms.install.seeddb_19.0.0.0.0 # 4 # 1628059344422
+ # oracle.mgw.common_19.0.0.0.0 # 4 # 1628059344426
+ # oracle.xdk.xquery_19.0.0.0.0 # 4 # 1628059344430
+ # oracle.xdk.server_19.0.0.0.0 # 5 # 1628059344435
+ # oracle.nlsrtl.rsf_19.0.0.0.0 # 6 # 1628059344441
+ # oracle.swd.opatchautodb_12.2.0.1.5 # 10 # 1628059344451
+ # oracle.rsf_19.0.0.0.0 # 3 # 1628059344454
+ # oracle.blaslapack_19.0.0.0.0 # 4 # 1628059344458
+ # oracle.dbtoolslistener_19.0.0.0.0 # 7 # 1628059344465
+ # oracle.rdbms.deconfig_19.0.0.0.0 # 4 # 1628059344469
+ # oracle.rhp.common_19.0.0.0.0 # 4 # 1628059344473
+ # oracle.rhp.db_19.0.0.0.0 # 3 # 1628059344476
+ # oracle.ntoledb.odp_net_2_19.0.0.0.0 # 4 # 1628059344480
+ # oracle.javavm.companion_19.0.0.0.0 # 4 # 1628059344484
+ # oracle.javavm.server.core_19.0.0.0.0 # 3 # 1628059344487
+ # oracle.ntoledbolap_19.0.0.0.0 # 3 # 1628059344491
+ # oracle.ntoledb_19.0.0.0.0 # 7 # 1628059344498
+ # oracle.ldap.ssl_19.0.0.0.0 # 4 # 1628059344502
+ # oracle.dbjava.ucp_19.0.0.0.0 # 3 # 1628059344505
+ # oracle.dbjava.jdbc_19.0.0.0.0 # 3 # 1628059344508
+ # oracle.ordim.client_19.0.0.0.0 # 4 # 1628059344512
+ # oracle.javavm.client_19.0.0.0.0 # 113 # 1628059344625
+ # oracle.duma_19.0.0.0.0 # 15 # 1628059344641
+ # oracle.odbc_19.0.0.0.0 # 4 # 1628059344645
+ # oracle.oraolap.dbscripts_19.0.0.0.0 # 3 # 1628059344648
+ # oracle.wwg.plsql_19.0.0.0.0 # 4 # 1628059344652
+ # oracle.rdbms.dbscripts_19.0.0.0.0 # 15 # 1628059344667
+ # oracle.precomp.lang_19.0.0.0.0 # 11 # 1628059344678
+ # oracle.bali.ewt_11.1.1.6.0 # 3 # 1628059344681
+ # oracle.sqlplus.ic_19.0.0.0.0 # 4 # 1628059344685
+ # oracle.precomp.common_19.0.0.0.0 # 3 # 1628059344688
+ # oracle.rdbms.plsql_19.0.0.0.0 # 3 # 1628059344692
+ # oracle.install.deinstalltool_19.0.0.0.0 # 4 # 1628059344696
+ # oracle.aspnet_2_19.0.0.0.0 # 4 # 1628059344700
+ # oracle.xdk.parser.java_19.0.0.0.0 # 4 # 1628059344704
+ # oracle.ldap.security.osdt_19.0.0.0.0 # 4 # 1628059344708
+ # oracle.ldap.owm_19.0.0.0.0 # 14 # 1628059344722
+ # oracle.has.common.cvu_19.0.0.0.0 # 7 # 1628059344729
+ # oracle.has.common_19.0.0.0.0 # 19 # 1628059344748
+ # oracle.ntoramts_19.0.0.0.0 # 7 # 1628059344755
+ # oracle.winprod_19.0.0.0.0 # 1 # 1628059344756
+ # oracle.rdbms.install.plugins_19.0.0.0.0 # 4 # 1628059344760
+ # oracle.rdbms.install.common_19.0.0.0.0 # 22 # 1628059344782
+ # oracle.ldap.admin_19.0.0.0.0 # 28 # 1628059344810
+ # oracle.buildtools.common_19.0.0.0.0 # 4 # 1628059344814
+ # oracle.clrintg.ode_net_2_19.0.0.0.0 # 3 # 1628059344817
+ # oracle.bali.ice_11.1.1.7.0 # 3 # 1628059344820
+ # oracle.help.ohj_11.1.1.7.0 # 2 # 1628059344822
+ # oracle.assistants.acf_19.0.0.0.0 # 29 # 1628059344851
+ # oracle.network.client_19.0.0.0.0 # 27 # 1628059344878
+ # oracle.rdbms.rman_19.0.0.0.0 # 7 # 1628059344885
+ # oracle.ons_19.0.0.0.0 # 712 # 1628059345597
+ # oracle.assistants.netca.client_19.0.0.0.0 # 40 # 1628059345637
+ # oracle.rdbms.hs_common_19.0.0.0.0 # 2 # 1628059345639
+ # oracle.rdbms.hsodbc_19.0.0.0.0 # 4 # 1628059345643
+ # oracle.precomp_19.0.0.0.0 # 2 # 1628059345645
+ # oracle.assistants.server_19.0.0.0.0 # 12 # 1628059345657
+ # oracle.sqlplus_19.0.0.0.0 # 3 # 1628059345660
+ # oracle.sdo.locator_19.0.0.0.0 # 9 # 1628059345669
+ # oracle.ordim.server_19.0.0.0.0 # 5 # 1628059345674
+ # oracle.rdbms.oci_19.0.0.0.0 # 3 # 1628059345677
+ # oracle.xdk_19.0.0.0.0 # 4 # 1628059345681
+ # oracle.rdbms.scheduler_19.0.0.0.0 # 6 # 1628059345687
+ # oracle.javavm.server_19.0.0.0.0 # 14 # 1628059345701
+ # oracle.network.aso_19.0.0.0.0 # 6 # 1628059345707
+ # oracle.rdbms.util_19.0.0.0.0 # 21 # 1628059345728
+ # oracle.ldap.client_19.0.0.0.0 # 33 # 1628059345761
+ # oracle.has.db_19.0.0.0.0 # 10 # 1628059345771
+ # oracle.network.listener_19.0.0.0.0 # 3 # 1628059345774
+ # oracle.ctx_19.0.0.0.0 # 8 # 1628059345782
+ # oracle.network_19.0.0.0.0 # 3 # 1628059345785
+ # oracle.rdbms_19.0.0.0.0 # 64 # 1628059345849
+ # oracle.oraolap_19.0.0.0.0 # 5 # 1628059345854
+ # oracle.sdo_19.0.0.0.0 # 9 # 1628059345863
+ # oracle.rdbms.partitioning_19.0.0.0.0 # 4 # 1628059345867
+ # oracle.options_19.0.0.0.0 # 2 # 1628059345869
+ # oracle.server_19.0.0.0.0 # 15818 # 1628059361687
+ # End of Install Phase 1 # 18033 # 1628059361687
+ # Prepare successful. # 18034 # 1628059361688
+ # Prepare successful. # 18034 # 1628059361688
+ # oracle.sysman.oii.oiif.oiifw.OiifwInstallPhaseWCCE$OiifwComponentIP1WCCE@260a24f9:doOperation # 18038 # 1628059361692
+ # oracle.sysman.oii.oiif.oiifw.OiifwInstallPhaseWCCE$OiifwComponentIP2WCCE@68b15f4c:initialize # 0 # 1628059361692
+ # Start of Install Phase 2 # 0 # 1628059361697
+ # Setup in progress. #  0  # 1628059361699
+ # Setup in progress. #  0  # 1628059361700
+ # Setup files in progress. #  0  # 1628059361700
+ # Setup files in progress. #  0  # 1628059361701
+ # oracle.jdk_1.8.0.201.0 # 28 # 1628059361730
+ # oracle.swd.oui.core.min_12.2.0.7.0 # 10 # 1628059361740
+ # oracle.swd.oui.core_12.2.0.7.0 # 98 # 1628059361839
+ # oracle.swd.opatch_12.2.0.1.15 # 47 # 1628059361886
+ # oracle.swd.oui_12.2.0.7.0 # 20 # 1628059361906
+ # oracle.swd.commonlogging_13.3.0.0.0 # 11 # 1628059361918
+ # oracle.tfa.db_19.0.0.0.0 # 10 # 1628059361929
+ # oracle.usm.deconfig_19.0.0.0.0 # 11 # 1628059361940
+ # oracle.assistants.deconfig_19.0.0.0.0 # 10 # 1628059361950
+ # oracle.bali.share_11.1.1.6.0 # 10 # 1628059361961
+ # oracle.nlsrtl.rsf.core_19.0.0.0.0 # 11 # 1628059361972
+ # oracle.bali.jewt_11.1.1.6.0 # 10 # 1628059361982
+ # oracle.odbc.ic_19.0.0.0.0 # 144 # 1628059362127
+ # oracle.rdbms.rsf.ic_19.0.0.0.0 # 11 # 1628059362138
+ # oracle.has.db.cvu_19.0.0.0.0 # 10 # 1628059362148
+ # oracle.rdbms.crs_19.0.0.0.0 # 10 # 1628059362159
+ # oracle.perlint.expat_2.0.1.0.5 # 11 # 1628059362170
+ # oracle.perlint.modules_5.28.1.0.0 # 40 # 1628059362210
+ # oracle.ldap.rsf_19.0.0.0.0 # 10 # 1628059362221
+ # oracle.oracler.server_19.0.0.0.0 # 10 # 1628059362232
+ # oracle.rdbms.rat_19.0.0.0.0 # 11 # 1628059362243
+ # oracle.rdbms.lbac_19.0.0.0.0 # 11 # 1628059362254
+ # oracle.ldap.rsf.ic_19.0.0.0.0 # 10 # 1628059362265
+ # oracle.network.rsf_19.0.0.0.0 # 25 # 1628059362290
+ # oracle.rdbms.dm_19.0.0.0.0 # 10 # 1628059362300
+ # oracle.rdbms.olap_19.0.0.0.0 # 10 # 1628059362311
+ # oracle.oraolap.api_19.0.0.0.0 # 11 # 1628059362322
+ # oracle.help.share_11.1.1.7.0 # 10 # 1628059362332
+ # oracle.rdbms.dv_19.0.0.0.0 # 12 # 1628059362345
+ # oracle.perlint_5.28.1.0.0 # 631 # 1628059362976
+ # oracle.nlsrtl.rsf.lbuilder_19.0.0.0.0 # 63 # 1628059363040
+ # oracle.xdk.rsf_19.0.0.0.0 # 12 # 1628059363053
+ # oracle.buildtools.rsf_19.0.0.0.0 # 11 # 1628059363064
+ # oracle.dbjava.server_19.0.0.0.0 # 10 # 1628059363074
+ # oracle.dbdev_19.0.0.0.0 # 12 # 1628059363087
+ # oracle.marvel_19.0.0.0.0 # 12 # 1628059363100
+ # oracle.ons.ic_19.0.0.0.0 # 11 # 1628059363111
+ # oracle.rdbms.rsf_19.0.0.0.0 # 57 # 1628059363169
+ # oracle.sqlj.sqljruntime_19.0.0.0.0 # 10 # 1628059363179
+ # oracle.ovm_19.0.0.0.0 # 11 # 1628059363191
+ # oracle.precomp.common.core_19.0.0.0.0 # 11 # 1628059363202
+ # oracle.slax.rsf_19.0.0.0.0 # 9 # 1628059363211
+ # oracle.nlsrtl.rsf.ic_19.0.0.0.0 # 11 # 1628059363224
+ # oracle.ctx.companion_19.0.0.0.0 # 11 # 1628059363235
+ # oracle.ctx.atg_19.0.0.0.0 # 10 # 1628059363245
+ # oracle.precomp.rsf_19.0.0.0.0 # 11 # 1628059363256
+ # oracle.has.rsf_19.0.0.0.0 # 10 # 1628059363266
+ # oracle.ordim.rdbms_19.0.0.0.0 # 10 # 1628059363277
+ # oracle.ordim.jai_19.0.0.0.0 # 10 # 1628059363288
+ # oracle.dbjava.ic_19.0.0.0.0 # 14 # 1628059363302
+ # oracle.sdo.locator.jrf_19.0.0.0.0 # 10 # 1628059363312
+ # oracle.rdbms.locator_19.0.0.0.0 # 11 # 1628059363323
+ # oracle.oracore.rsf.core_19.0.0.0.0 # 10 # 1628059363334
+ # oracle.oracore.rsf_19.0.0.0.0 # 10 # 1628059363344
+ # oracle.rdbms.install.seeddb_19.0.0.0.0 # 10 # 1628059363355
+ # oracle.mgw.common_19.0.0.0.0 # 10 # 1628059363365
+ # oracle.xdk.xquery_19.0.0.0.0 # 10 # 1628059363376
+ # oracle.xdk.server_19.0.0.0.0 # 11 # 1628059363387
+ # oracle.nlsrtl.rsf_19.0.0.0.0 # 12 # 1628059363399
+ # oracle.swd.opatchautodb_12.2.0.1.5 # 11 # 1628059363410
+ # oracle.rsf_19.0.0.0.0 # 11 # 1628059363421
+ # oracle.blaslapack_19.0.0.0.0 # 12 # 1628059363434
+ # oracle.dbtoolslistener_19.0.0.0.0 # 10 # 1628059363444
+ # oracle.rdbms.deconfig_19.0.0.0.0 # 10 # 1628059363455
+ # oracle.rhp.common_19.0.0.0.0 # 10 # 1628059363466
+ # oracle.rhp.db_19.0.0.0.0 # 11 # 1628059363478
+ # oracle.ntoledb.odp_net_2_19.0.0.0.0 # 305 # 1628059363783
+ # oracle.javavm.companion_19.0.0.0.0 # 11 # 1628059363795
+ # oracle.javavm.server.core_19.0.0.0.0 # 11 # 1628059363806
+ # oracle.ntoledbolap_19.0.0.0.0 # 431 # 1628059364237
+ # oracle.ntoledb_19.0.0.0.0 # 430 # 1628059364668
+ # oracle.ldap.ssl_19.0.0.0.0 # 10 # 1628059364679
+ # oracle.dbjava.ucp_19.0.0.0.0 # 11 # 1628059364691
+ # oracle.dbjava.jdbc_19.0.0.0.0 # 10 # 1628059364702
+ # oracle.ordim.client_19.0.0.0.0 # 14 # 1628059364716
+ # oracle.javavm.client_19.0.0.0.0 # 11 # 1628059364728
+ # oracle.duma_19.0.0.0.0 # 49 # 1628059364777
+ # oracle.odbc_19.0.0.0.0 # 12 # 1628059364789
+ # oracle.oraolap.dbscripts_19.0.0.0.0 # 10 # 1628059364800
+ # oracle.wwg.plsql_19.0.0.0.0 # 9 # 1628059364810
+ # oracle.rdbms.dbscripts_19.0.0.0.0 # 38 # 1628059364849
+ # oracle.precomp.lang_19.0.0.0.0 # 11 # 1628059364860
+ # oracle.bali.ewt_11.1.1.6.0 # 10 # 1628059364870
+ # oracle.sqlplus.ic_19.0.0.0.0 # 10 # 1628059364880
+ # oracle.precomp.common_19.0.0.0.0 # 9 # 1628059364890
+ # oracle.rdbms.plsql_19.0.0.0.0 # 10 # 1628059364901
+ # oracle.install.deinstalltool_19.0.0.0.0 # 10 # 1628059364911
+ # oracle.aspnet_2_19.0.0.0.0 # 22 # 1628059364934
+ # oracle.xdk.parser.java_19.0.0.0.0 # 9 # 1628059364944
+ # oracle.ldap.security.osdt_19.0.0.0.0 # 12 # 1628059364956
+ # oracle.ldap.owm_19.0.0.0.0 # 29 # 1628059364985
+ # oracle.has.common.cvu_19.0.0.0.0 # 10 # 1628059364995
+ # oracle.has.common_19.0.0.0.0 # 11 # 1628059365007
+ # oracle.ntoramts_19.0.0.0.0 # 17 # 1628059365024
+ # oracle.winprod_19.0.0.0.0 # 14 # 1628059365038
+ # oracle.rdbms.install.plugins_19.0.0.0.0 # 11 # 1628059365049
+ # oracle.rdbms.install.common_19.0.0.0.0 # 56 # 1628059365105
+ # oracle.ldap.admin_19.0.0.0.0 # 10 # 1628059365116
+ # oracle.buildtools.common_19.0.0.0.0 # 9 # 1628059365126
+ # oracle.clrintg.ode_net_2_19.0.0.0.0 # 670 # 1628059365797
+ # oracle.bali.ice_11.1.1.7.0 # 11 # 1628059365808
+ # oracle.help.ohj_11.1.1.7.0 # 12 # 1628059365820
+ # oracle.assistants.acf_19.0.0.0.0 # 12 # 1628059365832
+ # oracle.network.client_19.0.0.0.0 # 30 # 1628059365862
+ # oracle.rdbms.rman_19.0.0.0.0 # 11 # 1628059365874
+ # oracle.ons_19.0.0.0.0 # 145 # 1628059366019
+ # oracle.assistants.netca.client_19.0.0.0.0 # 52 # 1628059366072
+ # oracle.rdbms.hs_common_19.0.0.0.0 # 18 # 1628059366090
+ # oracle.rdbms.hsodbc_19.0.0.0.0 # 45 # 1628059366136
+ # oracle.precomp_19.0.0.0.0 # 10 # 1628059366147
+ # oracle.assistants.server_19.0.0.0.0 # 198 # 1628059366346
+ # oracle.sqlplus_19.0.0.0.0 # 46 # 1628059366392
+ # oracle.sdo.locator_19.0.0.0.0 # 11 # 1628059366403
+ # oracle.ordim.server_19.0.0.0.0 # 72 # 1628059366475
+ # oracle.rdbms.oci_19.0.0.0.0 # 10 # 1628059366486
+ # oracle.xdk_19.0.0.0.0 # 11 # 1628059366497
+ # oracle.rdbms.scheduler_19.0.0.0.0 # 11 # 1628059366508
+ # oracle.javavm.server_19.0.0.0.0 # 10 # 1628059366519
+ # oracle.network.aso_19.0.0.0.0 # 10 # 1628059366529
+ # oracle.rdbms.util_19.0.0.0.0 # 23 # 1628059366553
+ # oracle.ldap.client_19.0.0.0.0 # 12 # 1628059366565
+ # oracle.has.db_19.0.0.0.0 # 15 # 1628059366580
+ # oracle.network.listener_19.0.0.0.0 # 14 # 1628059366594
+ # oracle.ctx_19.0.0.0.0 # 12 # 1628059366606
+ # oracle.network_19.0.0.0.0 # 11 # 1628059366618
+ # oracle.rdbms_19.0.0.0.0 # 237 # 1628059366855
+ # oracle.oraolap_19.0.0.0.0 # 10 # 1628059366865
+ # oracle.sdo_19.0.0.0.0 # 11 # 1628059366876
+ # oracle.rdbms.partitioning_19.0.0.0.0 # 10 # 1628059366887
+ # oracle.options_19.0.0.0.0 # 10 # 1628059366897
+ # oracle.server_19.0.0.0.0 # 17 # 1628059366914
+ # End of Install Phase 2 # 5217 # 1628059366914
+ # Setup files successful. # 5213 # 1628059366914
+ # Setup files successful. # 5215 # 1628059366915
+ # oracle.sysman.oii.oiif.oiifw.OiifwInstallPhaseWCCE$OiifwComponentIP2WCCE@68b15f4c:doOperation # 5246 # 1628059366939
+ # oracle.sysman.oii.oiif.oiifw.OiifwInstallPhaseWCCE@5ca8b8fa:doOperation # 0 # 1628059366939
+ # Setup Inventory in progress. #  0  # 1628059366941
+ # Setup Inventory in progress. #  0  # 1628059366941
+ # XML Writer, Writing Homes  # 13 # 1628059367177
+ # Writing C:/WINDOWS.X64_193000_db_home/inventory/ContentsXML/oui-patch.xml :  # 32 # 1628059372371
+ # XML Writer, Writing Comps for Home 1 # 220 # 1628059372591
+ # XML Writer, Writing Libs for Home 1 # 23 # 1628059372615
+ # XML Writer, Writing config tools for Stage Inventory  # 9 # 1628059372625
+ # Writing C:/Program Files/Oracle/Inventory/ContentsXML/oui-patch.xml :  # 3 # 1628059372653
+ # XML Writer, Writing Comps for Home 0 # 3 # 1628059372656
+ # XML Writer, Writing Libs for Home 0 # 4 # 1628059372660
+ # Setup Inventory successful. # 5721 # 1628059372662
+ # Setup Inventory successful. # 5721 # 1628059372662
+ # oracle.sysman.oii.oiic.OiicInstSaveInvWCCE@7c0aa236:initialize # 5725 # 1628059372665
+ # oracle.sysman.oii.oiic.OiicInstSaveInvWCCE@7c0aa236:doOperation # 0 # 1628059372665
+ # oracle.sysman.oii.oiic.OiicAdditionalUtilityWCDE@28b5ff89:initialize # 0 # 1628059372666
+ # oracle.sysman.oii.oiic.OiicAdditionalUtilityWCDE@28b5ff89:doOperation # 0 # 1628059372666
+ # oracle.sysman.oii.oiic.OiicUpdatesForInstallWCCE@6387503:initialize # 0 # 1628059372667
+ # oracle.sysman.oii.oiic.OiicUpdatesForInstallWCCE@6387503:doOperation # 1 # 1628059372668
+ # oracle.sysman.oii.oiic.OiicConfigInitializeWCCE@41df6e71:initialize # 0 # 1628059372668
+ # XML Reader, Read Comps for Home 1 # 1721 # 1628059374410
+ # XML Reader, Relase notes for Stage Inventory  # 10 # 1628059374421
+ # Configure Local Node successful. # 32626 # 1628059376280
+ # Configure Local Node successful. # 32626 # 1628059376280
+ # oracle.sysman.oii.oiic.OiicConfigInitializeWCCE@41df6e71:doOperation # 3613 # 1628059376282
+ # oracle.sysman.oii.oiif.oiifw.OiifwActionsPhaseWCDE@398ffb97:doOperation # 0 # 1628059376282
+ # oracle.sysman.oii.oiic.OiicCloneAPISession$OiicAPISelCompsInstall@1ead3a70:initialize # 0 # 1628059376285
+ # oracle.sysman.oii.oiic.OiicCloneAPISession$OiicAPISelCompsInstall@1ead3a70:doOperation # 0 # 1628059376285
+ # oracle.sysman.oii.oiif.oiifw.OiifwInstExitWCDE@2daad218:initialize # 0 # 1628059376286
+ # oracle.sysman.oii.oiif.oiifw.OiifwInstExitWCDE@2daad218:doOperation # 0 # 1628059376286
+ # This job unloads the clone driver in progress. #  0  # 1628059376288
+ # This job unloads the clone driver in progress. #  0  # 1628059376288
+ # This job unloads the clone driver successful. # 2481 # 1628059378769
+ # This job unloads the clone driver successful. # 2481 # 1628059378769
+ # Prepare for configuration steps in progress. #  0  # 1628059378769
+ # Prepare for configuration steps in progress. #  0  # 1628059378769
+ # Prepare for configuration steps successful. # 72 # 1628059378841
+ # Prepare for configuration steps successful. # 72 # 1628059378841
+ # Setup VC Redistributable in progress. #  0  # 1628059378842
+ # Setup VC Redistributable in progress. #  0  # 1628059378842
+ # Setup VC Redistributable successful. # 527 # 1628059379369
+ # Setup VC Redistributable successful. # 527 # 1628059379369
+ # Setup Oracle Base in progress. #  0  # 1628059379369
+ # Setup Oracle Base in progress. #  0  # 1628059379369
+ # Setup Oracle Base successful. # 181 # 1628059379550
+ # Setup Oracle Base successful. # 181 # 1628059379550
+ # Oracle Database configuration in progress. #  0  # 1628059379690
+ # Oracle Database configuration in progress. #  0  # 1628059379690
+ # Oracle Net Configuration Assistant in progress. #  0  # 1628059379690
+ # Oracle Net Configuration Assistant in progress. #  0  # 1628059379690
+ # Oracle Net Configuration Assistant successful. # 17364 # 1628059397054
+ # Oracle Net Configuration Assistant successful. # 17364 # 1628059397054
+ # Oracle Database Configuration Assistant in progress. #  0  # 1628059397062
+ # Oracle Database Configuration Assistant in progress. #  0  # 1628059397062
+ # Oracle Database Configuration Assistant successful. # 4505336 # 1628063902398
+ # Oracle Database Configuration Assistant successful. # 4505336 # 1628063902398
+ # Oracle Services For Microsoft Transaction Server in progress. #  0  # 1628063902456
+ # Oracle Services For Microsoft Transaction Server in progress. #  0  # 1628063902456
+ # Oracle Database configuration successful. # 4523736 # 1628063903426
+ # Oracle Database configuration successful. # 4523736 # 1628063903426
+ # Starting step:PROCESS_INPUT_FROM_VIEW of state:setup #  0  # 1628063903476
+ # Starting step:PROCESS_INPUT_FROM_VIEW of state:setup #  0  # 1628063903476
+ # Finished step:PROCESS_INPUT_FROM_VIEW of state:setup # 1 # 1628063903477
+ # Finished step:PROCESS_INPUT_FROM_VIEW of state:setup # 1 # 1628063903477
+ # Starting step:VALIDATE_VIEW of state:setup #  0  # 1628063903477
+ # Starting step:VALIDATE_VIEW of state:setup #  0  # 1628063903477
+ # Finished step:VALIDATE_VIEW of state:setup # 1 # 1628063903478
+ # Finished step:VALIDATE_VIEW of state:setup # 1 # 1628063903478
+ # Starting step:VALIDATE of state:setup #  0  # 1628063903478
+ # Starting step:VALIDATE of state:setup #  0  # 1628063903478
+ # Finished step:VALIDATE of state:setup # 7 # 1628063903485
+ # Finished step:VALIDATE of state:setup # 8 # 1628063903486
+ # Starting step:TRANSITION of state:setup #  0  # 1628063903486
+ # Starting step:TRANSITION of state:setup #  0  # 1628063903486
+ # Finished step:TRANSITION of state:setup # 0 # 1628063903486
+ # Finished step:TRANSITION of state:setup # 0 # 1628063903486
+ # Starting step:UNLOAD_VIEW of state:setup #  0  # 1628063903486
+ # Starting step:UNLOAD_VIEW of state:setup #  0  # 1628063903486
+ # Finished step:UNLOAD_VIEW of state:setup # 1 # 1628063903487
+ # Finished step:UNLOAD_VIEW of state:setup # 1 # 1628063903487
+ # Starting step:INITIALIZE_VIEW of state:finish #  0  # 1628063903511
+ # Starting step:INITIALIZE_VIEW of state:finish #  0  # 1628063903511
+ # Finished step:INITIALIZE_VIEW of state:finish # 0 # 1628063903511
+ # Finished step:INITIALIZE_VIEW of state:finish # 0 # 1628063903511
+ # Starting step:DISPLAY_VIEW of state:finish #  0  # 1628063903511
+ # Starting step:DISPLAY_VIEW of state:finish #  0  # 1628063903511
+ # Finished step:DISPLAY_VIEW of state:finish # 5 # 1628063903516
+ # Finished step:DISPLAY_VIEW of state:finish # 5 # 1628063903516
+ # Starting step:LOAD_VIEW of state:finish #  0  # 1628063903516
+ # Starting step:LOAD_VIEW of state:finish #  0  # 1628063903516
+ # Finished step:LOAD_VIEW of state:finish # 3 # 1628063903519
+ # Finished step:LOAD_VIEW of state:finish # 3 # 1628063903519
+ # Starting step:LOCALIZE_VIEW of state:finish #  0  # 1628063903519
+ # Starting step:LOCALIZE_VIEW of state:finish #  0  # 1628063903519
+ # Finished step:LOCALIZE_VIEW of state:finish # 0 # 1628063903519
+ # Finished step:LOCALIZE_VIEW of state:finish # 0 # 1628063903519
+ # Starting step:EXECUTE of state:finish #  0  # 1628063903519
+ # Starting step:EXECUTE of state:finish #  0  # 1628063903519
+ # Finished step:EXECUTE of state:finish # 11 # 1628063903530
+ # Finished step:EXECUTE of state:finish # 11 # 1628063903530

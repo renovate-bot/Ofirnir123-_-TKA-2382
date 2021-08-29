@@ -1,0 +1,495 @@
+rem 
+rem Copyright (c) 2002, 2017, Oracle and/or its affiliates. 
+rem All rights reserved.
+rem    NAME
+rem      drvxmd.pkh - DR inVoker's indeX MetaData access
+rem
+rem    DESCRIPTION
+rem      functions for querying and setting index meta-data
+rem
+rem    NOTES   
+rem      SECURITY SECURITY SECURITY
+rem        this package is public execute because several of its procedures
+rem        are called from C code.  ensure that every public call is 
+rem        protected by security checking or some other method
+rem      SECURITY SECURITY SECURITY
+rem
+rem 
+rem    BEGIN SQL_FILE_METADATA
+rem      SQL_SOURCE_FILE: ctx_src_2/src/dr/admin/drvxmd.pkh
+rem      SQL_SHIPPED_FILE: ctx/admin/drvxmd.pkh
+rem      SQL_PHASE: DRVXMD_PKH
+rem      SQL_STARTUP_MODE: NORMAL
+rem      SQL_IGNORABLE_ERRORS: NONE
+rem      SQL_CALLING_FILE: ctx/admin/ctxpkh.sql
+rem    END SQL_FILE_METADATA
+rem
+rem    MODIFIED    (MM/DD/YY)
+rem    boxia        04/18/17 - Bug 25913209: enable trace for bg opt jobs
+rem    snetrava     03/22/17 - Move check_file_access_role to drvutl
+rem    demukhin     03/16/17 - prj 68638: remove $R
+rem    boxia        01/18/17 - Proj 68638: run bg optimize jobs under ctxsys
+rem    snetrava     12/09/16 - 25262871 Added $KG parameter to OptGetType
+rem    boxia        11/19/16 - Bug 25172618: add auto bg opt procedures
+rem    rkadwe       06/02/15 - Memory parameter datatype
+rem    surman       01/23/15 - 20411134: Add SQL metadata tags
+rem    shorwitz     01/17/15 - Bug 16297527: regular expression patterns
+rem    surman       03/15/13 - 16473661: Common start and end scripts
+rem    surman       06/12/12 - 14175174: Add SubstringEnabled
+rem    gauryada     05/23/12 - bug#13724080
+rem    gauryada     05/09/12 - Remove changes for bug#7298172
+rem    surman       01/04/12 - 13431201: Add get_functional_cache_size
+rem    rkadwe       11/15/11 - ATG Integration
+rem    hsarkar      07/01/11 - Logical Standby Support
+rem    hsarkar      06/08/11 - Logical Standby Support
+rem    gauryada     05/12/11 - Added configuration column to dr$index
+rem    surman       04/27/11 - 12398857: Add ProcessN
+rem    rkadwe       03/02/11 - Btree Backed SDATA
+rem    surman       10/06/10 - 10169701: Add RecordOptTokenError
+rem    rpalakod     06/04/10 - Bug 9571600
+rem    rpalakod     05/21/10 - Bug 9354204
+rem    surman       03/12/09 - 4311266: Add check_file_access_role
+rem    surman       01/14/10 - Backport surman_bug-8516316 from main
+rem    rpalakod     12/15/09 - Bug 9216342
+rem    rpalakod     09/20/09 - Bug 8928622
+rem    nenarkhe     08/12/09 - MVDATA update
+rem    rpalakod     08/01/09 - autooptimize
+rem    surman       07/23/09 - 8516316: Add p_resetN to OptSetState
+rem    rpalakod     03/30/09 - Backport rpalakod_bug-8344603 from main
+rem    rpalakod     02/06/09 - nrtidx
+rem    surman       11/14/08 - 7540290: Use number instead of binary_integer
+rem    rpalakod     07/31/08 - Bug 7298172: Change in behavior of idx_version
+rem    rpalakod     05/19/08 - Session Duration SQEs
+rem    wclin        05/06/07 - add ChkIndexOption()
+rem    wclin        08/07/06 - add GetSecDataType
+rem    wclin        06/23/06 - maxtime support for $S optimize 
+rem    surman       06/06/06 - 5233309: smplsz to binary_integer in 
+rem                            GetIndexStats 
+rem    yucheng      01/20/06 - recreate_index_online partition support 
+rem    gkaminag     09/30/05 - cdi indexing 
+rem    yucheng      11/03/04 - add GetMVFlag 
+rem    wclin        11/14/03 - add set_reverse_docid_switch() 
+rem    gkaminag     10/23/03 - optimize type 
+rem    yucheng      08/13/03 - create local index online support 
+rem    yucheng      06/10/03 - 
+rem    yucheng      05/15/03 - GetIndexMD return sync_Type
+rem    yucheng      03/07/03 - remove tabpart_obj#
+rem    wclin        02/26/03 - modify GetIndexStats()
+rem    gkaminag     12/06/02 - security for classification
+rem    wclin        10/04/02 - get smplsz in GetIndexStats
+rem    yucheng      07/12/02 - merge split policy
+rem    gkaminag     07/02/02 - security overhaul phase 2
+rem    gkaminag     06/19/02 - gkaminag_security_ph1_020603
+rem    gkaminag     06/03/02 - creation
+
+@@?/rdbms/admin/sqlsessstart.sql
+
+create or replace package drvxmd authid current_user is
+
+
+/*---------------------------- GetIndexMD  -------------------------------*/
+/* fetch selected dr$index column values into out variables */
+
+procedure GetIndexMD(
+  p_idxid           in  number,
+  o_owner           out varchar2,
+  o_owner#          out number,
+  o_name            out varchar2,
+  o_table_obj#      out number,
+  o_table_dataobj#  out number,
+  o_key_name        out varchar2,
+  o_key_type        out binary_integer,
+  o_text_name       out varchar2,
+  o_text_type       out binary_integer,
+  o_text_length     out binary_integer,
+  o_lang_col        out varchar2,
+  o_fmt_col         out varchar2,
+  o_cset_col        out varchar2,
+  o_idx_type        out binary_integer,
+  o_idx_option      out varchar2,
+  o_idx_sync_type   out varchar2,
+  o_idx_sync_memory out number,
+  o_idx_src_name    out varchar2,
+  o_idx_src_id      out binary_integer,
+  o_idx_version     out binary_integer,
+  o_config_col      out varchar2
+);
+
+/*---------------------------- GetIndexPartition  -----------------------*/
+/* get dr$index_partition information */
+
+procedure GetIndexPartition(
+  o_id               out number,
+  o_tabpart_dataobj# out number,
+  o_sync_type        out varchar2,
+  o_sync_memory      out number,
+  o_option           out varchar2,
+  i_cid               in number,
+  i_pname             in varchar2
+); 
+
+/*---------------------------- OpenIndexMDScan ----------------------*/
+/* open dr$index_object and value cursors */
+
+procedure OpenIndexMDScan(
+  p_idxid           in  number
+);
+
+/*---------------------------- NextIndexObject ---------------------------*/
+/* get next dr$index_object cursor */
+
+function NextIndexObject(
+  o_cla_id          out binary_integer,
+  o_obj_id          out binary_integer,
+  o_acnt            out binary_integer
+) return binary_integer;
+
+/*---------------------------- NextIndexValue ----------------------------*/
+/* get next dr$index_value cursor */
+
+function NextIndexValue(
+  o_cla_id          out binary_integer,
+  o_att_id          out binary_integer,
+  o_datatype        out binary_integer,
+  o_sub_group       out binary_integer,
+  o_sub_att_id      out binary_integer,
+  o_sub_datatype    out binary_integer,
+  o_value           out varchar2
+) return binary_integer;
+
+/*---------------------------- NextIndexCDI ---------------------------*/
+/* get next dr$index_cdi_column cursor */
+
+function NextIndexCDI(
+  o_cdi_pos         out binary_integer,
+  o_cdi_type#       out binary_integer,
+  o_cdi_len         out binary_integer,
+  o_cdi_name        out varchar2,
+  o_cdi_sec         out varchar2,
+  o_cdi_stype       out binary_integer,
+  o_cdi_id          out binary_integer
+) return binary_integer;
+
+/*---------------------------- GetDocidCount -----------------------------*/
+/* get docid count */
+
+function GetDocidCount(
+  p_idxid           in number,
+  p_ixpid           in number default null
+) return number;
+
+
+/*--------------------------- GetNextId -------------------------------------*/
+/* get next docid */
+
+function GetNextId(
+  p_idxid in binary_integer,
+  p_ixpid in binary_integer default null
+) return binary_integer;
+
+/*---------------------------- GetIndexStats -----------------------------*/
+/* get index stats from dr$stats */
+
+procedure GetIndexStats(
+  p_idxid           in number,
+  p_smplsz          in out nocopy number
+);
+
+/*---------------------------- GetBaseTableName --------------------------*/
+/* get base table name */
+
+function GetBaseTableName(
+  p_idxid           in number,
+  p_ixpid           in number default null
+) return varchar2;
+
+/*---------------------------- IncrementDocCnt --------------------------*/
+/* increment docid count */
+
+procedure IncrementDocCnt(
+  p_idxid           in number,
+  p_ixpid           in number,
+  p_delta           in number
+);
+
+/*--------------------------- DecrementDocCnt ------------------------------*/
+/* decrement docid count */
+procedure DecrementDocCnt(
+  p_idxid in number,
+  p_ixpid in number,
+  p_delta in number
+);
+
+/*---------------------------- AllocateDocids ---------------------------*/
+/* allocate docids */
+
+procedure AllocateDocids(
+  p_idxid           in  number,
+  p_ixpid           in  number,
+  p_allocsz         in  binary_integer,
+  p_startid         out number
+);
+
+/*---------------------------- RecordIndexError -------------------------*/
+/* records an error to the dr$index_error table */
+
+procedure RecordIndexError(
+  p_idxid           in number,
+  p_textkey         in varchar2,
+  p_stack           in varchar2
+);
+
+/*---------------------------- OptStartTimer -----------------------------*/
+/* starts optimization timer */
+
+procedure OptStartTimer;
+
+/*---------------------------- OptGetTimer -------------------------------*/
+/* gets optimization timer */
+
+function OptGetTimer return binary_integer;
+
+/*---------------------------- OptGetState -------------------------------*/
+/* get full optimize state */
+
+procedure OptGetState(
+  p_idxid       in  number,
+  p_ixpid       in  number,
+  p_ntable_name in  varchar2,
+  p_itable_name in  varchar2,
+  p_sntable_name in  varchar2,
+  p_beg_s_opt   in  boolean,
+  o_opt_token   out varchar2,
+  o_opt_type    out number
+);
+
+/*---------------------------- OptGetType -------------------------------*/
+/* get type optimize start token */
+
+procedure OptGetType(
+  p_idxid       in  number,
+  p_ixpid       in  number,
+  p_ntable_name in  varchar2,
+  p_itable_name in  varchar2,
+  p_sntable_name in  varchar2,
+  o_opt_token   out varchar2,
+  o_opt_type    in  number,
+  p_kgtable_name in  varchar2 default null
+);
+
+/*---------------------------- OptSetState -------------------------------*/
+/* set full optimize state */
+
+procedure OptSetState(
+  p_idxid       in  number,
+  p_ixpid       in  number,
+  p_opt_token   in  varchar2,
+  p_opt_type    in  number
+);
+
+/*---------------------------- GetFieldSecName -----------------------------*/
+/* get field section name */
+
+function GetFieldSecName (
+  p_idxid  in number,
+  p_secid  in number
+) return varchar2;
+
+/*---------------------------- GetPrefClaObj -----------------------------*/
+
+procedure GetPrefClaObj(
+  p_preid  in  number,
+  o_claid  out number,
+  o_objid  out number
+);
+
+/*---------------------------- GetObjDefault -----------------------------*/
+
+procedure GetObjDefault(
+  p_oatid   in  number,
+  o_default out varchar2
+);
+
+/*---------------------------- OpenPrefValue ------------------------------*/
+
+procedure OpenPrefValue(
+  p_preid   in number
+);
+
+/*---------------------------- NextPrefValue ------------------------------*/
+
+function NextPrefValue(
+  o_value   out varchar2,
+  o_oatid   out number
+) return binary_integer;
+
+/*---------------- set_reverse_docid_switch  -------------------*/
+
+PROCEDURE set_reverse_docid_switch(
+  owner_name     in  varchar2,
+  index_name     in  varchar2,
+  value          in  varchar2
+);
+PRAGMA SUPPLEMENTAL_LOG_DATA(set_reverse_docid_switch, AUTO);
+
+/*------------------- get_functional_cache_size ----------------------------*/
+FUNCTION get_functional_cache_size RETURN number;
+
+/*--------------- GetMVFlag ------------------------------------------------*/
+/*
+  NAME
+    GetMVFlag
+
+  DESCRIPTION
+    Check whether it's index on Materialized View
+
+  ARGUMENTs
+    table_id
+    owner_name
+    opt              1 -- index on MView
+                     0 -- not index on MView
+*/
+
+PROCEDURE GetMVFlag(
+  table_id       in  number,
+  owner_name     in  varchar2,
+  opt            out binary_integer
+);
+
+/*---------------------------- GetSecDataType -----------------------------*/
+/* get section datatype, mainly for MDATA and SDATA */
+
+function GetSecDataType (
+  p_idxid  in number,
+  p_secid  in number
+) return number;
+
+/*---------------------------- ChkIndexOption -----------------------------*/
+/* 
+  Take in index id, and an option letter (see drdmlop() for a list of 
+  options), return 1 if the given option is set, 0 otherwise.   
+*/
+function ChkIndexOption (
+  p_idxid  in number,
+  p_opt    in varchar2
+) return number;
+
+/*---------------------------- SelectUserAnlDictLob-----------------------------*/
+/* 
+  Take index id and dictionary language as input and return user supplied 
+  dictionary lob to be used by ATG auto lexer
+*/
+function SelectUserAnlDictLob(
+  p_idxid  in number,
+  p_dictlang in varchar2
+) return clob;
+
+/*--------------------------- ctx_sqe_tbl_func ------------------------------*/
+/*
+  Table function for creating the ctx_user_sqes view
+*/
+type ctx_sqe_type is record(
+  sqe_owner# number,
+  sqe_name varchar2(30),
+  sqe_query clob);
+
+type ctx_sqe_type_tab is table of ctx_sqe_type;
+
+function ctx_sqe_tbl_func
+  return ctx_sqe_type_tab pipelined;
+
+/*--------------------------- autoopt_prep --------------------------------*/
+/* autoopt_prep - preparation for autoopt */
+procedure autoopt_prep(p_idxid in number, 
+                       p_ixpid in number,
+                       p_wait in number,
+                       p_lockret in out number
+);
+
+/*--------------------------- autoopt_clo --------------------------------*/
+/* autoopt_clo - close for autoopt */
+procedure autoopt_clo;
+
+/*--------------------------- autoopt_push_token --------------------------*/
+/* autoopt_push_token - push a token to autooptimize */
+procedure autoopt_push_token(p_idxid in number,
+                             p_message in raw);
+
+/*--------------------------- TxnalGetKey --------------------------------*/
+/* Return the key if it has been set.  Returns Null if not set            */
+procedure TxnalGetKey(
+  p_key in out raw
+);
+
+/*--------------------------- TxnalSetKey --------------------------------*/
+/* Set the key.  Set flag                                                 */
+procedure TxnalSetKey(
+  p_key in raw
+);
+
+/*------------------------ GetSLXMdataSecID ------------------------------*/
+/* Get section id/token type for DR$ML MDATA section, doc level lexer     */
+
+FUNCTION GetSLXMdataSecID(
+  idxid in number
+) return number;
+
+/*------------------------ RecordOptTokenError ---------------------------*/
+PROCEDURE RecordOptTokenError(
+  token_text in varchar2,
+  token_type in number
+);
+
+/*----------------------- ProcessN -------------------------------*/
+PROCEDURE ProcessN(p_idxid in number,
+                   p_ixpid in number,
+                   del in number);
+
+/* 14175174: ------------- SubstringEnabled ------------------------*/
+FUNCTION SubstringEnabled(p_idxid in number) RETURN number;
+
+
+/*---------------------------- IndexHasGTable ------------------------------*/
+FUNCTION IndexHasGTable(
+  p_idxid in number,
+  p_ixpid in number default NULL) 
+RETURN boolean;
+
+/*----------------------- resolve_pattern -------------------------------*/
+FUNCTION resolve_pattern(
+  p_policy_id        in number,
+  p_regular_expr     in varchar2,
+  p_index_name       in varchar2,
+  p_regexpr_maxterms in number) return clob;
+
+/*--------------------------- drop_bg_optimize ----------------------------*/
+/* drop background jobs of optimize index / partition */
+procedure drop_bg_optimize(p_idx_id      in number,
+                           p_idx_name    in varchar2,
+                           p_ixp_id      in number default null,
+                           p_optlevel    in varchar2 default null
+);
+
+/*--------------------------- add_bg_optimize ----------------------------*/
+/* add a background job of optimize index / partition */
+procedure add_bg_optimize(p_idx_name    in varchar2,
+                          p_ixp_name    in varchar2 default null,
+                          p_optlevel    in varchar2,
+                          p_para_degree in number default 1, -- parallel degree
+                          p_repeat_interval in varchar2 default null
+);
+
+/*--------------------------- run_bg_optimize ---------------------------*/
+/* actually run the background optimize job */
+procedure run_bg_optimize(p_idx_name    in varchar2, 
+                          p_ixp_name    in varchar2,
+                          p_optlevel    in varchar2, -- optmize mode
+                          p_para_degree in number,   -- parallel degree
+                          p_logfile     in varchar2, -- log file
+                          p_events      in varchar2  -- events
+);
+
+end drvxmd;
+/
+
+@?/rdbms/admin/sqlsessend.sql

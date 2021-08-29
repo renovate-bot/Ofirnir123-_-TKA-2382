@@ -1,0 +1,91 @@
+Rem
+Rem Copyright (c) 1998, 2018, Oracle and/or its affiliates. 
+Rem All rights reserved.
+Rem  NAME
+Rem    drv0ddl.pkh - DR cartridge Misc DDL services
+Rem  DESCRIPTION
+Rem
+Rem  RETURNS
+Rem
+Rem    NOTES
+Rem
+Rem 
+Rem  BEGIN SQL_FILE_METADATA
+Rem    SQL_SOURCE_FILE: ctx_src_2/src/dr/admin/drv0ddl.pkh
+Rem    SQL_SHIPPED_FILE: ctx/admin/drv0ddl.pkh
+Rem    SQL_PHASE: DRV0DDL_PKH
+Rem    SQL_STARTUP_MODE: NORMAL
+Rem    SQL_IGNORABLE_ERRORS: NONE
+Rem    SQL_CALLING_FILE: ctx/admin/ctxpkh.sql
+Rem  END SQL_FILE_METADATA
+Rem
+Rem    MODIFIED   (MM/DD/YY)
+Rem     snetrava   06/14/18  - Bug 28102835: NONE LOG PRAGMA
+Rem    nspancha   10/21/16 - Bug 22068230: Expanding token size to 255 bytes
+Rem    surman     01/23/15 - 20411134: Add SQL metadata tags
+Rem    surman     05/07/13 - 16288550: Restore populate_ptable
+Rem    surman     03/15/13 - 16473661: Common start and end scripts
+Rem    surman     06/09/12 - 14175174: Remove generate_substrings
+Rem    ssethuma   03/28/10 - XbranchMerge ssethuma_bug-9227846 from main
+Rem    ssethuma   02/09/10 - Bug 9227846
+Rem    igeller    07/16/08 - bug6674374: rearchitecture optimize index rebuild
+Rem    wclin      12/06/07 - XbranchMerge ymatsuda_bug-6393125 from main
+Rem    wclin      12/04/07 - 
+Rem    ymatsuda   09/10/07 - deferred p table creation
+Rem    wclin      04/14/06 - Enable Pll Opt rebld: tbl func return only raw
+Rem    wclin      01/09/06 - take out CDI hack 
+Rem    wclin      12/14/05 - 
+Rem    gkaminag   09/29/05 - cdi indexing ph 1 
+Rem    smuralid   10/28/03 - smuralid_2table_optimize 
+Rem    smuralid   06/04/03  - 
+Rem    smuralid   03/06/03  - Creation
+
+@@?/rdbms/admin/sqlsessstart.sql
+
+rem The following types and function are used when $P is populated
+drop type dr$substring force;
+
+rem This is the MAX_TOKEN_SIZE. For part 1, MAX_TOKEN_SIZE-3.
+create or replace type dr$substring as object
+(
+  part_1 varchar2(252),
+  part_2 varchar2(255)
+);
+/
+grant execute on dr$substring to public;
+
+drop type dr$substring_set force;
+create or replace type dr$substring_set as table of dr$substring;
+/
+
+drop type dr$substring2 force;
+
+rem This is THE  MAX_TOKEN_SIZE
+create or replace type dr$substring2 as object
+(
+  part_1 varchar2(255),
+  part_2 varchar2(255)
+);
+/
+grant execute on dr$substring2 to public;
+
+drop type dr$substring_set2 force;
+create or replace type dr$substring_set2 as table of dr$substring2;
+/
+
+create or replace package drv0ddl authid current_user is
+  
+   PRAGMA SUPPLEMENTAL_LOG_DATA(default, NONE);
+
+   function generate_substrings(c sys_refcursor)
+   return dr$substring_set
+   pipelined;
+
+   function generate_substrings2(c sys_refcursor)
+   return dr$substring_set2
+   pipelined;
+
+end drv0ddl;
+/
+
+@?/rdbms/admin/sqlsessend.sql

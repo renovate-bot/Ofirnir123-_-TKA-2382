@@ -1,0 +1,122 @@
+rem
+rem Copyright (c) 2002, 2018, Oracle and/or its affiliates. 
+rem All rights reserved.
+rem
+rem    NAME
+rem      drimlx.pkh - DR Internal Multi LeXer preference management
+rem    DESCRIPTION
+rem      This package contains internal code to create, manage, and drop
+rem      multi-lexers
+rem
+rem    NOTES
+rem 
+rem    BEGIN SQL_FILE_METADATA
+rem      SQL_SOURCE_FILE: ctx_src_2/src/dr/admin/drimlx.pkh
+rem      SQL_SHIPPED_FILE: ctx/admin/drimlx.pkh
+rem      SQL_PHASE: DRIMLX_PKH
+rem      SQL_STARTUP_MODE: NORMAL
+rem      SQL_IGNORABLE_ERRORS: NONE
+rem      SQL_CALLING_FILE: ctx/admin/ctxpkh.sql
+rem    END SQL_FILE_METADATA
+rem
+rem    MODIFIED    (MM/DD/YY)
+Rem     snetrava   06/14/18  - Bug 28102835: NONE LOG PRAGMA
+rem    surman       01/23/15 - 20411134: Add SQL metadata tags
+rem    surman       03/15/13 - 16473661: Common start and end scripts
+rem    hsarkar      06/15/11 - Logical Standby Support
+rem    rkadwe       04/15/10 - XbranchMerge rkadwe_ctx_ddl_updslx from
+rem                            st_ctx_11.1.2.2
+rem    rkadwe       04/13/10 - ctx_ddl.update_sub_lexer
+rem    rkadwe       03/25/10 - Document Level Lexer Phase 2
+rem    rkadwe       02/23/10 - Document Level Lexer
+rem    gkaminag     08/19/02 - gkaminag_security_phase2_020620
+rem    gkaminag     07/22/02  - 
+rem    gkaminag     07/02/02 -  creation
+
+@@?/rdbms/admin/sqlsessstart.sql
+
+create or replace package drimlx as
+
+PRAGMA SUPPLEMENTAL_LOG_DATA(default, NONE);
+
+/*-------------------- add_sub_lexer ---------------------------*/
+
+PROCEDURE add_sub_lexer(
+  lexer_name     in   varchar2,
+  language       in   varchar2,
+  sub_lexer      in   varchar2,
+  alt_value      in   varchar2 default NULL,
+  language_dependent in boolean default TRUE,
+  preference_implicit_commit in boolean
+);
+
+/*-------------------- remove_sub_lexer ---------------------------*/
+
+PROCEDURE remove_sub_lexer(
+  lexer_name     in   varchar2,
+  language       in   varchar2,
+  preference_implicit_commit in boolean
+);
+
+/*----------------------- copy_multi_lexer -------------------------------*/
+procedure copy_multi_lexer(
+  p_idx_id in  number,
+  p_pref   in  dr_def.pref_rec,
+  p_rcount out number
+);
+
+/*----------------------- GetIndexMultiLexer -----------------------------*/
+procedure GetIndexMultiLexer(
+  p_idx_id in  number,
+  o_slx in out nocopy dr_def.slx_tab
+);
+
+/*-------------------------- IndexAddSLX  -------------------------------*/
+procedure IndexAddSLX(
+  ia        in sys.ODCIIndexInfo,
+  idx       in dr_def.idx_rec,
+  sub_lexer in varchar2,
+  language  in varchar2,
+  alt_value in varchar2,
+  language_dependent in boolean default TRUE,
+  add_ML_tokens out boolean,
+  update_slx    in boolean
+);
+
+procedure IndexRemoveSLX(
+  ia        in sys.ODCIIndexInfo,
+  idx       in dr_def.idx_rec,
+  sub_lexer in varchar2,
+  rem_ML_tokens out boolean,
+  update_slx    in boolean
+);
+
+procedure IndexUpdateSLX(
+  ia             in sys.ODCIIndexInfo,
+  idx            in dr_def.idx_rec,
+  old_slx_symb   in varchar2,
+  new_slx_pref   in varchar2
+);
+
+procedure GetSLXAltAbbr(
+  idx_id    in number,
+  sub_lexer in varchar2,
+  language  in out varchar2,
+  abbr      in out varchar2,
+  alt       in out varchar2
+);
+
+/*-------------------- upd_sub_lexer ---------------------------*/
+/* update a sub lexer in a multi-lexer preference */
+
+PROCEDURE upd_sub_lexer(
+  lexer_name     in   varchar2,
+  language       in   varchar2,
+  sub_lexer      in   varchar2,
+  preference_implicit_commit in boolean
+);
+
+end drimlx;
+/
+
+@?/rdbms/admin/sqlsessend.sql

@@ -1,0 +1,452 @@
+rem 
+rem Copyright (c) 2002, 2018, Oracle and/or its affiliates. 
+rem All rights reserved.
+rem
+rem    NAME
+rem      drvdml.pkh - DR cartridge internal, inVoker's rights DML services
+rem
+rem    DESCRIPTION
+rem      functions called by ConText cartridge routines to perform 
+rem      various DML functionalities
+rem   
+rem    NOTES
+rem      SECURITY SECURITY SECURITY
+rem        this package is public execute because several of its procedures
+rem        are called from C code.  ensure that every public call is 
+rem        protected by security checking or some other method
+rem      SECURITY SECURITY SECURITY
+rem
+rem 
+rem    BEGIN SQL_FILE_METADATA
+rem      SQL_SOURCE_FILE: ctx_src_2/src/dr/admin/drvdml.pkh
+rem      SQL_SHIPPED_FILE: ctx/admin/drvdml.pkh
+rem      SQL_PHASE: DRVDML_PKH
+rem      SQL_STARTUP_MODE: NORMAL
+rem      SQL_IGNORABLE_ERRORS: NONE
+rem      SQL_CALLING_FILE: ctx/admin/ctxpkh.sql
+rem    END SQL_FILE_METADATA
+rem
+rem    MODIFIED    (MM/DD/YY)
+rem    ccwei        06/14/18 - prj 72453: network datastore, bug 25604054
+Rem     snetrava   06/14/18  - Bug 28102835: NONE LOG PRAGMA
+rem    demukhin     10/02/17 - bug 26855855: $U is not cleaned after sync
+rem    demukhin     06/20/17 - bug 26051570: keep $R for legacy indexes
+rem    aczarlin     06/09/17 - Bug 25102906: inner lock for ctxagg
+rem    pkosaraj     03/09/17 - Bug 24309387: non const global var
+rem    aczarlin     01/20/17 - bug 25423433 change ctxagg lock to aggmerge
+rem    demukhin     01/17/17 - prj 68638: remove $R
+rem    aczarlin     11/13/15 - bug 22175325 ctxagg lock
+rem    surman       01/23/15 - 20411134: Add SQL metadata tags
+rem    gauryada     08/05/14 - Bug#19366739
+rem    shorwitz     01/23/14 - Enable 128 byte database objects
+rem    shorwitz     08/19/13 - Bug 14658292: increase memory size limit
+rem    surman       03/15/13 - 16473661: Common start and end scripts
+rem    boxia        01/16/13 - Bug 13990319
+rem    rpalakod     10/01/11 - Range postings
+rem    rkadwe       04/13/11 - Btree Backed SDATA
+rem    rpalakod     06/03/10 - Bug 9571600
+rem    rkadwe       03/23/10 - XbranchMerge rkadwe_bug-8429026 from main
+rem    rpalakod     09/08/09 - tdata_qry_phase4
+rem    nenarkhe     09/08/09 - AddRemOneMDATA
+rem    nenarkhe     08/20/09 - MVDATA update stubs
+rem    rkadwe       12/11/08 - upd_sdata added
+rem    surman       12/09/08 - 7540290: binary_integer to number
+rem    surman       11/05/08 - 6703140: Add release_on_commit to
+rem                            lock_opt_rebuild
+rem    surman       01/11/07 - 5364449: Make ProcessWaiting public
+rem    surman       01/10/07 - 5364449: Remove csync
+rem    surman       09/14/06 - 5079472: Add lock modes
+rem    surman       08/23/06 - 5079472: Add lock_mode to lock_opt_rebuild
+rem    surman       06/29/06 - 5079472: Add lock_opt_rebuild 
+rem    gkaminag     10/26/05 - mdata cdi update 
+rem    gkaminag     10/13/05 - incremental indexing enhancements 
+rem    smuralid     01/15/04 - add another overload of MaintainKtab 
+rem    gkaminag     11/18/03 - bug 3237317 
+rem    smuralid     10/09/03 - ProcessDML: direct_path defaults to false 
+rem    gkaminag     10/21/03 - mdata phase 2 
+rem    yucheng      06/12/03 - 
+rem    yucheng      05/27/03 - add auto_sync_index
+rem    smuralid     04/03/03 - post-pass for $K maintenance
+rem    gkaminag     09/24/02 - security phase 3
+rem    gkaminag     06/19/02 - gkaminag_security_ph1_020603
+rem    gkaminag     06/03/02 - creation 
+
+@@?/rdbms/admin/sqlsessstart.sql
+
+create or replace package drvdml authid current_user as
+
+  PRAGMA SUPPLEMENTAL_LOG_DATA(default, NONE);
+
+  -- CTXCAT holding variables
+  type vctab is table of drvutl.dr_id index by binary_integer;
+  c_vctab           vctab;
+  c_cttab           vctab;
+
+  type numtab is table of number index by binary_integer;
+  c_numtab          numtab;
+
+  type dttab is table of date index by binary_integer;
+  c_dttab           dttab;
+
+  type cntab is table of drvutl.dr_longbuf index by binary_integer;
+  c_cntab           cntab;
+
+  c_text_vc2        drvutl.dr_maxbuf;
+  c_text_clob       clob;
+  c_rowid           rowid;
+
+  type updtab is table of boolean index by binary_integer;
+  c_updtab          updtab;
+
+  -- 5079472: Mirror dbms_lock constants here because dbms_lock may not
+  -- be granted to public.
+  s_mode constant number := dbms_lock.s_mode;
+  x_mode constant number := dbms_lock.x_mode;
+
+/*--------------------------- ProcessWaiting ------------------------------*/
+
+procedure ProcessWaiting (
+  p_idxtype in binary_integer,
+  p_idxid   in number,
+  p_idxown  in varchar2,
+  p_idxname in varchar2,
+  p_ixpid   in number,
+  p_ixpname in varchar2
+);
+
+/*--------------------------- ProcessDML ------------------------*/
+/*
+  NAME
+    ProcessDML
+
+  DESCRIPTION
+    do a sync
+
+  ARGUMENTS
+    CID             in     - column to work on 
+    parallel_degree in     - parallel degree
+    direct_path     in     - use direct-path inserts ?
+
+*/
+procedure ProcessDML (
+  p_idxid  in  number,
+  p_ixpid  in  number,
+  p_idxmem in  number,
+  p_pardeg in  binary_integer default 1,
+  p_direct_path in boolean default false,
+  p_maxtime in binary_integer default 2147483647
+);
+
+/*--------------------------- MaintainKTab -------------------------*/
+/*
+  NAME
+    MaintainKTab
+
+  DESCRIPTION
+    update the $K table after index creation/sync
+
+  ARGUMENTS
+    idx               in     - the index
+    ixp               in     - the partition of the index 
+    p_startDocid      in     - docid to start from
+    p_parallel_degree in     - parallel degree
+
+*/
+procedure MaintainKTab (
+  idx         in  dr_def.idx_rec,
+  ixp         in  dr_def.ixp_rec,  
+  p_startDocid  in  number default null,
+  p_parallel_degree in number default 1
+);
+/*--------------------------- MaintainKTab -------------------------*/
+/*
+  NAME
+    MaintainKTab
+
+  DESCRIPTION
+    update the $K table after index creation/sync
+
+  ARGUMENTS
+    p_idxid           in     - the index id
+    p_ixpid           in     - the partition id
+    p_startDocid      in     - docid to start from
+    p_parallel_degree in     - parallel degree
+*/
+procedure MaintainKTab (
+  p_idxid           in number,
+  p_ixpid           in number,
+  p_startDocid      in  number default null,
+  p_parallel_degree in number default 1
+);
+
+/*--------------------------- DeletePending ------------------------*/
+
+procedure DeletePending (
+  p_idxid  in number,
+  p_ixpid  in number,
+  p_rids   in varchar2,
+  p_utab   in varchar2,
+  p_pname  in varchar2
+);
+
+/*----------------------------- CleanDML ---------------------------*/
+
+procedure CleanDML (
+  p_idxid  in number,
+  p_ixpid  in number,
+  p_tabid  in number
+);
+
+/*-------------------------- SetLockFailed -------------------------*/
+
+procedure SetLockFailed (
+  p_idxid  in number,
+  p_ixpid  in number,
+  p_rid    in rowid
+);
+
+/*--------------------------- ctxcat_dml ----------------------------*/
+
+procedure ctxcat_dml(
+  idx_owner in varchar2, 
+  idx_name  in varchar2,
+  doindex   in boolean,
+  updop     in boolean
+);
+
+/*----------------------- auto_sync_index ------------------------*/
+
+PROCEDURE auto_sync_index(
+  idx_name  in  varchar2 default NULL,
+  memory    in  varchar2 default NULL,
+  part_name in  varchar2 default NULL,
+  parallel_degree in number default 1,
+  logfile   in  varchar2 default NULL,
+  events    in  number   default NULL
+);
+
+/*----------------------- com_sync_index -------------------------*/
+PROCEDURE com_sync_index(
+  idx_name  in  varchar2 default null,
+  memory    in  varchar2 default null,
+  part_name in  varchar2 default null
+);
+
+/*----------------------- add_rem_mdata --------------------------*/
+
+PROCEDURE add_rem_mdata(
+  add_rem      in varchar2,
+  idx_name     in varchar2,
+  section_name in varchar2,
+  mdata_values in sys.odcivarchar2list,
+  mdata_rowids in sys.odciridlist,
+  part_name    in varchar2
+);
+
+/* 5364449: Removed csync since it is no longer used */
+
+/*------------------- PopulatePending -----------------------------*/
+
+PROCEDURE PopulatePending(
+  idx  in dr_def.idx_rec,
+  ixpname in varchar2
+);
+
+/*------------------- UpdateMDATA -----------------------------*/
+
+PROCEDURE UpdateMDATA(
+  itab     in varchar2,
+  ktab     in varchar2,
+  mdata_id in binary_integer,  
+  coltype  in varchar2,
+  rid      in varchar2,
+  oldval   in sys.anydata,
+  newval   in sys.anydata,
+  gtab     in varchar2 default null
+);
+
+/* Following 2 routines added for bug 5079472 */
+/*------------------- lock_opt_rebuild ------------------------*/
+PROCEDURE lock_opt_rebuild(
+  cid        in number,
+  pid        in number,
+  lock_mode  in number,
+  timeout    in number,
+  release_on_commit in boolean default FALSE
+);
+
+/*----------------- unlock_opt_rebuild ------------------------*/
+PROCEDURE unlock_opt_rebuild;
+
+/*--------------------------- lock_sync_upd -----------------*/
+PROCEDURE lock_sync_upd(
+  cid        in number,
+  pid        in number,
+  l_mode IN  INTEGER,
+  release_on_commit in boolean default FALSE
+);
+
+/*----------------- unlock_sync_upd ------------------------*/
+PROCEDURE unlock_sync_upd;
+
+/*--------------------------- lock_opt_mvdata -----------------*/
+PROCEDURE lock_opt_mvdata(
+  cid in number,
+  pid in number
+);
+
+/*------------------- lock_opt_aggmerge  ----------------------*/
+function lock_opt_aggmerge(
+  idx        in number,
+  pid        in number,
+  timeout    in number,
+  lockmode   in number
+) return number;
+
+/*---------------------- convert_aggmerge ----------------------*/
+
+function convert_aggmerge(
+  idx        in number,
+  pid        in number,
+  timeout    in number,
+  lockmode   in number
+) return number;
+
+
+/*------------------ unlock_aggmerge ---------------*/
+function unlock_aggmerge(
+  idx in number,
+  ignore_errors in number
+) return number;
+
+/*------------------- lock_opt_agginner  ---------------------*/
+function lock_opt_agginner(
+  idx        in number,
+  pid        in number,
+  timeout    in number,
+  lockmode   in number
+) return number;
+
+/*------------------ unlock_agginner ---------------*/
+function unlock_agginner(
+  idx in number,
+  ignore_errors in number
+) return number;
+
+
+/*-------------------- upd_sdata  -----------------------------*/
+/*
+  NAME
+    upd_sdata
+
+  DESCRIPTION
+    update sdata section value
+
+  ARGUMENTS
+    idx_name     - index name
+    section_name - SDATA section name
+    sdata_value  - sdata value
+    sdata_rowid  - rowid
+    part_name    - partition name
+
+  NOTES
+
+  EXCEPTIONS
+*/
+
+PROCEDURE upd_sdata(
+  idx_name      in varchar2,
+  section_name  in varchar2,
+  sdata_value   in sys.anydata,
+  sdata_rowid   in rowid,
+  part_name     in varchar2 default NULL
+);
+
+/*----------------------- ins_del_mvdata --------------------------*/
+/*
+  NAME
+    ins_del_mvdata
+
+  DESCRIPTION
+    update a set of docids with given MVDATA values
+
+  ARGUMENTS
+    ins_del       - dml mode flag (INS, DEL, UPD)
+    idx_name      - index name
+    section_name  - MVDATA section name
+    mvdata_values - mvdata values
+    mvdata_rowids - rowids
+    part_name     - partition name
+
+  NOTES
+
+  EXCEPTIONS
+*/
+
+PROCEDURE ins_del_mvdata(
+  ins_del      in varchar2,
+  idx_name     in varchar2,
+  section_name in varchar2,
+  mvdata_values in sys.odcinumberlist,
+  mvdata_rowids in sys.odciridlist,
+  part_name    in varchar2
+);
+
+/*----------------- AddRemOneMDATA ------------------------------------*/
+
+procedure AddRemOneMDATA(
+  itab    in varchar2,
+  docid   in number,
+  mdataid in binary_integer,
+  addrem  in binary_integer,
+  value   in varchar2,
+  gtab    in varchar2 default null
+);
+
+/*------------------------- idx_populate_mode ------------------------- */
+FUNCTION idx_populate_mode
+return number;
+
+PROCEDURE AddRemOneSDATA(
+  sntab   in varchar2,
+  dtype   in varchar2,
+  docid   in number,
+  sdataid in binary_integer,
+  addrem  in binary_integer,
+  value   in sys.anydata
+);
+
+PROCEDURE add_rem_sdata(
+  add_rem      in varchar2,
+  idx_name     in varchar2,
+  section_name in varchar2,
+  sdata_value in sys.anydata,
+  sdata_rowid in rowid,
+  part_name    in varchar2
+);
+
+/*----------------- read_into_lobLocator --------------------------------*/
+/*
+  NAME
+    read_into_lobLocator
+
+  DESCRIPTION
+    Read the data from a given url and store data into the given lobLocator
+
+  ARGUMENTS
+    url           - the url that we are going to fetch the data
+    lobLocator    - the lob locator we are going to write data into
+
+  NOTES
+
+  EXCEPTIONS
+*/
+procedure read_into_lobLocator(
+  idx          in number,
+  url          in varchar2,
+  lobLocator   in out BLOB
+);
+
+end drvdml;
+/
+@?/rdbms/admin/sqlsessend.sql

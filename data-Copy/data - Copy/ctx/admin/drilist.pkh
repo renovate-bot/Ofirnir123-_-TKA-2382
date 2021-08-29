@@ -1,0 +1,179 @@
+create or replace package drilist is
+
+
+  CMD_ADMIN_PING                 constant number := 0;
+  CMD_ADMIN_LOG                  constant number := 1;
+  CMD_ADMIN_MTS                  constant number := 2;
+  CMD_ADMIN_VERSION              constant number := 3;
+  CMD_ADMIN_EVENT                constant number := 4;
+  CMD_ADMIN_MESSAGE_PRINT        constant number := 5;
+  CMD_ADMIN_SET_STATE            constant number := 6;
+  CMD_ADMIN_GET_STATE            constant number := 7;
+  CMD_ADMIN_TRACE_CMD            constant number := 8;
+  CMD_ADMIN_ORAEVENT             constant number := 9;
+
+  CMD_INDEX_POPULATE             constant number := 10;
+  CMD_INDEX_RESUME               constant number := 11;
+  CMD_INDEX_SYNC                 constant number := 12;
+  CMD_INDEX_OPT_FAST             constant number := 13;
+  CMD_INDEX_OPT_FULL             constant number := 14;
+  CMD_INDEX_ADD_SW               constant number := 15;
+  CMD_INDEX_LEX_SW               constant number := 16;
+  CMD_INDEX_OPT_TOKEN            constant number := 17;
+  CMD_INDEX_CATSYNC              constant number := 18;
+  CMD_INDEX_SLAVEID              constant number := 19;
+  CMD_INDEX_SCAN_SQL             constant number := 20;
+  CMD_INDEX_MARK_FAIL            constant number := 21;
+  CMD_INDEX_SYNC_SQL             constant number := 22;
+  CMD_INDEX_RES_SQL              constant number := 23;
+  CMD_INDEX_OPT_FULL_PAR         constant number := 24;
+  CMD_INDEX_RTOK                 constant number := 25;
+  CMD_INDEX_OPT_TTYP             constant number := 26;
+  CMD_INDEX_OPT_TTYP_PAR         constant number := 27;
+  CMD_INDEX_PWAIT                constant number := 28;
+  CMD_INDEX_OPT_SDATA            constant number := 29;
+
+  CMD_DOC_HIGHLIGHT              constant number := 30;
+  CMD_DOC_MARKUP                 constant number := 31;
+  CMD_DOC_FILTER                 constant number := 32;
+  CMD_DOC_GIST                   constant number := 33;
+  CMD_DOC_THEMES                 constant number := 34;
+  CMD_DOC_TOKENS                 constant number := 35;
+  CMD_DOC_IFILTER                constant number := 36;
+  CMD_DOC_KWIC                   constant number := 37;
+  CMD_DOC_POLICYTOK              constant number := 38;
+  CMD_DOC_POLICYTHM              constant number := 39;
+
+  CMD_QUERY_COUNT                constant number := 40;
+  CMD_QUERY_RESULT_SET           constant number := 41;
+  CMD_QUERY_HFEEDBACK            constant number := 42;
+  CMD_QUERY_XPATHCHK             constant number := 43;
+  CMD_QUERY_FUNCTION             constant number := 44;
+  CMD_QUERY_BROWSE               constant number := 45;
+
+  CMD_INSO_SAFE_CALLOUT          constant number := 50;
+  CMD_NEST_TEST                  constant number := 51;
+  CMD_REPORT_OBJSIZE             constant number := 52;
+  CMD_REPORT_STATS               constant number := 53;
+  CMD_REPORT_TOKINFO             constant number := 54;
+
+  CMD_CLASSIFY_TRAIN             constant number := 60;
+  CMD_CLASSIFY_FVECTORS          constant number := 61;
+  CMD_CLASSIFY_FEATURES          constant number := 62;
+  CMD_CLUSTERING                 constant number := 65;
+  CMD_ADMIN_QUERY_LOG            constant number := 66;
+  CMD_REPORT_QUERY_LOG_SUMMARY   constant number := 67;
+  CMD_ORACON_RWRTCHK             constant number := 68;
+  CMD_ENTITY_PARSE_RULE          constant number := 69;
+  CMD_ENTITY_EXTRACT             constant number := 70;
+  CMD_ENTITY_PARSE_STOPENT       constant number := 71;
+  CMD_INDEX_OPT_REBUILD          constant number := 72;
+  CMD_INDEX_OPT_MERGE            constant number := 73;
+  CMD_INDEX_SPLIT_ZONE_TOKENS    constant number := 75;
+  CMD_INDEX_OPT_AUTO             constant number := 76;
+  CMD_PURGE_AUTO_OPT_KGL         constant number := 77;
+  CMD_DOC_STEMS                  constant number := 78;
+  CMD_DOC_NOUN_PHRASES           constant number := 79;
+  CMD_DOC_LANGUAGES              constant number := 80;
+  CMD_DOC_POS                    constant number := 81;
+
+  CMD_MVDATA_INSERT              constant number := 82;
+  CMD_MVDATA_DELETE              constant number := 83;
+  CMD_MVDATA_UPDATE_SET          constant number := 84;
+  CMD_MVDATA_KGL_PURGE           constant number := 85;
+
+  CMD_TREE_ADD_NODE              constant number := 86;
+  CMD_TREE_GET_NODEID            constant number := 87;
+  CMD_TREE_GET_NODEID_LIST       constant number := 88;
+  CMD_TREE_GET_CHILDREN          constant number := 89;
+  CMD_TREE_GET_ROOTS             constant number := 90;
+  CMD_TREE_KGL_PURGE             constant number := 91;
+  CMD_TREE_REMOVE_NODE           constant number := 92;
+
+  CMD_INDEX_OPT_MVDTOK           constant number := 93;
+  CMD_REPORT_VALIDATE            constant number := 94;
+
+  CMD_SPLIT_ITAB                 constant number := 95;
+  CMD_INDEX_MIG_FIELD_TO_MDATA   constant number := 96;
+  CMD_INDEX_OPT_FULL_FTS         constant number := 97;
+  CMD_INDEX_OPT_REB_FTS          constant number := 98;
+  CMD_INDEX_OPTREB_EXCHANGE      constant number := 99;
+  CMD_INDEX_OPT_PROCN            constant number := 100;
+  CMD_CHECK_UPD_MDATA            constant number := 101;
+  CMD_IMPORT_THESAURUS           constant number := 102;
+  CMD_EXPORT_THESAURUS           constant number := 103;
+  CMD_CHECK_SES                  constant number := 104;
+  CMD_MARK_STOP_OPT              constant number := 105;
+  CMD_UNMARK_STOP_OPT            constant number := 106;
+  CMD_GET_FC_STATS               constant number := 107;
+  CMD_ENTITY_PARSE_RULENOPOL     constant number := 108;
+  CMD_FC_TXNAL_CC                constant number := 109;
+  CMD_TOKEN_TYPE_MVDATA          constant number := 110;
+  CMD_INDEX_OPT_AF_FULL          constant number := 111;
+  CMD_INDEX_OPT_AF_TTYP          constant number := 112;
+  CMD_VALIDATE_MVDATA_TOKENS     constant number := 113;
+  CMD_CREATE_SDATA_INDEXES       constant number := 114;
+  CMD_CREATE_SDATA_TABLES        constant number := 115;
+  CMD_GET_SDATA_TABLE            constant number := 116;
+  CMD_DROP_SDATA_TABLES          constant number := 117;
+  CMD_TRUNCATE_SDATA_TABLES      constant number := 118;
+  CMD_RENAME_SDATA_TABLES        constant number := 119;
+  CMD_EXCHANGE_SDATA_TABLES      constant number := 120;
+  CMD_SHADOW_IDX_OPERATIONS      constant number := 121;
+  CMD_QUERY_RESULT_SET_PAR       constant number := 122;
+  CMD_QUERY_RESULT_SET_CAC       constant number := 123;
+  CMD_ALTER_INDEX_ASYNC          constant number := 124;
+  CMD_GET_COMPATIBLE             constant number := 125;
+  CMD_CHECK_COMPATIBLE           constant number := 126;
+  CMD_DATAGUIDE_CLEANUP          constant number := 127;
+  CMD_CTXIN_CURSOR_STORE         constant number := 128;
+  CMD_GET_SENTIMENT              constant number := 129;
+  CMD_DATAGUIDE_EXCHANGE         constant number := 130;
+  CMD_CHECK_PDB_LOCKDOWN         constant number := 131;
+  CMD_INDEX_OPT_REBUILD_NOSDATA  constant number := 132;
+  CMD_INDEX_P_PART_POP           constant number := 133;
+  CMD_GET_LOGFILE                constant number := 134;
+  CMD_CHECK_CTX_LOGGING          constant number := 135;
+  CMD_INDEX_TRACE_ON             constant number := 136;
+  CMD_VPD_ENABLE                 constant number := 137;
+  CMD_INDEX_OPT_BG               constant number := 138;
+  CMD_INMEMORY_TEST              constant number := 139;
+  CMD_INMEMORY_FEVAL             constant number := 140;
+  CMD_SYNC_IN_MEMORY             constant number := 141;
+  CMD_DOWNGRADE_KTOR             constant number := 142;
+  CMD_CHK_TEXT_DATASTORE_ACCESS  constant number := 143;
+  CMD_BG_INTERNAL_FG             constant number := 144;
+
+  MS_GENERIC                 constant number := 0;
+  MS_INDEX_BEG               constant number := 1;
+  MS_INDEX_END               constant number := 2;
+  MS_GENERIC_NONL            constant number := 3;
+
+  MS_ORAEVENT_SET            constant number := 0;
+  MS_ORAEVENT_GET            constant number := 1;
+
+  MS_TRC_ADD                 constant number := 0;
+  MS_TRC_REM                 constant number := 1;
+  MS_TRC_ZRO                 constant number := 2;
+  MS_TRC_GET                 constant number := 3;
+  MS_TRC_LOG                 constant number := 4;
+  MS_TRC_ALL                 constant number := 5;
+  MS_TRC_SET_TP              constant number := 6;
+  MS_TRC_SET_VAL             constant number := 7;
+
+  MS_OPT_SDATA_FULL          constant number := 0;
+  MS_OPT_SDATA_TTYP          constant number := 1;
+  MS_OPT_SEAR_SDATA_FULL     constant number := 2;
+  MS_OPT_SEAR_SDATA_REB      constant number := 3;
+
+  MS_SHADOW_IDX_CREATE       constant number := 0;
+  MS_SHADOW_IDX_DROP         constant number := 1;
+  MS_SHADOW_IDX_EXCHANGE     constant number := 2;
+  MS_SHADOW_IDX_POPULATE     constant number := 3;
+  MS_SHADOW_IDX_ONLINE       constant number := 4;
+
+  CMD_BG_INTERNAL_FG_SET         constant number := 0;
+  CMD_BG_INTERNAL_FG_GET         constant number := 1;
+
+end drilist;
+/

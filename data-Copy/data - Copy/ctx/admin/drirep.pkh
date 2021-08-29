@@ -1,0 +1,103 @@
+Rem 
+rem Copyright (c) 2001, 2018, Oracle and/or its affiliates. 
+rem All rights reserved.
+rem    NAME
+rem      drirep.pkh
+rem    DESCRIPTION
+rem      This package contains generic helper functions called by the
+rem      ctx_report package
+rem
+rem    NOTES
+rem 
+rem    BEGIN SQL_FILE_METADATA
+rem      SQL_SOURCE_FILE: ctx_src_2/src/dr/admin/drirep.pkh
+rem      SQL_SHIPPED_FILE: ctx/admin/drirep.pkh
+rem      SQL_PHASE: DRIREP_PKH
+rem      SQL_STARTUP_MODE: NORMAL
+rem      SQL_IGNORABLE_ERRORS: NONE
+rem      SQL_CALLING_FILE: ctx/admin/ctxpkh.sql
+rem    END SQL_FILE_METADATA
+rem
+rem    MODIFIED    (MM/DD/YY)
+Rem     snetrava   06/14/18  - Bug 28102835: NONE LOG PRAGMA
+rem      surman    01/23/15  - 20411134: Add SQL metadata tags
+rem      surman    03/15/13  - 16473661: Common start and end scripts
+rem      gkaminag  07/18/02  - datatype changes
+rem      gkaminag  06/11/02  - API Changes.
+rem      gkaminag  01/09/02  - .
+rem      gkaminag  12/21/01  - Merged gkaminag_report_011217
+rem      gkaminag  12/17/01  - creation
+
+@@?/rdbms/admin/sqlsessstart.sql
+
+create or replace package drirep as
+
+PRAGMA SUPPLEMENTAL_LOG_DATA(default, NONE);
+
+  s75  constant varchar2(75) := 
+ '                                                                           ';
+  e75  constant varchar2(75) := 
+ '===========================================================================';
+  h75  constant varchar2(75) := 
+ '---------------------------------------------------------------------------';
+
+
+/*---------------------------- wl (writeln) -------------------------------*/
+/* write a line to report output.  will automatically append a newline  */
+
+procedure wl(lline in varchar2);
+
+/*---------------------------- blankln ------------------------------------*/
+/* write a blank line to report output.  */
+
+procedure blankln;
+
+/*------------------------------- title -----------------------------------*/
+/* write a title section to the report.  by default, separator is 65 "=" */
+
+procedure title(
+  title  in varchar2 default null,
+  title2 in varchar2 default null,
+  sep    in varchar2 default null
+);
+
+/*---------------------------- initreport ---------------------------------*/
+/* do pre-report initialization */
+
+procedure initreport;
+
+/*---------------------------- endreport ---------------------------------*/
+/* do end of report cleanup */
+
+procedure endreport(report in out nocopy clob);
+
+/*------------------------ load_ttype_names ------------------------------*/
+/* parse index meta-data and load a table of token type names */
+
+procedure load_ttype_names (
+  idx in dr_def.idx_rec,
+  tt  in out nocopy dr_def.vc256_tab,
+  fldonly in boolean default FALSE
+);
+
+/*---------------------------- bytestr -------------------------------*/
+/* return a byte amount in readble form */
+
+function bytestr (a in number) return varchar2;
+
+/*---------------------------- numstr ---------------------------------*/
+/* return a large number in readable form */
+
+function numstr (a in number) return varchar2;
+
+/*---------------------------- pctstr ---------------------------------*/
+/* calculate and return a percentage in readable form */
+
+function pctstr (fig in number, base in number, rnd in number default 2) 
+return varchar2;
+
+end drirep;
+/
+
+
+@?/rdbms/admin/sqlsessend.sql

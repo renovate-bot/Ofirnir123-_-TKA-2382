@@ -1,0 +1,33 @@
+@@?/rdbms/admin/sqlsessstart.sql
+CREATE OR REPLACE PACKAGE BODY dridoc wrapped 
+a000000
+1
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+b
+5c5 264
+XREASyx8t1xN7NPA3Oos2d2vWNowg2MJACDWfC/NR2RTf00WJ4JvMnzOptVw7wVGkZdQVpDF
+gbUoAAUvm+mOY1pawZi/LLtVDVYPA9OoXs9bB5q7anIffLazsSeN77sh5myX5eiauYjBbedn
+lAI1measiux0Mua8qwHeCvoflcp0OkSayxzOzkafA0/lk6dixz2hmWSlQWCIp+YJ1GzJNWwG
+Q1C3JzbVkOnLty9lVN5GBXa61YkKGeoWNTGeDfsefjE9KjUUJMFYQfZnUDmA+fn7Sh5AKTTg
+I0OOfbNDIg5nTSpy+QQoz+Z48oFgI7aC0htpSxyLz10y+uo7zBw6RcaUmqpMNU2qgNZ/IhGP
+SbirV+/t9Fi+yJl367FSw10JPmiD7dsiZlHv+8zdrKPBDZfjnZbT+COOHY+TCzOOo4urWOlt
+Lgoh65h/bPsK2lkbbjULEby0fxWDj0KUCumCY7xEjrJWGMa+snZIzP0gqX5XmDdSxNgtSZiy
+5eJvyyywAxgWHgUd/UVPeyChPfY49w1iLtpSY/+9dPBBhnoD3BiausGQrZnwsZmBhjoL0mxa
+Y3zUx4K3NYKYSbGsCnoQOh2IPcAC
+
+/
+@?/rdbms/admin/sqlsessend.sql

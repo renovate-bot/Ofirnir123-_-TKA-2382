@@ -1,0 +1,44 @@
+set define '^' verify off
+prompt ...wwv_flow_db_env_detection.plb
+create or replace package body wwv_flow_db_env_detection wrapped 
+a000000
+1
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+b
+bff 546
+UXXrAIGVfnN/URWlJHCAI/1XmM4wg5ArTCCMV45Vwfme9slsSQkC5sm/gKth1fO408ndka8U
+t0ltCXvNy7Kkys1qwrUQZKjP3zglozp8vAcL+EEeHdVc+FHR5+wxkm8AJCQIBRY/i3ixemgA
+CBN8mdaKIhmoau1Xs4scPXU4Xhq2YCHUVZ3XctFxe0ZCy0SHBRTFlDbn7JPGKPtDfNgSpw0C
+HIHYiFKJbYiTBKDjKgCzhepRQl/KasLjSE1Q+DeasDg2HqJl5ThJg3nTJA6qJTDGgrV7noAk
+7TUh5LvaJNnxv0/I5Cy8erunDwitS8pKMyiYjvDIdabNMyixOKwcc4rLBBR/QLME8Jq/hXSX
+isU48qQR0/gpnn/G7wHjzz2F8oVeHXgM5vfXp9tS87Zz/+baIcc99dUc5ZyQ1tgq3L6paa4S
+QzABdWHoZQWtk4hc5PCN7tO2ySlvNdrqO+6+C7qFVUXxIl6+APh0/r4uBGVdL8PLx+WjNkyo
+ivzfDy8FZkcxn11pOPhbVgXintjOqvQxaQZ24vsLKXwkSB7qebV2c03XMo0mz0gSZ2KRiia0
+Zv3DCKkeTVTQlHlDtKuzAIWFrN3Lj9sI18nXwejt7pJfZGtKRtQNGMdyIR7MszzljGJcF3uS
+eWVYX9VcTDlZb2vYo8ey+HxzzsbGqxcTe7GnovgGIzympGwTOLTp+37fjPzd9l5UOVY4wxcg
+XJ5IUOyPwpS6CujqNgqDpB81ann6VHDOoxPfDM4QVvVQw5yJ/FyilQhqk8Iof2bK0xXEP4kY
+bfKwSAL+wjluO/d6saf/WkFfTs/dI7gIt8FDIk521lvNJUeaAX17SoxQmr2jpqDf4RZjXiaQ
+kR8KEdBdvh7XcYtfo46cWkByU+IV3JI1bslP7eHhM5tuo9G/pjY0uvo3t8v62Gds9rsXVA/1
+gR8V+6qethwCcac6ia5TXw8nslMZGPmiVKdjJiE3llMDmzwx6GRuzWr9FxPAOlwSE/Kb/TOf
+wbB6c/NSCH4AIly7gY9Wm0DaGB0kbbc1/JdO1ICZBhdk88575J8oPbtt7Pad5zVmXjBE8eEc
+aAKv/vW1Dg64v4z1T6VB9lBEwgA8TthB8J3P5AkvDkP/Y2tH+P+xJJFMcix9d7Bbp2GbdTYP
+SKuJX0sUocYz9LleoKqik19I5FbbPVhEEnv8hBVirBQ2Fhi2iUbQ9yxGpZ62z/6dAknOCN5t
+I5BrlEg8fSUwMbdPNr8/ZaSyLul9rGKAVTTLLitTV9QCrZ+yKDmUz/8ja0hKQ6K0HmfeYfEl
+V01/liyDhK4BcJTIn0ZQKpZybeO1myTI6jFB
+
+/
+show err

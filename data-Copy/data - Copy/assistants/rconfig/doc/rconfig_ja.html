@@ -1,0 +1,87 @@
+<html>
+
+<head>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
+
+<title>ようこそ</title>
+<meta NAME="topic-id" CONTENT="welcome_page">
+<link REL=stylesheet HREF=blafdoc.css TYPE="text/css">
+</head>
+<body>
+
+<h1>ようこそ</h1>
+
+<p>Oracle Real Application Clusters構成ツールにようこそ </p>
+<p>Oracle Databaseソフトウェアのインストール後に、Oracle Real Application Clusters構成ツールを使用して単一インスタンス・データベースをOracle Real Application Clustersデータベースに変換することができます。</p>
+
+<h2>Oracle Real Application Clusters構成ツールの概要 </h2>
+
+<p>Oracle Real Application Clusters構成ツールは、既存の単一インスタンス・データベースをOracle Real Application Clustersデータベースに変換するプロセスをガイドします。既存のデータベースをクラスタ・データベースに変換するとき通常であれば手動で実行しなければならないタスクが、このツールを使用すれば自動化されます。Oracle Real Application Clusters構成ツールを起動するには、ORACLE_HOME/bin/rconfigスクリプトを使用します。構成ツールはXMLファイルを読み取るので、変換後のOracle Real Application Clustersデータベースについてはそのファイルで任意の構成を指定できます。このときのオプションで、Oracle Real Application Clustersデータベースの格納場所の変更や、Oracle Real Application Clustersインスタンスを実行するホスト/サーバー・プールの指定が可能です。また、Oracle Real Application Clustersインスタンスの接頭辞や、そのOracle Real Application Clustersインスタンスを実行する際のOracleホームも指定できます。このOracleホームは、現在のOracle Real Application Clustersホームと違っていてもかまいません。</p>
+
+ <p><strong>注意:</strong> 単一インスタンス・データベースは、変換を試行する前に完全なバックアップをとることをお薦めします。</p>
+
+ <h2>Real Application Clustersユーザーへの注意</h2>
+<p>rconfigツールで単一インスタンス・データベースをReal Application Clustersデータベースに変換する前に、インストール前のタスクを完了しておく必要があります。また、CRS (Cluster Ready Services)およびOracle Enterprise Edition 11<em>g</em>をReal Application Clustersとともにインストールするには、2フェーズのインストール・プロセスを完了しておく必要があります。</p>
+<p>また、使用するデータベース記憶域のタイプに応じて、構成ツールを起動して単一インスタンス・データベースをReal Application Clustersデータベースに変換する前に、次の設定手順のうちの1つを実行する必要があります。</p>
+<ul>
+  <li>
+    <p>単一インスタンスがASM記憶域を使用する場合、クラスタASMインスタンスをインストールします。必ず、クラスタのすべてのノードでASMインスタンスが実行されるようにしてください。ASMディスク・グループの定義とマウントには、ASM Configuration Assistant(ASMCA) を使用します。</p>
+  </li>
+  <li>
+    <p>単一インスタンスのデータベース記憶域が一部のノードからアクセス不可の場合、すべてのノードからアクセス可能なデータベース記憶域にクラスタ・ファイルシステム・パーティションを指定します。</p>
+  </li>
+  <li>
+    <p>RAWデバイス記憶域を使用するデータベースの変換は、rconfigツールではサポートされていません。</p>
+  </li>
+</ul>
+
+<h2>rconfigツールの前提条件</h2>
+
+<p>rconfigツールを使用してOracle Real Application Clustersデータベースへの変換を実行するには、次の前提条件を満たす必要があります。正常に変換できるように、ツールはこれらの条件が満たされていることを確認するチェックを実行します。</p>
+<ul>
+  <li>
+    <p>CRSとデータベースのバージョン番号は11.2であること。</p>
+  </li>
+  <li>
+    <p>Oracle Real Application Clustersインスタンスが実行されているすべてのノードでCRSが実行されていること。</p>
+  </li>
+  <li>
+    <p> デフォルトのリスナーがグリッド・インフラストラクチャ(CRS)ホームから実行されていること。</p>
+  </li>
+  <li>
+    <p>指定された記憶域の場所がクラスタのすべてのノードからアクセス可能であること。単一インスタンス・データベースで使用される記憶域がASMの場合、Oracle Real Application Clustersがあるすべてのノード上でクラスタASMのインスタンスが実行される必要があります。</p>
+  </li>
+</ul>
+
+<h2>rconfigツールがOracle Real Application Clustersへの変換を実行する際の入力XML</h2>
+<p> rconfigツールは、入力としてXMLファイルを使用します。変換の際の入力として使用されるXMLファイルの各要素については、このセクションで説明します。入力XMLを検証するときのXMLスキーマは、他のバイナリとともにrconfig.jarにパッケージされており、/ORACLE_HOME/assistants/rconfig/sampleXMLs/rconfig.xsdで確認できます。このディレクトリには、rconfigツールの入力として使用できるサンプルXMLファイルも含まれています。
+<ul>
+  <li>
+    <p>単一インスタンス・データベースのSIDと資格証明: sysdbaロールを持つユーザーのユーザー名とパスワードを指定します。また、データベースに接続するには既存の単一インスタンス・データベースのSIDも必要です。</p>
+  </li>
+
+  <li>
+    <p>既存のOracleホーム: 単一インスタンス・データベースのOracleホームを指定します。</p>
+  </li>
+  <li>
+    <p>新しいOracleホーム: 変換したOracle Real Application Clustersデータベースを実行するときのOracleホームを指定します。既存のOracleホームと同じでもかまいません。</p>
+  </li>
+  
+  <li>
+    <p>サーバー・プール・リスト/ノード・リスト: 管理者管理型データベースの場合、このOracle Real Application Clustersデータベースのインスタンスを所有する必要のあるノードのリストを指定します。</p>
+	<p>ポリシー管理型データベースの場合、サーバー・プール・リストを指定します。サーバー・プールが存在しない場合は作成されます。サーバー・プールを作成する際には、データベースのカーディナリティを指定します。 </p>
+  </li>
+  
+  <li>
+    <p>クラスタ・データベース・インスタンスの接頭辞: これはオプションのフィールドです。Oracle Real Application Clustersインスタンスは、接頭辞とインスタンス番号を組み合せた名前になります。接頭辞は、既存データベースのSIDと同じでも、別の名前でもかまいません。空白にした場合はデフォルトのdb_unique_nameになります。</p>
+  </li>
+
+  <li>
+    <p>共有記憶域: Oracle Real Application Clustersデータベース用に構成が必要なデータ・ファイルの場所とリカバリ領域の場所を指定します。単一インスタンス・データベースが使用している現在の記憶域をOracle Real Application Clustersデータベースにも使用する場合、このフィールドは空白のままにします。この場合は、現在のデータ・ファイル、制御ファイル、SPFILEおよびリカバリ・ファイルがすべてのノードからアクセス可能かどうかをrconfigツールが事前にチェックします。アクセス可能でない場合にはエラーが表示され、変換を続行できません。別の場所を指定した場合は、指定した場所がすべてのノードからアクセス可能であることをrconfigツールが確認し、変換の際にすべてのファイルを指定した場所にコピーして、その場所に新しいOracle Real Application Clustersインスタンス用のファイルを新規作成します。</p>
+  <p>ASM記憶域にも同じ注意が適用されます。これらのフィールドを使用して、共有記憶域の構成に使用するディスク・グループを指定します。ディスク・グループの指定は「+」で初めます。現在、データ・ファイルの場所とリカバリ領域の場所に指定できるディスク・グループは1つだけです。
+  </li>
+</ul>
+
+</body>
+
+</html>

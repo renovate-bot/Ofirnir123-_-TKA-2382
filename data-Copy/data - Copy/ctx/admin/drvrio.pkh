@@ -1,0 +1,106 @@
+Rem 
+Rem Copyright (c) 2005, 2018, Oracle and/or its affiliates. 
+Rem All rights reserved.
+Rem    NAME
+Rem      drvrio.pkb
+Rem    DESCRIPTION
+Rem      This package contains functions for ctx_ddl.recreate_index_online
+Rem    
+Rem 
+Rem    BEGIN SQL_FILE_METADATA
+Rem      SQL_SOURCE_FILE: ctx_src_2/src/dr/admin/drvrio.pkh
+Rem      SQL_SHIPPED_FILE: ctx/admin/drvrio.pkh
+Rem      SQL_PHASE: DRVRIO_PKH
+Rem      SQL_STARTUP_MODE: NORMAL
+Rem      SQL_IGNORABLE_ERRORS: NONE
+Rem      SQL_CALLING_FILE: ctx/admin/ctxpkh.sql
+Rem    END SQL_FILE_METADATA
+Rem
+Rem    MODIFIED   (MM/DD/YY)
+Rem     snetrava   06/14/18  - Bug 28102835: NONE LOG PRAGMA
+Rem     demukhin   07/12/17 - bug 26051570: keep $R for legacy indexes
+Rem     surman     01/23/15 - 20411134: Add SQL metadata tags
+Rem     surman     03/15/13 - 16473661: Common start and end scripts
+Rem     gauryada   05/12/11 - Added configuration column to dr$index
+Rem     yucheng    12/22/05 - RIO phase 3 
+Rem     yucheng    10/20/05 - creation 
+
+@@?/rdbms/admin/sqlsessstart.sql
+
+create or replace package  drvrio authid current_user as
+
+PRAGMA SUPPLEMENTAL_LOG_DATA(default, NONE);
+
+  swap_shadow_error  EXCEPTION;
+
+/*---------------------- create_shadow_online ----------------------------*/
+procedure create_shadow_index(
+  ia          sys.ODCIIndexInfo,
+  idx         dr_def.idx_rec,
+  idxmem      in  number,
+  para        in  number,
+  langcol     in  varchar2,
+  fmtcol      in  varchar2,
+  csetcol     in  varchar2,
+  datastore   in  varchar2,
+  filter      in  varchar2,
+  section     in  varchar2,
+  lexer       in  varchar2,
+  wordlist    in  varchar2,
+  stoplist    in  varchar2,
+  storage     in  varchar2,
+  txntional   in  varchar2,
+  sync_type   in  varchar2,
+  sync_memory     in   varchar2,
+  sync_paradegree in   number,
+  sync_interval   in   varchar2,
+  populate        in   boolean,
+  configcol   in  varchar2,
+  no_r        in  boolean
+);
+
+procedure create_shadow_partsMD(
+  idx          dr_def.idx_rec,
+  idxid_shadow number
+);
+
+/*------------------------exchange_shadow_index---------------------------*/
+procedure exchange_shadow_index(
+  idx        dr_def.idx_rec
+);
+
+/*------------------------swap_shadow ------------------------------------*/
+procedure swap_shadow(
+  ia    sys.ODCIIndexInfo,
+  idx   dr_def.idx_rec,
+  ispart boolean
+); 
+                 
+/*---------------------- part_recreate_online ----------------------------*/
+procedure create_shadow_part(
+  ia          sys.ODCIIndexInfo,
+  idx         dr_def.idx_rec,
+  ixp         dr_def.ixp_rec,
+  idxmem      number,
+  storage     varchar2,
+  para        number,
+  sync_type   varchar2,
+  sync_memory varchar2,
+  sync_paradegree number,
+  sync_interval varchar2, 
+  online        boolean,
+  metadataonly  boolean,
+  populate      boolean
+); 
+
+/*------------------------ exchange_shadow_part --------------------------*/
+procedure exchange_shadow_part(
+  idx           dr_def.idx_rec,
+  ixp           dr_def.ixp_rec
+);
+
+
+end drvrio;
+/
+
+@?/rdbms/admin/sqlsessend.sql

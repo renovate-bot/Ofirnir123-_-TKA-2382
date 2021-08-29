@@ -1,0 +1,80 @@
+Rem Copyright (c) 1998, 2018, Oracle and/or its affiliates. 
+Rem All rights reserved.
+Rem    NAME
+Rem      driload
+Rem    DESCRIPTION
+Rem	 ctxload utility functions
+Rem    RETURNS
+Rem 
+Rem    NOTES
+Rem 
+Rem    BEGIN SQL_FILE_METADATA
+Rem      SQL_SOURCE_FILE: ctx_src_2/src/dr/admin/driload.pkh
+Rem      SQL_SHIPPED_FILE: ctx/admin/driload.pkh
+Rem      SQL_PHASE: DRILOAD_PKH
+Rem      SQL_STARTUP_MODE: NORMAL
+Rem      SQL_IGNORABLE_ERRORS: NONE
+Rem      SQL_CALLING_FILE: ctx/admin/ctxpkh.sql
+Rem    END SQL_FILE_METADATA
+Rem
+Rem    MODIFIED   (MM/DD/YY)
+Rem     snetrava   06/14/18  - Bug 28102835: NONE LOG PRAGMA
+Rem     surman     01/23/15  - 20411134: Add SQL metadata tags
+Rem     shorwitz   01/17/15  - Bug 16297527: regular expression patterns
+Rem     surman     03/15/13  - 16473661: Common start and end scripts
+Rem     wclin      12/08/06  - clob sqe
+Rem     surman     10/03/05  - 4417924: Remove build_dml 
+Rem     surman     01/07/04  - 3353657: Remove validate_stmt and validate_pol
+Rem     gkaminag   06/11/02  - API Changes.
+Rem     gkaminag   07/02/98 -  resolve_sqe
+Rem     ehuang     03/30/98 -  mv validate_stmt from driutl
+Rem     gkaminag   03/05/98 -  creation
+
+@@?/rdbms/admin/sqlsessstart.sql
+
+create or replace package driload as
+
+PRAGMA SUPPLEMENTAL_LOG_DATA(default, NONE);
+
+/*---------------------------- resolve_sqe --------------------------------*/
+/*
+  NAME
+    resolve_sqe
+
+  NOTES
+    TODO: move this to a more appropriate place
+*/
+FUNCTION resolve_sqe( p_idx_id in number, p_sqe_name in varchar2)
+return clob;
+
+/*--------------------------- reverse_pattern -------------------------------*/
+/*
+  NAME
+    reverse_pattern
+
+  NOTES
+
+   Reverse a regular expression pattern.
+
+*/
+FUNCTION reverse_pattern(p_str in varchar2)
+return varchar2;
+
+/*--------------------------- getleadingchars -------------------------------*/
+/*
+  NAME
+    getleadingchars
+
+  NOTES
+
+   Get the leading alphabetic characters from a regular
+   expression string.
+
+*/
+FUNCTION getleadingchars(p_str in varchar2)
+  return clob;
+
+end driload;
+/
+
+@?/rdbms/admin/sqlsessend.sql

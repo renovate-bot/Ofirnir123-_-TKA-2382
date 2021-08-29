@@ -1,0 +1,17 @@
+#2021-08-04_09-42-59-AM
+INFO: oracle.ntoramts:About to execute plug-in Oracle Services For Microsoft Transaction Server
+INFO: oracle.ntoramts:The plug-in Oracle Services For Microsoft Transaction Server is running
+INFO: oracle.ntoramts:Internal PlugIn Class: oracle.install.config.common.MTSInternalPlugIn
+INFO: oracle.ntoramts:Classpath = C:\WINDOWS.X64_193000_db_home\install\jlib\instcommon.jar;C:\WINDOWS.X64_193000_db_home\install\jlib\installcommons_1.0.0b.jar
+WARNING: oracle.ntoramts:Class oracle.install.config.common.MTSInternalPlugIn was loaded by a parent class loader, provided classpath (C:\WINDOWS.X64_193000_db_home\install\jlib\instcommon.jar;C:\WINDOWS.X64_193000_db_home\install\jlib\installcommons_1.0.0b.jar) will not be available from this class
+INFO: Executing MTS
+INFO: Command C:\Windows\system32\cmd.exe /c call C:\WINDOWS.X64_193000_db_home\bin\oramtsctl.exe -new -internal 
+INFO: ... GenericInternalPlugIn.handleProcess() entered.
+INFO: ... GenericInternalPlugIn: getting configAssistantParmas.
+INFO: ... GenericInternalPlugIn: checking secretArguments.
+INFO: ... GenericInternalPlugIn: starting read loop.
+INFO: Skipping line: Service is being created.
+INFO: Skipping line: Service was created successfully.
+INFO: Skipping line: Service is starting...
+INFO: Skipping line: Service was started successfully.
+INFO: oracle.ntoramts:The plug-in Oracle Services For Microsoft Transaction Server has successfully been performed

@@ -1,0 +1,490 @@
+rem Copyright (c) 1991, 2017, Oracle and/or its affiliates. 
+rem All rights reserved.
+rem  NAME
+rem    dr0out.pkh - DR system OUTput services
+rem
+rem  DESCRIPTION
+rem	output services for ConText Option    
+rem
+rem  PUBLIC FUNCTION(S)
+rem    start_log
+rem    end_log
+rem
+rem  NOTES
+rem 
+rem 
+rem  BEGIN SQL_FILE_METADATA
+rem    SQL_SOURCE_FILE: ctx_src_2/src/dr/admin/dr0out.pkh
+rem    SQL_SHIPPED_FILE: ctx/admin/dr0out.pkh
+rem    SQL_PHASE: DR0OUT_PKH
+rem    SQL_STARTUP_MODE: NORMAL
+rem    SQL_IGNORABLE_ERRORS: NONE
+rem    SQL_CALLING_FILE: ctx/admin/ctxpkh.sql
+rem  END SQL_FILE_METADATA
+rem
+rem  MODIFIED  (MM/DD/YY)
+rem    rkadwe     08/18/17 - Bug 25915271: CTX_OUTPUT invokers right
+rem    pkosaraj   03/02/16 - Bug 22673711 Direct CTX logs to rdbms trace files
+rem    aczarlin   03/24/15 - bug 20729920 searchable facet traces
+rem    surman     01/23/15 - 20411134: Add SQL metadata tags
+rem    boxia      11/17/14 - Bug 12611122: add sdata qry traces for $S*
+rem    zliu       07/29/14 - add DRUT_QRY_SDATA_TIME
+rem    shuroy     11/07/13 - Adding trace for CTXIN
+rem    shuroy     09/11/13 - Bug 17380982: Added traces for $V
+rem    surman     03/15/13 - 16473661: Common start and end scripts
+rem    aczarlin   07/30/12 - fix facet timers
+rem    aczarlin   05/14/12 - bug 13868705 query facet time
+rem    gauryada   01/12/12 - Add trace for doc service procedures 
+rem    surman     08/18/11 - 12885737: Add dumpederrors
+rem    hsarkar    07/01/11 - Logical Standby Support
+rem    surman     06/22/11 - 12675952: Change logging to function
+rem    hsarkar    06/08/11 - Logical Standby Support
+rem    gauryada   04/29/11 - Add $D trace
+rem    surman     03/29/11 - 11935849: Add logfileoverwrite
+rem    gauryada   03/02/11 - Add $O traces
+rem    gauryada   03/04/11 - Add DRUT_QRY_SUBSTR_TIME
+rem    surman     02/08/09 - Text diagnostic project phase 1
+rem    skabraha   06/07/06 - add query stats functions
+rem    wclin      06/01/06 - add $S trace 
+rem    mfaisal    08/04/04 - keyview html export release 8.0.0 
+rem    gkaminag   11/21/03 - event: index print token 
+rem    ehuang     10/31/03 - tracing enh 
+rem    smuralid   10/31/03 - add TRACE_QRY_K_TIME 
+rem    ehuang     10/21/03 - performance tracing 
+rem    qxiao      02/07/03 - add query log analysis
+rem    smuralid   12/23/02 - new parameter (append/overwrite) to start_log
+rem    gkaminag   12/11/01 - EVENT_OPT_PRINT_TOKEN.
+rem    ehuang     01/22/01 - add LOGGING
+rem    gkaminag   08/28/00 - add_event, remove_event
+rem    ymatsuda   06/01/99 - logfilename function
+rem    gkaminag   08/10/98 - creation
+
+@@?/rdbms/admin/sqlsessstart.sql
+
+create or replace package CTX_OUTPUT authid current_user as
+
+  /* print each ROWID as it is indexed */
+  EVENT_INDEX_PRINT_ROWID constant number := 1;
+
+  /* print tokens as they are indexed by sync or create index */
+  EVENT_INDEX_PRINT_TOKEN constant number := 4;
+
+  /* print tokens as they are optimized */
+  EVENT_OPT_PRINT_TOKEN constant number := 2;
+
+  /* trace DRG errors */
+  EVENT_DRG_DUMP_ERRORSTACK constant number := 8;
+  DRG_DUMP_ALL_ERRORS       constant number := -1;
+
+  /* timer unit is microseconds */
+
+  TRACE_IDX_USER_DATASTORE constant number :=  1;
+  TRACE_IDX_INSO_FILTER    constant number :=  2;
+  TRACE_IDX_AUTO_FILTER    constant number :=  2;
+  TRACE_QRY_XX_TIME        constant number :=  3;
+  TRACE_QRY_XF_TIME        constant number :=  4;
+  TRACE_QRY_X_ROWS         constant number :=  5;
+  TRACE_QRY_IF_TIME        constant number :=  6;
+  TRACE_QRY_IR_TIME        constant number :=  7;
+  TRACE_QRY_I_ROWS         constant number :=  8;
+  TRACE_QRY_I_SIZE         constant number :=  9;
+  TRACE_QRY_R_TIME         constant number := 10;
+  TRACE_QRY_CON_TIME       constant number := 11;
+  TRACE_QRY_K_TIME         constant number := 12;
+  TRACE_QRY_S_TIME         constant number := 15;
+  TRACE_QRY_O_TIME         constant number := 19;
+  TRACE_QRY_OR_TIME        constant number := 20;
+  TRACE_QRY_O_ROWS         constant number := 21;
+  TRACE_QRY_O_SIZE         constant number := 22;
+  TRACE_QRY_D_TIME         constant number := 23;
+  TRACE_QRY_SUBSTR_TIME    constant number := 24;
+  TRACE_QRY_SNIPPET_TIME   constant number := 25;
+  TRACE_HIL_DOCSERV_TIME   constant number := 26;
+  TRACE_QRY_FACET_TOT_TIME constant number := 27;
+  TRACE_QRY_FACET_INI_TIME constant number := 28;
+  TRACE_QRY_FACET_EXC_TIME constant number := 29;
+  TRACE_QRY_FACET_OUT_TIME constant number := 30;
+  TRACE_QRY_MVTOK_ROWS     constant number := 31;
+  TRACE_QRY_MVTOK_SIZE     constant number := 32;
+  TRACE_CTXTREE_GETDS_TIME constant number := 33;
+  TRACE_CTXTREE_ADDND_TIME constant number := 34;
+  TRACE_CTXTREE_GETND_TIME constant number := 35;
+  TRACE_CTXTREE_REMND_TIME constant number := 36;
+  TRACE_QRY_VV_TIME        constant number := 37;
+  TRACE_QRY_VF_TIME        constant number := 38;
+  TRACE_QRY_V_ROWS         constant number := 39;
+  TRACE_QRY_WLDCRD_TIME    constant number := 40;
+  TRACE_QRY_SN_TIME        constant number := 41;
+  TRACE_QRY_SN_ROWS        constant number := 42;
+  TRACE_QRY_SN_SIZE        constant number := 43;
+  TRACE_QRY_SV_TIME        constant number := 44;
+  TRACE_QRY_SV_ROWS        constant number := 45;
+  TRACE_QRY_SV_SIZE        constant number := 46;
+  TRACE_QRY_SD_TIME        constant number := 47;
+  TRACE_QRY_SD_ROWS        constant number := 48;
+  TRACE_QRY_SD_SIZE        constant number := 49;
+  TRACE_QRY_SBF_TIME        constant number := 50;
+  TRACE_QRY_SBF_ROWS        constant number := 51;
+  TRACE_QRY_SBF_SIZE        constant number := 52;
+  TRACE_QRY_SBD_TIME        constant number := 53;
+  TRACE_QRY_SBD_ROWS        constant number := 54;
+  TRACE_QRY_SBD_SIZE        constant number := 55;
+  TRACE_QRY_ST_TIME        constant number := 56;
+  TRACE_QRY_ST_ROWS        constant number := 57;
+  TRACE_QRY_ST_SIZE        constant number := 58;
+  TRACE_QRY_STZ_TIME        constant number := 59;
+  TRACE_QRY_STZ_ROWS        constant number := 60;
+  TRACE_QRY_STZ_SIZE        constant number := 61;
+  TRACE_QRY_SIYM_TIME        constant number := 62;
+  TRACE_QRY_SIYM_ROWS        constant number := 63;
+  TRACE_QRY_SIYM_SIZE        constant number := 64;
+/* comment out temporarily, will use in the future
+  TRACE_QRY_SIDS_TIME        constant number := 65;
+  TRACE_QRY_SIDS_ROWS        constant number := 66;
+  TRACE_QRY_SIDS_SIZE        constant number := 67;
+  TRACE_QRY_SR_TIME        constant number := 68;
+  TRACE_QRY_SR_ROWS        constant number := 69;
+  TRACE_QRY_SR_SIZE        constant number := 70;
+*/
+
+/* bug 20729920 searchable facet timers will re-use mvdata
+   and ctx_tree facet timer numbers */
+
+  TRACE_QRY_SEAR_PRINT_TIME  constant number := TRACE_QRY_FACET_OUT_TIME;
+  TRACE_QRY_SEAR_ROWS        constant number := 31;  /* re-use mvdata */
+  TRACE_QRY_SEAR_FETCH_TIME  constant number := 32;  /* re-use mvdata */
+  TRACE_QRY_SEAR_CONV_TIME   constant number := 33;  /* re-use ctx_tree */
+  TRACE_QRY_SEAR_ORDER_TIME  constant number := 34;  /* re-use ctx_tree */
+  TRACE_QRY_SEAR_SDAT_TIME   constant number := 35;  /* re-use ctx_tree */
+  TRACE_QRY_SEAR_TOT_TIME    constant number := 36;  /* re-use ctx_tree */
+
+
+  -- 0, 13, 14, 16-18 reserved for internal use
+
+/*------------------------------- start_log ---------------------------------*/
+/*
+  NAME
+   start_log - begin logging index and document service requests
+
+  DESCRIPTION
+
+  ARGUMENTS
+    logfile   (IN)   logfile name
+    overwrite (IN)   overwrite existing log file if any (default is TRUE)
+
+  RETURNS
+   none
+
+  NOTES
+*/
+
+procedure start_log(
+  logfile in varchar2,
+  overwrite in boolean DEFAULT true
+);
+
+/*------------------------------- start_log ---------------------------------*/
+/*
+  NAME
+   start_log - begin logging index and document service requests
+
+  DESCRIPTION
+
+  ARGUMENTS
+
+  RETURNS
+   none
+
+  NOTES
+*/
+
+procedure start_log;
+
+/*------------------------------- start_query_log --------------------------*/
+/*
+  NAME
+   start_query_log - begin logging query against context index
+
+  DESCRIPTION
+
+  ARGUMENTS
+    logfile  (IN)   logfile name
+    overwrite (IN)   overwrite existing log file if any (default is TRUE)
+
+  RETURNS
+   none
+
+  NOTES
+*/
+
+procedure start_query_log(
+  logfile in varchar2,
+  overwrite in boolean DEFAULT true
+);
+
+/*------------------------------- start_query_log --------------------------*/
+/*
+  NAME
+   start_query_log - begin logging query against context index
+
+  DESCRIPTION
+
+  ARGUMENTS
+
+  RETURNS
+   none
+
+  NOTES
+*/
+
+procedure start_query_log;
+
+/*------------------------------- add_event -------------------------------*/
+/*
+  NAME
+   add_event - add an event to the logging event list
+
+  DESCRIPTION
+
+  ARGUMENTS
+    event  (IN)   event number
+
+  RETURNS
+   none
+
+  NOTES
+*/
+
+procedure add_event(
+  event in number,
+  errnum in number := null
+);
+
+/*------------------------------- remove_event ----------------------------*/
+/*
+  NAME
+   remove_event - remove an event from the logging event list
+
+  DESCRIPTION
+
+  ARGUMENTS
+    event  (IN)   event number
+
+  RETURNS
+   none
+
+  NOTES
+*/
+
+procedure remove_event(
+  event in number,
+  errnum in number := null
+);
+
+/*------------------------------- end_log ---------------------------------*/
+/*
+  NAME
+   end_log - halt logging index and document service requests
+
+  DESCRIPTION
+
+  ARGUMENTS
+
+  RETURNS
+   none
+
+  NOTES
+*/
+
+procedure end_log;
+
+/*------------------------------- end_query_log -----------------------------*/
+/*
+  NAME
+   end_query_log - halt query logging 
+
+  DESCRIPTION
+
+  ARGUMENTS
+
+  RETURNS
+   none
+
+  NOTES
+*/
+
+procedure end_query_log;
+
+/*---------------------------- logfilename ---------------------------------*/
+/*
+  NAME
+   logfilename - returns the current log file name
+
+  DESCRIPTION
+
+  ARGUMENTS
+
+  RETURNS
+   log file name
+
+  NOTES
+*/
+function logfilename return varchar2;
+
+/*-------------------------- logfileoverwrite -------------------------------*/
+/*
+  NAME
+   logfileoverwrite - returns the current overwrite setting
+
+  DESCRIPTION
+
+  ARGUMENTS
+
+  RETURNS
+   log file overwrite setting
+
+  NOTES
+*/
+function logfileoverwrite return boolean;
+
+/*-------------------------- dumpederrors -----------------------------------*/
+/*
+  NAME
+   dumpederrors - returns an array of all current errors with stack traces
+  DESCRIPTION
+
+  ARGUMENTS
+
+  RETURNS
+   dumped errors array
+
+  NOTES
+*/
+function dumpederrors return dr$numtable;
+
+/*---------------------------- add_trace ---------------------------------*/
+/*
+  NAME
+    add_trace - enable trace specfied in the trace_id argument
+
+  DESCRIPTION
+
+  ARGUMENTS
+
+  RETURNS
+
+  NOTES
+*/
+procedure add_trace(trace_id binary_integer);
+
+/*-------------------------- remove_trace ---------------------------------*/
+/*
+  NAME
+    remove_trace - disable trace specfied in the trace_id argument
+
+  DESCRIPTION
+
+  ARGUMENTS
+
+  RETURNS
+
+  NOTES
+*/
+procedure remove_trace(trace_id binary_integer);
+
+/*-------------------------- reset_trace --------------------------------*/
+/*
+  NAME
+    reset_trace - reset trace specfied in the trace_id argument
+
+  DESCRIPTION
+    resets the specified trace to 0.
+
+  ARGUMENTS
+
+  RETURNS
+
+  NOTES
+*/
+procedure reset_trace(trace_id binary_integer);
+
+/*--------------------------- log_traces ---------------------------------*/
+/*
+  NAME
+    log_traces - dumps all active traces to the logfile
+
+  DESCRIPTION
+
+  ARGUMENTS
+
+  RETURNS
+
+  NOTES
+    the traces are NOT reset to 0.
+*/
+procedure log_traces;
+
+/*---------------------- get_trace_value ---------------------------------*/
+/*
+  NAME
+    get_trace_value - returns the current value of the specified trace
+
+  DESCRIPTION
+
+  ARGUMENTS
+
+  RETURNS
+
+  NOTES
+    the traces are NOT reset to 0.
+*/
+function get_trace_value(trace_id binary_integer) return number;
+
+/*-------------------------- enable_query_stats -----------------------------*/
+/*
+  NAME
+    enable_query_stats - enables query stats collection
+
+  DESCRIPTION
+
+  ARGUMENTS
+
+  RETURNS
+
+  NOTES
+    
+*/
+procedure enable_query_stats(indexname varchar2);
+PRAGMA SUPPLEMENTAL_LOG_DATA(enable_query_stats, AUTO);
+
+/*-------------------------- disable_query_stats ---------------------------*/
+/*
+  NAME
+    disable_query_stats - disables query stats collection
+
+  DESCRIPTION
+
+  ARGUMENTS
+
+  RETURNS
+
+  NOTES
+    
+*/
+procedure disable_query_stats(indexname varchar2);
+PRAGMA SUPPLEMENTAL_LOG_DATA(disable_query_stats, AUTO);
+
+/*--------------------------- logging ---------------------------------------*/
+/*
+  NAME
+    logging - is logging enabled
+
+  DESCRIPTION
+    returns TRUE if logging is enabled through start_log or event
+*/
+function logging return boolean;
+
+end ctx_output;
+/
+
+@?/rdbms/admin/sqlsessend.sql

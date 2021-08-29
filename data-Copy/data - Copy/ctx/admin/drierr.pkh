@@ -1,0 +1,63 @@
+rem 
+rem Copyright (c) 2002, 2018, Oracle and/or its affiliates. 
+rem All rights reserved.
+rem  NAME
+rem    drierr.pkh - DR Internal routines: Errors
+rem  DESCRIPTION
+rem    Stored procedure interface to support an error stack
+rem
+rem  NOTES
+rem 
+rem  BEGIN SQL_FILE_METADATA
+rem    SQL_SOURCE_FILE: ctx_src_2/src/dr/admin/drierr.pkh
+rem    SQL_SHIPPED_FILE: ctx/admin/drierr.pkh
+rem    SQL_PHASE: DRIERR_PKH
+rem    SQL_STARTUP_MODE: NORMAL
+rem    SQL_IGNORABLE_ERRORS: NONE
+rem    SQL_CALLING_FILE: ctx/admin/ctxpkh.sql
+rem  END SQL_FILE_METADATA
+rem
+rem  MODIFIED    (MM/DD/YY)
+Rem     snetrava   06/14/18  - Bug 28102835: NONE LOG PRAGMA
+rem     surman    01/23/15 - 20411134: Add SQL metadata tags
+rem     surman    03/15/13 - 16473661: Common start and end scripts
+rem     surman    03/22/09 - 7718948: Add pretext to AddODCIWarning
+rem     surman    12/09/08 - 7540290: binary_integer to number
+rem     gkaminag  10/21/03 - mdata phase 2 
+rem     gkaminag  06/06/02 - creation
+rem
+
+@@?/rdbms/admin/sqlsessstart.sql
+
+create or replace package drierr authid definer as
+
+PRAGMA SUPPLEMENTAL_LOG_DATA(default, NONE);
+
+/*-------------------------- AddODCIWarning -------------------------------*/
+
+procedure AddODCIWarning(pretext IN boolean := FALSE);
+
+/*---------------------------- RecordIndexError -------------------------*/
+/* records an error to the dr$index_error table */
+
+procedure RecordIndexError(
+  p_idxid           in number,
+  p_textkey         in varchar2,
+  p_stack           in varchar2
+);
+
+procedure RecordIndexErrorId(
+  p_idxid           in number,
+  p_textkey         in varchar2,
+  msgid             in binary_integer,
+  arg1	            in varchar2	default NULL,
+  arg2	            in varchar2	default NULL,
+  arg3	            in varchar2	default NULL,
+  arg4	            in varchar2	default NULL,
+  arg5	            in varchar2	default NULL
+);
+
+end drierr;
+/
+
+@?/rdbms/admin/sqlsessend.sql

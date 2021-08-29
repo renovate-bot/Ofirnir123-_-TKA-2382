@@ -1,0 +1,86 @@
+Rem 
+rem Copyright (c) 2005, 2018, Oracle and/or its affiliates. 
+rem All rights reserved.
+rem    NAME
+rem      dririo.pkh
+rem    DESCRIPTION
+rem      This package contains functions for ctx_ddl.recreate_index_online
+rem
+rem    NOTES
+rem 
+rem    BEGIN SQL_FILE_METADATA
+rem      SQL_SOURCE_FILE: ctx_src_2/src/dr/admin/dririo.pkh
+rem      SQL_SHIPPED_FILE: ctx/admin/dririo.pkh
+rem      SQL_PHASE: DRIRIO_PKH
+rem      SQL_STARTUP_MODE: NORMAL
+rem      SQL_IGNORABLE_ERRORS: NONE
+rem      SQL_CALLING_FILE: ctx/admin/ctxpkh.sql
+rem    END SQL_FILE_METADATA
+rem
+rem    MODIFIED    (MM/DD/YY)
+Rem     snetrava   06/14/18  - Bug 28102835: NONE LOG PRAGMA
+rem      surman     01/23/15  - 20411134: Add SQL metadata tags
+rem      surman     03/15/13  - 16473661: Common start and end scripts
+rem      yucheng    01/11/06  - recreate index online partition 
+rem      yucheng    10/18/05  - recreate_index online 
+rem      gkaminag   08/24/05  - gkaminag_recreate_online_phase1
+rem      gkaminag   08/22/05  - creation
+
+@@?/rdbms/admin/sqlsessstart.sql
+
+create or replace package dririo as
+
+PRAGMA SUPPLEMENTAL_LOG_DATA(default, NONE);
+
+  LOCK_WAIT     constant number := null;
+  LOCK_NOWAIT   constant number := 0;
+  IGNORE_ERRORS constant boolean := TRUE;
+
+/*------------------------------ lock_rio --------------------------------*/
+
+procedure lock_rio(
+  cid        in number,
+  pid        in number,
+  timeout    in number
+);
+
+/*----------------------------- unlock_rio ------------------------------*/
+
+procedure unlock_rio(
+  ignore_errors in boolean default false
+);
+
+/*----------------------------- shadow_name ------------------------------*/
+/* return the name of the shadow policy, given source policy id */
+
+function shadow_name(
+  idx_id in number,
+  ixp_id in number default null
+) return varchar2;
+
+/*------------------------- lock_rio_all_part ----------------------------*/
+
+procedure lock_rio_all_part(
+  cid        in number
+);
+
+/*------------------------ unlock_rio_all_part ---------------------------*/
+
+procedure unlock_rio_all_part(
+  ignore_errors in boolean default false
+);
+
+procedure create_shadow(
+  idx        dr_def.idx_rec,
+  idx_shadow in out nocopy dr_def.idx_rec
+);
+
+procedure create_shadow_partMD(
+   idx         dr_def.idx_rec,
+   ixp_id      number
+);
+
+end dririo;
+/
+
+@?/rdbms/admin/sqlsessend.sql

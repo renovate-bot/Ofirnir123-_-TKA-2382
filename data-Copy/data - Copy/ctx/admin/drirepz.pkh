@@ -1,0 +1,58 @@
+Rem 
+rem Copyright (c) 2001, 2018, Oracle and/or its affiliates. 
+rem All rights reserved.
+rem    NAME
+rem      drirepz.pkh
+rem    DESCRIPTION
+rem      This package contains sizing functions called by the
+rem      ctx_report package
+rem
+rem    NOTES
+rem 
+rem    BEGIN SQL_FILE_METADATA
+rem      SQL_SOURCE_FILE: ctx_src_2/src/dr/admin/drirepz.pkh
+rem      SQL_SHIPPED_FILE: ctx/admin/drirepz.pkh
+rem      SQL_PHASE: DRIREPZ_PKH
+rem      SQL_STARTUP_MODE: NORMAL
+rem      SQL_IGNORABLE_ERRORS: NONE
+rem      SQL_CALLING_FILE: ctx/admin/ctxpkh.sql
+rem    END SQL_FILE_METADATA
+rem
+rem    MODIFIED    (MM/DD/YY)
+Rem     snetrava   06/14/18  - Bug 28102835: NONE LOG PRAGMA
+rem      surman    01/23/15  - 20411134: Add SQL metadata tags
+rem      surman    03/15/13  - 16473661: Common start and end scripts
+rem      gauryada  03/21/12  - Add procedure to fetch size of ($G + $H) tables
+rem      ehuang    05/21/03  - 
+rem      ehuang    03/31/03  - xml support
+rem      gkaminag  12/21/01  - Merged gkaminag_report_011217
+rem      gkaminag  12/17/01  - creation
+
+@@?/rdbms/admin/sqlsessstart.sql
+
+create or replace package drirepz as
+
+PRAGMA SUPPLEMENTAL_LOG_DATA(default, NONE);
+
+/*--------------------------- index_size --------------------------------*/
+
+procedure index_size(
+  index_name    in varchar2,
+  report        in out nocopy clob,
+  part_name     in varchar2 default null,
+  report_format in varchar2 DEFAULT 'TEXT'
+);
+
+/*------------------------ get_gtab_size ---------------------------------*/
+procedure get_gtab_size (
+  index_name in varchar2,
+  partid in number,
+  tka   in out number,
+  tba   in out number,
+  tku   in out number,
+  tbu   in out number
+);
+end drirepz;
+/
+
+@?/rdbms/admin/sqlsessend.sql

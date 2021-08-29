@@ -1,0 +1,37 @@
+set define '^' verify off
+prompt ...wwv_flow_create_key_package
+create or replace procedure wwv_flow_create_key_package wrapped 
+a000000
+1
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+7
+4f6 327
+0cUnBA14AnJVm7b2cFEpt2ivDscwg5BeutBRfI4ZF6qVQh23k9OQkUmIghPKwwfjZ54wQicv
+5QtA3kzdsy5H5DN5zK+ZmCgS0xGuEtGarXNKB0wdWKhgSwUQ8QGXvxT/EcNpm9yqty6OnYDV
+nieZRjDbkMp6lSuphefXr8AOu0XfJaR8s2cozaZuUGFrVcLkPA+i1C0Mu/JLIlwsmM0ZKf/r
+8PciohRnA6Ybe9+HMmiUOa4kQUbX81pEg91aJFE+lqKHvtKzUMCjwc54KUEP3U/47DEs+Nvd
+x5a4Ktja6Nq5ch1dCtxXue9Z8kSHP+YC2PuQ52N2mER61l9IJRbouEiD9XuoHQWQpymMdivC
+Yy/Hpx/z1cptn8J+iF3wuZnRMunMywfTu+7KM80caafSiaum7KjvdC9Uhn9lYsySshqDwuWz
+sh2WdCEI8wXAyOUR7Dnv9BqiQRGXJmdddR9zjjviBRGyuRwkMOkybZZVl2lh0OXZHrHImySX
+EEOdiWTVmalG1N6JsxNePj4+V0l6Lql5JG8hHlW0Vn0n16vkwOwlU6nL2JOvHhayp6bZX6pn
+oGsS8b1kFiAV+5h47MyFxG00hXeu7EP2/+eGKFBCpjVAKh1cKRGXHRZVm7VUAK5i9SzrLqh2
+ASE5X7cUxWbCXbqnZ6hKq9MksGz4NjHlrR9FK8Cb0byPaJzAxwSSp4KJ75bO9XYm9sSqTrLr
+uwXP1yvh+HuWXWDJnVay13RdRKce3cN8mXGvlooPA9j03kkGPHRhOe2ncQopCgD/tyX4M1vK
+Y2Wl
+
+/
+show errors

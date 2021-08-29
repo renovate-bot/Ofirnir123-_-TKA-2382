@@ -1,0 +1,50 @@
+Rem
+Rem $Header: ctx_src_2/src/dr/admin/drifeat.pkh /main/5 2018/07/17 09:35:03 snetrava Exp $
+Rem
+Rem drifeat.sql
+Rem
+Rem Copyright (c) 2005, 2018, Oracle and/or its affiliates. 
+Rem All rights reserved.
+Rem
+Rem    NAME
+Rem      drifeat.pkh - CTX feature tracking package header
+Rem
+Rem    DESCRIPTION
+Rem      This script creates the procedure that tracks CTX feature usage.
+Rem
+Rem    NOTES
+Rem      <other useful comments, qualifications, etc.>
+Rem
+Rem 
+Rem    BEGIN SQL_FILE_METADATA
+Rem      SQL_SOURCE_FILE: ctx_src_2/src/dr/admin/drifeat.pkh
+Rem      SQL_SHIPPED_FILE: ctx/admin/drifeat.pkh
+Rem      SQL_PHASE: DRIFEAT_PKH
+Rem      SQL_STARTUP_MODE: NORMAL
+Rem      SQL_IGNORABLE_ERRORS: NONE
+Rem      SQL_CALLING_FILE: ctx/admin/ctxpkh.sql
+Rem    END SQL_FILE_METADATA
+Rem
+Rem    MODIFIED   (MM/DD/YY)
+Rem     snetrava   06/14/18  - Bug 28102835: NONE LOG PRAGMA
+Rem    surman      01/23/15 - 20411134: Add SQL metadata tags
+Rem    surman      03/15/13 - 16473661: Common start and end scripts
+Rem    oshiowat    05/13/05 - Created
+Rem
+
+@@?/rdbms/admin/sqlsessstart.sql
+
+CREATE OR REPLACE PACKAGE drifeat AUTHID CURRENT_USER AS
+
+  PRAGMA SUPPLEMENTAL_LOG_DATA(default, NONE);
+
+  FUNCTION dr$opr_track (track_info IN OUT NOCOPY CLOB)  RETURN INTEGER;
+  FUNCTION dr$idx_track (track_info IN OUT NOCOPY CLOB)  RETURN INTEGER;
+  FUNCTION dr$pac_track (track_info IN OUT NOCOPY CLOB)  RETURN INTEGER;
+  PROCEDURE dr$feature_track
+      (is_used OUT number, aux_count OUT number, sum_stat OUT clob);
+END drifeat;
+/
+
+
+@?/rdbms/admin/sqlsessend.sql

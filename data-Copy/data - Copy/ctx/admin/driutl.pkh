@@ -1,0 +1,682 @@
+Rem 
+Rem $Header: ctx_src_2/src/dr/admin/driutl.pkh /main/86 2018/07/17 09:35:04 snetrava Exp $ 
+Rem 
+Rem Copyright (c) 1991, 2018, Oracle and/or its affiliates. 
+Rem All rights reserved.
+Rem  NAME
+Rem    dr_utl.pkb - DR Utilities package spec.
+Rem  DESCRIPTION
+Rem    This package contains the client side services that enable the client
+Rem    to control the text index.
+Rem
+Rem  PUBLIC FUNCTION(S)
+Rem    get_utc   - get/parse User, table, column column spec.
+Rem    get_policy_id - get policy id
+Rem    get_policy    - get the whole policy
+Rem    install_callabck - install a callback procedure
+Rem  NOTES
+Rem
+Rem 
+Rem  BEGIN SQL_FILE_METADATA
+Rem    SQL_SOURCE_FILE: ctx_src_2/src/dr/admin/driutl.pkh
+Rem    SQL_SHIPPED_FILE: ctx/admin/driutl.pkh
+Rem    SQL_PHASE: DRIUTL_PKH
+Rem    SQL_STARTUP_MODE: NORMAL
+Rem    SQL_IGNORABLE_ERRORS: NONE
+Rem    SQL_CALLING_FILE: ctx/admin/ctxpkh.sql
+Rem  END SQL_FILE_METADATA
+Rem
+Rem  MODIFIED     (MM/DD/YY)
+Rem     snetrava   06/14/18  - Bug 28102835: NONE LOG PRAGMA
+Rem     snetrava   04/10/18 - Bug 27883882 add function is_explicit_app_script
+Rem     nspancha   03/02/18 - Bug 26427905 : Removing Enquote_Parts
+Rem     aczarlin   08/16/17 - Bug 26590910: mem_to_number fn sig change
+Rem     nspancha   07/31/17 - Bug 25698878: Error for long classifier name
+Rem     nspancha   06/26/17 - Bug 25795075: Security Vulnerability
+Rem     snetrava   06/05/17 - Constant renamed CHECK_SIMPLE_SQL_NAME
+Rem     snetrava   06/01/17 - Remove capitalize EnquoteCompundObjectName
+Rem     snetrava   04/07/17 - Added capitalize to EnquoteCompundObjectName
+Rem     rodfuent   02/06/17 - Bug 25422217: simplified syntax XML Search Index
+Rem     snetrava   02/01/17 - Bug 25119656
+Rem     boxia      01/17/17 - Proj 68638: add arg use_idx_id in make_pfx
+Rem     shorwitz   01/28/16 - Bug 22213089: remove key before changing index
+Rem     boxia      01/15/16 - Bug 22226636: replace user$ with _BASE_USER
+Rem     surman     11/21/15 - 22097228: Add p_30_char_names
+Rem     shuroy     09/28/15 - Bug 21158339: Adding get_max_string_size
+Rem     yinlu      09/09/15 - bug 21245915: idxCreateErrCheck
+Rem     boxia      06/19/15 - Bug 12566323: add para txnal to idxCreateErrCheck
+Rem     shuroy     06/15/15 - Adding OBJTYPE_PREF
+Rem     surman     05/11/15 - 20952246: Remove PINDEX
+Rem     shorwitz   03/09/15 - Bug 20533031: long identifier bugs
+Rem     surman     01/23/15 - 20411134: Add SQL metadata tags
+Rem     shorwitz   08/29/14 - Bug 18772670: Add PL/SQL stack trace
+Rem     surman     11/20/14 - Full length index names
+Rem     yinlu      05/09/14 - add idxCreateErrCheck
+Rem     surman     03/15/13 - 16473661: Common start and end scripts
+Rem     hsarkar    12/23/11 - Bug 13002617
+Rem     gauryada   12/08/11 - Added is_decimal_value
+Rem     gauryada   09/29/11 - Fix error message for invalid size (in bytes)
+Rem     ssethuma   06/06/11 - Add get_ctx_doc_polstems
+Rem     rpalakod   08/12/10 - Bug 9964749
+Rem     rpalakod   03/02/10 - Bug 9439697
+Rem     surman     10/06/08 - 7425113: Add validate_storage
+Rem     shorwitz   08/11/08 - Bug 7237890: Do not upper case names
+Rem     daliao     04/04/05 - add user_exist
+Rem     yucheng    10/22/03 - add lock_index 
+Rem     yucheng    06/06/03 - add syncmem_to_number
+Rem     gkaminag   12/04/02 - move invoker functions
+Rem     daliao     10/29/02 - add get_default_prefname
+Rem     gkaminag   07/23/02  - 
+Rem     gkaminag   07/18/02  - Remove arr_table
+Rem     gkaminag   07/02/02  - security phase 2
+Rem     gkaminag   06/03/02  - keycomp function.
+Rem     ehuang     03/03/02  - .
+Rem     gkaminag   10/23/01  - policy loading.
+Rem     ehuang     09/03/01 -  extend index_rec
+Rem     gkaminag   08/22/00 -  index record version of get_ipartition
+Rem     gkaminag   08/15/00 -  add get_partition
+Rem     yucheng    08/08/00 -  partition support
+Rem     gkaminag   08/09/00 -  local domain partition support
+Rem     gkaminag   03/07/00 -  add idx_type to idx_record
+Rem     gkaminag   11/01/99 -  multi stoplist
+Rem     gkaminag   06/21/99 -  format and charset columns
+Rem     gkaminag   06/09/99 -  language column in idx record
+Rem     gkaminag   06/07/99 -  multi lexer
+Rem     gkaminag   05/21/99 -  trigger prefix
+Rem     ehuang     03/01/99 -  add make_pfx
+Rem     gkaminag   02/19/99 -  remove pragma
+Rem     gkaminag   02/15/99 -  move idx_has_p_table to drixtab
+Rem     gkaminag   01/28/99 -  substring indexing
+Rem     gkaminag   09/02/98 -  add option to get_user to ignore anonymous block
+Rem     gkaminag   08/13/98 -  add idxmem_to_number
+Rem     gkaminag   06/29/98 -  bug 683151
+Rem     gkaminag   05/19/98 -  mem to number
+Rem     gkaminag   05/11/98 -  using object id's
+Rem     gkaminag   05/08/98 -  add acess_index
+Rem     ehuang     05/08/98 -  index_rec to include all fields
+Rem     ehuang     03/30/98 -  dr$policy->dr$index
+Rem     ehuang     03/04/98 -  add new record types
+Rem     jkud       01/28/98 -  add get_rowid
+Rem     gkaminag   09/24/97 -  add verify_lexicon
+Rem     dyu        08/21/97 -  work around for 532862
+Rem     ymatsuda   08/19/97 -  add PICK_POLICY
+Rem     ehuang     07/28/97 -  Bug 518206 - add is_ops
+Rem     ehuang     06/04/97 -  Bg 478063 - add get_user
+Rem     gkaminag   05/13/97 -  add get_dbid
+Rem     ehuang     05/01/97 -  add validate_key
+Rem     ehuang     04/28/97 -  add split
+Rem     gkaminag   04/17/97 -  add section count
+Rem     ymatsuda   04/09/97 -  add lock_table
+Rem     ymatsuda   12/16/96 -  add dblink to parse_object_name
+Rem     ymatsuda   12/06/96 -  add install_callback
+Rem     syang      01/04/97 -  add pkey_toolong()
+Rem     qtran      03/10/95 -  added genid routine. return an id value.
+Rem     qtran      10/19/94 -  Creation 
+
+@@?/rdbms/admin/sqlsessstart.sql
+
+create or replace package driutl 
+as
+
+PRAGMA SUPPLEMENTAL_LOG_DATA(default, NONE);
+
+-- These object types are used by max_name_length to determine the maximum
+-- length of an object.  This list must match the same list that appears in
+-- dret.h.
+OBJTYPE_INDEX      constant number := 1; -- Index name
+OBJTYPE_POLICY     constant number := 2; -- Policy name
+OBJTYPE_CONSTRAINT constant number := 3; -- Constraint (within internal objs)
+OBJTYPE_THESAURUS  constant number := 4; -- Thesaurus name
+OBJTYPE_SECTION    constant number := 5; -- Section name
+OBJTYPE_PARAM      constant number := 6; -- Parameter
+OBJTYPE_FEEDBACK   constant number := 7; -- Feedback column
+OBJTYPE_SQE        constant number := 8; -- SQE name
+OBJTYPE_LEXER      constant number := 9; -- Lexer name
+OBJTYPE_TBS        constant number := 10; -- TBS name
+OBJTYPE_ATTR       constant number := 11; -- Attribute
+OBJTYPE_IDXSET     constant number := 12; -- Index set name
+OBJTYPE_FILENAME   constant number := 13; -- File name
+OBJTYPE_COLUMN     constant number := 14; -- Column name
+OBJTYPE_LANGUAGE   constant number := 15; -- Language name
+OBJTYPE_CHARSET    constant number := 16; -- Charset name
+OBJTYPE_PREFERENCE constant number := 17; -- Preference name
+OBJTYPE_STOPLIST   constant number := 18; -- Stoplist name
+OBJTYPE_DICTIONARY constant number := 19; -- Dictionary name
+OBJTYPE_CLA_NAME   constant number := 20; -- Classifier Name
+
+/*-------------------------------- get_dbid --------------------------------*/
+/*
+  NAME
+   get_dbid - get database identifier
+  DESCRIPTION
+   returns a number which is unique to the database (in OPS, there are
+   multiple databases sharing a disk)
+*/
+function get_dbid return number;
+--  pragma restrict_references ( get_dbid, WNDS );
+
+/*--------------------------- parse_object_name ----------------------------*/
+/* parse object name user.name */
+
+procedure parse_object_name(
+  spec  in     varchar2, 
+  uname in out varchar2, 
+  oname in out varchar2
+)
+accessible by (PACKAGE drvutl, PROCEDURE parse_object_name);
+
+/*----------------------------- split_list --------------------------------*/
+/*
+  NAME
+    split_list - 
+
+  DESCRIPTION
+    A list can be contiguous or non-contiguous.
+
+    list=1,500,   contiguous=1 is a contig. list
+    list=1,4,5,6  contiguous=0 is a non-contig list
+
+    if we required 20 in the first list, it will be splited into:
+      lower_list=1,20
+      upper_list=21,500
+
+    if we required 2 in the second list, it will be splited into:
+      lower_list=1,4
+      upper_list=5,6
+
+  ARGUMENTS
+   list          (in)  the list 
+   contiguous    (in)  1= contig. 0=non-contig
+   size_required (in)  list length
+   lower_list    (out) lower list after splited
+   upper_list    (out) upper list after splited
+
+  NOTES  
+   None
+  EXCEPTIONS
+
+  RETURNS
+    none
+*/
+
+procedure split_list(
+  list in varchar2, 
+  contiguous    in number, 
+  size_required in number,
+  lower_list    out varchar2,
+  upper_list    out varchar2
+);
+
+
+/*-------------------------------- split -----------------------------------*/
+/*
+  NAME
+    split
+
+  DESCRIPTION
+    Takes a list of values separated by a delimiter and return a
+    array containing the values. a delimiter character preceded
+    by a backslash will be treated as part of the value instead.
+ 
+  ARGUMENTS
+    vlist      -    list of values                                           
+    delimiter  -    the delimiter, one character only                         
+    varr       -    array of values
+
+  NOTES
+  
+  EXCEPTIONS
+  
+  RETURNS
+*/
+PROCEDURE split(                                                               
+  vlist       in      varchar2                                              
+, delimiter   in      varchar2
+, varr        in out  dr_def.vc256_tab
+);
+
+/*---------------------------------- genid ---------------------------------*/
+/*
+  NAME
+    genid - generate an TexTile dictionary id number 
+  DESCRIPTION
+    TexTile dict. id number is used to assigned to INDEX or PREFERENCE.
+
+  ARGUMENTS
+    None
+  NOTES
+           
+  EXCEPTIONS
+
+  RETURNS
+    id number
+*/
+function genid return number;
+
+
+/*---------------------------- pkey_toolong ---------------------------------*/
+/*
+  NAME
+    pkey_toolong - check a length of a given primary key is too long or not
+  DESCRIPTION
+    as pkey can be an encoded composite pkey string, the checking need to be
+    done on the overall length and the individual textkey length
+
+  ARGUMENTS
+    pk -- primary key string
+  NOTES
+           
+  EXCEPTIONS
+
+  RETURNS
+    toolong boolean
+*/
+function pkey_toolong(pk in varchar2) return boolean;
+
+
+/*---------------------------- get_user ------------------------------*/
+/*
+  NAME
+    get_user - get the effective user
+
+  DESCRIPTION
+    returns the user name of user who directly calls  CTXSYS.(DR_% or
+    (CTX_%)
+ 
+    e.g.
+    USER_B has CTXAPP priv, USER_A does not. USER_B grants execute on
+    proc2 to USER_A.  
+
+    USER_A.proc1 -> USER_B.proc2 -> CTXSYS.(DR_% or CTX_%)
+
+    the effective user is USER_B, not USER_A. 
+
+    Must call get_user to return the effective user to be passed to
+    DRIACC.CAN
+
+  ARGUMENTS
+    
+  NOTES
+           
+  EXCEPTIONS
+*/
+function get_user(ignore_anon in boolean default FALSE) return varchar2;
+
+/*---------------------------- get_user_id ---------------------------*/
+/*
+  NAME
+    get_user_id - get user# from sys."_BASE_USER"
+*/
+function get_user_id(p_username in varchar2) return number;
+
+/*---------------------------- get_user_name ---------------------------*/
+/* opposite of get_user_id */
+
+function get_user_name(p_userid in binary_integer) return varchar2;
+
+/*---------------------------- get_obj_id ---------------------------*/
+/*
+  NAME
+    get_obj_id - get obj# from sys.obj$
+*/
+function get_obj_id(p_user_name in varchar2, p_object_name in varchar2,
+                    p_partition_name in varchar2 default NULL) 
+return number;
+
+/*---------------------------- is_ops ------------------------------*/
+/*
+  NAME
+    is_ops
+
+  DESCRIPTION
+    returns TRUE when running in parallel server mode, FALSE otherwise
+  ARGUMENTS
+    
+  NOTES
+           
+  EXCEPTIONS
+*/
+function is_ops return boolean;
+
+/*---------------------------- mem_to_number --------------------------*/
+/*
+  NAME
+    mem_to_number 
+
+  DESCRIPTION
+    Converts inputs like 1k, 10G, 12M to their approriate value in bytes
+  ARGUMENTS
+    memstring - Input string, may be a number or one of these formats:
+                10K, 10M, 10G    
+    llimit    - Lower limit to the number that memstring can represent
+    ulimit    - Upper limit to the number that memstring can represent
+    attname   - name of attribute for the memstring (the value)
+  NOTES
+           
+  EXCEPTIONS
+    Throw an error if memstring doesn't lie in range (llimit, ulimit)
+*/
+function mem_to_number(memstring in varchar2, 
+                       llimit in number, ulimit in number, 
+                       attname in varchar2) 
+return number;
+
+/*---------------------------- idxmem_to_number --------------------------*/
+/*
+  NAME
+    idxmem_to_number
+
+  DESCRIPTION
+    a bit more specialized -- this converts an idxmem string to a number.
+    if passed null it will return DEFAULT_INDEX_MEMORY.
+
+  ARGUMENTS
+    
+  NOTES
+           
+  EXCEPTIONS
+*/
+function idxmem_to_number(memstring in varchar2) return number;
+
+/*---------------------------- syncmem_to_number --------------------------*/
+/*
+  NAME
+    syncmem_to_number
+
+  DESCRIPTION
+    a bit more specialized -- this converts an syncmem string to a number.
+    if passed null it will return idexmem.
+
+  ARGUMENTS
+    
+  NOTES
+           
+  EXCEPTIONS
+*/
+function syncmem_to_number(memstring in varchar2,
+                           idxmem    in number) 
+return number;
+
+/*--------------------------- make_pfx ------------------------------------*/
+/*
+  NAME
+    make_pfx
+
+  DESCRIPTION
+    create proper index prefix
+
+  ARGUMENTS
+    
+  NOTES
+           
+  EXCEPTIONS
+*/
+
+FUNCTION make_pfx (idx_owner in varchar2, idx_name in varchar2, 
+                   pfx_type  in varchar2 default '$',
+                   part_id   in number default null,
+                   constraint_pfx in boolean default FALSE,
+                   idx_id    in number default null,
+                   full_length_objs in boolean default null,
+                   thirty_char_names in boolean default null,
+                   use_idx_id in boolean default null)
+return varchar2;
+
+/*--------------------------- check_language -----------------------------*/
+/*
+  NAME
+    check_language
+
+  DESCRIPTION
+    check a string to ensure it is a valid NLS language value
+    returns NLS version of language name and abbreviation
+
+  ARGUMENTS
+    
+  NOTES
+           
+  EXCEPTIONS
+*/
+
+FUNCTION check_language (
+  lang     in  varchar2,
+  nls_lang out varchar2,
+  nls_abb  out varchar2,
+  def_ok   in  boolean default TRUE
+) return boolean;
+
+/*--------------------------- lang_to_abbr -----------------------------*/
+/*
+  NAME
+    lang_to_abbr
+
+  DESCRIPTION
+    given an NLS language name, return the NLS abbreviation
+
+  ARGUMENTS
+    
+  NOTES
+    callable from SQL.  
+    Must be a valid language, in uppercase.
+    if lang is unknown, then NULL is returned.
+  EXCEPTIONS
+*/
+
+FUNCTION lang_to_abbr (
+  lang     in  varchar2
+) return varchar2;
+pragma restrict_references (lang_to_abbr, wnds, wnps, rnds, rnps);
+
+/*---------------------------- keycomp_ok ----------------------------------*/
+/* test database, return TRUE if key compressed indexes are enabled */
+
+FUNCTION keycomp_ok return BOOLEAN;
+
+/*---------------------- verify_np_index_tables ----------------------------*/
+
+PROCEDURE verify_np_index_tables (
+  idx_owner in varchar2,
+  idx_name  in varchar2,
+  idx_id    in number,
+  idx_pid   in number
+);
+
+/*--------------------------- get_slave_id --------------------------------*/
+
+PROCEDURE get_slave_id(
+  slaveid     out  varchar2
+);
+
+/*--------------------------- get_default_prefname ----------------------*/
+/* finding the default value by given the name of default preference */
+FUNCTION get_default_value(
+  defname       in   varchar2
+) return varchar2;
+
+/*---------------------------- bytestr -------------------------------*/
+/* return a byte amount in readble form */
+
+function bytestr (a in number) return varchar2;
+
+/*---------------------------- numstr ---------------------------------*/
+/* return a large number in readable form */
+
+function numstr (a in number) return varchar2;
+
+/*---------------------------- pctstr ---------------------------------*/
+/* calculate and return a percentage in readable form */
+
+function pctstr (fig in number, base in number, rnd in number default 2) 
+return varchar2;
+
+/*---------------------------- NormalizeObjectName --------------------------*/
+/* Normalize a name by stripping quotes and upper casing. */
+
+DO_NOT_VALIDATE_SQL_NAME constant number := 0;
+CHECK_SIMPLE_SQL_NAME constant number := 1;
+
+function NormalizeObjectName
+(
+  object_name in varchar2,
+  validation  in number default DO_NOT_VALIDATE_SQL_NAME
+) return varchar2;
+
+/*----------------------- EnquoteCompoundObjectName --------------------------*/
+/* Enquote a composite name by enquoting dot seperated parts and upper casing */
+/* unquoted parts */
+/*
+  scott.emp      -> "SCOTT"."EMP"
+  O--Brian.Emp   -> ORA-44004
+  "O--Brian".Emp -> "O--Brian"."EMP"
+*/
+function EnquoteCompoundObjectName
+(
+  object_name in varchar2
+) return varchar2;
+
+procedure lock_index(idxid in number);
+
+procedure lock_partition(idxid in number, ixpid in number);
+
+/* ---------------------------- validate_storage ----------------------*/
+/* Added for bug 7425113.  Validates the supplied storage clause string
+ * and raises errors for suspect values (such as embedded comments) which
+ * could be signs of potential SQL injection.  If there are no errors
+ * then storage_clause is returned unchanged.
+ */
+function validate_storage(clause_value in varchar2,
+                          clause_name in varchar2)
+  return varchar2;
+
+/*--------------------------- get_hash_area_size ---------------------------*/
+function get_hash_area_size return number;
+procedure set_hash_area_size(hashmem in number);
+
+/*---------------------------get_max_string_size---------------------------*/
+function get_max_string_size return varchar2;
+
+/*------------------------- CheckNumLangIndSLXSW --------------------------*/
+/* This function checks the number of remaining language independent sublexers
+ * and stopwords in the index.
+ */
+FUNCTION CheckNumLangIndSLXSW(
+  idx_id in number
+) return number;
+
+/*---------------------------- get_ctx_doc_polstem --------------------------*/
+/* get _ctx_doc_policy_stems parameter for this instance */
+function get_ctx_doc_polstems
+return boolean;
+
+/*------------------------------ is_decimal_value --------------------------*/
+/* Is this number a decimal value or not ? */
+function is_decimal_value(value number)
+return boolean;
+
+/*---------------------------- is_shadow_index --------------------------*/
+/* check if index being refered to is a shadow index */
+function is_shadow_index(idx_name varchar2)
+return boolean;
+
+/*---------------------------- parse_shadow_index --------------------------*/
+/* parse shadow index to get index id and partition id */
+procedure parse_shadow_index(rio_idx_name in     varchar2,
+                             idx_id       in out number,
+                             idx_suffix   in out varchar2
+);
+
+/*---------------------------- get_shadow_index --------------------------*/
+/* get shadow index given base index id */
+function get_shadow_index(idx_name   in varchar2,
+                          idx_suffix in varchar2
+)
+return varchar2;
+
+/*------------------------ idxCreateErrCheck ------------------------*/
+/* disallow xml_enable on non-XMLType or XMLType OR storage */
+PROCEDURE idxCreateErrCheck(
+  sg_name            in  varchar2,
+  table_owner        in  varchar2,
+  table_name         in  varchar2,
+  column_type_schema in  varchar2,
+  column_type        in  varchar2,
+  txnal              in  varchar2,
+  idx_texttype       in  number default -1,
+  xml_simple_syntax  in  boolean default FALSE);
+
+/*------------------------ druebrk ------------------------*/
+PROCEDURE druebrk;
+
+/*------------------------ DumpPLSQLStack ------------------------*/
+/* Dump the PL/SQL stack to the trace log file. */
+PROCEDURE DumpPLSQLStack;
+
+
+/*------------------------------ max_name_length ----------------------------*/
+/*
+  NAME
+    max_name_length - Compute and return the maximum length of an object's name
+  DESCRIPTION
+    Returns the maximum length of the object, based on the object type,
+    database compatible settings, and whether full length index names are
+    enabled.
+  NOTES
+    Full length index names are disabled by setting level 4 for event 30580.
+  ARGUMENTS
+    p_obj_type   - One of the OBJTYPE constants defined in the package header
+    p_partition  - If TRUE, return the maximum length assuming the object is
+                   partitioned
+    p_full_length_objs - If TRUE, consider full length objects enabled
+    p_pfx_check  - If TRUE, we are called from make_pfx.  In this case return
+                   the point at which the name needs to be truncated.
+    p_30_char_names - If TRUE, consider the maximum length of a database object
+                   to be 30, even if compatible >= 12.2
+  EXCEPTIONS
+    dr_def.textile_error if p_obj_type is not one of the OBJTYPE constants
+  RETURNS
+    Maximum length for the given object
+*/
+FUNCTION max_name_length(
+  p_obj_type IN NUMBER,
+  p_partition IN BOOLEAN,
+  p_full_length_objs IN BOOLEAN,
+  p_30_char_names IN BOOLEAN,
+  p_pfx_check IN BOOLEAN := FALSE)
+RETURN NUMBER;
+
+/*---------------------------- trim_quotes --------------------------*/
+/*
+  NAME
+    trim_quotes 
+
+  DESCRIPTION
+    Remove surrounding quotes from a string
+  ARGUMENTS
+    str - the string to remove the quotes from
+  NOTES
+           
+  EXCEPTIONS
+*/
+
+function trim_quotes(str in varchar2)
+return varchar2;
+
+/*----------------------- is_explicit_app_script ---------------------*/
+/*
+  NAME
+    is_explicit_app_script
+
+  DESCRIPTION
+    Is explicit application in progress?
+  NOTES
+
+  EXCEPTIONS
+*/
+
+function is_explicit_app_script
+return boolean;
+
+end driutl;
+/
+
+@?/rdbms/admin/sqlsessend.sql
